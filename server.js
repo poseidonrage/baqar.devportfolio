@@ -584,6 +584,12 @@ async function runPrismaDbPush() {
     }
   } catch (error) {
     console.error('Failed to run Prisma DB Push on startup:', error);
+    if (error.stdout) {
+      console.log('Prisma DB Push Error Output (stdout):\n', error.stdout);
+    }
+    if (error.stderr) {
+      console.error('Prisma DB Push Error Stderr:\n', error.stderr);
+    }
   }
 }
 
