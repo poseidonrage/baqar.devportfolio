@@ -564,7 +564,7 @@ app.delete('/api/admin/comments/:id', authenticateAdmin, async (req, res) => {
 app.use(express.static(path.join(__dirname, 'dist')));
 
 // SPA fallback: serve index.html for any unhandled routes
-app.get('/*', (req, res) => {
+app.get(/.*/, (req, res) => {
   res.sendFile(path.join(__dirname, 'dist', 'index.html'));
 });
 
