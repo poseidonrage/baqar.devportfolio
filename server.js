@@ -6,6 +6,8 @@ import { fileURLToPath } from 'url';
 import { PrismaClient } from '@prisma/client';
 import jwt from 'jsonwebtoken';
 import bcrypt from 'bcryptjs';
+import { exec } from 'child_process';
+import { promisify } from 'util';
 
 dotenv.config();
 
@@ -568,7 +570,27 @@ app.get(/.*/, (req, res) => {
   res.sendFile(path.join(__dirname, 'dist', 'index.html'));
 });
 
+const execPromise = promisify(exec);
+
+async function runPrismaDbPush() {
+  try {
+    console.log('Running database schema synchronization (npx prisma db push)...');
+    const { stdout, stderr } = await execPromise('npx prisma db push');
+    console.log('Prisma DB Push Output:\n', stdout);
+    if (stderr) {
+      console.warn('Prisma DB Push Warnings/Stderr:\n', stderr);
+    }
+  } catch (error) {
+    console.error('Failed to run Prisma DB Push on startup:', error);
+  }
+}
+
 // Start the Server
-app.listen(PORT, () => {
-  console.log(`Backend server running on http://localhost:${PORT}`);
-});
+async function start() {
+  await runPrismaDbPush();
+  app.listen(PORT, () => {
+    console.log(`Backend server running on http://localhost:${PORT}`);
+  });
+}
+
+start();
