@@ -574,8 +574,8 @@ const execPromise = promisify(exec);
 
 async function runPrismaDbPush() {
   try {
-    console.log('Running database schema synchronization (npx prisma db push)...');
-    const { stdout, stderr } = await execPromise('npx prisma db push');
+    console.log('Running database schema synchronization (node node_modules/prisma/build/index.js db push)...');
+    const { stdout, stderr } = await execPromise('node node_modules/prisma/build/index.js db push');
     console.log('Prisma DB Push Output:\n', stdout);
     if (stderr) {
       console.warn('Prisma DB Push Warnings/Stderr:\n', stderr);
