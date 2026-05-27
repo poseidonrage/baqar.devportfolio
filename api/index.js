@@ -6,8 +6,6 @@ import { fileURLToPath } from 'url';
 import { PrismaClient } from '@prisma/client';
 import jwt from 'jsonwebtoken';
 import bcrypt from 'bcryptjs';
-import { exec } from 'child_process';
-import { promisify } from 'util';
 
 dotenv.config();
 
@@ -562,43 +560,21 @@ app.delete('/api/admin/comments/:id', authenticateAdmin, async (req, res) => {
 // Frontend Static Files and SPA Fallback Route
 // ----------------------------------------------------
 
+const distPath = path.join(process.cwd(), 'dist');
+
 // Serve static assets from Vite build output folder (dist/)
-app.use(express.static(path.join(__dirname, 'dist')));
+app.use(express.static(distPath));
 
 // SPA fallback: serve index.html for any unhandled routes
 app.get(/.*/, (req, res) => {
-  res.sendFile(path.join(__dirname, 'dist', 'index.html'));
+  res.sendFile(path.join(distPath, 'index.html'));
 });
 
-const execPromise = promisify(exec);
-
-async function runPrismaDbPush() {
-  try {
-    const prismaPath = path.join(__dirname, 'node_modules', 'prisma', 'build', 'index.js');
-    const command = `"${process.execPath}" "${prismaPath}" db push`;
-    console.log(`Running database schema synchronization: ${command}`);
-    const { stdout, stderr } = await execPromise(command);
-    console.log('Prisma DB Push Output:\n', stdout);
-    if (stderr) {
-      console.warn('Prisma DB Push Warnings/Stderr:\n', stderr);
-    }
-  } catch (error) {
-    console.error('Failed to run Prisma DB Push on startup:', error);
-    if (error.stdout) {
-      console.log('Prisma DB Push Error Output (stdout):\n', error.stdout);
-    }
-    if (error.stderr) {
-      console.error('Prisma DB Push Error Stderr:\n', error.stderr);
-    }
-  }
-}
-
-// Start the Server
-async function start() {
-  await runPrismaDbPush();
+// For Vercel Serverless Functions, we export the app instead of calling app.listen()
+if (process.env.NODE_ENV !== 'production' && !process.env.VERCEL) {
   app.listen(PORT, () => {
     console.log(`Backend server running on http://localhost:${PORT}`);
   });
 }
 
-start();
+export default app;
