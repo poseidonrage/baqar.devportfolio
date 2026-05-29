@@ -130,29 +130,30 @@ app.post('/api/contact', async (req, res) => {
 app.post('/api/admin/login', async (req, res) => {
   try {
     const { username, password } = req.body;
+    const resolvedUsername = username || ADMIN_USERNAME;
 
-    if (!username || !password) {
-      return res.status(400).json({ error: 'Username and password are required' });
+    if (!password) {
+      return res.status(400).json({ error: 'Password is required' });
     }
 
-    if (username !== ADMIN_USERNAME || !bcrypt.compareSync(password, ADMIN_PASSWORD_HASH)) {
+    if (resolvedUsername !== ADMIN_USERNAME || !bcrypt.compareSync(password, ADMIN_PASSWORD_HASH)) {
       return res.status(401).json({ error: 'Invalid username or password' });
     }
 
     // Generate JWT token (expires in 24h)
-    const token = jwt.sign({ username }, JWT_SECRET, { expiresIn: '24h' });
+    const token = jwt.sign({ username: resolvedUsername }, JWT_SECRET, { expiresIn: '24h' });
     const expiresAt = new Date(Date.now() + 24 * 60 * 60 * 1000); // 24 hours from now
 
     // Save session in DB
     await prisma.adminSession.create({
       data: {
         token,
-        adminUsername: username,
+        adminUsername: resolvedUsername,
         expiresAt,
       },
     });
 
-    res.json({ token, username, expiresAt });
+    res.json({ token, username: resolvedUsername, expiresAt });
   } catch (error) {
     console.error('Login error:', error);
     res.status(500).json({ error: 'Login failed' });
