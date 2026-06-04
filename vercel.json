@@ -21,7 +21,7 @@
       "destination": "/dist/index.html"
     },
     {
-      "source": "/(.*)",
+      "source": "/((?!api|dist/).*)",
       "destination": "/dist/$1"
     }
   ]
