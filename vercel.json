@@ -5,8 +5,32 @@
       "destination": "/api/index.js"
     },
     {
-      "source": "/(.*)",
-      "destination": "/dist/$1"
+      "source": "/assets/(.*)",
+      "destination": "/dist/assets/$1"
+    },
+    {
+      "source": "/favicon.jpg",
+      "destination": "/dist/favicon.jpg"
+    },
+    {
+      "source": "/favicon.svg",
+      "destination": "/dist/favicon.svg"
+    },
+    {
+      "source": "/icons.svg",
+      "destination": "/dist/icons.svg"
+    },
+    {
+      "source": "/inline_logo.png",
+      "destination": "/dist/inline_logo.png"
+    },
+    {
+      "source": "/logo_inline_baqar.jpg",
+      "destination": "/dist/logo_inline_baqar.jpg"
+    },
+    {
+      "source": "/((?!api/).*)",
+      "destination": "/dist/index.html"
     }
   ]
 }
