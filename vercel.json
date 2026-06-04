@@ -1,12 +1,12 @@
 {
   "rewrites": [
     {
-      "source": "/api/(.*)",
+      "source": "/api/:path*",
       "destination": "/api/index.js"
     },
     {
-      "source": "/assets/(.*)",
-      "destination": "/dist/assets/$1"
+      "source": "/assets/:path*",
+      "destination": "/dist/assets/:path*"
     },
     {
       "source": "/favicon.jpg",
@@ -29,7 +29,7 @@
       "destination": "/dist/logo_inline_baqar.jpg"
     },
     {
-      "source": "/((?!api/).*)",
+      "source": "/:path*",
       "destination": "/dist/index.html"
     }
   ]
