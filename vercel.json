@@ -1,36 +1,28 @@
 {
   "rewrites": [
     {
-      "source": "/api/:path*",
+      "source": "/api/(.*)",
       "destination": "/api/index.js"
     },
     {
-      "source": "/assets/:path*",
-      "destination": "/dist/assets/:path*"
-    },
-    {
-      "source": "/favicon.jpg",
-      "destination": "/dist/favicon.jpg"
-    },
-    {
-      "source": "/favicon.svg",
-      "destination": "/dist/favicon.svg"
-    },
-    {
-      "source": "/icons.svg",
-      "destination": "/dist/icons.svg"
-    },
-    {
-      "source": "/inline_logo.png",
-      "destination": "/dist/inline_logo.png"
-    },
-    {
-      "source": "/logo_inline_baqar.jpg",
-      "destination": "/dist/logo_inline_baqar.jpg"
-    },
-    {
-      "source": "/:path*",
+      "source": "/roadmap",
       "destination": "/dist/index.html"
+    },
+    {
+      "source": "/admin",
+      "destination": "/dist/index.html"
+    },
+    {
+      "source": "/blog/(.*)",
+      "destination": "/dist/index.html"
+    },
+    {
+      "source": "/blog",
+      "destination": "/dist/index.html"
+    },
+    {
+      "source": "/(.*)",
+      "destination": "/dist/$1"
     }
   ]
 }
