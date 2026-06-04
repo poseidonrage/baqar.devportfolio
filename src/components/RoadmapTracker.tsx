@@ -127,7 +127,8 @@ export const RoadmapTracker: React.FC = () => {
   // Automatically check if portfolio admin session changes
   useEffect(() => {
     const adminToken = sessionStorage.getItem('adminToken');
-    if (adminToken && role !== 'admin') {
+    const loggedOut = sessionStorage.getItem('roadmapLoggedOut');
+    if (adminToken && role !== 'admin' && loggedOut !== 'true') {
       setRole('admin');
       setToken(adminToken);
       sessionStorage.setItem('roadmapRole', 'admin');
@@ -217,6 +218,7 @@ export const RoadmapTracker: React.FC = () => {
 
       sessionStorage.setItem('roadmapToken', data.token);
       sessionStorage.setItem('roadmapRole', data.role);
+      sessionStorage.removeItem('roadmapLoggedOut');
       
       if (data.role === 'admin') {
         sessionStorage.setItem('adminToken', data.token);
@@ -238,6 +240,7 @@ export const RoadmapTracker: React.FC = () => {
   const handleLogout = () => {
     sessionStorage.removeItem('roadmapToken');
     sessionStorage.removeItem('roadmapRole');
+    sessionStorage.setItem('roadmapLoggedOut', 'true');
     setToken(null);
     setRole(null);
     setCompletedTaskIds({});

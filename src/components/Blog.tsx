@@ -339,7 +339,7 @@ app.Run();`}
 
               <div className="post-body">
                 {typeof activePost.content === 'string' ? (
-                  <div style={{ whiteSpace: 'pre-wrap' }}>{activePost.content}</div>
+                  <div dangerouslySetInnerHTML={{ __html: activePost.content }} />
                 ) : (
                   activePost.content
                 )}
