@@ -12,7 +12,12 @@ import { AdminConsole } from './components/AdminConsole';
 import { RoadmapTracker } from './components/RoadmapTracker';
 
 function App() {
-  const [activeView, setActiveView] = useState('home');
+  const [activeView, setActiveView] = useState(() => {
+    if (window.location.pathname === '/roadmap') {
+      return 'roadmap';
+    }
+    return 'home';
+  });
 
   useEffect(() => {
     fetch('/api/stats', {
@@ -33,11 +38,13 @@ function App() {
 
   return (
     <div className="app-wrapper">
-      <CustomCursor />
-      <Navbar
-        activeView={activeView}
-        setActiveView={setActiveView}
-      />
+      {activeView !== 'roadmap' && <CustomCursor />}
+      {activeView !== 'roadmap' && (
+        <Navbar
+          activeView={activeView}
+          setActiveView={setActiveView}
+        />
+      )}
 
       <main className="main-content">
         {activeView === 'home' ? (
@@ -65,12 +72,14 @@ function App() {
         )}
       </main>
 
-      <footer className="footer font-mono">
-        <div className="container footer-container">
-          <p>© {new Date().getFullYear()}. Made with passion by Baqar Hussain Naqvi.</p>
-          <p className="footer-status">Status: Active & building</p>
-        </div>
-      </footer>
+      {activeView !== 'roadmap' && (
+        <footer className="footer font-mono">
+          <div className="container footer-container">
+            <p>© {new Date().getFullYear()}. Made with passion by Baqar Hussain Naqvi.</p>
+            <p className="footer-status">Status: Active & building</p>
+          </div>
+        </footer>
+      )}
 
       <style>{`
         .app-wrapper {

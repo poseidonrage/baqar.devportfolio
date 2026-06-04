@@ -88,13 +88,13 @@ export const Navbar: React.FC<NavbarProps> = ({
     { id: 'expertise', label: 'expertise', number: '02' },
     { id: 'work', label: 'work', number: '03' },
     { id: 'experience', label: 'experience', number: '04' },
-    { id: 'roadmap', label: 'roadmap', number: '05' },
-    { id: 'blog', label: 'blog', number: '06' },
-    { id: 'contact', label: 'contact', number: '07' },
+    { id: 'blog', label: 'blog', number: '05' },
+    { id: 'contact', label: 'contact', number: '06' },
+    { id: 'roadmap', label: 'roadmap', number: '07' },
   ];
 
   return (
-    <nav className={`navbar-container ${isScrolled || activeView === 'blog' || activeView === 'roadmap' || activeView === 'admin' ? 'navbar-scrolled' : ''}`}>
+    <nav className={`navbar-container ${isScrolled || activeView === 'blog' || activeView === 'admin' ? 'navbar-scrolled' : ''}`}>
       <div className="navbar-content">
         <a href="/" className="logo-link" onClick={(e) => handleNavClick('home', e)}>
           <img src="/inline_logo.png" alt="baqar.dev" className="logo-image" />
@@ -105,13 +105,13 @@ export const Navbar: React.FC<NavbarProps> = ({
           {navItems.map((item) => (
             <a
               key={item.id}
-              href={`#${item.id}`}
+              href={item.id === 'roadmap' ? '/roadmap' : `#${item.id}`}
+              target={item.id === 'roadmap' ? '_blank' : undefined}
+              rel={item.id === 'roadmap' ? 'noopener noreferrer' : undefined}
               className={`nav-item ${
                 item.id === 'blog'
                   ? activeView === 'blog' ? 'active-link' : ''
-                  : item.id === 'roadmap'
-                    ? activeView === 'roadmap' ? 'active-link' : ''
-                    : activeView === 'home' && activeSection === item.id ? 'active-link' : ''
+                  : activeView === 'home' && activeSection === item.id ? 'active-link' : ''
               }`}
               onClick={(e) => {
                 if (item.id === 'blog') {
@@ -120,10 +120,7 @@ export const Navbar: React.FC<NavbarProps> = ({
                   window.scrollTo({ top: 0, behavior: 'smooth' });
                   setActiveSection('blog');
                 } else if (item.id === 'roadmap') {
-                  e.preventDefault();
-                  setActiveView('roadmap');
-                  window.scrollTo({ top: 0, behavior: 'smooth' });
-                  setActiveSection('roadmap');
+                  // Let browser open target="_blank" natively
                 } else {
                   handleNavClick(item.id, e);
                 }
