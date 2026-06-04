@@ -187,7 +187,7 @@ app.Run();`}
 
   // Fetch blogs from API
   useEffect(() => {
-    fetch('/api/admin/blogs')
+    fetch('/api/blogs')
       .then((res) => {
         if (!res.ok) throw new Error('API Error or Empty');
         return res.json();
@@ -223,20 +223,14 @@ app.Run();`}
     }
 
     setCommentsLoading(true);
-    fetch(`/api/admin/comments?blogId=${selectedPostId}`)
+    fetch(`/api/blogs/${selectedPostId}/comments`)
       .then((res) => {
-        if (!res.ok) return fetch('/api/admin/comments');
-        return res;
+        if (!res.ok) throw new Error('Failed to fetch comments');
+        return res.json();
       })
-      .then((res) => res.json())
       .then((data) => {
         if (Array.isArray(data)) {
-          const approved = data.filter((c: any) => {
-            const isApproved = c.approved === true || c.status === 'approved';
-            const matchesPost = c.blogId === selectedPostId || c.postId === selectedPostId || c.postSlug === selectedPostId;
-            return isApproved && matchesPost;
-          });
-          setComments(approved);
+          setComments(data);
         }
       })
       .catch((err) => console.error('Error fetching comments:', err))
@@ -283,7 +277,10 @@ app.Run();`}
     <section className="blog-section" id="blog">
       <div className="container">
         {loading ? (
-          <div className="loading-state font-mono">LOADING_BLOG_SYSTEM...</div>
+          <div className="loading-container">
+            <div className="loading-spinner"></div>
+            <div className="loading-text">LOADING_BLOG_SYSTEM...</div>
+          </div>
         ) : !activePost ? (
           <>
             <div className="section-title-wrapper animate-fade-in">
@@ -439,12 +436,38 @@ app.Run();`}
         .blog-section {
           position: relative;
         }
-        .loading-state {
-          text-align: center;
-          padding: 6rem 0;
+        .loading-container {
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          justify-content: center;
+          padding: 8rem 0;
+          gap: 1.5rem;
+        }
+        .loading-spinner {
+          width: 50px;
+          height: 50px;
+          border: 3px solid rgba(102, 217, 237, 0.1);
+          border-top-color: var(--accent-color);
+          border-radius: 50%;
+          animation: spin 1s linear infinite;
+          box-shadow: 0 0 20px rgba(102, 217, 237, 0.15);
+        }
+        .loading-text {
+          font-family: var(--font-mono);
+          font-size: 0.9rem;
           color: var(--accent-color);
+          letter-spacing: 0.15em;
+          animation: pulse 1.5s ease-in-out infinite;
           text-shadow: 0 0 8px var(--accent-glow);
-          font-size: 1.1rem;
+        }
+        @keyframes spin {
+          0% { transform: rotate(0deg); }
+          100% { transform: rotate(360deg); }
+        }
+        @keyframes pulse {
+          0%, 100% { opacity: 0.6; }
+          50% { opacity: 1; }
         }
         .blog-grid {
           display: grid;

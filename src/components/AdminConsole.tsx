@@ -31,6 +31,9 @@ interface BlogPost {
   category: string;
   readTime: string;
   date?: string;
+  tags?: string;
+  keyTakeaways?: string;
+  published?: boolean;
 }
 
 interface CommentItem {
@@ -85,7 +88,10 @@ export const AdminConsole: React.FC<AdminConsoleProps> = ({ setActiveView }) => 
     summary: '',
     content: '',
     category: 'Backend',
-    readTime: '5 min read'
+    readTime: '5 min read',
+    tags: '',
+    keyTakeaways: '',
+    published: false
   });
 
   // Comments State
@@ -296,7 +302,10 @@ export const AdminConsole: React.FC<AdminConsoleProps> = ({ setActiveView }) => 
       summary: blog.summary,
       content: blog.content,
       category: blog.category,
-      readTime: blog.readTime
+      readTime: blog.readTime,
+      tags: blog.tags || '',
+      keyTakeaways: blog.keyTakeaways || '',
+      published: blog.published ?? false
     });
     setShowBlogForm(true);
   };
@@ -704,7 +713,10 @@ export const AdminConsole: React.FC<AdminConsoleProps> = ({ setActiveView }) => 
                           summary: '',
                           content: '',
                           category: 'Backend',
-                          readTime: '5 min read'
+                          readTime: '5 min read',
+                          tags: '',
+                          keyTakeaways: '',
+                          published: false
                         });
                         setShowBlogForm(true);
                       }}>
@@ -822,16 +834,43 @@ export const AdminConsole: React.FC<AdminConsoleProps> = ({ setActiveView }) => 
                       </div>
 
                       <div className="form-group">
-                        <label htmlFor="blog-summary" className="font-mono">POST_SUMMARY_ABSTRACT</label>
+                        <label htmlFor="blog-summary" className="font-mono">POST_SUMMARY_ABSTRACT (SEO Meta Description)</label>
                         <input
                           type="text"
                           id="blog-summary"
                           value={blogForm.summary}
                           onChange={(e) => setBlogForm(prev => ({ ...prev, summary: e.target.value }))}
                           required
-                          placeholder="Provide a brief introductory description sentence."
+                          placeholder="Provide a brief description sentence. Used for SEO meta descriptions."
                           className="form-input"
                         />
+                      </div>
+
+                      <div className="editor-grid">
+                        <div className="form-group">
+                          <label htmlFor="blog-tags" className="font-mono">SEO_KEYWORDS_TAGS (Comma Separated)</label>
+                          <input
+                            type="text"
+                            id="blog-tags"
+                            value={blogForm.tags || ''}
+                            onChange={(e) => setBlogForm(prev => ({ ...prev, tags: e.target.value }))}
+                            placeholder="e.g. .NET 10, API Design, System Architecture"
+                            className="form-input"
+                          />
+                        </div>
+
+                        <div className="form-group">
+                          <label htmlFor="blog-takeaways" className="font-mono">GEO_KEY_TAKEAWAYS (LLM Generative Summary)</label>
+                          <textarea
+                            id="blog-takeaways"
+                            value={blogForm.keyTakeaways || ''}
+                            onChange={(e) => setBlogForm(prev => ({ ...prev, keyTakeaways: e.target.value }))}
+                            rows={3}
+                            placeholder="3-4 bullet points summarizing the core value. Helps Gemini/ChatGPT index your post."
+                            className="form-input font-mono text-area-editor"
+                            style={{ minHeight: '90px', padding: '0.50rem 0.75rem' }}
+                          />
+                        </div>
                       </div>
 
                       <div className="form-group">
@@ -845,6 +884,19 @@ export const AdminConsole: React.FC<AdminConsoleProps> = ({ setActiveView }) => 
                           placeholder="Write the full post body content. Paragraphs separated by double linebreaks will render cleanly."
                           className="form-input font-mono text-area-editor"
                         />
+                      </div>
+
+                      <div className="form-group checkbox-group" style={{ display: 'flex', flexDirection: 'row', alignItems: 'center', gap: '0.5rem', marginTop: '0.5rem', width: 'auto' }}>
+                        <input
+                          type="checkbox"
+                          id="blog-published"
+                          checked={blogForm.published || false}
+                          onChange={(e) => setBlogForm(prev => ({ ...prev, published: e.target.checked }))}
+                          style={{ width: '18px', height: '18px', cursor: 'pointer', margin: 0 }}
+                        />
+                        <label htmlFor="blog-published" className="font-mono" style={{ cursor: 'pointer', fontSize: '0.85rem', color: 'var(--text-primary)', textTransform: 'none' }}>
+                          PUBLISHED (Make this post visible on the live website)
+                        </label>
                       </div>
 
                       <div className="form-actions-row">
@@ -1266,16 +1318,53 @@ export const AdminConsole: React.FC<AdminConsoleProps> = ({ setActiveView }) => 
           display: flex;
           flex-direction: column;
           gap: 1.25rem;
+          width: 100%;
         }
         .editor-grid {
           display: grid;
           grid-template-columns: 1fr 1fr;
           gap: 1.25rem;
+          width: 100%;
+        }
+        .form-group {
+          display: flex;
+          flex-direction: column;
+          gap: 0.5rem;
+          width: 100%;
+        }
+        .form-group label {
+          font-size: 0.75rem;
+          color: var(--accent-color);
+          letter-spacing: 0.05em;
+          font-weight: 600;
+        }
+        .form-input {
+          background: rgba(7, 9, 14, 0.6);
+          border: 1px solid rgba(102, 217, 237, 0.2);
+          border-radius: 6px;
+          padding: 0.75rem 1rem;
+          color: var(--text-primary);
+          font-family: inherit;
+          font-size: 0.9rem;
+          outline: none;
+          transition: border-color 0.25s ease, box-shadow 0.25s ease;
+          width: 100%;
+        }
+        .form-input:focus {
+          border-color: var(--accent-color);
+          box-shadow: 0 0 10px rgba(102, 217, 237, 0.15);
+          background: rgba(7, 9, 14, 0.8);
+        }
+        .form-input::placeholder {
+          color: var(--text-muted);
+          opacity: 0.6;
         }
         .text-area-editor {
           font-family: var(--font-mono);
           font-size: 0.85rem;
           line-height: 1.5;
+          min-height: 250px;
+          resize: vertical;
         }
         .form-actions-row {
           display: flex;

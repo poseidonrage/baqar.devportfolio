@@ -9,6 +9,7 @@ import { Contact } from './components/Contact';
 import { CustomCursor } from './components/CustomCursor';
 import { SectionSeparator } from './components/SectionSeparator';
 import { AdminConsole } from './components/AdminConsole';
+import { RoadmapTracker } from './components/RoadmapTracker';
 
 function App() {
   const [activeView, setActiveView] = useState('home');
@@ -51,6 +52,8 @@ function App() {
             <SectionSeparator leftText="0x04" rightText="handshake_sync" />
             <Contact />
           </>
+        ) : activeView === 'roadmap' ? (
+          <RoadmapTracker />
         ) : activeView === 'admin' ? (
           <div className="admin-view-wrapper">
             <AdminConsole setActiveView={setActiveView} />

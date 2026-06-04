@@ -30,6 +30,10 @@ export const Navbar: React.FC<NavbarProps> = ({
       setActiveSection('blog');
       return;
     }
+    if (activeView === 'roadmap') {
+      setActiveSection('roadmap');
+      return;
+    }
 
     const sections = ['hero', 'expertise', 'work', 'experience', 'contact'];
     
@@ -84,12 +88,13 @@ export const Navbar: React.FC<NavbarProps> = ({
     { id: 'expertise', label: 'expertise', number: '02' },
     { id: 'work', label: 'work', number: '03' },
     { id: 'experience', label: 'experience', number: '04' },
-    { id: 'blog', label: 'blog', number: '05' },
-    { id: 'contact', label: 'contact', number: '06' },
+    { id: 'roadmap', label: 'roadmap', number: '05' },
+    { id: 'blog', label: 'blog', number: '06' },
+    { id: 'contact', label: 'contact', number: '07' },
   ];
 
   return (
-    <nav className={`navbar-container ${isScrolled || activeView === 'blog' || activeView === 'admin' ? 'navbar-scrolled' : ''}`}>
+    <nav className={`navbar-container ${isScrolled || activeView === 'blog' || activeView === 'roadmap' || activeView === 'admin' ? 'navbar-scrolled' : ''}`}>
       <div className="navbar-content">
         <a href="/" className="logo-link" onClick={(e) => handleNavClick('home', e)}>
           <img src="/inline_logo.png" alt="baqar.dev" className="logo-image" />
@@ -104,7 +109,9 @@ export const Navbar: React.FC<NavbarProps> = ({
               className={`nav-item ${
                 item.id === 'blog'
                   ? activeView === 'blog' ? 'active-link' : ''
-                  : activeView === 'home' && activeSection === item.id ? 'active-link' : ''
+                  : item.id === 'roadmap'
+                    ? activeView === 'roadmap' ? 'active-link' : ''
+                    : activeView === 'home' && activeSection === item.id ? 'active-link' : ''
               }`}
               onClick={(e) => {
                 if (item.id === 'blog') {
@@ -112,6 +119,11 @@ export const Navbar: React.FC<NavbarProps> = ({
                   setActiveView('blog');
                   window.scrollTo({ top: 0, behavior: 'smooth' });
                   setActiveSection('blog');
+                } else if (item.id === 'roadmap') {
+                  e.preventDefault();
+                  setActiveView('roadmap');
+                  window.scrollTo({ top: 0, behavior: 'smooth' });
+                  setActiveSection('roadmap');
                 } else {
                   handleNavClick(item.id, e);
                 }

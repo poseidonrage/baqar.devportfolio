@@ -25,15 +25,19 @@ model VisitorStat {
 }
 
 model Blog {
-  id        Int       @id @default(autoincrement())
-  title     String
-  slug      String    @unique
-  content   String    @db.Text
-  summary   String?   @db.Text
-  published Boolean   @default(false)
-  createdAt DateTime  @default(now())
-  updatedAt DateTime  @updatedAt
-  comments  Comment[]
+  id            Int       @id @default(autoincrement())
+  title         String
+  slug          String    @unique
+  content       String    @db.Text
+  summary       String?   @db.Text
+  published     Boolean   @default(false)
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+  comments      Comment[]
+  category      String    @default("Backend")
+  readTime      String    @default("5 min read")
+  tags          String?   @db.Text
+  keyTakeaways  String?   @db.Text
 }
 
 model Comment {
@@ -53,4 +57,26 @@ model AdminSession {
   adminUsername String
   expiresAt     DateTime
   createdAt     DateTime @default(now())
+}
+
+model RoadmapProgress {
+  id        Int      @id @default(autoincrement())
+  taskId    String
+  role      String   // "admin" or "visitor"
+  completed Boolean  @default(true)
+  updatedAt DateTime @updatedAt
+
+  @@unique([taskId, role])
+}
+
+model RoadmapJournal {
+  id           Int      @id @default(autoincrement())
+  weekId       String   // e.g. "week_1"
+  role         String   // "admin" or "visitor"
+  learned      String   @db.Text
+  difficulties String   @db.Text
+  notes        String   @db.Text
+  updatedAt    DateTime @updatedAt
+
+  @@unique([weekId, role])
 }

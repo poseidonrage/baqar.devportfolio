@@ -74,6 +74,52 @@ async function authenticateAdmin(req, res, next) {
   }
 }
 
+// Roadmap Authentication middleware (works for both admin and visitor)
+async function authenticateRoadmap(req, res, next) {
+  try {
+    const authHeader = req.headers.authorization;
+    if (!authHeader || !authHeader.startsWith('Bearer ')) {
+      return res.status(401).json({ error: 'Unauthorized: No token provided' });
+    }
+    const token = authHeader.split(' ')[1];
+
+    // 1. Check if it's a valid admin session from the DB
+    const adminSession = await prisma.adminSession.findUnique({
+      where: { token }
+    });
+
+    if (adminSession) {
+      if (new Date() > adminSession.expiresAt) {
+        await prisma.adminSession.delete({ where: { token } }).catch(() => {});
+        return res.status(401).json({ error: 'Unauthorized: Session expired' });
+      }
+      req.role = 'admin';
+      req.adminUsername = adminSession.adminUsername;
+      return next();
+    }
+
+    // 2. Otherwise, verify it as a JWT visitor or admin token
+    try {
+      const decoded = jwt.verify(token, JWT_SECRET);
+      if (decoded.role === 'visitor') {
+        req.role = 'visitor';
+        return next();
+      } else if (decoded.username === ADMIN_USERNAME) {
+        req.role = 'admin';
+        req.adminUsername = decoded.username;
+        return next();
+      }
+    } catch (err) {
+      return res.status(401).json({ error: 'Unauthorized: Invalid token' });
+    }
+
+    return res.status(401).json({ error: 'Unauthorized: Invalid session' });
+  } catch (error) {
+    console.error('Roadmap auth middleware error:', error);
+    res.status(500).json({ error: 'Internal Server Error' });
+  }
+}
+
 // ----------------------------------------------------
 // Public API Routes
 // ----------------------------------------------------
@@ -253,6 +299,39 @@ app.post('/api/blogs/:id/comments', async (req, res) => {
   }
 });
 
+// GET /api/blogs/:slugOrId/comments - Get approved comments for a blog post
+app.get('/api/blogs/:slugOrId/comments', async (req, res) => {
+  try {
+    const { slugOrId } = req.params;
+    const blogId = parseInt(slugOrId);
+    
+    let whereClause = {};
+    if (!isNaN(blogId)) {
+      whereClause = {
+        OR: [
+          { blogId: blogId },
+          { blog: { slug: slugOrId } }
+        ],
+        approved: true
+      };
+    } else {
+      whereClause = {
+        blog: { slug: slugOrId },
+        approved: true
+      };
+    }
+
+    const comments = await prisma.comment.findMany({
+      where: whereClause,
+      orderBy: { createdAt: 'asc' }
+    });
+    res.json(comments);
+  } catch (error) {
+    console.error('Error fetching comments:', error);
+    res.status(500).json({ error: 'Failed to fetch comments' });
+  }
+});
+
 // ----------------------------------------------------
 // Authenticated Admin Routes
 // ----------------------------------------------------
@@ -397,7 +476,7 @@ app.get('/api/admin/blogs/:id', authenticateAdmin, async (req, res) => {
 // POST /api/admin/blogs - Create a blog post
 app.post('/api/admin/blogs', authenticateAdmin, async (req, res) => {
   try {
-    const { title, slug, content, summary, published } = req.body;
+    const { title, slug, content, summary, published, category, readTime, tags, keyTakeaways } = req.body;
 
     if (!title || !slug || !content) {
       return res.status(400).json({ error: 'Title, slug, and content are required' });
@@ -418,6 +497,10 @@ app.post('/api/admin/blogs', authenticateAdmin, async (req, res) => {
         content,
         summary: summary || null,
         published: published ?? false,
+        category: category || 'Backend',
+        readTime: readTime || '5 min read',
+        tags: tags || null,
+        keyTakeaways: keyTakeaways || null,
       },
     });
 
@@ -436,7 +519,7 @@ app.put('/api/admin/blogs/:id', authenticateAdmin, async (req, res) => {
       return res.status(400).json({ error: 'Invalid blog ID' });
     }
 
-    const { title, slug, content, summary, published } = req.body;
+    const { title, slug, content, summary, published, category, readTime, tags, keyTakeaways } = req.body;
 
     // Check if blog exists
     const existingBlog = await prisma.blog.findUnique({
@@ -464,6 +547,10 @@ app.put('/api/admin/blogs/:id', authenticateAdmin, async (req, res) => {
         content: content ?? existingBlog.content,
         summary: summary !== undefined ? summary : existingBlog.summary,
         published: published ?? existingBlog.published,
+        category: category ?? existingBlog.category,
+        readTime: readTime ?? existingBlog.readTime,
+        tags: tags !== undefined ? tags : existingBlog.tags,
+        keyTakeaways: keyTakeaways !== undefined ? keyTakeaways : existingBlog.keyTakeaways,
       },
     });
 
@@ -554,6 +641,142 @@ app.delete('/api/admin/comments/:id', authenticateAdmin, async (req, res) => {
   } catch (error) {
     console.error('Error deleting comment:', error);
     res.status(500).json({ error: 'Failed to delete comment' });
+  }
+});
+
+// ----------------------------------------------------
+// Roadmap API Routes
+// ----------------------------------------------------
+
+// POST /api/roadmap/login - Authenticate admin or visitor for the roadmap
+app.post('/api/roadmap/login', async (req, res) => {
+  try {
+    const { username, password } = req.body;
+
+    if (!username || !password) {
+      return res.status(400).json({ error: 'Username and password are required' });
+    }
+
+    // Check visitor credentials
+    if (username === 'visitor' && password === 'visitor110') {
+      const token = jwt.sign({ role: 'visitor' }, JWT_SECRET, { expiresIn: '7d' });
+      return res.json({ token, role: 'visitor' });
+    }
+
+    // Check admin credentials
+    if (username === ADMIN_USERNAME && bcrypt.compareSync(password, ADMIN_PASSWORD_HASH)) {
+      const token = jwt.sign({ username, role: 'admin' }, JWT_SECRET, { expiresIn: '24h' });
+      const expiresAt = new Date(Date.now() + 24 * 60 * 60 * 1000);
+
+      // Save session in DB
+      await prisma.adminSession.create({
+        data: {
+          token,
+          adminUsername: username,
+          expiresAt,
+        },
+      });
+
+      return res.json({ token, role: 'admin' });
+    }
+
+    return res.status(401).json({ error: 'Invalid username or password' });
+  } catch (error) {
+    console.error('Roadmap login error:', error);
+    res.status(500).json({ error: 'Login failed' });
+  }
+});
+
+// GET /api/roadmap/progress - Get checklist progress for role
+app.get('/api/roadmap/progress', authenticateRoadmap, async (req, res) => {
+  try {
+    const progress = await prisma.roadmapProgress.findMany({
+      where: { role: req.role }
+    });
+    res.json(progress);
+  } catch (error) {
+    console.error('Error fetching progress:', error);
+    res.status(500).json({ error: 'Failed to fetch progress' });
+  }
+});
+
+// POST /api/roadmap/progress - Toggle/save checklist progress for role
+app.post('/api/roadmap/progress', authenticateRoadmap, async (req, res) => {
+  try {
+    const { taskId, completed } = req.body;
+    if (!taskId) {
+      return res.status(400).json({ error: 'taskId is required' });
+    }
+    const isCompleted = !!completed;
+
+    const record = await prisma.roadmapProgress.upsert({
+      where: {
+        taskId_role: {
+          taskId,
+          role: req.role
+        }
+      },
+      update: { completed: isCompleted },
+      create: {
+        taskId,
+        role: req.role,
+        completed: isCompleted
+      }
+    });
+
+    res.json({ success: true, data: record });
+  } catch (error) {
+    console.error('Error saving progress:', error);
+    res.status(500).json({ error: 'Failed to save progress' });
+  }
+});
+
+// GET /api/roadmap/journal - Get journal entries for role
+app.get('/api/roadmap/journal', authenticateRoadmap, async (req, res) => {
+  try {
+    const journals = await prisma.roadmapJournal.findMany({
+      where: { role: req.role }
+    });
+    res.json(journals);
+  } catch (error) {
+    console.error('Error fetching journals:', error);
+    res.status(500).json({ error: 'Failed to fetch journal entries' });
+  }
+});
+
+// POST /api/roadmap/journal - Save or update journal entry for role
+app.post('/api/roadmap/journal', authenticateRoadmap, async (req, res) => {
+  try {
+    const { id, learned, difficulties, notes } = req.body;
+    if (!id) {
+      return res.status(400).json({ error: 'Journal ID (week reference) is required' });
+    }
+
+    const record = await prisma.roadmapJournal.upsert({
+      where: {
+        weekId_role: {
+          weekId: id,
+          role: req.role
+        }
+      },
+      update: {
+        learned: learned || '',
+        difficulties: difficulties || '',
+        notes: notes || ''
+      },
+      create: {
+        weekId: id,
+        role: req.role,
+        learned: learned || '',
+        difficulties: difficulties || '',
+        notes: notes || ''
+      }
+    });
+
+    res.json({ success: true, data: record });
+  } catch (error) {
+    console.error('Error saving journal:', error);
+    res.status(500).json({ error: 'Failed to save journal entry' });
   }
 });
 
