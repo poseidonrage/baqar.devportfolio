@@ -2944,21 +2944,33 @@ app.Run();`}),(0,b.jsx)(`h3`,{children:`2. Direct PL/SQL Optimization`}),(0,b.js
           font-size: 11px;
           font-weight: 700;
           text-transform: uppercase;
-          padding: 3px 8px;
-          border-radius: 4px;
-          letter-spacing: 0.03em;
+          padding: 5px 10px;
+          border-radius: 6px;
+          letter-spacing: 0.05em;
+          display: inline-flex;
+          align-items: center;
+          gap: 6px;
+          box-shadow: 0 2px 4px rgba(0, 0, 0, 0.15);
         }
         .roadmap-day-type.type-learn {
-          background: var(--day-type-learn-bg);
-          color: var(--color-learn);
+          background: rgba(59, 130, 246, 0.15);
+          color: #60a5fa;
+          border: 1px solid rgba(59, 130, 246, 0.25);
+        }
+        .roadmap-day-type.type-code {
+          background: rgba(6, 182, 212, 0.15);
+          color: #22d3ee;
+          border: 1px solid rgba(6, 182, 212, 0.25);
         }
         .roadmap-day-type.type-build {
-          background: var(--day-type-build-bg);
-          color: var(--color-build);
+          background: rgba(16, 185, 129, 0.15);
+          color: #34d399;
+          border: 1px solid rgba(16, 185, 129, 0.25);
         }
-        .roadmap-day-type.type-read {
-          background: var(--day-type-read-bg);
-          color: var(--color-read);
+        .roadmap-day-type.type-review {
+          background: rgba(139, 92, 246, 0.15);
+          color: #a78bfa;
+          border: 1px solid rgba(139, 92, 246, 0.25);
         }
         /* Checklists */
         .roadmap-task-list {
@@ -3070,6 +3082,7 @@ app.Run();`}),(0,b.jsx)(`h3`,{children:`2. Direct PL/SQL Optimization`}),(0,b.js
           flex-direction: column;
           gap: 0.75rem;
           transition: var(--transition-smooth);
+          height: 100%;
         }
         .roadmap-journal-field:hover {
           border-color: rgba(var(--accent-rgb), 0.15);
@@ -3086,7 +3099,8 @@ app.Run();`}),(0,b.jsx)(`h3`,{children:`2. Direct PL/SQL Optimization`}),(0,b.js
         }
         .roadmap-journal-input {
           width: 100%;
-          height: 120px;
+          flex-grow: 1;
+          min-height: 120px;
           background: rgba(0, 0, 0, 0.25);
           border: 1px solid rgba(255, 255, 255, 0.07);
           border-radius: 6px;
@@ -3095,7 +3109,7 @@ app.Run();`}),(0,b.jsx)(`h3`,{children:`2. Direct PL/SQL Optimization`}),(0,b.js
           font-size: 13px;
           line-height: 1.5;
           color: var(--text-primary);
-          resize: vertical;
+          resize: none;
           outline: none;
           transition: var(--transition-smooth);
         }
@@ -3193,6 +3207,7 @@ app.Run();`}),(0,b.jsx)(`h3`,{children:`2. Direct PL/SQL Optimization`}),(0,b.js
           background: rgba(255, 255, 255, 0.015);
           overflow: hidden;
           transition: var(--transition-smooth);
+          flex-shrink: 0;
         }
         .roadmap-sidebar-glossary-item:hover {
           border-color: rgba(var(--accent-rgb), 0.2);
@@ -3206,28 +3221,36 @@ app.Run();`}),(0,b.jsx)(`h3`,{children:`2. Direct PL/SQL Optimization`}),(0,b.js
           width: 100%;
           background: transparent;
           border: none;
-          padding: 8px 10px;
+          padding: 10px 12px;
           display: flex;
           align-items: center;
           justify-content: space-between;
           cursor: pointer;
           color: var(--text-primary);
-          text-align: left;
+          min-height: 44px;
+          line-height: 1.4;
         }
         .roadmap-sidebar-glossary-csharp {
           font-size: 11px;
           font-weight: 600;
           color: var(--text-secondary);
+          width: 45%;
+          word-break: break-all;
+          text-align: left;
         }
         .roadmap-sidebar-glossary-arrow {
           font-size: 10px;
           color: var(--text-muted);
-          padding: 0 4px;
+          width: 10%;
+          text-align: center;
         }
         .roadmap-sidebar-glossary-python {
           font-size: 11px;
           font-weight: 600;
           color: var(--accent);
+          width: 45%;
+          word-break: break-all;
+          text-align: right;
         }
         .roadmap-sidebar-glossary-desc {
           padding: 8px 10px;
