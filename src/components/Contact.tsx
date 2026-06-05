@@ -52,7 +52,7 @@ export const Contact: React.FC = () => {
     <section className="contact-section" id="contact">
       <div className="container">
         <div className="section-title-wrapper">
-          <span className="section-number">// 05</span>
+          <span className="section-number">// 06</span>
           <h2 className="section-title">Get In Touch</h2>
         </div>
 

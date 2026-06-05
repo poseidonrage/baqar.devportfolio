@@ -284,7 +284,7 @@ app.Run();`}
         ) : !activePost ? (
           <>
             <div className="section-title-wrapper animate-fade-in">
-              <span className="section-number">// 04</span>
+              <span className="section-number">// 05</span>
               <h2 className="section-title">Developer Blog</h2>
             </div>
 

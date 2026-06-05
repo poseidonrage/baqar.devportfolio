@@ -69,7 +69,7 @@ export const Experience: React.FC = () => {
     <section className="experience-section" id="experience">
       <div className="container">
         <div className="section-title-wrapper">
-          <span className="section-number">// 02</span>
+          <span className="section-number">// 04</span>
           <h2 className="section-title">Professional Experience</h2>
         </div>
 

@@ -859,7 +859,7 @@
                 "id": "w5_d0_t3",
                 "day_id": 500,
                 "task_num": 3,
-                "content": "Setup LangSmith API key in your .env. This is your essential visual debugger! (15 min)"
+                "content": "Setup LangFuse public/secret keys in your .env. This is your essential visual debugger! (15 min)"
               }
             ]
           },
@@ -913,7 +913,7 @@
                 "id": "w5_d2_t3",
                 "day_id": 502,
                 "task_num": 3,
-                "content": "Open LangSmith dashboard to trace the payload execution graph step-by-step. (20 min)"
+                "content": "Open LangFuse trace dashboard to view the payload execution graph step-by-step. (20 min)"
               }
             ]
           },
@@ -988,7 +988,7 @@
                 "id": "w5_d5_t4",
                 "day_id": 505,
                 "task_num": 4,
-                "content": "Trace all calls in LangSmith to verify latency optimization. (30 min)"
+                "content": "Trace all calls in LangFuse to verify latency and performance metrics. (30 min)"
               }
             ]
           },
@@ -1003,7 +1003,7 @@
                 "id": "w5_d6_t1",
                 "day_id": 506,
                 "task_num": 1,
-                "content": "Review your LangSmith trace dashboard. Understand token usage and performance bottle necks. (60 min)"
+                "content": "Review your LangFuse dashboard to analyze token usage, latency, and costs. (60 min)"
               },
               {
                 "id": "w5_d6_t2",
@@ -2127,7 +2127,7 @@
                 "id": "w12_d5_t3",
                 "day_id": 1205,
                 "task_num": 3,
-                "content": "Verify prompt accuracy inside LangSmith dashboard. (30 min)"
+                "content": "Verify prompt accuracy inside LangFuse tracing dashboard. (30 min)"
               }
             ]
           },
@@ -2446,7 +2446,7 @@
                 "id": "w14_d5_t3",
                 "day_id": 1405,
                 "task_num": 3,
-                "content": "Test run tracing in LangSmith dashboard. (30 min)"
+                "content": "Test run tracing in LangFuse dashboard. (30 min)"
               }
             ]
           },
@@ -3894,9 +3894,9 @@
         "month_id": 6,
         "week_number": 24,
         "title": "LLMOps & Portfolio Polish",
-        "focus_hours": "10 hours total · Helicone / LangSmith costs, prompt registries, prompt injections, HIPAA sanitizers, GitHub polish",
-        "csharp_mindset": "<p><strong>C# dev mindset:</strong> LLMOps corresponds to Application Insights monitoring, security auditing, and API Management configuration (throttling, access tokens, logs).</p>",
-        "weekly_goal": "By Sunday you can configure cost analytics dashboards, deploy prompt versions outside code bases, apply prompt injection filters, and publish your complete portfolio.",
+        "focus_hours": "10 hours total · Helicone / LangFuse costs, prompt management, prompt injections, HIPAA sanitizers, GitHub polish",
+        "csharp_mindset": "<p><strong>C# dev mindset:</strong> LLMOps corresponds to Application Insights monitoring, centralized prompt versioning, and API gateway logs. In LangFuse, prompts are retrieved via SDK rather than being hardcoded, similar to how Web.config or AppSettings configurations are fetched dynamically.</p>",
+        "weekly_goal": "By Sunday you can configure self-hosted LangFuse observability dashboards, manage prompts dynamically via LangFuse Prompt Registry SDK, filter injections, and publish your complete portfolio",
         "days": [
           {
             "id": 2400,
@@ -3909,7 +3909,7 @@
                 "id": "w24_d0_t1",
                 "day_id": 2400,
                 "task_num": 1,
-                "content": "Read costing and tracking tools: setup Helicone / Langsmith keys. (30 min)"
+                "content": "Read costing and tracking tools: setup Helicone / LangFuse keys (LANGFUSE_PUBLIC_KEY, LANGFUSE_SECRET_KEY, LANGFUSE_HOST). (30 min)"
               },
               {
                 "id": "w24_d0_t2",
@@ -3930,7 +3930,7 @@
                 "id": "w24_d1_t1",
                 "day_id": 2401,
                 "task_num": 1,
-                "content": "Deploy Prompt Registries: extract prompt text templates from code, placing in databases or LangChain Hub dashboards. (45 min)"
+                "content": "Deploy Prompt Registries: extract templates from code and deploy them dynamically using LangFuse Prompt Management SDK, fetching current active versions in production. (45 min)"
               },
               {
                 "id": "w24_d1_t2",

@@ -2073,7 +2073,7 @@
                 <ul class="task-list">
                   <li><span class="task-num">1</span>Install LangChain core: <code>pip install langchain langchain-openai langchain-community</code> (15 min)</li>
                   <li><span class="task-num">2</span>Read LangChain Expression Language (LCEL) concepts — focus on runnable components (30 min)</li>
-                  <li><span class="task-num">3</span>Setup LangSmith API key in your <code>.env</code>. This is your essential visual debugger! (15 min)</li>
+                  <li><span class="task-num">3</span>Setup LangFuse API key in your <code>.env</code>. This is your essential visual debugger! (15 min)</li>
                 </ul>
               </div>
             </div>
@@ -2101,7 +2101,7 @@
                 <ul class="task-list">
                   <li><span class="task-num">1</span>Rebuild Tuesday's workflow using LCEL pipe notation: <code>chain = prompt | model | parser</code> (20 min)</li>
                   <li><span class="task-num">2</span>Run the chain asynchronously with <code>await chain.ainvoke({"input": "..."})</code> (20 min)</li>
-                  <li><span class="task-num">3</span>Open LangSmith dashboard to trace the payload execution graph step-by-step. (20 min)</li>
+                  <li><span class="task-num">3</span>Open LangFuse dashboard to trace the payload execution graph step-by-step. (20 min)</li>
                 </ul>
               </div>
             </div>
@@ -2142,7 +2142,7 @@
                   <li><span class="task-num">1</span>Setup: Create a FastAPI app in a new folder <code>policy-qa</code>. Configure poetry dependency settings. (30 min)</li>
                   <li><span class="task-num">2</span>Implement policy chat route: receives user questions and queries policies (use mock text for policies today) (60 min)</li>
                   <li><span class="task-num">3</span>Add chat memory so doctors can ask follow-ups. Stream token responses via <code>StreamingResponse</code> (60 min)</li>
-                  <li><span class="task-num">4</span>Trace all calls in LangSmith to verify latency optimization. (30 min)</li>
+                  <li><span class="task-num">4</span>Trace all calls in LangFuse to verify latency optimization. (30 min)</li>
                 </ul>
               </div>
             </div>
@@ -2154,7 +2154,7 @@
               </div>
               <div class="day-body">
                 <ul class="task-list">
-                  <li><span class="task-num">1</span>Review your LangSmith trace dashboard. Understand token usage and performance bottle necks. (60 min)</li>
+                  <li><span class="task-num">1</span>Review your LangFuse trace dashboard. Understand token usage and performance bottle necks. (60 min)</li>
                   <li><span class="task-num">2</span>Read: LangChain security guidelines (data leakage, prompt injections) (30 min)</li>
                   <li><span class="task-num">3</span>Push week 5 code to your repository. (30 min)</li>
                 </ul>
@@ -2175,7 +2175,7 @@
             <div class="res-card">
               <i class="ti ti-article res-icon" aria-hidden="true"></i>
               <div class="res-body">
-                <div class="res-title">LangSmith tracing quickstart</div>
+                <div class="res-title">LangFuse tracing quickstart</div>
                 <div class="res-sub">How to configure visual tracing for chains and debug parameter flows in real-time.</div>
                 <a class="res-link" href="https://docs.smith.langchain.com/" target="_blank">smith.langchain.com <i class="ti ti-external-link" style="font-size:10px;"></i></a>
               </div>
@@ -2187,7 +2187,7 @@
             <ul class="cp-list">
               <li><div class="cp-check"></div>Build and invoke custom chains using the LCEL pipe syntax (<code>|</code>)</li>
               <li><div class="cp-check"></div>Parse raw outputs into structural Pydantic class instances</li>
-              <li><div class="cp-check"></div>Configure LangSmith visual tracer and debug active model payloads</li>
+              <li><div class="cp-check"></div>Configure LangFuse visual tracer and debug active model payloads</li>
               <li><div class="cp-check"></div>Implement conversation history persistence using SQLite databases</li>
             </ul>
           </div>
@@ -3047,7 +3047,7 @@
               <li><div class="cp-check"></div>Deploy sparse indexing configurations alongside dense vectors in Qdrant</li>
               <li><div class="cp-check"></div>Query hybrid vector nodes in a single retrieval request</li>
               <li><div class="cp-check"></div>Implement re-ranking middlewares using API services or local packages</li>
-              <li><div class="cp-check"></div>Verify search score improvements inside LangSmith dashboard</li>
+              <li><div class="cp-check"></div>Verify search score improvements inside LangFuse dashboard</li>
             </ul>
           </div>
         </div>
@@ -3147,7 +3147,7 @@
                 <ul class="task-list">
                   <li><span class="task-num">1</span>Develop Context Enrichment Pipeline: load policy manuals, ingest using sentence window metadata formatting. (90 min)</li>
                   <li><span class="task-num">2</span>Expose API endpoints to test querying using child matches and parent context expansion. (60 min)</li>
-                  <li><span class="task-num">3</span>Verify prompt accuracy inside LangSmith dashboard. (30 min)</li>
+                  <li><span class="task-num">3</span>Verify prompt accuracy inside LangFuse dashboard. (30 min)</li>
                 </ul>
               </div>
             </div>
@@ -3477,7 +3477,7 @@
                 <ul class="task-list">
                   <li><span class="task-num">1</span>Develop Invoice Auditor Agent: register tools for membership queries, billing checks, and math formulas. (60 min)</li>
                   <li><span class="task-num">2</span>Write raw loop running loops: agent searches invoices, calls tools, and writes formatted audit summaries. (90 min)</li>
-                  <li><span class="task-num">3</span>Test run tracing in LangSmith dashboard. (30 min)</li>
+                  <li><span class="task-num">3</span>Test run tracing in LangFuse dashboard. (30 min)</li>
                 </ul>
               </div>
             </div>
@@ -3502,7 +3502,7 @@
               <li><div class="cp-check"></div>Build functional ReAct workflows without high-level library bindings</li>
               <li><div class="cp-check"></div>Extract tool arguments from completions using regex parser tools</li>
               <li><div class="cp-check"></div>Enforce execution limits and token boundary safety caps</li>
-              <li><div class="cp-check"></div>Review agent action traces inside LangSmith debugging screens</li>
+              <li><div class="cp-check"></div>Review agent action traces inside LangFuse debugging screens</li>
             </ul>
           </div>
         </div>
@@ -4852,7 +4852,7 @@
               <div class="wh-dot"><i class="ti ti-dashboard" aria-hidden="true"></i></div>
               <div>
                 <div class="wh-title">Week 24 — LLMOps & Portfolio Polish</div>
-                <div class="wh-meta">10 hours total · Helicone / LangSmith costs, prompt registries, prompt injections, HIPAA sanitizers, GitHub polish</div>
+                <div class="wh-meta">10 hours total · Helicone / LangFuse costs, prompt registries, prompt injections, HIPAA sanitizers, GitHub polish</div>
               </div>
             </div>
           </div>
@@ -4875,7 +4875,7 @@
               </div>
               <div class="day-body">
                 <ul class="task-list">
-                  <li><span class="task-num">1</span>Read costing and tracking tools: setup Helicone / Langsmith keys. (30 min)</li>
+                  <li><span class="task-num">1</span>Read costing and tracking tools: setup Helicone / Langfuse keys. (30 min)</li>
                   <li><span class="task-num">2</span>Analyze API response times. (30 min)</li>
                 </ul>
               </div>

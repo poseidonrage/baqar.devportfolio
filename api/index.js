@@ -206,6 +206,66 @@ app.post('/api/admin/login', async (req, res) => {
   }
 });
 
+// GET /api/debug-db - Diagnostics for database connectivity
+app.get('/api/debug-db', async (req, res) => {
+  try {
+    const rawUrl = process.env.DATABASE_URL || '';
+    let maskedUrl = 'undefined';
+    let host = 'unknown';
+    let dbName = 'unknown';
+
+    if (rawUrl) {
+      // Mask password in DATABASE_URL
+      maskedUrl = rawUrl.replace(/:([^:@]+)@/, ':****@');
+      
+      try {
+        // Simple parse
+        const match = rawUrl.match(/@([^:/]+)(?::(\d+))?\/([^?]+)/);
+        if (match) {
+          host = match[1];
+          dbName = match[3];
+        }
+      } catch (err) {
+        console.error('Failed to parse DATABASE_URL:', err);
+      }
+    }
+
+    // Try a simple database check
+    let connectionOk = false;
+    let count = 0;
+    let dbError = null;
+    try {
+      count = await prisma.blog.count();
+      connectionOk = true;
+    } catch (err) {
+      dbError = err.message || String(err);
+    }
+
+    res.json({
+      success: true,
+      timestamp: new Date().toISOString(),
+      environment: {
+        NODE_ENV: process.env.NODE_ENV || 'development',
+        PORT: process.env.PORT || 5000,
+        HAS_DATABASE_URL: !!rawUrl,
+        DATABASE_URL_MASKED: maskedUrl,
+        parsed: {
+          host,
+          database: dbName
+        }
+      },
+      databaseConnection: {
+        ok: connectionOk,
+        blogsCount: count,
+        error: dbError
+      }
+    });
+  } catch (error) {
+    console.error('Debug DB endpoint error:', error);
+    res.status(500).json({ error: error.message || String(error) });
+  }
+});
+
 // GET /api/blogs - Get published blogs
 app.get('/api/blogs', async (req, res) => {
   try {

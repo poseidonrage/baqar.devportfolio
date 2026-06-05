@@ -15,7 +15,10 @@ import {
   LogOut,
   X,
   Sun,
-  Moon
+  Moon,
+  Code,
+  Wrench,
+  CheckSquare
 } from 'lucide-react';
 import curriculumData from '../data/curriculum.json';
 
@@ -123,6 +126,21 @@ export const RoadmapTracker: React.FC = () => {
 
   // Search state
   const [glossarySearch, setGlossarySearch] = useState<string>('');
+  const [expandedGlossaryIndex, setExpandedGlossaryIndex] = useState<number | null>(null);
+
+  const renderDayTypeIcon = (type: string) => {
+    const typeLower = type.toLowerCase();
+    if (typeLower === 'learn') {
+      return <BookOpen size={11} strokeWidth={2.5} style={{ marginRight: '4px' }} />;
+    } else if (typeLower === 'code') {
+      return <Code size={11} strokeWidth={2.5} style={{ marginRight: '4px' }} />;
+    } else if (typeLower === 'build') {
+      return <Wrench size={11} strokeWidth={2.5} style={{ marginRight: '4px' }} />;
+    } else if (typeLower === 'review') {
+      return <CheckSquare size={11} strokeWidth={2.5} style={{ marginRight: '4px' }} />;
+    }
+    return null;
+  };
 
   // Automatically check if portfolio admin session changes
   useEffect(() => {
@@ -506,6 +524,54 @@ export const RoadmapTracker: React.FC = () => {
                 />
               </div>
             )}
+
+            {/* C# to Python Syntax Card */}
+            <div className="roadmap-companion-card roadmap-sidebar-glossary">
+              <span className="roadmap-companion-title font-mono">
+                <BookOpen size={16} />
+                Parallel Syntax
+              </span>
+              <div className="roadmap-sidebar-glossary-search">
+                <Search size={12} className="roadmap-sidebar-search-icon" />
+                <input
+                  type="text"
+                  className="roadmap-sidebar-search-input"
+                  placeholder="Search syntax..."
+                  value={glossarySearch}
+                  onChange={e => setGlossarySearch(e.target.value)}
+                />
+              </div>
+              <div className="roadmap-sidebar-glossary-list">
+                {filteredGlossary.map((item, idx) => {
+                  const isExpanded = expandedGlossaryIndex === idx || glossarySearch.trim() !== '';
+                  return (
+                    <div 
+                      key={idx} 
+                      className={`roadmap-sidebar-glossary-item ${isExpanded ? 'expanded' : ''}`}
+                    >
+                      <button 
+                        className="roadmap-sidebar-glossary-header"
+                        onClick={() => setExpandedGlossaryIndex(expandedGlossaryIndex === idx ? null : idx)}
+                      >
+                        <span className="roadmap-sidebar-glossary-csharp font-mono">{item.csharp}</span>
+                        <span className="roadmap-sidebar-glossary-arrow font-mono">→</span>
+                        <span className="roadmap-sidebar-glossary-python font-mono">{item.python}</span>
+                      </button>
+                      {isExpanded && (
+                        <div className="roadmap-sidebar-glossary-desc">
+                          {item.desc}
+                        </div>
+                      )}
+                    </div>
+                  );
+                })}
+                {filteredGlossary.length === 0 && (
+                  <div className="roadmap-sidebar-glossary-empty font-sans">
+                    No matching terms found.
+                  </div>
+                )}
+              </div>
+            </div>
           </aside>
 
           {/* Main Area */}
@@ -552,6 +618,7 @@ export const RoadmapTracker: React.FC = () => {
                           <span className="roadmap-day-hrs">{day.hours}</span>
                         </div>
                         <span className={`roadmap-day-type type-${day.type.toLowerCase()}`}>
+                          {renderDayTypeIcon(day.type)}
                           {day.type}
                         </span>
                       </div>
@@ -595,7 +662,7 @@ export const RoadmapTracker: React.FC = () => {
                     )}
                   </div>
 
-                  <div className="roadmap-journal-grid">
+                  <div className="roadmap-journal-grid font-sans">
                     <div className="roadmap-journal-field">
                       <label className="roadmap-journal-label">💡 What I learned this week</label>
                       <textarea
@@ -642,43 +709,6 @@ export const RoadmapTracker: React.FC = () => {
                 </section>
               </>
             )}
-
-            {/* Syntax Reference */}
-            <section className="roadmap-glossary-card">
-              <div className="roadmap-glossary-header">
-                <h3 className="roadmap-glossary-title">
-                  <BookOpen size={16} />
-                  C# to Python Parallel Syntax
-                </h3>
-                <div className="roadmap-glossary-search-wrapper">
-                  <Search size={14} className="roadmap-glossary-search-icon" />
-                  <input
-                    type="text"
-                    className="roadmap-glossary-search-input"
-                    placeholder="Search syntax terms..."
-                    value={glossarySearch}
-                    onChange={e => setGlossarySearch(e.target.value)}
-                  />
-                </div>
-              </div>
-
-              <div className="roadmap-glossary-grid">
-                {filteredGlossary.map((item, idx) => (
-                  <div key={idx} className="roadmap-glossary-item">
-                    <div className="roadmap-glossary-term-row">
-                      <span className="roadmap-csharp-term">C# : {item.csharp}</span>
-                      <span className="roadmap-python-term">Python : {item.python}</span>
-                    </div>
-                    <p className="roadmap-glossary-desc">{item.desc}</p>
-                  </div>
-                ))}
-                {filteredGlossary.length === 0 && (
-                  <div className="roadmap-glossary-empty">
-                    No matching keywords found.
-                  </div>
-                )}
-              </div>
-            </section>
           </main>
         </div>
       </div>
@@ -1421,51 +1451,64 @@ export const RoadmapTracker: React.FC = () => {
         }
         .roadmap-journal-grid {
           display: grid;
-          grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-          gap: 1rem;
-        }
-        .roadmap-journal-grid textarea {
-          font-family: var(--font-sans);
+          grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+          gap: 1.5rem;
         }
         .roadmap-journal-field {
+          background: rgba(255, 255, 255, 0.015);
+          border: 1px solid rgba(255, 255, 255, 0.06);
+          border-radius: 10px;
+          padding: 1.25rem;
           display: flex;
           flex-direction: column;
-          gap: 0.5rem;
+          gap: 0.75rem;
+          transition: var(--transition-smooth);
+        }
+        .roadmap-journal-field:hover {
+          border-color: rgba(var(--accent-rgb), 0.15);
+          background: rgba(255, 255, 255, 0.025);
+          box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
         }
         .roadmap-journal-label {
-          font-size: 12px;
-          font-weight: 700;
-          color: var(--text-secondary);
+          font-size: 13px;
+          font-weight: 600;
+          color: var(--text-primary);
           display: flex;
           align-items: center;
-          gap: 6px;
+          gap: 8px;
         }
         .roadmap-journal-input {
           width: 100%;
-          height: 100px;
-          background: var(--input-bg);
-          border: 1px solid var(--border-color);
-          border-radius: var(--radius-sm);
-          padding: 8px 12px;
+          height: 120px;
+          background: rgba(0, 0, 0, 0.25);
+          border: 1px solid rgba(255, 255, 255, 0.07);
+          border-radius: 6px;
+          padding: 12px 14px;
           font-family: inherit;
-          font-size: 13.5px;
+          font-size: 13px;
+          line-height: 1.5;
           color: var(--text-primary);
           resize: vertical;
           outline: none;
           transition: var(--transition-smooth);
         }
         .roadmap-journal-input:focus {
-          border-color: var(--accent);
-          background: var(--bg-card);
-          box-shadow: 0 0 0 3px var(--accent-glow);
+          border-color: var(--accent-color);
+          background: rgba(0, 0, 0, 0.35);
+          box-shadow: 0 0 8px var(--accent-glow);
+        }
+        .roadmap-journal-input::placeholder {
+          color: var(--text-muted);
+          font-size: 12px;
         }
         .roadmap-journal-input:disabled {
           cursor: not-allowed;
-          opacity: 0.6;
+          opacity: 0.5;
         }
         .roadmap-journal-footer {
           display: flex;
           justify-content: flex-end;
+          margin-top: 0.5rem;
         }
         .roadmap-btn-primary {
           background: var(--btn-primary-bg);
@@ -1486,108 +1529,112 @@ export const RoadmapTracker: React.FC = () => {
           background: var(--btn-primary-hover-bg);
           transform: translateY(-1px);
         }
-        /* Glossary section */
-        .roadmap-glossary-card {
-          background: var(--bg-card);
-          border: 1px solid var(--border-color);
-          border-radius: var(--radius-md);
-          padding: 1.5rem;
-          box-shadow: var(--shadow-sm);
-          display: flex;
-          flex-direction: column;
-          gap: 1.25rem;
+        .roadmap-btn-primary:disabled {
+          opacity: 0.6;
+          cursor: not-allowed;
         }
-        .roadmap-glossary-header {
-          display: flex;
-          justify-content: space-between;
-          align-items: center;
-          flex-wrap: wrap;
-          gap: 1rem;
+        /* Sidebar glossary custom styles */
+        .roadmap-sidebar-glossary {
+          gap: 0.75rem;
         }
-        .roadmap-glossary-title {
-          font-size: 17px;
-          font-weight: 700;
-          color: var(--text-primary);
-          display: flex;
-          align-items: center;
-          gap: 8px;
-        }
-        .roadmap-glossary-search-wrapper {
+        .roadmap-sidebar-glossary-search {
           position: relative;
-          max-width: 320px;
           width: 100%;
         }
-        .roadmap-glossary-search-input {
-          width: 100%;
-          padding: 8px 12px 8px 36px;
-          border: 1px solid var(--border-color);
-          border-radius: 20px;
-          font-size: 13px;
-          outline: none;
-          background: var(--input-bg);
-          transition: var(--transition-smooth);
-          color: var(--text-primary);
-        }
-        .roadmap-glossary-search-input:focus {
-          border-color: var(--accent);
-          background: var(--bg-card);
-          box-shadow: 0 0 0 3px var(--accent-glow);
-        }
-        .roadmap-glossary-search-icon {
+        .roadmap-sidebar-search-icon {
           position: absolute;
-          left: 12px;
+          left: 10px;
           top: 50%;
           transform: translateY(-50%);
           color: var(--text-muted);
         }
-        .roadmap-glossary-grid {
-          display: grid;
-          grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
-          gap: 1rem;
-        }
-        .roadmap-glossary-item {
-          background: var(--input-bg);
+        .roadmap-sidebar-search-input {
+          width: 100%;
+          padding: 6px 10px 6px 28px;
           border: 1px solid var(--border-color);
-          border-radius: var(--radius-sm);
-          padding: 1rem;
+          border-radius: 6px;
+          font-size: 12px;
+          outline: none;
+          background: var(--input-bg);
+          transition: var(--transition-smooth);
+          color: var(--text-primary);
+          font-family: var(--font-sans);
+        }
+        .roadmap-sidebar-search-input:focus {
+          border-color: var(--accent);
+          background: var(--bg-card);
+          box-shadow: 0 0 0 2px var(--accent-glow);
+        }
+        .roadmap-sidebar-glossary-list {
           display: flex;
           flex-direction: column;
           gap: 0.5rem;
+          max-height: 380px;
+          overflow-y: auto;
+          padding-right: 4px;
         }
-        .roadmap-glossary-term-row {
+        .roadmap-sidebar-glossary-list::-webkit-scrollbar {
+          width: 4px;
+        }
+        .roadmap-sidebar-glossary-list::-webkit-scrollbar-thumb {
+          background: rgba(255, 255, 255, 0.1);
+          border-radius: 2px;
+        }
+        .roadmap-sidebar-glossary-item {
+          border: 1px solid var(--border-color);
+          border-radius: 6px;
+          background: rgba(255, 255, 255, 0.015);
+          overflow: hidden;
+          transition: var(--transition-smooth);
+        }
+        .roadmap-sidebar-glossary-item:hover {
+          border-color: rgba(var(--accent-rgb), 0.2);
+          background: rgba(255, 255, 255, 0.025);
+        }
+        .roadmap-sidebar-glossary-item.expanded {
+          border-color: rgba(var(--accent-rgb), 0.35);
+          background: rgba(var(--accent-rgb), 0.03);
+        }
+        .roadmap-sidebar-glossary-header {
+          width: 100%;
+          background: transparent;
+          border: none;
+          padding: 8px 10px;
           display: flex;
-          justify-content: space-between;
           align-items: center;
-        }
-        .roadmap-csharp-term {
-          font-family: var(--font-mono);
-          font-size: 13px;
-          font-weight: 600;
+          justify-content: space-between;
+          cursor: pointer;
           color: var(--text-primary);
-          background: var(--code-bg);
-          padding: 2px 6px;
-          border-radius: 4px;
+          text-align: left;
         }
-        .roadmap-python-term {
-          font-family: var(--font-mono);
-          font-size: 13px;
+        .roadmap-sidebar-glossary-csharp {
+          font-size: 11px;
           font-weight: 600;
-          color: var(--color-build);
-          background: rgba(16, 185, 129, 0.08);
-          padding: 2px 6px;
-          border-radius: 4px;
-        }
-        .roadmap-glossary-desc {
-          font-size: 12px;
           color: var(--text-secondary);
-          line-height: 1.5;
         }
-        .roadmap-glossary-empty {
-          grid-column: 1 / -1;
-          text-align: center;
-          padding: 2rem;
+        .roadmap-sidebar-glossary-arrow {
+          font-size: 10px;
           color: var(--text-muted);
-          font-size: 14px;
+          padding: 0 4px;
+        }
+        .roadmap-sidebar-glossary-python {
+          font-size: 11px;
+          font-weight: 600;
+          color: var(--accent);
+        }
+        .roadmap-sidebar-glossary-desc {
+          padding: 8px 10px;
+          font-size: 11px;
+          color: var(--text-secondary);
+          line-height: 1.4;
+          border-top: 1px solid var(--border-color);
+          background: rgba(0, 0, 0, 0.15);
+        }
+        .roadmap-sidebar-glossary-empty {
+          font-size: 12px;
+          color: var(--text-muted);
+          text-align: center;
+          padding: 1rem;
         }
         /* Login modal gatekeeper */
         .roadmap-modal-overlay {

@@ -41,7 +41,7 @@ export const Expertise: React.FC = () => {
     <section className="expertise-section" id="expertise">
       <div className="container">
         <div className="section-title-wrapper">
-          <span className="section-number">// 01</span>
+          <span className="section-number">// 02</span>
           <h2 className="section-title">My Expertise</h2>
         </div>
 
