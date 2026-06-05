@@ -7,7 +7,6 @@ import {
   Calendar, 
   Clock, 
   BookMarked,
-  FileText,
   Search,
   Check,
   AlertCircle,
@@ -66,18 +65,184 @@ interface JournalEntry {
 }
 
 const glossaryItems = [
-  { csharp: "async / await", python: "async / await", desc: "Both support asynchronous programming with identical keywords. C# returns Task/Task<T>, whereas Python returns a coroutine object." },
-  { csharp: "List<T>", python: "list", desc: "Dynamically sized arrays. C# is strongly-typed, whereas Python lists can hold any elements (e.g., my_list = [1, 'hello', True])." },
-  { csharp: "Dictionary<TKey, TValue>", python: "dict", desc: "Key-value pair collections. Written in Python as: my_dict = {'key': 'value'}. Python dictionaries maintain insertion order since 3.7." },
-  { csharp: "interface", python: "ABC / typing.Protocol", desc: "C# uses explicit interfaces. Python uses Duck Typing naturally, but can enforce contract validation using Abstract Base Classes (ABC) or Protocol." },
-  { csharp: "namespace", python: "module / package", desc: "C# organizes code with namespace scopes. Python uses files (modules) and folders with __init__.py (packages) to construct module paths." },
-  { csharp: "Console.WriteLine()", python: "print()", desc: "Prints output to console. Python print() automatically appends a newline unless configured otherwise (e.g. print(x, end=' '))." },
-  { csharp: "class / constructor (public MyClass())", python: "class / __init__(self)", desc: "C# uses class name as constructor. Python uses the special method __init__ with explicit 'self' as the first parameter to reference instance context." },
-  { csharp: "null", python: "None", desc: "Represents the absence of value. Python uses the singleton object None instead of null." },
-  { csharp: "var", python: "(implicitly typed)", desc: "C# uses var for local type inference. Python is dynamically typed by default, meaning variables can change types at runtime." },
-  { csharp: "linq (Select/Where)", python: "List Comprehensions / filter() / map()", desc: "LINQ expressions in C# translate directly to list comprehensions in Python (e.g., [x * 2 for x in my_list if x > 5])." },
-  { csharp: "string.Format() / $\"\"", python: "f-strings (f\"{var}\")", desc: "String interpolation. C# uses dollar-sign strings. Python uses f-prefix strings (e.g., f\"Hello, {name}\") which are highly optimized." },
-  { csharp: "try / catch / finally", python: "try / except / finally", desc: "Error handling blocks. C# uses 'catch (Exception e)', Python uses 'except Exception as e'." },
+  {
+    csharp: "async / await",
+    python: "async / await",
+    category: "advanced",
+    desc: "Both support asynchronous programming with identical keywords. C# returns Task or Task<T>, whereas Python returns a coroutine object.",
+    csharpCode: `// C# Async Method
+public async Task<string> FetchDataAsync() {
+    await Task.Delay(1000);
+    return "Data Fetched";
+}`,
+    pythonCode: `# Python Async Function
+import asyncio
+
+async def fetch_data_async():
+    await asyncio.sleep(1)
+    return "Data Fetched"`
+  },
+  {
+    csharp: "List<T>",
+    python: "list",
+    category: "collections",
+    desc: "Dynamically sized arrays. C# is strongly-typed, whereas Python lists can hold heterogeneous elements.",
+    csharpCode: `// C# Strongly Typed List
+var list = new List<string> { "a", "b" };
+list.Add("c");
+string first = list[0];`,
+    pythonCode: `# Python Dynamic List
+list_items = ["a", "b"]
+list_items.append("c")
+first = list_items[0]`
+  },
+  {
+    csharp: "Dictionary<TKey, TValue>",
+    python: "dict",
+    category: "collections",
+    desc: "Key-value pair collections. Written in Python with curly braces. Dictionaries preserve insertion order in modern Python.",
+    csharpCode: `// C# Dictionary
+var dict = new Dictionary<string, int> {
+    { "key", 1 }
+};
+dict["key"] = 2;`,
+    pythonCode: `# Python Dictionary
+my_dict = {
+    "key": 1
+}
+my_dict["key"] = 2`
+  },
+  {
+    csharp: "interface",
+    python: "ABC / typing.Protocol",
+    category: "oop",
+    desc: "C# uses explicit interfaces. Python uses Duck Typing naturally, but can enforce contract validation using Abstract Base Classes (ABC) or Protocol.",
+    csharpCode: `// C# Interface & Implementation
+public interface IService {
+    void Execute();
+}
+public class Service : IService {
+    public void Execute() {}
+}`,
+    pythonCode: `# Python Protocol (Structural Subtyping)
+from typing import Protocol
+
+class Service(Protocol):
+    def execute(self) -> None:
+        ...`
+  },
+  {
+    csharp: "namespace",
+    python: "module / package",
+    category: "oop",
+    desc: "C# organizes code with namespace scopes. Python uses files (modules) and folders with __init__.py (packages) to construct paths.",
+    csharpCode: `// C# Namespace
+namespace MyApp.Services {
+    public class Processor {}
+}`,
+    pythonCode: `# Python Module (my_app/services.py)
+# Usage: from my_app.services import Processor
+class Processor:
+    pass`
+  },
+  {
+    csharp: "Console.WriteLine()",
+    python: "print()",
+    category: "basics",
+    desc: "Prints output to console. Python print() automatically appends a newline unless configured otherwise.",
+    csharpCode: `// C# Console Output
+Console.WriteLine($"Value: {val}");`,
+    pythonCode: `# Python Print Output
+print(f"Value: {val}")`
+  },
+  {
+    csharp: "class / constructor",
+    python: "class / __init__(self)",
+    category: "oop",
+    desc: "C# uses class name as constructor. Python uses the special method __init__ with explicit 'self' as the first parameter.",
+    csharpCode: `// C# Class
+public class User {
+    public string Name { get; set; }
+    public User(string name) {
+        Name = name;
+    }
+}`,
+    pythonCode: `# Python Class
+class User:
+    def __init__(self, name: str):
+        self.name = name`
+  },
+  {
+    csharp: "null",
+    python: "None",
+    category: "basics",
+    desc: "Represents the absence of value. Python uses the singleton object None instead of null.",
+    csharpCode: `// C# Null Check
+User user = null;
+if (user == null) {
+    // handle null
+}`,
+    pythonCode: `# Python None Check
+user = None
+if user is None:
+    # handle None
+    pass`
+  },
+  {
+    csharp: "var",
+    python: "(implicitly typed)",
+    category: "basics",
+    desc: "C# uses var for local type inference. Python is dynamically typed by default, meaning variables can change types at runtime.",
+    csharpCode: `// C# var
+var age = 25;
+var name = "Baqar";`,
+    pythonCode: `# Python Implicit
+age = 25
+name = "Baqar"`
+  },
+  {
+    csharp: "linq (Select/Where)",
+    python: "List Comprehensions / filter() / map()",
+    category: "advanced",
+    desc: "LINQ expressions in C# translate directly to list comprehensions or standard functions in Python.",
+    csharpCode: `// C# LINQ Query
+var evens = list
+    .Where(x => x % 2 == 0)
+    .Select(x => x * 2);`,
+    pythonCode: `# Python List Comprehension
+evens = [x * 2 for x in my_list if x % 2 == 0]`
+  },
+  {
+    csharp: "string.Format() / $\"\"",
+    python: "f-strings (f\"{var}\")",
+    category: "basics",
+    desc: "String interpolation. C# uses dollar-sign strings. Python uses f-prefix strings which are highly optimized.",
+    csharpCode: `// C# Interpolation
+var msg = $"Hello {name}, age {age}";`,
+    pythonCode: `# Python f-string
+msg = f"Hello {name}, age {age}"`
+  },
+  {
+    csharp: "try / catch / finally",
+    python: "try / except / finally",
+    category: "basics",
+    desc: "Error handling blocks. C# uses 'catch (Exception e)', Python uses 'except Exception as e'.",
+    csharpCode: `// C# Exception Handling
+try {
+    DoWork();
+} catch (Exception ex) {
+    Log(ex.Message);
+} finally {
+    Cleanup();
+}`,
+    pythonCode: `# Python Exception Handling
+try:
+    do_work()
+except Exception as e:
+    log(str(e))
+finally:
+    cleanup()`
+  }
 ];
 
 export const RoadmapTracker: React.FC = () => {
@@ -124,9 +289,10 @@ export const RoadmapTracker: React.FC = () => {
   const [isSavingJournal, setIsSavingJournal] = useState<boolean>(false);
   const [saveStatus, setSaveStatus] = useState<boolean>(false);
 
-  // Search state
+  // Search and glossary modal states
   const [glossarySearch, setGlossarySearch] = useState<string>('');
-  const [expandedGlossaryIndex, setExpandedGlossaryIndex] = useState<number | null>(null);
+  const [showGlossaryModal, setShowGlossaryModal] = useState<boolean>(false);
+  const [glossaryCategory, setGlossaryCategory] = useState<string>('all');
 
   const renderDayTypeIcon = (type: string) => {
     const typeLower = type.toLowerCase();
@@ -379,12 +545,6 @@ export const RoadmapTracker: React.FC = () => {
   const activeMonth = curriculum.find(m => m.id === activeMonthId);
   const activeWeek = activeMonth?.weeks.find(w => w.id === activeWeekId);
 
-  const filteredGlossary = glossaryItems.filter(item => 
-    item.csharp.toLowerCase().includes(glossarySearch.toLowerCase()) ||
-    item.python.toLowerCase().includes(glossarySearch.toLowerCase()) ||
-    item.desc.toLowerCase().includes(glossarySearch.toLowerCase())
-  );
-
   return (
     <div className={`roadmap-wrapper theme-${theme}`}>
       <div className="roadmap-app-container container">
@@ -526,50 +686,27 @@ export const RoadmapTracker: React.FC = () => {
             )}
 
             {/* C# to Python Syntax Card */}
-            <div className="roadmap-companion-card roadmap-sidebar-glossary">
+            <div 
+              className="roadmap-companion-card roadmap-sidebar-glossary" 
+              style={{ cursor: 'pointer', transition: 'var(--transition-smooth)' }} 
+              onClick={() => setShowGlossaryModal(true)}
+            >
               <span className="roadmap-companion-title font-mono">
                 <BookOpen size={16} />
                 Parallel Syntax
               </span>
-              <div className="roadmap-sidebar-glossary-search">
-                <Search size={12} className="roadmap-sidebar-search-icon" />
-                <input
-                  type="text"
-                  className="roadmap-sidebar-search-input"
-                  placeholder="Search syntax..."
-                  value={glossarySearch}
-                  onChange={e => setGlossarySearch(e.target.value)}
-                />
-              </div>
-              <div className="roadmap-sidebar-glossary-list">
-                {filteredGlossary.map((item, idx) => {
-                  const isExpanded = expandedGlossaryIndex === idx || glossarySearch.trim() !== '';
-                  return (
-                    <div 
-                      key={idx} 
-                      className={`roadmap-sidebar-glossary-item ${isExpanded ? 'expanded' : ''}`}
-                    >
-                      <button 
-                        className="roadmap-sidebar-glossary-header"
-                        onClick={() => setExpandedGlossaryIndex(expandedGlossaryIndex === idx ? null : idx)}
-                      >
-                        <span className="roadmap-sidebar-glossary-csharp font-mono">{item.csharp}</span>
-                        <span className="roadmap-sidebar-glossary-arrow font-mono">→</span>
-                        <span className="roadmap-sidebar-glossary-python font-mono">{item.python}</span>
-                      </button>
-                      {isExpanded && (
-                        <div className="roadmap-sidebar-glossary-desc">
-                          {item.desc}
-                        </div>
-                      )}
-                    </div>
-                  );
-                })}
-                {filteredGlossary.length === 0 && (
-                  <div className="roadmap-sidebar-glossary-empty font-sans">
-                    No matching terms found.
-                  </div>
-                )}
+              <div className="roadmap-companion-body font-sans" style={{ borderLeft: '3px solid var(--accent)', paddingLeft: '10px' }}>
+                <p style={{ margin: 0, fontSize: '13px', color: 'var(--text-secondary)' }}>
+                  A quick comparative lookup of C# constructs mapping directly to Python equivalents.
+                </p>
+                <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginTop: '12px' }}>
+                  <span className="font-mono" style={{ fontSize: '11px', color: 'var(--text-muted)', background: 'var(--code-bg)', padding: '2px 6px', borderRadius: '4px' }}>
+                    12 rules loaded
+                  </span>
+                  <span className="font-mono" style={{ fontSize: '12px', color: 'var(--accent)', fontWeight: 600, display: 'inline-flex', alignItems: 'center', gap: '4px' }}>
+                    Open Guide →
+                  </span>
+                </div>
               </div>
             </div>
           </aside>
@@ -649,17 +786,18 @@ export const RoadmapTracker: React.FC = () => {
 
                 {/* Journal Block */}
                 <section className="roadmap-journal-section">
-                  <div className="roadmap-journal-header">
-                    <h3 className="roadmap-journal-title">
-                      <FileText size={16} />
-                      Week {activeWeek.week_number} Retro Log
-                    </h3>
-                    {saveStatus && (
-                      <span className="roadmap-journal-saved-lbl font-mono">
-                        <Check size={14} />
-                        Log Saved
-                      </span>
-                    )}
+                  <div className="roadmap-week-info-header" style={{ borderBottom: '1px solid var(--border-color)', paddingBottom: '1rem', marginBottom: '0.5rem' }}>
+                    <h2 className="roadmap-week-info-title">Week {activeWeek.week_number} — Retro Log</h2>
+                    <span className="roadmap-week-info-meta">
+                      {saveStatus ? (
+                        <span className="roadmap-journal-saved-lbl font-mono" style={{ color: 'var(--color-build)', display: 'inline-flex', alignItems: 'center', gap: '4px' }}>
+                          <Check size={14} />
+                          Log Saved
+                        </span>
+                      ) : (
+                        `RETROSPECTIVE LOG // WEEK ${activeWeek.week_number}`
+                      )}
+                    </span>
                   </div>
 
                   <div className="roadmap-journal-grid font-sans">
@@ -774,6 +912,117 @@ export const RoadmapTracker: React.FC = () => {
                 {isLoggingIn ? 'Verifying...' : 'Authenticate'}
               </button>
             </form>
+          </div>
+        </div>
+      )}
+
+      {/* Parallel Syntax Catalog Modal */}
+      {showGlossaryModal && (
+        <div className="roadmap-modal-overlay roadmap-syntax-modal-overlay">
+          <div className="roadmap-modal-card roadmap-syntax-modal-card">
+            <div className="roadmap-modal-header">
+              <span className="roadmap-modal-title">
+                <BookOpen size={16} />
+                Parallel Syntax Guide
+              </span>
+              <button onClick={() => setShowGlossaryModal(false)} className="roadmap-modal-close">
+                <X size={18} />
+              </button>
+            </div>
+            
+            <div className="roadmap-syntax-modal-body">
+              <p className="roadmap-syntax-modal-description font-sans">
+                A quick-reference lookup comparing C# constructs and their Python equivalents. Select a category or use the search bar to filter rules.
+              </p>
+
+              {/* Search and Category Filter Row */}
+              <div className="roadmap-syntax-filter-row">
+                <div className="roadmap-syntax-search-container">
+                  <Search size={14} className="roadmap-syntax-search-icon" />
+                  <input
+                    type="text"
+                    className="roadmap-syntax-search-input"
+                    placeholder="Search syntax maps..."
+                    value={glossarySearch}
+                    onChange={e => setGlossarySearch(e.target.value)}
+                  />
+                  {glossarySearch && (
+                    <button 
+                      onClick={() => setGlossarySearch('')}
+                      style={{ position: 'absolute', right: '10px', background: 'none', border: 'none', color: 'var(--text-muted)', cursor: 'pointer' }}
+                    >
+                      <X size={14} />
+                    </button>
+                  )}
+                </div>
+
+                <div className="roadmap-syntax-categories font-mono">
+                  {['all', 'basics', 'collections', 'oop', 'advanced'].map((cat) => (
+                    <button
+                      key={cat}
+                      className={`roadmap-syntax-cat-btn ${glossaryCategory === cat ? 'active' : ''}`}
+                      onClick={() => setGlossaryCategory(cat)}
+                    >
+                      {cat.toUpperCase()}
+                    </button>
+                  ))}
+                </div>
+              </div>
+
+              {/* Grid of comparative cards */}
+              <div className="roadmap-syntax-cards-grid">
+                {glossaryItems
+                  .filter(item => {
+                    const matchesCategory = glossaryCategory === 'all' || item.category === glossaryCategory;
+                    const matchesSearch = item.csharp.toLowerCase().includes(glossarySearch.toLowerCase()) ||
+                      item.python.toLowerCase().includes(glossarySearch.toLowerCase()) ||
+                      item.desc.toLowerCase().includes(glossarySearch.toLowerCase());
+                    return matchesCategory && matchesSearch;
+                  })
+                  .map((item, idx) => (
+                    <div key={idx} className="roadmap-syntax-card">
+                      <div className="roadmap-syntax-card-header">
+                        <div className="roadmap-syntax-card-title">
+                          <span className="roadmap-syntax-badge-cs font-mono">C#</span>
+                          <span className="roadmap-syntax-term-cs font-mono">{item.csharp}</span>
+                        </div>
+                        <div className="roadmap-syntax-card-arrow font-mono">→</div>
+                        <div className="roadmap-syntax-card-title">
+                          <span className="roadmap-syntax-badge-py font-mono">Python</span>
+                          <span className="roadmap-syntax-term-py font-mono">{item.python}</span>
+                        </div>
+                      </div>
+
+                      <div className="roadmap-syntax-card-desc font-sans">
+                        {item.desc}
+                      </div>
+
+                      <div className="roadmap-syntax-card-code-section">
+                        <div className="roadmap-syntax-code-block">
+                          <span className="roadmap-syntax-code-label font-mono">C#</span>
+                          <pre className="font-mono"><code>{item.csharpCode}</code></pre>
+                        </div>
+                        <div className="roadmap-syntax-code-block">
+                          <span className="roadmap-syntax-code-label font-mono">Python</span>
+                          <pre className="font-mono"><code>{item.pythonCode}</code></pre>
+                        </div>
+                      </div>
+                    </div>
+                  ))}
+
+                {glossaryItems.filter(item => {
+                  const matchesCategory = glossaryCategory === 'all' || item.category === glossaryCategory;
+                  const matchesSearch = item.csharp.toLowerCase().includes(glossarySearch.toLowerCase()) ||
+                    item.python.toLowerCase().includes(glossarySearch.toLowerCase()) ||
+                    item.desc.toLowerCase().includes(glossarySearch.toLowerCase());
+                  return matchesCategory && matchesSearch;
+                }).length === 0 && (
+                  <div className="roadmap-syntax-empty font-sans">
+                    No matching syntax rules found. Try adjusting your filters.
+                  </div>
+                )}
+              </div>
+            </div>
           </div>
         </div>
       )}
@@ -1784,6 +2033,214 @@ export const RoadmapTracker: React.FC = () => {
         }
         .roadmap-modal-btn:hover {
           background: var(--btn-primary-hover-bg);
+        }
+
+        /* Parallel Syntax Modal Styles */
+        .roadmap-syntax-modal-overlay {
+          background: var(--modal-overlay-bg);
+          backdrop-filter: blur(12px);
+          padding: 2rem;
+          z-index: 210;
+        }
+        .roadmap-syntax-modal-card {
+          max-width: 1000px;
+          width: 100%;
+          height: 90vh;
+          max-height: 850px;
+          display: flex;
+          flex-direction: column;
+        }
+        .roadmap-syntax-modal-body {
+          padding: 1.5rem;
+          overflow-y: auto;
+          flex: 1;
+          display: flex;
+          flex-direction: column;
+          gap: 1.5rem;
+        }
+        .roadmap-syntax-modal-description {
+          font-size: 14px;
+          color: var(--text-secondary);
+          line-height: 1.6;
+          margin: 0;
+        }
+        .roadmap-syntax-filter-row {
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          gap: 1rem;
+          flex-wrap: wrap;
+          border-bottom: 1px solid var(--border-color);
+          padding-bottom: 1.25rem;
+        }
+        .roadmap-syntax-search-container {
+          position: relative;
+          display: flex;
+          align-items: center;
+          width: 320px;
+          max-width: 100%;
+        }
+        .roadmap-syntax-search-icon {
+          position: absolute;
+          left: 12px;
+          color: var(--text-muted);
+        }
+        .roadmap-syntax-search-input {
+          width: 100%;
+          padding: 8px 12px 8px 34px;
+          border: 1px solid var(--border-color);
+          border-radius: var(--radius-sm);
+          font-size: 13px;
+          outline: none;
+          background: var(--input-bg);
+          transition: var(--transition-smooth);
+          color: var(--text-primary);
+          font-family: var(--font-sans);
+        }
+        .roadmap-syntax-search-input:focus {
+          border-color: var(--accent);
+          box-shadow: 0 0 0 2px var(--accent-glow);
+        }
+        .roadmap-syntax-categories {
+          display: flex;
+          gap: 0.5rem;
+          flex-wrap: wrap;
+        }
+        .roadmap-syntax-cat-btn {
+          background: var(--bg-card);
+          border: 1px solid var(--border-color);
+          color: var(--text-secondary);
+          border-radius: 20px;
+          padding: 6px 14px;
+          font-size: 11px;
+          font-weight: 600;
+          cursor: pointer;
+          transition: var(--transition-smooth);
+        }
+        .roadmap-syntax-cat-btn:hover {
+          background: var(--bg-card-hover);
+          color: var(--text-primary);
+          border-color: var(--border-hover);
+        }
+        .roadmap-syntax-cat-btn.active {
+          background: var(--timeline-btn-active-bg);
+          color: var(--timeline-btn-active-text);
+          border-color: var(--timeline-btn-active-bg);
+        }
+        .roadmap-syntax-cards-grid {
+          display: flex;
+          flex-direction: column;
+          gap: 1.5rem;
+        }
+        .roadmap-syntax-card {
+          background: rgba(255, 255, 255, 0.015);
+          border: 1px solid var(--border-color);
+          border-radius: var(--radius-md);
+          padding: 1.5rem;
+          display: flex;
+          flex-direction: column;
+          gap: 1rem;
+          transition: var(--transition-smooth);
+        }
+        .roadmap-syntax-card:hover {
+          border-color: rgba(var(--accent-rgb), 0.25);
+          background: rgba(255, 255, 255, 0.025);
+          box-shadow: var(--shadow-md);
+        }
+        .roadmap-syntax-card-header {
+          display: flex;
+          align-items: center;
+          gap: 1rem;
+          flex-wrap: wrap;
+        }
+        .roadmap-syntax-card-title {
+          display: flex;
+          align-items: center;
+          gap: 0.5rem;
+        }
+        .roadmap-syntax-badge-cs {
+          font-size: 10px;
+          font-weight: 700;
+          background: rgba(139, 92, 246, 0.15);
+          color: #a78bfa;
+          padding: 2px 6px;
+          border-radius: 4px;
+          border: 1px solid rgba(139, 92, 246, 0.25);
+        }
+        .roadmap-syntax-badge-py {
+          font-size: 10px;
+          font-weight: 700;
+          background: rgba(234, 179, 8, 0.15);
+          color: #facc15;
+          padding: 2px 6px;
+          border-radius: 4px;
+          border: 1px solid rgba(234, 179, 8, 0.25);
+        }
+        .roadmap-syntax-term-cs {
+          font-size: 14px;
+          font-weight: 700;
+          color: var(--text-primary);
+        }
+        .roadmap-syntax-term-py {
+          font-size: 14px;
+          font-weight: 700;
+          color: var(--accent);
+        }
+        .roadmap-syntax-card-arrow {
+          color: var(--text-muted);
+          font-weight: bold;
+          font-size: 14px;
+        }
+        .roadmap-syntax-card-desc {
+          font-size: 13.5px;
+          color: var(--text-secondary);
+          line-height: 1.5;
+        }
+        .roadmap-syntax-card-code-section {
+          display: grid;
+          grid-template-columns: 1fr 1fr;
+          gap: 1rem;
+        }
+        @media (max-width: 768px) {
+          .roadmap-syntax-card-code-section {
+            grid-template-columns: 1fr;
+          }
+          .roadmap-syntax-filter-row {
+            flex-direction: column;
+            align-items: flex-start;
+          }
+          .roadmap-syntax-search-container {
+            width: 100%;
+          }
+        }
+        .roadmap-syntax-code-block {
+          position: relative;
+          background: rgba(0, 0, 0, 0.4);
+          border: 1px solid var(--border-color);
+          border-radius: 6px;
+          padding: 1.25rem 1rem 1rem;
+        }
+        .roadmap-syntax-code-label {
+          position: absolute;
+          top: 6px;
+          right: 10px;
+          font-size: 9px;
+          color: var(--text-muted);
+          text-transform: uppercase;
+          letter-spacing: 0.05em;
+        }
+        .roadmap-syntax-code-block pre {
+          margin: 0;
+          overflow-x: auto;
+          font-size: 12px;
+          line-height: 1.5;
+          color: #e2e8f0;
+        }
+        .roadmap-syntax-empty {
+          text-align: center;
+          padding: 3rem;
+          color: var(--text-muted);
+          font-size: 14px;
         }
       `}</style>
     </div>
