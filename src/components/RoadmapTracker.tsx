@@ -1462,9 +1462,9 @@ export const RoadmapTracker: React.FC = () => {
           gap: 4px;
         }
         .roadmap-journal-grid {
-          display: grid;
-          grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-          gap: 1.5rem;
+          display: flex;
+          flex-direction: column;
+          gap: 1.25rem;
         }
         .roadmap-journal-field {
           background: rgba(255, 255, 255, 0.015);
@@ -1475,7 +1475,6 @@ export const RoadmapTracker: React.FC = () => {
           flex-direction: column;
           gap: 0.75rem;
           transition: var(--transition-smooth);
-          height: 100%;
         }
         .roadmap-journal-field:hover {
           border-color: rgba(var(--accent-rgb), 0.15);
@@ -1492,8 +1491,8 @@ export const RoadmapTracker: React.FC = () => {
         }
         .roadmap-journal-input {
           width: 100%;
-          flex-grow: 1;
-          min-height: 120px;
+          height: 100px;
+          min-height: 100px;
           background: rgba(0, 0, 0, 0.25);
           border: 1px solid rgba(255, 255, 255, 0.07);
           border-radius: 6px;
@@ -1502,7 +1501,7 @@ export const RoadmapTracker: React.FC = () => {
           font-size: 13px;
           line-height: 1.5;
           color: var(--text-primary);
-          resize: none;
+          resize: vertical;
           outline: none;
           transition: var(--transition-smooth);
         }
