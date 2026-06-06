@@ -2278,10 +2278,10 @@ export const RoadmapTracker: React.FC = () => {
         }
         .roadmap-syntax-code-block {
           position: relative;
-          background: var(--code-bg);
-          border: 1px solid var(--border-color);
-          border-radius: 6px;
-          padding: 1.25rem 1rem 1rem;
+          background: #0f172a !important;
+          border: 1px solid rgba(255, 255, 255, 0.1) !important;
+          border-radius: 6px !important;
+          padding: 1.25rem 1rem 1rem !important;
         }
         .roadmap-syntax-code-label {
           position: absolute;
@@ -2293,11 +2293,18 @@ export const RoadmapTracker: React.FC = () => {
           letter-spacing: 0.05em;
         }
         .roadmap-syntax-code-block pre {
-          margin: 0;
-          overflow-x: auto;
-          font-size: 12px;
-          line-height: 1.5;
-          color: #e2e8f0;
+          margin: 0 !important;
+          overflow-x: auto !important;
+          font-size: 12.5px !important;
+          line-height: 1.5 !important;
+          color: #e2e8f0 !important;
+        }
+        .roadmap-syntax-code-block pre code {
+          background: transparent !important;
+          color: #e2e8f0 !important;
+          font-family: var(--font-mono) !important;
+          padding: 0 !important;
+          font-size: inherit !important;
         }
         .roadmap-syntax-empty {
           text-align: center;
