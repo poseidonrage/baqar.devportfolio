@@ -245,6 +245,57 @@ finally:
   }
 ];
 
+const highlightCode = (code: string, lang: 'csharp' | 'python') => {
+  let escaped = code
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;");
+
+  const tokens: string[] = [];
+  
+  const commentRegex = lang === 'csharp' ? /(\/\/.*)/g : /(\#.*)/g;
+  const stringRegex = /("(?:[^"\\]|\\.)*"|'(?:[^'\\]|\\.)*')/g;
+
+  escaped = escaped.replace(stringRegex, (match) => {
+    const placeholder = `___STR_TOKEN_${tokens.length}___`;
+    tokens.push(`<span class="token string">${match}</span>`);
+    return placeholder;
+  });
+
+  escaped = escaped.replace(commentRegex, (match) => {
+    const placeholder = `___COM_TOKEN_${tokens.length}___`;
+    tokens.push(`<span class="token comment">${match}</span>`);
+    return placeholder;
+  });
+
+  const csharpKeywords = /\b(public|private|protected|async|await|var|new|class|interface|string|int|void|return|try|catch|finally|null|using|namespace|get|set)\b/g;
+  const pythonKeywords = /\b(def|async|await|import|class|None|pass|try|except|finally|from|in|if|as|and|or|not|elif|else|import)\b/g;
+  
+  const csharpTypes = /\b(Console|WriteLine|List|Dictionary|Task|Exception|DoWork|Cleanup|Log|FetchDataAsync|Delay)\b/g;
+  const pythonTypes = /\b(print|asyncio|sleep|append|len|range|self|do_work|cleanup|log|str|fetch_data_async)\b/g;
+
+  const numberRegex = /\b(\d+)\b/g;
+
+  if (lang === 'csharp') {
+    escaped = escaped
+      .replace(csharpKeywords, '<span class="token keyword">$1</span>')
+      .replace(csharpTypes, '<span class="token type">$1</span>');
+  } else {
+    escaped = escaped
+      .replace(pythonKeywords, '<span class="token keyword">$1</span>')
+      .replace(pythonTypes, '<span class="token type">$1</span>');
+  }
+
+  escaped = escaped.replace(numberRegex, '<span class="token number">$1</span>');
+
+  for (let i = tokens.length - 1; i >= 0; i--) {
+    escaped = escaped.split(`___STR_TOKEN_${i}___`).join(tokens[i]);
+    escaped = escaped.split(`___COM_TOKEN_${i}___`).join(tokens[i]);
+  }
+
+  return escaped;
+};
+
 export const RoadmapTracker: React.FC = () => {
   const [curriculum] = useState<Month[]>(curriculumData as Month[]);
   const [completedTaskIds, setCompletedTaskIds] = useState<Record<string, boolean>>({});
@@ -1045,11 +1096,11 @@ export const RoadmapTracker: React.FC = () => {
                       <div className="roadmap-syntax-card-code-section">
                         <div style={{ position: 'relative' }}>
                           <span className="roadmap-syntax-code-label font-mono">C#</span>
-                          <pre className="code-block font-mono"><code>{item.csharpCode}</code></pre>
+                          <pre className="code-block font-mono"><code dangerouslySetInnerHTML={{ __html: highlightCode(item.csharpCode, 'csharp') }} /></pre>
                         </div>
                         <div style={{ position: 'relative' }}>
                           <span className="roadmap-syntax-code-label font-mono">Python</span>
-                          <pre className="code-block font-mono"><code>{item.pythonCode}</code></pre>
+                          <pre className="code-block font-mono"><code dangerouslySetInnerHTML={{ __html: highlightCode(item.pythonCode, 'python') }} /></pre>
                         </div>
                       </div>
                     </div>
@@ -2303,6 +2354,23 @@ export const RoadmapTracker: React.FC = () => {
           font-family: inherit !important;
           font-size: inherit !important;
           padding: 0 !important;
+        }
+        .code-block .token.keyword {
+          color: #ff79c6 !important;
+          font-weight: bold;
+        }
+        .code-block .token.string {
+          color: #50fa7b !important;
+        }
+        .code-block .token.comment {
+          color: #6272a4 !important;
+          font-style: italic;
+        }
+        .code-block .token.number {
+          color: #bd93f9 !important;
+        }
+        .code-block .token.type {
+          color: #8be9fd !important;
         }
         .roadmap-syntax-empty {
           text-align: center;
