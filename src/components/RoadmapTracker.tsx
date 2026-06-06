@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from 'react';
-import { 
-  CheckCircle2, 
-  BookOpen, 
-  Compass, 
-  TrendingUp, 
-  Calendar, 
-  Clock, 
+import {
+  CheckCircle2,
+  BookOpen,
+  Compass,
+  TrendingUp,
+  Calendar,
+  Clock,
   BookMarked,
   Search,
   Check,
@@ -251,7 +251,7 @@ export const RoadmapTracker: React.FC = () => {
   const [journal, setJournal] = useState<Record<string, JournalEntry>>({});
   const [activeMonthId, setActiveMonthId] = useState<number>(1);
   const [activeWeekId, setActiveWeekId] = useState<number>(1);
-  
+
   // Theme state
   const [theme, setTheme] = useState<'light' | 'dark'>(() => {
     const savedTheme = localStorage.getItem('roadmapTheme');
@@ -262,7 +262,7 @@ export const RoadmapTracker: React.FC = () => {
   useEffect(() => {
     localStorage.setItem('roadmapTheme', theme);
   }, [theme]);
-  
+
   // Auth state
   const [role, setRole] = useState<'admin' | 'visitor' | null>(() => {
     const savedRole = sessionStorage.getItem('roadmapRole');
@@ -349,7 +349,7 @@ export const RoadmapTracker: React.FC = () => {
     if (!token) return;
     try {
       const headers = { 'Authorization': `Bearer ${token}` };
-      
+
       const [progressRes, journalRes] = await Promise.all([
         fetch('/api/roadmap/progress', { headers }),
         fetch('/api/roadmap/journal', { headers })
@@ -403,7 +403,7 @@ export const RoadmapTracker: React.FC = () => {
       sessionStorage.setItem('roadmapToken', data.token);
       sessionStorage.setItem('roadmapRole', data.role);
       sessionStorage.removeItem('roadmapLoggedOut');
-      
+
       if (data.role === 'admin') {
         sessionStorage.setItem('adminToken', data.token);
       }
@@ -558,8 +558,8 @@ export const RoadmapTracker: React.FC = () => {
           <div className="roadmap-header-title-row">
             <h1 className="roadmap-title">GenAI Roadmap Activity Tracker</h1>
             <div className="roadmap-header-actions font-mono">
-              <button 
-                onClick={() => setTheme(theme === 'light' ? 'dark' : 'light')} 
+              <button
+                onClick={() => setTheme(theme === 'light' ? 'dark' : 'light')}
                 className="roadmap-theme-toggle-btn"
                 title={`Switch to ${theme === 'light' ? 'dark' : 'light'} mode`}
               >
@@ -578,7 +578,7 @@ export const RoadmapTracker: React.FC = () => {
               )}
             </div>
           </div>
-          
+
           <p className="roadmap-subtitle">
             Track your learning checkpoints, tasks progress, and retrospective journal notes across the 24-week curriculum.
           </p>
@@ -678,7 +678,7 @@ export const RoadmapTracker: React.FC = () => {
                   <Compass size={16} />
                   Mindset Shift
                 </span>
-                <div 
+                <div
                   className="roadmap-companion-body"
                   dangerouslySetInnerHTML={{ __html: activeWeek.csharp_mindset }}
                 />
@@ -686,9 +686,9 @@ export const RoadmapTracker: React.FC = () => {
             )}
 
             {/* C# to Python Syntax Card */}
-            <div 
-              className="roadmap-companion-card roadmap-sidebar-glossary" 
-              style={{ cursor: 'pointer', transition: 'var(--transition-smooth)' }} 
+            <div
+              className="roadmap-companion-card roadmap-sidebar-glossary"
+              style={{ cursor: 'pointer', transition: 'var(--transition-smooth)' }}
               onClick={() => setShowGlossaryModal(true)}
             >
               <span className="roadmap-companion-title font-mono">
@@ -764,7 +764,7 @@ export const RoadmapTracker: React.FC = () => {
                         {day.tasks.map(task => {
                           const isDone = !!completedTaskIds[task.id];
                           return (
-                            <li 
+                            <li
                               key={task.id}
                               className={`roadmap-task-item ${isDone ? 'completed' : ''}`}
                               onClick={() => handleToggleTask(task.id)}
@@ -786,19 +786,18 @@ export const RoadmapTracker: React.FC = () => {
 
                 {/* Journal Block */}
                 <section className="roadmap-journal-section">
-                  <div className="roadmap-week-info-header" style={{ borderBottom: '1px solid var(--border-color)', paddingBottom: '1rem', marginBottom: '0.5rem' }}>
-                    <h2 className="roadmap-week-info-title">Week {activeWeek.week_number} — Retro Log</h2>
-                    <span className="roadmap-week-info-meta">
-                      {saveStatus ? (
-                        <span className="roadmap-journal-saved-lbl font-mono" style={{ color: 'var(--color-build)', display: 'inline-flex', alignItems: 'center', gap: '4px' }}>
-                          <Check size={14} />
-                          Log Saved
-                        </span>
-                      ) : (
-                        `RETROSPECTIVE LOG // WEEK ${activeWeek.week_number}`
-                      )}
-                    </span>
-                  </div>
+                  <h2 className="roadmap-week-info-title">Week {activeWeek.week_number} — Retro Log</h2>
+                  <span className="roadmap-week-info-meta">
+                    {saveStatus ? (
+                      <span className="roadmap-journal-saved-lbl font-mono" style={{ color: 'var(--color-build)', display: 'inline-flex', alignItems: 'center', gap: '4px' }}>
+                        <Check size={14} />
+                        Log Saved
+                      </span>
+                    ) : (
+                      `RETROSPECTIVE LOG // WEEK ${activeWeek.week_number}`
+                    )}
+                  </span>
+
 
                   <div className="roadmap-journal-grid font-sans">
                     <div className="roadmap-journal-field">
@@ -836,7 +835,7 @@ export const RoadmapTracker: React.FC = () => {
                   </div>
 
                   <div className="roadmap-journal-footer">
-                    <button 
+                    <button
                       onClick={handleSaveJournal}
                       disabled={isSavingJournal}
                       className="roadmap-btn-primary"
@@ -864,15 +863,15 @@ export const RoadmapTracker: React.FC = () => {
                 <X size={18} />
               </button>
             </div>
-            
+
             <form onSubmit={handleLogin} className="roadmap-modal-form">
               <p className="roadmap-modal-description">
-                {pendingAction 
+                {pendingAction
                   ? "Authentication is required to modify roadmap progress or save review logs."
                   : "Sign in to track progress checklists and write retrospective review logs."
                 }
               </p>
-              
+
               <div className="roadmap-modal-credentials-note">
                 <span><strong>Visitors</strong>: Login with <code>visitor</code> / <code>visitor110</code></span>
               </div>
@@ -929,7 +928,7 @@ export const RoadmapTracker: React.FC = () => {
                 <X size={18} />
               </button>
             </div>
-            
+
             <div className="roadmap-syntax-modal-body">
               <p className="roadmap-syntax-modal-description font-sans">
                 A quick-reference lookup comparing C# constructs and their Python equivalents. Select a category or use the search bar to filter rules.
@@ -947,7 +946,7 @@ export const RoadmapTracker: React.FC = () => {
                     onChange={e => setGlossarySearch(e.target.value)}
                   />
                   {glossarySearch && (
-                    <button 
+                    <button
                       onClick={() => setGlossarySearch('')}
                       style={{ position: 'absolute', right: '10px', background: 'none', border: 'none', color: 'var(--text-muted)', cursor: 'pointer' }}
                     >
@@ -1017,10 +1016,10 @@ export const RoadmapTracker: React.FC = () => {
                     item.desc.toLowerCase().includes(glossarySearch.toLowerCase());
                   return matchesCategory && matchesSearch;
                 }).length === 0 && (
-                  <div className="roadmap-syntax-empty font-sans">
-                    No matching syntax rules found. Try adjusting your filters.
-                  </div>
-                )}
+                    <div className="roadmap-syntax-empty font-sans">
+                      No matching syntax rules found. Try adjusting your filters.
+                    </div>
+                  )}
               </div>
             </div>
           </div>
@@ -1711,24 +1710,40 @@ export const RoadmapTracker: React.FC = () => {
           gap: 4px;
         }
         .roadmap-journal-grid {
-          display: flex;
-          flex-direction: column;
+          display: grid;
+          grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
           gap: 1.25rem;
         }
         .roadmap-journal-field {
-          background: rgba(255, 255, 255, 0.015);
-          border: 1px solid rgba(255, 255, 255, 0.06);
+          background: var(--bg-card-hover);
+          border: 1px solid var(--border-color);
           border-radius: 10px;
           padding: 1.25rem;
           display: flex;
           flex-direction: column;
           gap: 0.75rem;
           transition: var(--transition-smooth);
+          position: relative;
+          overflow: hidden;
+        }
+        .roadmap-journal-field::before {
+          content: '';
+          position: absolute;
+          top: 0;
+          left: 0;
+          width: 3px;
+          height: 100%;
+          background: var(--accent);
+          opacity: 0.35;
+          transition: var(--transition-smooth);
         }
         .roadmap-journal-field:hover {
-          border-color: rgba(var(--accent-rgb), 0.15);
-          background: rgba(255, 255, 255, 0.025);
-          box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+          border-color: var(--accent-border);
+          background: var(--bg-card);
+          box-shadow: var(--shadow-md);
+        }
+        .roadmap-journal-field:hover::before {
+          opacity: 0.7;
         }
         .roadmap-journal-label {
           font-size: 13px;
@@ -1737,14 +1752,15 @@ export const RoadmapTracker: React.FC = () => {
           display: flex;
           align-items: center;
           gap: 8px;
+          padding-left: 10px;
         }
         .roadmap-journal-input {
           width: 100%;
           height: 100px;
           min-height: 100px;
-          background: rgba(0, 0, 0, 0.25);
-          border: 1px solid rgba(255, 255, 255, 0.07);
-          border-radius: 6px;
+          background: var(--input-bg);
+          border: 1px solid var(--border-color);
+          border-radius: 8px;
           padding: 12px 14px;
           font-family: inherit;
           font-size: 13px;
@@ -1755,9 +1771,9 @@ export const RoadmapTracker: React.FC = () => {
           transition: var(--transition-smooth);
         }
         .roadmap-journal-input:focus {
-          border-color: var(--accent-color);
-          background: rgba(0, 0, 0, 0.35);
-          box-shadow: 0 0 8px var(--accent-glow);
+          border-color: var(--accent);
+          background: var(--input-bg);
+          box-shadow: 0 0 0 3px var(--accent-glow);
         }
         .roadmap-journal-input::placeholder {
           color: var(--text-muted);
@@ -1766,6 +1782,7 @@ export const RoadmapTracker: React.FC = () => {
         .roadmap-journal-input:disabled {
           cursor: not-allowed;
           opacity: 0.5;
+          background: var(--bg-app);
         }
         .roadmap-journal-footer {
           display: flex;
@@ -1851,12 +1868,12 @@ export const RoadmapTracker: React.FC = () => {
           flex-shrink: 0;
         }
         .roadmap-sidebar-glossary-item:hover {
-          border-color: rgba(var(--accent-rgb), 0.2);
-          background: rgba(255, 255, 255, 0.025);
+          border-color: var(--accent-border);
+          background: var(--bg-card-hover);
         }
         .roadmap-sidebar-glossary-item.expanded {
-          border-color: rgba(var(--accent-rgb), 0.35);
-          background: rgba(var(--accent-rgb), 0.03);
+          border-color: var(--accent-border);
+          background: var(--accent-glow);
         }
         .roadmap-sidebar-glossary-header {
           width: 100%;
@@ -2133,7 +2150,7 @@ export const RoadmapTracker: React.FC = () => {
           gap: 1.5rem;
         }
         .roadmap-syntax-card {
-          background: rgba(255, 255, 255, 0.015);
+          background: var(--bg-card-hover);
           border: 1px solid var(--border-color);
           border-radius: var(--radius-md);
           padding: 1.5rem;
@@ -2143,8 +2160,8 @@ export const RoadmapTracker: React.FC = () => {
           transition: var(--transition-smooth);
         }
         .roadmap-syntax-card:hover {
-          border-color: rgba(var(--accent-rgb), 0.25);
-          background: rgba(255, 255, 255, 0.025);
+          border-color: var(--accent-border);
+          background: var(--bg-card);
           box-shadow: var(--shadow-md);
         }
         .roadmap-syntax-card-header {
@@ -2215,7 +2232,7 @@ export const RoadmapTracker: React.FC = () => {
         }
         .roadmap-syntax-code-block {
           position: relative;
-          background: rgba(0, 0, 0, 0.4);
+          background: var(--code-bg);
           border: 1px solid var(--border-color);
           border-radius: 6px;
           padding: 1.25rem 1rem 1rem;
