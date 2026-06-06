@@ -293,6 +293,7 @@ export const RoadmapTracker: React.FC = () => {
   const [glossarySearch, setGlossarySearch] = useState<string>('');
   const [showGlossaryModal, setShowGlossaryModal] = useState<boolean>(false);
   const [glossaryCategory, setGlossaryCategory] = useState<string>('all');
+  const [weekSearch, setWeekSearch] = useState<string>('');
 
   const renderDayTypeIcon = (type: string) => {
     const typeLower = type.toLowerCase();
@@ -343,6 +344,7 @@ export const RoadmapTracker: React.FC = () => {
       setDifficultiesText('');
       setNotesText('');
     }
+    setWeekSearch('');
   }, [activeWeekId, journal]);
 
   const fetchProgressAndJournals = async () => {
@@ -545,6 +547,17 @@ export const RoadmapTracker: React.FC = () => {
   const activeMonth = curriculum.find(m => m.id === activeMonthId);
   const activeWeek = activeMonth?.weeks.find(w => w.id === activeWeekId);
 
+  const filteredDays = activeWeek 
+    ? (weekSearch.trim() === ''
+      ? activeWeek.days
+      : activeWeek.days.map(day => {
+          const matchingTasks = day.tasks.filter(task =>
+            task.content.toLowerCase().includes(weekSearch.trim().toLowerCase())
+          );
+          return { ...day, tasks: matchingTasks };
+        }).filter(day => day.tasks.length > 0))
+    : [];
+
   return (
     <div className={`roadmap-wrapper theme-${theme}`}>
       <div className="roadmap-app-container container">
@@ -745,44 +758,77 @@ export const RoadmapTracker: React.FC = () => {
                   )}
                 </div>
 
-                {/* Checklist Grid */}
-                <div className="roadmap-day-grid">
-                  {activeWeek.days.map((day) => (
-                    <div key={day.id} className="roadmap-day-card">
-                      <div className="roadmap-day-header">
-                        <div className="roadmap-day-title-group">
-                          <span className="roadmap-day-name">{day.day_name}</span>
-                          <span className="roadmap-day-hrs">{day.hours}</span>
-                        </div>
-                        <span className={`roadmap-day-type type-${day.type.toLowerCase()}`}>
-                          {renderDayTypeIcon(day.type)}
-                          {day.type}
-                        </span>
-                      </div>
-
-                      <ul className="roadmap-task-list">
-                        {day.tasks.map(task => {
-                          const isDone = !!completedTaskIds[task.id];
-                          return (
-                            <li
-                              key={task.id}
-                              className={`roadmap-task-item ${isDone ? 'completed' : ''}`}
-                              onClick={() => handleToggleTask(task.id)}
-                            >
-                              <div className={`roadmap-task-checkbox-container ${isDone ? 'checked' : ''}`}>
-                                {isDone && <Check size={10} strokeWidth={4} />}
-                              </div>
-                              <span className="roadmap-task-text">
-                                <span className="roadmap-task-num-badge">{task.task_num}</span>
-                                {task.content}
-                              </span>
-                            </li>
-                          );
-                        })}
-                      </ul>
-                    </div>
-                  ))}
+                {/* Week-specific task search */}
+                <div className="roadmap-week-search-row">
+                  <div className="roadmap-week-search-container">
+                    <Search size={14} className="roadmap-week-search-icon" />
+                    <input
+                      type="text"
+                      className="roadmap-week-search-input"
+                      placeholder={`Search tasks in Week ${activeWeek.week_number}... (e.g., Corey Schafer)`}
+                      value={weekSearch}
+                      onChange={e => setWeekSearch(e.target.value)}
+                    />
+                    {weekSearch && (
+                      <button
+                        className="roadmap-week-search-clear-btn"
+                        onClick={() => setWeekSearch('')}
+                      >
+                        <X size={14} />
+                      </button>
+                    )}
+                  </div>
+                  {weekSearch && (
+                    <span className="roadmap-week-search-status font-mono">
+                      {filteredDays.reduce((acc, d) => acc + d.tasks.length, 0)} match(es) found
+                    </span>
+                  )}
                 </div>
+
+                {/* Checklist Grid */}
+                {filteredDays.length > 0 ? (
+                  <div className="roadmap-day-grid">
+                    {filteredDays.map((day) => (
+                      <div key={day.id} className="roadmap-day-card">
+                        <div className="roadmap-day-header">
+                          <div className="roadmap-day-title-group">
+                            <span className="roadmap-day-name">{day.day_name}</span>
+                            <span className="roadmap-day-hrs">{day.hours}</span>
+                          </div>
+                          <span className={`roadmap-day-type type-${day.type.toLowerCase()}`}>
+                            {renderDayTypeIcon(day.type)}
+                            {day.type}
+                          </span>
+                        </div>
+
+                        <ul className="roadmap-task-list">
+                          {day.tasks.map(task => {
+                            const isDone = !!completedTaskIds[task.id];
+                            return (
+                              <li 
+                                key={task.id}
+                                className={`roadmap-task-item ${isDone ? 'completed' : ''}`}
+                                onClick={() => handleToggleTask(task.id)}
+                              >
+                                <div className={`roadmap-task-checkbox-container ${isDone ? 'checked' : ''}`}>
+                                  {isDone && <Check size={10} strokeWidth={4} />}
+                                </div>
+                                <span className="roadmap-task-text">
+                                  <span className="roadmap-task-num-badge">{task.task_num}</span>
+                                  {task.content}
+                                </span>
+                              </li>
+                            );
+                          })}
+                        </ul>
+                      </div>
+                    ))}
+                  </div>
+                ) : (
+                  <div className="roadmap-syntax-empty font-sans" style={{ background: 'var(--bg-card)', border: '1px solid var(--border-color)', borderRadius: 'var(--radius-md)', padding: '3rem', textAlign: 'center' }}>
+                    No tasks matching "{weekSearch}" found in Week {activeWeek.week_number}.
+                  </div>
+                )}
 
                 {/* Journal Block */}
                 <section className="roadmap-journal-section">
@@ -2258,6 +2304,69 @@ export const RoadmapTracker: React.FC = () => {
           padding: 3rem;
           color: var(--text-muted);
           font-size: 14px;
+        }
+
+        /* Week Search Row Styles */
+        .roadmap-week-search-row {
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          gap: 1rem;
+          margin-bottom: 1rem;
+          flex-wrap: wrap;
+        }
+        .roadmap-week-search-container {
+          position: relative;
+          display: flex;
+          align-items: center;
+          width: 380px;
+          max-width: 100%;
+        }
+        .roadmap-week-search-icon {
+          position: absolute;
+          left: 12px;
+          color: var(--text-muted);
+        }
+        .roadmap-week-search-input {
+          width: 100%;
+          padding: 8px 36px 8px 36px;
+          border: 1px solid var(--border-color);
+          border-radius: var(--radius-sm);
+          font-size: 13px;
+          outline: none;
+          background: var(--bg-card);
+          transition: var(--transition-smooth);
+          color: var(--text-primary);
+          font-family: var(--font-sans);
+          box-shadow: var(--shadow-sm);
+        }
+        .roadmap-week-search-input:focus {
+          border-color: var(--accent);
+          box-shadow: 0 0 0 2px var(--accent-glow);
+        }
+        .roadmap-week-search-clear-btn {
+          position: absolute;
+          right: 12px;
+          background: none;
+          border: none;
+          color: var(--text-muted);
+          cursor: pointer;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          padding: 0;
+          transition: var(--transition-smooth);
+        }
+        .roadmap-week-search-clear-btn:hover {
+          color: var(--text-primary);
+        }
+        .roadmap-week-search-status {
+          font-size: 11px;
+          color: var(--accent);
+          background: var(--accent-glow);
+          padding: 4px 10px;
+          border-radius: 20px;
+          border: 1px solid var(--accent-border);
         }
       `}</style>
     </div>
