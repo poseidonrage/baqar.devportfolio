@@ -1043,13 +1043,13 @@ export const RoadmapTracker: React.FC = () => {
                       </div>
 
                       <div className="roadmap-syntax-card-code-section">
-                        <div className="roadmap-syntax-code-block">
+                        <div style={{ position: 'relative' }}>
                           <span className="roadmap-syntax-code-label font-mono">C#</span>
-                          <pre className="font-mono"><code>{item.csharpCode}</code></pre>
+                          <pre className="code-block font-mono"><code>{item.csharpCode}</code></pre>
                         </div>
-                        <div className="roadmap-syntax-code-block">
+                        <div style={{ position: 'relative' }}>
                           <span className="roadmap-syntax-code-label font-mono">Python</span>
-                          <pre className="font-mono"><code>{item.pythonCode}</code></pre>
+                          <pre className="code-block font-mono"><code>{item.pythonCode}</code></pre>
                         </div>
                       </div>
                     </div>
@@ -2276,12 +2276,16 @@ export const RoadmapTracker: React.FC = () => {
             width: 100%;
           }
         }
-        .roadmap-syntax-code-block {
-          position: relative;
-          background: #0f172a !important;
-          border: 1px solid rgba(255, 255, 255, 0.1) !important;
+        .code-block {
+          background: #0f131a !important;
+          border: 1px solid var(--border-color) !important;
           border-radius: 6px !important;
-          padding: 1.25rem 1rem 1rem !important;
+          padding: 1.5rem 1.25rem 1.25rem !important;
+          overflow-x: auto !important;
+          font-size: 13px !important;
+          line-height: 1.5 !important;
+          color: #e2e8f0 !important;
+          margin: 0 !important;
         }
         .roadmap-syntax-code-label {
           position: absolute;
@@ -2291,20 +2295,14 @@ export const RoadmapTracker: React.FC = () => {
           color: var(--text-muted);
           text-transform: uppercase;
           letter-spacing: 0.05em;
+          z-index: 10;
         }
-        .roadmap-syntax-code-block pre {
-          margin: 0 !important;
-          overflow-x: auto !important;
-          font-size: 12.5px !important;
-          line-height: 1.5 !important;
-          color: #e2e8f0 !important;
-        }
-        .roadmap-syntax-code-block pre code {
+        .code-block code {
           background: transparent !important;
-          color: #e2e8f0 !important;
-          font-family: var(--font-mono) !important;
-          padding: 0 !important;
+          color: inherit !important;
+          font-family: inherit !important;
           font-size: inherit !important;
+          padding: 0 !important;
         }
         .roadmap-syntax-empty {
           text-align: center;
