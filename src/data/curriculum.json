@@ -1542,12 +1542,18 @@
                 "id": "w9_d0_t1",
                 "day_id": 900,
                 "task_num": 1,
-                "content": "Study vector embedding concepts: dimensions, cosine similarity, distance metrics. (40 min)"
+                "content": "Study vector embedding concepts: dimensions, cosine similarity, distance metrics. Explore interactive visual examples on the <a href=\"https://andkret.github.io/embedding-playground/\" target=\"_blank\">Embedding Playground</a>. (40 min)"
               },
               {
                 "id": "w9_d0_t2",
                 "day_id": 900,
                 "task_num": 2,
+                "content": "Watch <a href=\"https://learndataengineering.com/p/genai-fundamentals\" target=\"_blank\">GenAI Fundamentals: The Hidden Foundation of GenAI</a> to master the conceptual basis of vector scaling, tokenization, and cost modeling. (30 min)"
+              },
+              {
+                "id": "w9_d0_t3",
+                "day_id": 900,
+                "task_num": 3,
                 "content": "Generate sample embeddings using OpenAI's API: text-embedding-3-small (20 min)"
               }
             ]
