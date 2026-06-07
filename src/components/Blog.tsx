@@ -3,6 +3,8 @@ import { ArrowLeft, Clock, Calendar, User, Send } from 'lucide-react';
 
 interface BlogPost {
   id: string;
+  slug?: string;
+  dbId?: number;
   title: string;
   date: string;
   readTime: string;
@@ -203,7 +205,9 @@ app.Run();`}
       .then((data) => {
         if (Array.isArray(data) && data.length > 0) {
           const mapped = data.map((b: any) => ({
-            id: b.id || b._id || b.slug,
+            id: (b.slug || b.id || b._id || '').toString(),
+            slug: b.slug,
+            dbId: b.id,
             title: b.title,
             date: b.date || new Date(b.createdAt || Date.now()).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' }),
             readTime: b.readTime,
@@ -249,16 +253,19 @@ app.Run();`}
   useEffect(() => {
     const path = window.location.pathname;
     if (selectedPostId) {
-      const targetPath = `/blog/${selectedPostId}`;
-      if (path !== targetPath) {
-        window.history.pushState(null, '', targetPath);
+      const active = posts.find(p => p.id === selectedPostId || p.dbId?.toString() === selectedPostId || p.slug === selectedPostId);
+      if (active) {
+        const targetPath = `/blog/${active.id}`;
+        if (path !== targetPath) {
+          window.history.pushState(null, '', targetPath);
+        }
       }
     } else {
       if (path !== '/blog' && path.startsWith('/blog')) {
         window.history.pushState(null, '', '/blog');
       }
     }
-  }, [selectedPostId]);
+  }, [selectedPostId, posts]);
 
   // Handle popstate for blog post back navigation
   useEffect(() => {
@@ -307,7 +314,11 @@ app.Run();`}
     }
   };
 
-  const activePost = posts.find(p => p.id === selectedPostId);
+  const activePost = posts.find(p => 
+    p.id === selectedPostId || 
+    p.dbId?.toString() === selectedPostId || 
+    p.slug === selectedPostId
+  );
 
   return (
     <section className="blog-section" id="blog">
