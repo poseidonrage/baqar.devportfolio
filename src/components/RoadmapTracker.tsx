@@ -949,7 +949,14 @@ export const RoadmapTracker: React.FC = () => {
 
       {/* Login Gate Modal */}
       {showLoginModal && (
-        <div className="roadmap-modal-overlay">
+        <div
+          className="roadmap-modal-overlay"
+          onClick={(e) => {
+            if (e.target === e.currentTarget) {
+              setShowLoginModal(false);
+            }
+          }}
+        >
           <div className="roadmap-modal-card">
             <div className="roadmap-modal-header">
               <span className="roadmap-modal-title">
@@ -1014,7 +1021,14 @@ export const RoadmapTracker: React.FC = () => {
 
       {/* Parallel Syntax Catalog Modal */}
       {showGlossaryModal && (
-        <div className="roadmap-modal-overlay roadmap-syntax-modal-overlay">
+        <div
+          className="roadmap-modal-overlay roadmap-syntax-modal-overlay"
+          onClick={(e) => {
+            if (e.target === e.currentTarget) {
+              setShowGlossaryModal(false);
+            }
+          }}
+        >
           <div className="roadmap-modal-card roadmap-syntax-modal-card">
             <div className="roadmap-modal-header">
               <span className="roadmap-modal-title">
@@ -1258,6 +1272,7 @@ export const RoadmapTracker: React.FC = () => {
           padding: 2.5rem 0;
           line-height: 1.5;
           -webkit-font-smoothing: antialiased;
+          zoom: 1.1;
         }
         .roadmap-app-container {
           max-width: 1280px;
@@ -2028,8 +2043,9 @@ export const RoadmapTracker: React.FC = () => {
           left: 0;
           right: 0;
           bottom: 0;
-          background: var(--modal-overlay-bg);
-          backdrop-filter: blur(8px);
+          background: rgba(0, 0, 0, 0.5) !important;
+          backdrop-filter: blur(10px) !important;
+          -webkit-backdrop-filter: blur(10px) !important;
           z-index: 200;
           display: flex;
           align-items: center;
@@ -2151,8 +2167,6 @@ export const RoadmapTracker: React.FC = () => {
 
         /* Parallel Syntax Modal Styles */
         .roadmap-syntax-modal-overlay {
-          background: var(--modal-overlay-bg);
-          backdrop-filter: blur(12px);
           padding: 2rem;
           z-index: 210;
         }
