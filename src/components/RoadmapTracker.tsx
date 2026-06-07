@@ -398,10 +398,11 @@ export const RoadmapTracker: React.FC = () => {
     setWeekSearch('');
   }, [activeWeekId, journal]);
 
-  const fetchProgressAndJournals = async () => {
-    if (!token) return;
+  const fetchProgressAndJournals = async (overrideToken?: string) => {
+    const activeToken = overrideToken || token;
+    if (!activeToken) return;
     try {
-      const headers = { 'Authorization': `Bearer ${token}` };
+      const headers = { 'Authorization': `Bearer ${activeToken}` };
 
       const [progressRes, journalRes] = await Promise.all([
         fetch('/api/roadmap/progress', { headers }),
@@ -430,6 +431,8 @@ export const RoadmapTracker: React.FC = () => {
           journalMap[j.weekId] = j;
         });
         setJournal(journalMap);
+
+        return { progressMap, journalMap };
       }
     } catch (err) {
       console.error('Failed to load roadmap data:', err);
@@ -466,6 +469,67 @@ export const RoadmapTracker: React.FC = () => {
       setShowLoginModal(false);
       setLoginUsername('');
       setLoginPassword('');
+
+      // Fetch user's existing progress using the new token
+      const fetchedData = await fetchProgressAndJournals(data.token);
+
+      // Automatically execute the pending action that prompted the login modal
+      if (pendingAction) {
+        if (pendingAction.startsWith('toggle_')) {
+          const taskId = pendingAction.replace('toggle_', '');
+          const wasCompleted = fetchedData ? !!fetchedData.progressMap[taskId] : false;
+          const isCompleted = !wasCompleted;
+          
+          setCompletedTaskIds(prev => ({ ...prev, [taskId]: isCompleted }));
+          
+          try {
+            await fetch('/api/roadmap/progress', {
+              method: 'POST',
+              headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${data.token}`
+              },
+              body: JSON.stringify({ taskId, completed: isCompleted })
+            });
+          } catch (err) {
+            console.error('Failed to save pending toggle:', err);
+          }
+        } else if (pendingAction === 'save_journal') {
+          const journalId = `week_${activeWeekId}`;
+          setIsSavingJournal(true);
+          try {
+            await fetch('/api/roadmap/journal', {
+              method: 'POST',
+              headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${data.token}`
+              },
+              body: JSON.stringify({
+                id: journalId,
+                learned: learnedText,
+                difficulties: difficultiesText,
+                notes: notesText
+              })
+            });
+            setJournal(prev => ({
+              ...prev,
+              [journalId]: {
+                weekId: journalId,
+                learned: learnedText,
+                difficulties: difficultiesText,
+                notes: notesText
+              }
+            }));
+            setSaveStatus(true);
+            setTimeout(() => setSaveStatus(false), 3000);
+          } catch (err) {
+            console.error('Failed to save pending journal:', err);
+          } finally {
+            setIsSavingJournal(false);
+          }
+        }
+      }
+
       setPendingAction(null);
     } catch (err: any) {
       setLoginError(err.message || 'Connection error. Please try again.');
@@ -859,14 +923,19 @@ export const RoadmapTracker: React.FC = () => {
                               <li 
                                 key={task.id}
                                 className={`roadmap-task-item ${isDone ? 'completed' : ''}`}
-                                onClick={() => handleToggleTask(task.id)}
+                                onClick={(e) => {
+                                  if ((e.target as HTMLElement).closest('a')) {
+                                    return;
+                                  }
+                                  handleToggleTask(task.id);
+                                }}
                               >
                                 <div className={`roadmap-task-checkbox-container ${isDone ? 'checked' : ''}`}>
                                   {isDone && <Check size={10} strokeWidth={4} />}
                                 </div>
                                 <span className="roadmap-task-text">
                                   <span className="roadmap-task-num-badge">{task.task_num}</span>
-                                  {task.content}
+                                  <span dangerouslySetInnerHTML={{ __html: task.content }} />
                                 </span>
                               </li>
                             );
@@ -1772,6 +1841,15 @@ export const RoadmapTracker: React.FC = () => {
         .roadmap-task-text {
           transition: var(--transition-smooth);
           line-height: 1.4;
+        }
+        .roadmap-task-text a {
+          color: var(--accent);
+          text-decoration: underline;
+          transition: var(--transition-smooth);
+          font-weight: 500;
+        }
+        .roadmap-task-text a:hover {
+          color: var(--text-info);
         }
         .roadmap-task-item.completed .roadmap-task-text {
           text-decoration: line-through;
