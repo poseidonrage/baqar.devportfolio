@@ -42,7 +42,8 @@ interface CommentItem {
   blogId?: string;
   postId?: string;
   postSlug?: string;
-  author: string;
+  author?: string;
+  authorName?: string;
   content: string;
   approved: boolean;
   date?: string;
@@ -930,7 +931,7 @@ export const AdminConsole: React.FC<AdminConsoleProps> = ({ setActiveView }) => 
                       <div key={comment.id || comment._id} className={`comment-moderator-item glass-card ${comment.approved ? 'approved' : 'pending'}`}>
                         <div className="comment-moderator-meta">
                           <div className="comment-author-badge">
-                            <span className="comment-author-name font-mono">{comment.author}</span>
+                            <span className="comment-author-name font-mono">{comment.authorName || comment.author}</span>
                             <span className={`comment-status-pill font-mono ${comment.approved ? 'approved' : 'pending'}`}>
                               {comment.approved ? 'APPROVED' : 'PENDING'}
                             </span>

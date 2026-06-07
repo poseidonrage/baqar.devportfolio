@@ -12,9 +12,10 @@ interface BlogPost {
 }
 
 interface CommentItem {
-  id?: string;
+  id?: string | number;
   _id?: string;
-  author: string;
+  author?: string;
+  authorName?: string;
   content: string;
   date?: string;
   createdAt?: string;
@@ -357,7 +358,7 @@ app.Run();`}
                   {comments.map((comment) => (
                     <div key={comment.id || comment._id} className="comment-item">
                       <div className="comment-header">
-                        <span className="comment-author">{comment.author}</span>
+                        <span className="comment-author">{comment.authorName || comment.author}</span>
                         {comment.date || comment.createdAt ? (
                           <span className="comment-date">
                             {new Date(comment.date || comment.createdAt || '').toLocaleDateString()}
