@@ -78,7 +78,14 @@ const renderBlogImage = (category: string) => {
 };
 
 export const Blog: React.FC = () => {
-  const [selectedPostId, setSelectedPostId] = useState<string | null>(null);
+  const [selectedPostId, setSelectedPostId] = useState<string | null>(() => {
+    const path = window.location.pathname;
+    if (path.startsWith('/blog/')) {
+      const slug = path.replace('/blog/', '');
+      return slug || null;
+    }
+    return null;
+  });
   const [posts, setPosts] = useState<BlogPost[]>([]);
   const [loading, setLoading] = useState(true);
 
@@ -237,6 +244,36 @@ app.Run();`}
       .catch((err) => console.error('Error fetching comments:', err))
       .finally(() => setCommentsLoading(false));
   }, [selectedPostId]);
+
+  // Sync URL path with selectedPostId
+  useEffect(() => {
+    const path = window.location.pathname;
+    if (selectedPostId) {
+      const targetPath = `/blog/${selectedPostId}`;
+      if (path !== targetPath) {
+        window.history.pushState(null, '', targetPath);
+      }
+    } else {
+      if (path !== '/blog' && path.startsWith('/blog')) {
+        window.history.pushState(null, '', '/blog');
+      }
+    }
+  }, [selectedPostId]);
+
+  // Handle popstate for blog post back navigation
+  useEffect(() => {
+    const handlePopState = () => {
+      const path = window.location.pathname;
+      if (path.startsWith('/blog/')) {
+        const slug = path.replace('/blog/', '');
+        setSelectedPostId(slug || null);
+      } else if (path === '/blog') {
+        setSelectedPostId(null);
+      }
+    };
+    window.addEventListener('popstate', handlePopState);
+    return () => window.removeEventListener('popstate', handlePopState);
+  }, []);
 
   // Handle comment submit
   const handleCommentSubmit = async (e: React.FormEvent) => {

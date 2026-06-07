@@ -13,11 +13,53 @@ import { RoadmapTracker } from './components/RoadmapTracker';
 
 function App() {
   const [activeView, setActiveView] = useState(() => {
-    if (window.location.pathname === '/roadmap') {
+    const path = window.location.pathname;
+    if (path === '/roadmap') {
       return 'roadmap';
+    }
+    if (path.startsWith('/blog')) {
+      return 'blog';
+    }
+    if (path === '/admin') {
+      return 'admin';
     }
     return 'home';
   });
+
+  // Sync browser path with activeView when it changes
+  useEffect(() => {
+    const currentPath = window.location.pathname;
+    if (activeView === 'roadmap' && currentPath !== '/roadmap') {
+      window.history.pushState(null, '', '/roadmap');
+    } else if (activeView === 'blog') {
+      if (!currentPath.startsWith('/blog')) {
+        window.history.pushState(null, '', '/blog');
+      }
+    } else if (activeView === 'admin' && currentPath !== '/admin') {
+      window.history.pushState(null, '', '/admin');
+    } else if (activeView === 'home' && currentPath !== '/') {
+      window.history.pushState(null, '', '/');
+    }
+  }, [activeView]);
+
+  // Handle popstate event (browser back/forward buttons)
+  useEffect(() => {
+    const handlePopState = () => {
+      const path = window.location.pathname;
+      if (path === '/roadmap') {
+        setActiveView('roadmap');
+      } else if (path.startsWith('/blog')) {
+        setActiveView('blog');
+      } else if (path === '/admin') {
+        setActiveView('admin');
+      } else {
+        setActiveView('home');
+      }
+    };
+
+    window.addEventListener('popstate', handlePopState);
+    return () => window.removeEventListener('popstate', handlePopState);
+  }, []);
 
   useEffect(() => {
     fetch('/api/stats', {
