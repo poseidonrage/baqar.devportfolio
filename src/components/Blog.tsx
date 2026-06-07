@@ -244,17 +244,15 @@ app.Run();`}
 
     setCommentStatus('sending');
     try {
-      const res = await fetch('/api/admin/comments', {
+      const res = await fetch(`/api/blogs/${selectedPostId}/comments`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
         },
         body: JSON.stringify({
-          author: commentForm.author,
-          content: commentForm.content,
-          blogId: selectedPostId,
-          postId: selectedPostId,
-          postSlug: selectedPostId
+          authorName: commentForm.author,
+          authorEmail: 'anonymous@baqar.dev',
+          content: commentForm.content
         })
       });
 

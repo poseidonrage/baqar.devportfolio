@@ -9,6 +9,16 @@ import bcrypt from 'bcryptjs';
 
 dotenv.config();
 
+// Fix Supabase transaction pooler prepared statement error by appending pgbouncer=true dynamically
+if (process.env.DATABASE_URL) {
+  let dbUrl = process.env.DATABASE_URL;
+  if (dbUrl.includes(':6543') && !dbUrl.includes('pgbouncer=true')) {
+    const separator = dbUrl.includes('?') ? '&' : '?';
+    process.env.DATABASE_URL = `${dbUrl}${separator}pgbouncer=true`;
+    console.log('Modified DATABASE_URL to include pgbouncer=true for Transaction Mode pooler');
+  }
+}
+
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
@@ -313,11 +323,22 @@ app.get('/api/blogs/:slug', async (req, res) => {
 // POST /api/blogs/:id/comments - Add comment to blog post (requires approval)
 app.post('/api/blogs/:id/comments', async (req, res) => {
   try {
-    const blogId = parseInt(req.params.id);
+    const { id } = req.params;
     const { authorName, authorEmail, content } = req.body;
+    let blogId;
 
-    if (isNaN(blogId)) {
-      return res.status(400).json({ error: 'Invalid blog ID' });
+    const parsedId = parseInt(id);
+    if (!isNaN(parsedId)) {
+      blogId = parsedId;
+    } else {
+      // Find blog by slug
+      const blog = await prisma.blog.findUnique({
+        where: { slug: id }
+      });
+      if (!blog) {
+        return res.status(404).json({ error: 'Blog post not found' });
+      }
+      blogId = blog.id;
     }
 
     if (!authorName || !authorEmail || !content) {
