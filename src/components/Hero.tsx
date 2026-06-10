@@ -1,20 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { Terminal as TerminalIcon, RefreshCw, ChevronRight } from 'lucide-react';
-
-const TECH_LOGOS = [
-  'javascript',
-  'typescript',
-  'react',
-  'nextjs',
-  'postgres',
-  'sqlserver',
-  'oracle',
-  'dotnet',
-  'csharp',
-  'docker',
-  'n8n',
-  'blazor'
-];
 
 const renderTechLogo = (logoName: string) => {
   switch (logoName) {
@@ -127,91 +113,8 @@ const renderTechLogo = (logoName: string) => {
   }
 };
 
-const renderExtrudedLogo = (logoName: string) => {
-  const logoSvg = renderTechLogo(logoName);
-  if (!logoSvg) return null;
-
-  return (
-    <div className="extruded-logo-container">
-      <div className="logo-layer" style={{ transform: 'translateZ(1px)' }}>
-        {logoSvg}
-      </div>
-    </div>
-  );
-};
-
-export const Hero: React.FC<{ setActiveView: (view: string) => void }> = ({ setActiveView }) => {
-  const [selectedLogos] = useState(() => {
-    const shuffled = [...TECH_LOGOS].sort(() => 0.5 - Math.random());
-    return shuffled.slice(0, 5);
-  });
-
-  const [cubePositions] = useState(() => {
-    const cubes: { top: number; left: number }[] = [];
-
-    // Bounding zones to avoid where actual elements sit
-    const isInsideTextZone = (x: number, y: number) => {
-      // Avoid the text content block (Left 0 to 44%, Top 32% to 78%)
-      return x < 44 && y >= 32 && y <= 78;
-    };
-
-    const isInsideTerminalZone = (x: number, y: number) => {
-      // Avoid the terminal card block (Center-Right 48% to 84%, Top 32% to 78%)
-      return x >= 48 && x <= 84 && y >= 32 && y <= 78;
-    };
-
-    const isOverlapping = (x: number, y: number) => {
-      // Ensure cubes are separated by a minimum distance
-      for (const cube of cubes) {
-        const dx = Math.abs(cube.left - x);
-        const dy = Math.abs(cube.top - y);
-        if (dx < 16 && dy < 16) {
-          return true;
-        }
-      }
-      return false;
-    };
-
-    for (let i = 0; i < 5; i++) {
-      let x = 0;
-      let y = 0;
-      let attempts = 0;
-      let valid = false;
-
-      while (!valid && attempts < 400) {
-        attempts++;
-        x = Math.random() * 88 + 6;  // Left: 6% to 94%
-        y = Math.random() * 76 + 14; // Top: 14% to 90% (avoiding navbar at y < 14)
-
-        if (!isInsideTextZone(x, y) && !isInsideTerminalZone(x, y) && !isOverlapping(x, y)) {
-          valid = true;
-        }
-      }
-
-      if (!valid) {
-        // Fallback slots distributed across open screen zones if randomizer fails
-        const fallbackSlots = [
-          { top: 20, left: 15 }, // Top-Left
-          { top: 18, left: 50 }, // Top-Center
-          { top: 22, left: 82 }, // Top-Right
-          { top: 52, left: 88 }, // Middle-Right (next to terminal)
-          { top: 82, left: 30 }  // Bottom-Center-Left
-        ];
-        cubes.push(fallbackSlots[i]);
-      } else {
-        cubes.push({ top: parseFloat(y.toFixed(1)), left: parseFloat(x.toFixed(1)) });
-      }
-    }
-
-    return {
-      cube1: { top: `${cubes[0].top}%`, left: `${cubes[0].left}%` },
-      cube2: { top: `${cubes[1].top}%`, left: `${cubes[1].left}%` },
-      cube3: { top: `${cubes[2].top}%`, left: `${cubes[2].left}%` },
-      cube4: { top: `${cubes[3].top}%`, left: `${cubes[3].left}%` },
-      cube5: { top: `${cubes[4].top}%`, left: `${cubes[4].left}%` },
-    };
-  });
-
+export const Hero: React.FC = () => {
+  const navigate = useNavigate();
   const [terminalInput, setTerminalInput] = useState('');
   const [terminalHistory, setTerminalHistory] = useState<string[]>([
     'System initialization successful.',
@@ -271,7 +174,7 @@ export const Hero: React.FC<{ setActiveView: (view: string) => void }> = ({ setA
       response = ['Redirecting to admin console...'];
       setTerminalHistory((prev) => [...prev, `guest@baqar.dev:~$ ${cmd}`, ...response, '']);
       setTimeout(() => {
-        setActiveView('admin');
+        navigate('/admin');
       }, 500);
       return;
     } else if (commandResponses[cleanCmd]) {
@@ -298,6 +201,43 @@ export const Hero: React.FC<{ setActiveView: (view: string) => void }> = ({ setA
     }
   }, [terminalHistory]);
 
+  // Scroll-driven parallax for hero floating blocks
+  useEffect(() => {
+    const hero = document.querySelector('.hero-section');
+    if (!hero) return;
+    const wraps = hero.querySelectorAll<HTMLElement>('.block-wrap');
+    if (!wraps.length) return;
+
+    // Strong exit directions so blocks fly out of viewport when scrolling down
+    const driftConfig = [
+      { sx: -140, sy: -200, scale: 0.35 },  // block 1: top-left → up-left
+      { sx: 60, sy: -220, scale: 0.3 },     // block 2: top-center → up
+      { sx: 180, sy: -180, scale: 0.35 },   // block 3: top-right → up-right
+      { sx: 200, sy: -120, scale: 0.3 },    // block 4: upper-right → right
+      { sx: 160, sy: 120, scale: 0.3 },     // block 5: mid-right → down-right
+      { sx: -120, sy: 160, scale: 0.35 },   // block 6: bottom-left → down-left
+    ];
+
+    const onScroll = () => {
+      const rect = hero.getBoundingClientRect();
+      // progress: 0 = hero top at viewport top, 1 = hero fully scrolled past
+      const progress = Math.max(0, Math.min(1, -rect.top / rect.height));
+      const eased = progress * progress; // ease-in curve
+
+      wraps.forEach((wrap, i) => {
+        const cfg = driftConfig[i] || { sx: 0, sy: 0, scale: 0 };
+        const tx = cfg.sx * eased;
+        const ty = cfg.sy * eased;
+        const sc = 1 + (cfg.scale * eased);
+        wrap.style.transform = `translate3d(${tx}px, ${ty}px, 0) scale(${sc})`;
+      });
+    };
+
+    window.addEventListener('scroll', onScroll, { passive: true });
+    onScroll();
+    return () => window.removeEventListener('scroll', onScroll);
+  }, []);
+
   return (
     <section className="hero-section" id="hero">
       {/* 3D Cubes, Particles & Atmospheric Effects */}
@@ -317,84 +257,54 @@ export const Hero: React.FC<{ setActiveView: (view: string) => void }> = ({ setA
         <div className="particle p7"></div>
         <div className="particle p8"></div>
 
-        {/* 1. Hero Cube — Large glass cube with glowing core */}
-        <div className="cube-wrapper ref-cube-1" style={{ top: cubePositions.cube1.top, left: cubePositions.cube1.left, right: 'auto' }}>
-          <div className="cube">
-            <div className="face front"></div>
-            <div className="face back"></div>
-            <div className="face right"></div>
-            <div className="face left"></div>
-            <div className="face top"></div>
-            <div className="face bottom"></div>
-            <div className="cube-core"></div>
-            <div className="cube-core-logo">
-              {renderExtrudedLogo(selectedLogos[0])}
+        {/* Dark-room spotlight vignette */}
+        <div className="spotlight-vignette"></div>
+      </div>
+
+      {/* Floating blocks layer — NO overflow:hidden so blocks can fly out of viewport */}
+      <div className="hero-blocks-layer">
+        {/* Glow lines behind the floating blocks */}
+        <div className="glow-line gl-1"></div>
+        <div className="glow-line gl-2"></div>
+        <div className="glow-line gl-3"></div>
+        <div className="glow-line gl-4"></div>
+
+        {/* Floating 3D Cubes */}
+        <div className="block-wrap" style={{ top: '16%', left: '7%' }}>
+          <div className="block-drift block-drift-1">
+            <div className="cube-card cube-size-1 cube-rot-1 cube-dark">
+              <div className="cube-face-content">{renderTechLogo('javascript')}</div>
             </div>
           </div>
         </div>
- 
-        {/* 2. Hologram cube — with scan lines on front face + inner ring */}
-        <div className="cube-wrapper ref-cube-2" style={{ top: cubePositions.cube2.top, left: cubePositions.cube2.left, right: 'auto' }}>
-          <div className="cube">
-            <div className="face front">
-              <span className="face-inner-ring"></span>
-              <span className="face-scanline"></span>
-            </div>
-            <div className="face back"></div>
-            <div className="face right"></div>
-            <div className="face left"></div>
-            <div className="face top"></div>
-            <div className="face bottom"></div>
-            <div className="cube-core core-cyan"></div>
-            <div className="cube-core-logo">
-              {renderExtrudedLogo(selectedLogos[1])}
+        <div className="block-wrap" style={{ top: '18%', left: '40%' }}>
+          <div className="block-drift block-drift-2">
+            <div className="cube-card cube-size-2 cube-rot-2 cube-gold"></div>
+          </div>
+        </div>
+        <div className="block-wrap" style={{ top: '16%', right: '7%' }}>
+          <div className="block-drift block-drift-3">
+            <div className="cube-card cube-size-3 cube-rot-3 cube-dark">
+              <div className="cube-face-content">{renderTechLogo('react')}</div>
             </div>
           </div>
         </div>
- 
-        {/* 3. Wireframe cube — edges only, no fill */}
-        <div className="cube-wrapper ref-cube-3" style={{ top: cubePositions.cube3.top, left: cubePositions.cube3.left, right: 'auto' }}>
-          <div className="cube">
-            <div className="face front wireframe"></div>
-            <div className="face back wireframe"></div>
-            <div className="face right wireframe"></div>
-            <div className="face left wireframe"></div>
-            <div className="face top wireframe"></div>
-            <div className="face bottom wireframe"></div>
-            <div className="cube-core-logo">
-              {renderExtrudedLogo(selectedLogos[2])}
+        <div className="block-wrap" style={{ top: '14%', right: '5%' }}>
+          <div className="block-drift block-drift-4">
+            <div className="cube-card cube-size-4 cube-rot-4 cube-dark">
+              <div className="cube-face-content">{renderTechLogo('nextjs')}</div>
             </div>
           </div>
         </div>
- 
-        {/* 4. Neon-edge cube — bright glowing edges */}
-        <div className="cube-wrapper ref-cube-4" style={{ top: cubePositions.cube4.top, left: cubePositions.cube4.left, bottom: 'auto' }}>
-          <div className="cube">
-            <div className="face front neon-face"></div>
-            <div className="face back neon-face"></div>
-            <div className="face right neon-face"></div>
-            <div className="face left neon-face"></div>
-            <div className="face top neon-face"></div>
-            <div className="face bottom neon-face"></div>
-            <div className="cube-core core-warm"></div>
-            <div className="cube-core-logo">
-              {renderExtrudedLogo(selectedLogos[3])}
-            </div>
+        <div className="block-wrap" style={{ top: '52%', right: '5%' }}>
+          <div className="block-drift block-drift-5">
+            <div className="cube-card cube-size-5 cube-rot-5 cube-gold"></div>
           </div>
         </div>
- 
-        {/* 5. Micro crystal cube — tiny, fast spinning */}
-        <div className="cube-wrapper ref-cube-5" style={{ top: cubePositions.cube5.top, left: cubePositions.cube5.left, right: 'auto', bottom: 'auto' }}>
-          <div className="cube">
-            <div className="face front crystal"></div>
-            <div className="face back crystal"></div>
-            <div className="face right crystal"></div>
-            <div className="face left crystal"></div>
-            <div className="face top crystal"></div>
-            <div className="face bottom crystal"></div>
-            <div className="cube-core"></div>
-            <div className="cube-core-logo">
-              {renderExtrudedLogo(selectedLogos[4])}
+        <div className="block-wrap" style={{ top: '62%', left: '7%' }}>
+          <div className="block-drift block-drift-6">
+            <div className="cube-card cube-size-6 cube-rot-6 cube-dark">
+              <div className="cube-face-content">{renderTechLogo('docker')}</div>
             </div>
           </div>
         </div>
@@ -493,14 +403,21 @@ export const Hero: React.FC<{ setActiveView: (view: string) => void }> = ({ setA
           padding-bottom: 4rem;
           position: relative;
           z-index: 1;
+          background: #050608;
         }
         
         .hero-bg-effects {
           position: absolute;
           top: 0; left: 0;
           width: 100%; height: 100%;
-          overflow: hidden;
           z-index: -1;
+          pointer-events: none;
+        }
+        .hero-blocks-layer {
+          position: absolute;
+          top: 0; left: 0;
+          width: 100%; height: 100%;
+          z-index: 0;
           pointer-events: none;
         }
 
@@ -608,255 +525,88 @@ export const Hero: React.FC<{ setActiveView: (view: string) => void }> = ({ setA
           100% { transform: translateY(-120px) translateX(-20px); opacity: 0; }
         }
 
-        /* ═══════════════ CUBE ENGINE ═══════════════ */
-        .cube-wrapper {
+        /* ═══════════════ FLOATING 3D CUBES ═══════════════ */
+        .block-wrap {
           position: absolute;
-          perspective: 1000px;
           z-index: 0;
-          transform-style: preserve-3d;
+          pointer-events: none;
+          will-change: transform;
         }
-        .cube {
-          --sz: 100px;
-          --hz: calc(var(--sz) / 2);
-          width: var(--sz); height: var(--sz);
-          transform-style: preserve-3d;
-          position: relative;
+        .block-drift {
+          display: flex;
+          align-items: center;
+          justify-content: center;
         }
-        .cube .face {
-          position: absolute;
-          width: var(--sz); height: var(--sz);
-          transform-style: preserve-3d;
-          backface-visibility: hidden;
-        }
-        .cube .face.front  { transform: rotateY(0deg)   translateZ(var(--hz)); }
-        .cube .face.back   { transform: rotateY(180deg) translateZ(var(--hz)); }
-        .cube .face.right  { transform: rotateY(90deg)  translateZ(var(--hz)); }
-        .cube .face.left   { transform: rotateY(-90deg) translateZ(var(--hz)); }
-        .cube .face.top    { transform: rotateX(90deg)  translateZ(var(--hz)); }
-        .cube .face.bottom { transform: rotateX(-90deg) translateZ(var(--hz)); }
+        .cube-size-1 { width: 68px; height: 68px; }
+        .cube-size-2 { width: 44px; height: 44px; }
+        .cube-size-3 { width: 78px; height: 78px; }
+        .cube-size-4 { width: 58px; height: 58px; }
+        .cube-size-5 { width: 48px; height: 48px; }
+        .cube-size-6 { width: 62px; height: 62px; }
 
-        /* ═══════ DEFAULT GLASS FACE STYLE ═══════ */
-        .cube .face:not(.wireframe):not(.neon-face):not(.crystal) {
-          background: linear-gradient(135deg, rgba(21,32,48,0.15) 0%, rgba(10,16,24,0.1) 100%);
-          border: 1px solid rgba(255,255,255,0.07);
-          box-shadow: inset 0 0 20px rgba(var(--accent-rgb), 0.08), 0 0 6px rgba(0,0,0,0.4);
+        .cube-card {
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          border-radius: 16px;
+          border: 1px solid rgba(255, 255, 255, 0.06);
+          box-shadow: 0 14px 30px -10px rgba(0, 0, 0, 0.6), inset 0 1px 0 rgba(255, 255, 255, 0.08);
         }
-        .cube .face.front:not(.wireframe):not(.neon-face):not(.crystal) {
-          background: radial-gradient(circle at 70% 30%, rgba(255,115,0,0.15) 0%, rgba(21,32,48,0.15) 75%);
-        }
-        .cube .face.top:not(.wireframe):not(.neon-face):not(.crystal) {
-          background: linear-gradient(135deg, rgba(36,53,74,0.15) 0%, rgba(22,34,48,0.15) 80%);
-          border-top: 1px solid rgba(255,255,255,0.12);
-        }
+        .cube-rot-1 { transform: rotate(-12deg); }
+        .cube-rot-2 { transform: rotate(9deg); }
+        .cube-rot-3 { transform: rotate(8deg); }
+        .cube-rot-4 { transform: rotate(-10deg); }
+        .cube-rot-5 { transform: rotate(13deg); }
+        .cube-rot-6 { transform: rotate(-9deg); }
 
-        /* ═══════ WIREFRAME FACE (Cube 3) ═══════ */
-        .face.wireframe {
-          background: transparent !important;
-          border: 1px solid rgba(var(--accent-rgb), 0.25) !important;
-          box-shadow: 
-            inset 0 0 12px rgba(var(--accent-rgb), 0.05),
-            0 0 4px rgba(var(--accent-rgb), 0.1) !important;
+        .cube-dark { background: linear-gradient(145deg, #3a3f4d, #262a32); }
+        .cube-gold { background: linear-gradient(145deg, #ffe4b3, #ffc44d); border-color: rgba(255, 255, 255, 0.18); }
+
+        .cube-face-content {
+          width: 55%;
+          height: 55%;
+        }
+        .cube-face-content svg {
+          width: 100%;
+          height: 100%;
+          filter: drop-shadow(0 2px 3px rgba(0,0,0,0.5));
         }
 
-        /* ═══════ NEON-EDGE FACE (Cube 4) ═══════ */
-        .face.neon-face {
-          background: rgba(10, 16, 24, 0.12) !important;
-          border: 1px solid rgba(var(--accent-rgb), 0.5) !important;
-          box-shadow: 
-            inset 0 0 25px rgba(var(--accent-rgb), 0.15),
-            0 0 12px rgba(var(--accent-rgb), 0.25),
-            0 0 30px rgba(var(--accent-rgb), 0.08) !important;
+        /* Horizontal drift */
+        @keyframes drift-lr {
+          0%, 100% { transform: translateX(-20px); }
+          50% { transform: translateX(20px); }
         }
-
-        /* ═══════ CRYSTAL FACE (Cube 5) ═══════ */
-        .face.crystal {
-          background: linear-gradient(135deg, rgba(var(--accent-rgb), 0.03) 0%, rgba(15,22,35,0.15) 50%, rgba(var(--accent-rgb), 0.02) 100%) !important;
-          border: 1px solid rgba(var(--accent-rgb), 0.3) !important;
-          box-shadow: inset 0 0 15px rgba(var(--accent-rgb), 0.1) !important;
+        @keyframes drift-rl {
+          0%, 100% { transform: translateX(20px); }
+          50% { transform: translateX(-20px); }
         }
+        .block-drift-1 { animation: drift-lr 5.8s ease-in-out infinite; }
+        .block-drift-2 { animation: drift-rl 7.8s ease-in-out infinite; }
+        .block-drift-3 { animation: drift-lr 5.1s ease-in-out infinite; }
+        .block-drift-4 { animation: drift-rl 6.8s ease-in-out infinite; }
+        .block-drift-5 { animation: drift-lr 6.1s ease-in-out infinite; }
+        .block-drift-6 { animation: drift-rl 4.4s ease-in-out infinite; }
 
-        /* ═══════ SCAN LINE EFFECT (Cube 2) ═══════ */
-        .face-scanline {
+        /* Dot-grid background + warm spotlight */
+        .hero-bg-effects {
+          background-image: radial-gradient(circle, rgba(255,255,255,0.022) 1px, transparent 1px);
+          background-size: 34px 34px;
+        }
+        .spotlight-vignette {
           position: absolute;
           top: 0; left: 0;
           width: 100%; height: 100%;
-          background: repeating-linear-gradient(
-            0deg,
-            transparent,
-            transparent 3px,
-            rgba(var(--accent-rgb), 0.04) 3px,
-            rgba(var(--accent-rgb), 0.04) 4px
-          );
-          pointer-events: none;
-        }
-        .face-inner-ring {
-          position: absolute;
-          top: 50%; left: 50%;
-          width: 40px; height: 40px;
-          border-radius: 50%;
-          border: 1px solid rgba(var(--accent-rgb), 0.5);
-          transform: translate(-50%, -50%);
-          box-shadow: 0 0 10px rgba(var(--accent-rgb), 0.25), inset 0 0 10px rgba(var(--accent-rgb), 0.1);
-          animation: ring-pulse 3s infinite alternate ease-in-out;
-        }
-        @keyframes ring-pulse {
-          0% { transform: translate(-50%, -50%) scale(0.9); opacity: 0.6; }
-          100% { transform: translate(-50%, -50%) scale(1.1); opacity: 1; }
-        }
-
-        /* ═══════ GLOWING CORES ═══════ */
-        .cube-core {
-          position: absolute;
-          top: 50%; left: 50%;
-          width: calc(var(--sz) * 0.32);
-          height: calc(var(--sz) * 0.32);
-          transform: translate3d(-50%, -50%, 0);
-          border-radius: 50%;
-          background: radial-gradient(circle, rgba(var(--accent-rgb), 0.9) 0%, rgba(var(--accent-rgb), 0.3) 45%, transparent 75%);
-          filter: blur(4px);
-          pointer-events: none;
-          z-index: 1;
-          animation: core-pulse 3s infinite alternate ease-in-out;
-        }
-        .core-cyan {
-          background: radial-gradient(circle, rgba(var(--accent-rgb), 1) 0%, rgba(var(--accent-rgb), 0.5) 35%, transparent 70%);
-          filter: blur(3px);
-        }
-        .core-warm {
-          background: radial-gradient(circle, rgba(255,180,80,0.9) 0%, rgba(255,120,40,0.4) 40%, transparent 75%);
-          filter: blur(5px);
-        }
-        @keyframes core-pulse {
-          0% { transform: translate3d(-50%,-50%,0) scale(0.8); opacity: 0.5; }
-          100% { transform: translate3d(-50%,-50%,0) scale(1.2); opacity: 1; }
-        }
-
-        .extruded-logo-container {
-          position: relative;
-          width: 100%;
-          height: 100%;
-          transform-style: preserve-3d;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-        }
-
-        .logo-layer {
-          position: absolute;
-          top: 0;
-          left: 0;
-          width: 100%;
-          height: 100%;
-          transform-style: preserve-3d;
-          backface-visibility: visible;
-          pointer-events: none;
-        }
-
-        .cube-core-logo {
-          position: absolute;
-          top: 50%; left: 50%;
-          transform: translate3d(-50%, -50%, 1px);
-          width: calc(var(--sz) * 2 / 3);
-          height: calc(var(--sz) * 2 / 3);
           pointer-events: none;
           z-index: 2;
-          transform-style: preserve-3d;
-          animation: logo-rotate-clockwise 25s linear infinite;
-          filter: drop-shadow(0 0 6px var(--accent-color));
-          display: flex;
-          align-items: center;
-          justify-content: center;
-        }
-
-        @keyframes logo-rotate-clockwise {
-          0% {
-            transform: translate3d(-50%, -50%, 1px) rotate(0deg);
-          }
-          100% {
-            transform: translate3d(-50%, -50%, 1px) rotate(360deg);
-          }
-        }
-
-        /* ═══════════════ 5 CUBE CONFIGURATIONS ═══════════════ */
-
-        /* 1. HERO CUBE — Large, prominent, glass with warm light reflection */
-        .ref-cube-1 {
-          top: 15%; right: 28%;
-        }
-        .ref-cube-1 .cube {
-          --sz: 140px;
-          transform: rotateX(22deg) rotateY(-35deg) rotateZ(8deg);
-          animation: drift-1 18s infinite ease-in-out;
-        }
-
-        /* 2. HOLOGRAM CUBE — Medium, left of orb, scan-lines + ring */
-        .ref-cube-2 {
-          top: 10%; right: 52%;
-        }
-        .ref-cube-2 .cube {
-          --sz: 105px;
-          transform: rotateX(12deg) rotateY(40deg) rotateZ(5deg);
-          animation: drift-2 22s infinite ease-in-out;
-        }
-
-        /* 3. WIREFRAME CUBE — Small, top-right, edges only */
-        .ref-cube-3 {
-          top: 6%; right: 12%;
-        }
-        .ref-cube-3 .cube {
-          --sz: 65px;
-          transform: rotateX(15deg) rotateY(-25deg) rotateZ(-8deg);
-          animation: drift-3 14s infinite ease-in-out;
-        }
-
-        /* 4. NEON-EDGE CUBE — Bottom-left, glowing edges */
-        .ref-cube-4 {
-          bottom: 22%; left: 8%;
-        }
-        .ref-cube-4 .cube {
-          --sz: 85px;
-          transform: rotateX(-18deg) rotateY(35deg) rotateZ(-12deg);
-          animation: drift-4 20s infinite ease-in-out;
-        }
-
-        /* 5. MICRO CRYSTAL — Bottom-right, tiny, fast */
-        .ref-cube-5 {
-          bottom: 18%; right: 18%;
-        }
-        .ref-cube-5 .cube {
-          --sz: 55px;
-          transform: rotateX(30deg) rotateY(-40deg) rotateZ(25deg);
-          animation: drift-5 10s infinite ease-in-out;
-        }
-
-        /* ═══════ DRIFT ANIMATIONS — smooth multi-axis ═══════ */
-        @keyframes drift-1 {
-          0%,100% { transform: translateY(0)    rotateX(22deg)  rotateY(-35deg) rotateZ(8deg); }
-          25%     { transform: translateY(-12px) rotateX(15deg)  rotateY(-55deg) rotateZ(12deg); }
-          50%     { transform: translateY(-20px) rotateX(28deg)  rotateY(-75deg) rotateZ(5deg); }
-          75%     { transform: translateY(-8px)  rotateX(18deg)  rotateY(-50deg) rotateZ(15deg); }
-        }
-        @keyframes drift-2 {
-          0%,100% { transform: translateY(0)    rotateX(12deg)  rotateY(40deg)  rotateZ(5deg); }
-          25%     { transform: translateY(-8px)  rotateX(25deg)  rotateY(20deg)  rotateZ(15deg); }
-          50%     { transform: translateY(-15px) rotateX(8deg)   rotateY(60deg)  rotateZ(-5deg); }
-          75%     { transform: translateY(-5px)  rotateX(18deg)  rotateY(35deg)  rotateZ(10deg); }
-        }
-        @keyframes drift-3 {
-          0%,100% { transform: translateY(0)    rotateX(15deg)  rotateY(-25deg) rotateZ(-8deg); }
-          33%     { transform: translateY(-10px) rotateX(35deg)  rotateY(-50deg) rotateZ(10deg); }
-          66%     { transform: translateY(-6px)  rotateX(5deg)   rotateY(-10deg) rotateZ(-15deg); }
-        }
-        @keyframes drift-4 {
-          0%,100% { transform: translateY(0)    rotateX(-18deg) rotateY(35deg)  rotateZ(-12deg); }
-          30%     { transform: translateY(-14px) rotateX(-5deg)  rotateY(60deg)  rotateZ(5deg); }
-          60%     { transform: translateY(-8px)  rotateX(-25deg) rotateY(20deg)  rotateZ(-20deg); }
-        }
-        @keyframes drift-5 {
-          0%,100% { transform: translateY(0)    rotateX(30deg)  rotateY(-40deg) rotateZ(25deg); }
-          25%     { transform: translateY(-6px)  rotateX(45deg)  rotateY(-60deg) rotateZ(10deg); }
-          50%     { transform: translateY(-12px) rotateX(20deg)  rotateY(-80deg) rotateZ(35deg); }
-          75%     { transform: translateY(-4px)  rotateX(40deg)  rotateY(-50deg) rotateZ(20deg); }
+          background: radial-gradient(
+            ellipse 80% 55% at 50% 28%,
+            rgba(255, 160, 60, 0.07) 0%,
+            rgba(5, 6, 8, 0.0) 45%,
+            rgba(5, 6, 8, 0.25) 75%,
+            rgba(2, 3, 5, 0.6) 92%,
+            #000000 100%
+          );
         }
 
         /* ═══════════════ HERO LAYOUT ═══════════════ */
@@ -997,14 +747,13 @@ export const Hero: React.FC<{ setActiveView: (view: string) => void }> = ({ setA
           .hero-text-content { align-items: center; }
           .hero-description { max-width: 100%; }
           .hero-actions { justify-content: center; }
-          .ref-cube-4 { display: none; }
         }
         @media (max-width: 600px) {
           .hero-title { font-size: 2.75rem; }
           .hero-subtitle { font-size: 1.35rem; }
           .hero-actions { flex-direction: column; width: 100%; }
           .hero-actions a { width: 100%; justify-content: center; }
-          .cube-wrapper, .light-orb-wrapper, .particle { display: none; }
+          .light-orb-wrapper, .particle { display: none; }
         }
       `}</style>
     </section>

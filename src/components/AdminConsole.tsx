@@ -1,25 +1,22 @@
 import React, { useState, useEffect } from 'react';
-import { 
-  Lock, 
-  BarChart2, 
-  MessageSquare, 
-  FileText, 
-  CheckSquare, 
-  LogOut, 
-  Plus, 
-  Edit, 
-  Trash2, 
-  Check, 
+import { useNavigate } from 'react-router-dom';
+import {
+  Lock,
+  BarChart2,
+  MessageSquare,
+  FileText,
+  CheckSquare,
+  LogOut,
+  Plus,
+  Edit,
+  Trash2,
+  Check,
   ArrowLeft,
   Calendar,
   Clock,
   RefreshCw,
   ExternalLink
 } from 'lucide-react';
-
-interface AdminConsoleProps {
-  setActiveView: (view: string) => void;
-}
 
 interface BlogPost {
   id?: string;
@@ -68,7 +65,8 @@ interface VisitorStats {
   userAgents?: Array<{ userAgent: string; count: number }>;
 }
 
-export const AdminConsole: React.FC<AdminConsoleProps> = ({ setActiveView }) => {
+export const AdminConsole: React.FC = () => {
+  const navigate = useNavigate();
   const [password, setPassword] = useState('');
   const [token, setToken] = useState<string | null>(sessionStorage.getItem('adminToken'));
   const [isAuthenticated, setIsAuthenticated] = useState(!!sessionStorage.getItem('adminToken'));
@@ -464,7 +462,7 @@ export const AdminConsole: React.FC<AdminConsoleProps> = ({ setActiveView }) => 
     return (
       <section className="admin-login-section animate-fade-in">
         <div className="container login-container">
-          <button className="btn-secondary back-btn font-mono" onClick={() => setActiveView('home')}>
+          <button className="btn-secondary back-btn font-mono" onClick={() => navigate('/')}>
             <ArrowLeft size={14} style={{ marginRight: '0.4rem' }} /> BACK_TO_HOME
           </button>
           
@@ -589,7 +587,7 @@ export const AdminConsole: React.FC<AdminConsoleProps> = ({ setActiveView }) => 
             <h1 className="console-title font-sans">Admin Control Console</h1>
           </div>
           <div className="console-actions">
-            <button className="btn-secondary font-mono" onClick={() => setActiveView('home')}>
+            <button className="btn-secondary font-mono" onClick={() => navigate('/')}>
               <ExternalLink size={14} style={{ marginRight: '0.4rem' }} /> VIEW_SITE
             </button>
             <button className="btn-secondary logout-btn font-mono" onClick={handleLogout}>

@@ -1,16 +1,15 @@
 import React, { useState, useEffect } from 'react';
+import { useNavigate, useLocation } from 'react-router-dom';
 
-interface NavbarProps {
-  activeView: string;
-  setActiveView: (view: string) => void;
-}
-
-export const Navbar: React.FC<NavbarProps> = ({
-  activeView,
-  setActiveView,
-}) => {
+export const Navbar: React.FC = () => {
+  const navigate = useNavigate();
+  const location = useLocation();
   const [activeSection, setActiveSection] = useState('home');
   const [isScrolled, setIsScrolled] = useState(false);
+
+  const isHome = location.pathname === '/';
+  const isBlog = location.pathname.startsWith('/blog');
+  const isAdmin = location.pathname === '/admin';
 
   useEffect(() => {
     const handleNavbarScroll = () => {
@@ -26,17 +25,16 @@ export const Navbar: React.FC<NavbarProps> = ({
   }, []);
 
   useEffect(() => {
-    if (activeView === 'blog') {
+    if (isBlog) {
       setActiveSection('blog');
       return;
     }
-    if (activeView === 'roadmap') {
-      setActiveSection('roadmap');
+    if (!isHome) {
       return;
     }
 
     const sections = ['hero', 'expertise', 'work', 'experience', 'contact'];
-    
+
     const handleScroll = () => {
       const scrollPosition = window.scrollY + window.innerHeight / 3;
 
@@ -57,17 +55,19 @@ export const Navbar: React.FC<NavbarProps> = ({
     handleScroll();
 
     return () => window.removeEventListener('scroll', handleScroll);
-  }, [activeView]);
+  }, [location.pathname, isBlog, isHome]);
 
   const handleNavClick = (view: string, e: React.MouseEvent) => {
     e.preventDefault();
     if (view === 'home') {
-      setActiveView('home');
+      if (!isHome) {
+        navigate('/');
+      }
       window.scrollTo({ top: 0, behavior: 'smooth' });
       setActiveSection('home');
     } else {
-      if (activeView !== 'home') {
-        setActiveView('home');
+      if (!isHome) {
+        navigate('/');
         setTimeout(() => {
           const element = document.getElementById(view);
           if (element) {
@@ -94,7 +94,7 @@ export const Navbar: React.FC<NavbarProps> = ({
   ];
 
   return (
-    <nav className={`navbar-container ${isScrolled || activeView === 'blog' || activeView === 'admin' ? 'navbar-scrolled' : ''}`}>
+    <nav className={`navbar-container ${isScrolled || isBlog || isAdmin ? 'navbar-scrolled' : ''}`}>
       <div className="navbar-content">
         <a href="/" className="logo-link" onClick={(e) => handleNavClick('home', e)}>
           <img src="/inline_logo.png" alt="baqar.dev" className="logo-image" />
@@ -110,13 +110,13 @@ export const Navbar: React.FC<NavbarProps> = ({
               rel={item.id === 'roadmap' ? 'noopener noreferrer' : undefined}
               className={`nav-item ${
                 item.id === 'blog'
-                  ? activeView === 'blog' ? 'active-link' : ''
-                  : activeView === 'home' && activeSection === item.id ? 'active-link' : ''
+                  ? isBlog ? 'active-link' : ''
+                  : isHome && activeSection === item.id ? 'active-link' : ''
               }`}
               onClick={(e) => {
                 if (item.id === 'blog') {
                   e.preventDefault();
-                  setActiveView('blog');
+                  navigate('/blog');
                   window.scrollTo({ top: 0, behavior: 'smooth' });
                   setActiveSection('blog');
                 } else if (item.id === 'roadmap') {

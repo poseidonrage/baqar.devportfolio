@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { useParams, useNavigate } from 'react-router-dom';
 import { ArrowLeft, Clock, Calendar, User, Send } from 'lucide-react';
 
 interface BlogPost {
@@ -80,14 +81,8 @@ const renderBlogImage = (category: string) => {
 };
 
 export const Blog: React.FC = () => {
-  const [selectedPostId, setSelectedPostId] = useState<string | null>(() => {
-    const path = window.location.pathname;
-    if (path.startsWith('/blog/')) {
-      const slug = path.replace('/blog/', '');
-      return slug || null;
-    }
-    return null;
-  });
+  const { slug } = useParams<{ slug?: string }>();
+  const navigate = useNavigate();
   const [posts, setPosts] = useState<BlogPost[]>([]);
   const [loading, setLoading] = useState(true);
 
@@ -229,13 +224,13 @@ app.Run();`}
 
   // Fetch comments for active post
   useEffect(() => {
-    if (!selectedPostId) {
+    if (!slug) {
       setComments([]);
       return;
     }
 
     setCommentsLoading(true);
-    fetch(`/api/blogs/${selectedPostId}/comments`)
+    fetch(`/api/blogs/${slug}/comments`)
       .then((res) => {
         if (!res.ok) throw new Error('Failed to fetch comments');
         return res.json();
@@ -247,49 +242,16 @@ app.Run();`}
       })
       .catch((err) => console.error('Error fetching comments:', err))
       .finally(() => setCommentsLoading(false));
-  }, [selectedPostId]);
-
-  // Sync URL path with selectedPostId
-  useEffect(() => {
-    const path = window.location.pathname;
-    if (selectedPostId) {
-      const active = posts.find(p => p.id === selectedPostId || p.dbId?.toString() === selectedPostId || p.slug === selectedPostId);
-      if (active) {
-        const targetPath = `/blog/${active.id}`;
-        if (path !== targetPath) {
-          window.history.pushState(null, '', targetPath);
-        }
-      }
-    } else {
-      if (path !== '/blog' && path.startsWith('/blog')) {
-        window.history.pushState(null, '', '/blog');
-      }
-    }
-  }, [selectedPostId, posts]);
-
-  // Handle popstate for blog post back navigation
-  useEffect(() => {
-    const handlePopState = () => {
-      const path = window.location.pathname;
-      if (path.startsWith('/blog/')) {
-        const slug = path.replace('/blog/', '');
-        setSelectedPostId(slug || null);
-      } else if (path === '/blog') {
-        setSelectedPostId(null);
-      }
-    };
-    window.addEventListener('popstate', handlePopState);
-    return () => window.removeEventListener('popstate', handlePopState);
-  }, []);
+  }, [slug]);
 
   // Handle comment submit
   const handleCommentSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!commentForm.author.trim() || !commentForm.content.trim() || !selectedPostId) return;
+    if (!commentForm.author.trim() || !commentForm.content.trim() || !slug) return;
 
     setCommentStatus('sending');
     try {
-      const res = await fetch(`/api/blogs/${selectedPostId}/comments`, {
+      const res = await fetch(`/api/blogs/${slug}/comments`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
@@ -314,10 +276,10 @@ app.Run();`}
     }
   };
 
-  const activePost = posts.find(p => 
-    p.id === selectedPostId || 
-    p.dbId?.toString() === selectedPostId || 
-    p.slug === selectedPostId
+  const activePost = posts.find(p =>
+    p.id === slug ||
+    p.dbId?.toString() === slug ||
+    p.slug === slug
   );
 
   return (
@@ -337,7 +299,7 @@ app.Run();`}
 
             <div className="blog-grid">
               {posts.map((post) => (
-                <article key={post.id} className="glass-card blog-card" onClick={() => setSelectedPostId(post.id)}>
+                <article key={post.id} className="glass-card blog-card" onClick={() => navigate('/blog/' + post.id)}>
                   <div className="blog-image-wrapper">
                     {renderBlogImage(post.category)}
                   </div>
@@ -363,7 +325,7 @@ app.Run();`}
           </>
         ) : (
           <div className="blog-post-view animate-fade-in">
-            <button className="btn-secondary back-btn" onClick={() => setSelectedPostId(null)}>
+            <button className="btn-secondary back-btn" onClick={() => navigate('/blog')}>
               <ArrowLeft size={16} /> Back to Blog
             </button>
 

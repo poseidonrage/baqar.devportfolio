@@ -1,5 +1,59 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Mail, Copy, Check, Send } from 'lucide-react';
+
+const renderTechLogo = (logoName: string) => {
+  switch (logoName) {
+    case 'javascript':
+      return (
+        <svg viewBox="0 0 100 100" style={{ width: '100%', height: '100%' }}>
+          <rect width="100" height="100" fill="#F7DF1E" rx="8" />
+          <path d="M63 73c0 7-4 10-10 10-6 0-10-3-11-8h7c1 3 2 4 4 4 2 0 3-1 3-3V38h7v35zm27-14c0 7-4 10-10 10-6 0-9-3-11-8h7c1 3 2 4 4 4 2 0 3-1 3-3V59c0-3-2-4-5-5l-4-1c-5-2-7-5-7-10 0-6 4-9 10-9s9 3 10 7h-7c0-2-1-3-3-3-2 0-3 1-3 3v2c0 2 2 4 5 5l4 1c5 1 8 4 8 10z" fill="#000000" />
+        </svg>
+      );
+    case 'typescript':
+      return (
+        <svg viewBox="0 0 100 100" style={{ width: '100%', height: '100%' }}>
+          <rect width="100" height="100" fill="#3178C6" rx="8" />
+          <path d="M43.7 38H25.3v6.5h6v28.8h6.8V44.5h6v-6.5zM67.3 52.4c-3.1-1.7-6.2-2.1-7.7-2.1-3 0-4.3 1.1-4.3 2.5s1.2 2.2 4.1 3c5.5 1.5 10.3 3.6 10.3 9.4 0 6.6-5.8 8.8-11.8 8.8-6.9 0-12-2.9-12-7.9h6.9c.1 2.3 2.9 3.6 5.2 3.6 2.8 0 4.7-1.1 4.7-2.9s-1.8-2.2-4.5-2.9c-5.8-1.5-10-3.6-10-9 0-5.8 4.9-8.4 11-8.4 5.6 0 10.1 2.1 10.1 6.5h-6.9v-.1z" fill="#FFFFFF" />
+        </svg>
+      );
+    case 'react':
+      return (
+        <svg viewBox="0 0 100 100" style={{ width: '100%', height: '100%' }}>
+          <ellipse cx="50" cy="50" rx="16" ry="42" fill="none" stroke="#61DAFB" strokeWidth="4.5" transform="rotate(30 50 50)" />
+          <ellipse cx="50" cy="50" rx="16" ry="42" fill="none" stroke="#61DAFB" strokeWidth="4.5" transform="rotate(90 50 50)" />
+          <ellipse cx="50" cy="50" rx="16" ry="42" fill="none" stroke="#61DAFB" strokeWidth="4.5" transform="rotate(150 50 50)" />
+          <circle cx="50" cy="50" r="7.5" fill="#61DAFB" />
+        </svg>
+      );
+    case 'docker':
+      return (
+        <svg viewBox="0 0 100 100" style={{ width: '100%', height: '100%' }}>
+          <rect x="25" y="16" width="10" height="9" fill="#2496ED" rx="1" />
+          <rect x="37" y="16" width="10" height="9" fill="#2496ED" rx="1" />
+          <rect x="49" y="16" width="10" height="9" fill="#2496ED" rx="1" />
+          <rect x="31" y="27" width="10" height="9" fill="#2496ED" rx="1" />
+          <rect x="43" y="27" width="10" height="9" fill="#2496ED" rx="1" />
+          <rect x="55" y="27" width="10" height="9" fill="#2496ED" rx="1" />
+          <rect x="67" y="27" width="10" height="9" fill="#2496ED" rx="1" />
+          <rect x="37" y="38" width="10" height="9" fill="#2496ED" rx="1" />
+          <rect x="49" y="38" width="10" height="9" fill="#2496ED" rx="1" />
+          <rect x="61" y="38" width="10" height="9" fill="#2496ED" rx="1" />
+          <path d="M85 53c-1.3-4-5-6.8-9-6.8h-7.2c-1 .8-2.3 1.2-3.8 1.2H25c-8.3 0-15 6.7-15 15 0 2.2.5 4.3 1.4 6.2 3.1 6.5 9.8 10.8 17.6 10.8h30c14.3 0 26-11.7 26-26 0-1.8-.2-3.6-.6-5.4zM90 40c2.8 0 5 2.2 5 5s-2.2 5-5 5-5-2.2-5-5 2.2-5 5-5z" fill="#2496ED" />
+        </svg>
+      );
+    case 'blazor':
+      return (
+        <svg viewBox="0 0 100 100" style={{ width: '100%', height: '100%' }}>
+          <path d="M12,50 C12,29 29,12 50,12 C71,12 88,29 88,50 C88,71 71,88 50,88 C29,88 12,71 12,50 Z" fill="#512BD4" />
+          <path d="M50,22 C34.5,22 22,34.5 22,50 C22,65.5 34.5,78 50,78 C65.5,78 78,65.5 78,50 C78,34.5 65.5,22 50,22 Z M50,68 C40.1,68 32,59.9 32,50 C32,40.1 40.1,32 50,32 C59.9,32 68,40.1 68,50 C68,59.9 59.9,68 50,68 Z" fill="#FFFFFF" />
+          <path d="M38,50 C38,43.4 43.4,38 50,38 C56.6,38 62,43.4 62,50 C62,56.6 56.6,62 50,62 C43.4,62 38,56.6 38,50 Z" fill="#8B4DFF" />
+        </svg>
+      );
+    default:
+      return null;
+  }
+};
 
 const LinkedinIcon = (props: React.SVGProps<SVGSVGElement>) => (
   <svg viewBox="0 0 24 24" width="24" height="24" stroke="currentColor" strokeWidth="2" fill="none" strokeLinecap="round" strokeLinejoin="round" {...props}>
@@ -47,6 +101,40 @@ export const Contact: React.FC = () => {
       }, 1500);
     }
   };
+
+  // Scroll-driven parallax for contact floating blocks
+  useEffect(() => {
+    const section = document.querySelector('.contact-section');
+    if (!section) return;
+    const wraps = section.querySelectorAll<HTMLElement>('.cblock-wrap');
+    if (!wraps.length) return;
+
+    const driftConfig = [
+      { sx: -120, sy: 100, scale: 0.3 },    // block 1: bottom-left → down-left
+      { sx: -90, sy: 50, scale: 0.25 },     // block 2: mid-left → left
+      { sx: -60, sy: 130, scale: 0.3 },     // block 3: bottom-left → down
+      { sx: -140, sy: 80, scale: 0.3 },     // block 4: upper-left → down-left
+    ];
+
+    const onScroll = () => {
+      const rect = section.getBoundingClientRect();
+      // progress: 0 = section top at viewport top, 1 = section fully scrolled past
+      const progress = Math.max(0, Math.min(1, -rect.top / rect.height));
+      const eased = progress * progress; // ease-in curve
+
+      wraps.forEach((wrap, i) => {
+        const cfg = driftConfig[i] || { sx: 0, sy: 0, scale: 0 };
+        const tx = cfg.sx * eased;
+        const ty = cfg.sy * eased;
+        const sc = 1 + (cfg.scale * eased);
+        wrap.style.transform = `translate3d(${tx}px, ${ty}px, 0) scale(${sc})`;
+      });
+    };
+
+    window.addEventListener('scroll', onScroll, { passive: true });
+    onScroll();
+    return () => window.removeEventListener('scroll', onScroll);
+  }, []);
 
   return (
     <section className="contact-section" id="contact">
@@ -152,9 +240,51 @@ export const Contact: React.FC = () => {
         </div>
       </div>
 
+      {/* Background effects — dark room */}
+      <div className="contact-bg-effects">
+        <div className="cspotlight-vignette"></div>
+      </div>
+
+      {/* Floating blocks layer — NO overflow:hidden */}
+      <div className="contact-blocks-layer">
+        <div className="cglow-line cgl-1"></div>
+        <div className="cglow-line cgl-2"></div>
+
+        {/* 4 floating 3D cubes — bottom left */}
+        <div className="cblock-wrap" style={{ bottom: '6%', left: '2%' }}>
+          <div className="cblock-drift cdrift-1">
+            <div className="cube-card cblock-tilt-1 cblock-dark">
+              <div className="cblock-face">{renderTechLogo('javascript')}</div>
+            </div>
+          </div>
+        </div>
+        <div className="cblock-wrap" style={{ bottom: '18%', left: '6%' }}>
+          <div className="cblock-drift cdrift-2">
+            <div className="cube-card cblock-tilt-2 cblock-gold"></div>
+          </div>
+        </div>
+        <div className="cblock-wrap" style={{ bottom: '4%', left: '14%' }}>
+          <div className="cblock-drift cdrift-3">
+            <div className="cube-card cblock-tilt-3 cblock-dark">
+              <div className="cblock-face">{renderTechLogo('docker')}</div>
+            </div>
+          </div>
+        </div>
+        <div className="cblock-wrap" style={{ bottom: '26%', left: '1%' }}>
+          <div className="cblock-drift cdrift-4">
+            <div className="cube-card cblock-tilt-4 cblock-gold"></div>
+          </div>
+        </div>
+      </div>
+
       <style>{`
         .contact-section {
           position: relative;
+          background: #050608;
+        }
+        .contact-section .container {
+          position: relative;
+          z-index: 2;
         }
         .contact-info-column {
           display: flex;
@@ -277,6 +407,122 @@ export const Contact: React.FC = () => {
           justify-content: center;
           margin-top: 0.5rem;
         }
+
+        /* ═══════════════ CONTACT BACKGROUND EFFECTS ═══════════════ */
+        .contact-bg-effects {
+          position: absolute;
+          top: 0; left: 0;
+          width: 100%; height: 100%;
+          z-index: 0;
+          pointer-events: none;
+          background-image: radial-gradient(circle, rgba(255,255,255,0.022) 1px, transparent 1px);
+          background-size: 34px 34px;
+        }
+        .contact-blocks-layer {
+          position: absolute;
+          top: 0; left: 0;
+          width: 100%; height: 100%;
+          z-index: 1;
+          pointer-events: none;
+        }
+
+        /* Spotlight vignette */
+        .cspotlight-vignette {
+          position: absolute;
+          top: 0; left: 0;
+          width: 100%; height: 100%;
+          pointer-events: none;
+          z-index: 2;
+          background: radial-gradient(
+            ellipse 80% 55% at 50% 70%,
+            rgba(255, 160, 60, 0.06) 0%,
+            rgba(5, 6, 8, 0.0) 45%,
+            rgba(5, 6, 8, 0.25) 75%,
+            rgba(2, 3, 5, 0.6) 92%,
+            #000000 100%
+          );
+        }
+
+        /* Glow lines */
+        .cglow-line {
+          position: absolute;
+          height: 1.5px;
+          border-radius: 1px;
+          pointer-events: none;
+          z-index: -1;
+          opacity: 0.45;
+        }
+        .cgl-1 {
+          width: 40%; bottom: 18%; left: 0%;
+          background: linear-gradient(90deg, transparent 0%, rgba(255,150,50,0.5) 30%, rgba(255,130,40,0.7) 60%, transparent 100%);
+          filter: blur(1.5px);
+          transform: rotate(-3deg);
+        }
+        .cgl-2 {
+          width: 30%; bottom: 8%; left: 5%;
+          background: linear-gradient(90deg, transparent 0%, rgba(255,170,70,0.4) 30%, rgba(255,150,50,0.6) 70%, transparent 100%);
+          filter: blur(2px);
+          transform: rotate(2deg);
+        }
+
+        /* 3D Cubes */
+        .cblock-wrap {
+          position: absolute;
+          z-index: 0;
+          pointer-events: none;
+          will-change: transform;
+        }
+        .cblock-drift {
+          display: flex;
+          align-items: center;
+          justify-content: center;
+        }
+        .cube-card {
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          border-radius: 16px;
+          border: 1px solid rgba(255, 255, 255, 0.06);
+          box-shadow: 0 14px 30px -10px rgba(0, 0, 0, 0.6), inset 0 1px 0 rgba(255, 255, 255, 0.08);
+        }
+        .cblock-dark {
+          background: linear-gradient(145deg, #3a3f4d, #262a32);
+        }
+        .cblock-gold {
+          background: linear-gradient(145deg, #ffe4b3, #ffc44d);
+          border-color: rgba(255, 255, 255, 0.18);
+        }
+        .cblock-tilt-1 { width: 62px; height: 62px; transform: rotate(-12deg); }
+        .cblock-tilt-2 { width: 44px; height: 44px; transform: rotate(10deg); }
+        .cblock-tilt-3 { width: 56px; height: 56px; transform: rotate(8deg); }
+        .cblock-tilt-4 { width: 50px; height: 50px; transform: rotate(-9deg); }
+
+        .cblock-face {
+          width: 55%;
+          height: 55%;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+        }
+        .cblock-face svg {
+          width: 100%;
+          height: 100%;
+          filter: drop-shadow(0 2px 3px rgba(0,0,0,0.5));
+        }
+
+        /* Drift animations */
+        @keyframes cdrift-lr {
+          0%, 100% { transform: translateX(-20px); }
+          50% { transform: translateX(20px); }
+        }
+        @keyframes cdrift-rl {
+          0%, 100% { transform: translateX(20px); }
+          50% { transform: translateX(-20px); }
+        }
+        .cdrift-1 { animation: cdrift-lr 5.8s ease-in-out infinite; }
+        .cdrift-2 { animation: cdrift-rl 7.8s ease-in-out infinite; }
+        .cdrift-3 { animation: cdrift-lr 5.1s ease-in-out infinite; }
+        .cdrift-4 { animation: cdrift-rl 6.8s ease-in-out infinite; }
       `}</style>
     </section>
   );

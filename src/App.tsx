@@ -1,4 +1,5 @@
-import { useState, useEffect } from 'react';
+import { useEffect } from 'react';
+import { Routes, Route, useLocation } from 'react-router-dom';
 import { Navbar } from './components/Navbar';
 import { Hero } from './components/Hero';
 import { Expertise } from './components/Expertise';
@@ -11,55 +12,25 @@ import { SectionSeparator } from './components/SectionSeparator';
 import { AdminConsole } from './components/AdminConsole';
 import { RoadmapTracker } from './components/RoadmapTracker';
 
+function HomePage() {
+  return (
+    <>
+      <Hero />
+      <SectionSeparator leftText="0x01" rightText="load_expertise" />
+      <Expertise />
+      <SectionSeparator leftText="0x02" rightText="query_projects" />
+      <Projects />
+      <SectionSeparator leftText="0x03" rightText="read_timeline" />
+      <Experience />
+      <SectionSeparator leftText="0x04" rightText="handshake_sync" />
+      <Contact />
+    </>
+  );
+}
+
 function App() {
-  const [activeView, setActiveView] = useState(() => {
-    const path = window.location.pathname;
-    if (path === '/roadmap') {
-      return 'roadmap';
-    }
-    if (path.startsWith('/blog')) {
-      return 'blog';
-    }
-    if (path === '/admin') {
-      return 'admin';
-    }
-    return 'home';
-  });
-
-  // Sync browser path with activeView when it changes
-  useEffect(() => {
-    const currentPath = window.location.pathname;
-    if (activeView === 'roadmap' && currentPath !== '/roadmap') {
-      window.history.pushState(null, '', '/roadmap');
-    } else if (activeView === 'blog') {
-      if (!currentPath.startsWith('/blog')) {
-        window.history.pushState(null, '', '/blog');
-      }
-    } else if (activeView === 'admin' && currentPath !== '/admin') {
-      window.history.pushState(null, '', '/admin');
-    } else if (activeView === 'home' && currentPath !== '/') {
-      window.history.pushState(null, '', '/');
-    }
-  }, [activeView]);
-
-  // Handle popstate event (browser back/forward buttons)
-  useEffect(() => {
-    const handlePopState = () => {
-      const path = window.location.pathname;
-      if (path === '/roadmap') {
-        setActiveView('roadmap');
-      } else if (path.startsWith('/blog')) {
-        setActiveView('blog');
-      } else if (path === '/admin') {
-        setActiveView('admin');
-      } else {
-        setActiveView('home');
-      }
-    };
-
-    window.addEventListener('popstate', handlePopState);
-    return () => window.removeEventListener('popstate', handlePopState);
-  }, []);
+  const location = useLocation();
+  const isRoadmap = location.pathname === '/roadmap';
 
   useEffect(() => {
     fetch('/api/stats', {
@@ -71,50 +42,30 @@ function App() {
         referrer: document.referrer || '',
         userAgent: navigator.userAgent || '',
         user_agent: navigator.userAgent || '',
-        pagePath: window.location.pathname || '',
-        page_path: window.location.pathname || '',
-        path: window.location.pathname || '',
+        pagePath: location.pathname || '',
+        page_path: location.pathname || '',
+        path: location.pathname || '',
       }),
     }).catch((err) => console.error('Failed to log stats:', err));
-  }, []);
+  }, [location.pathname]);
 
   return (
     <div className="app-wrapper">
-      {activeView !== 'roadmap' && <CustomCursor />}
-      {activeView !== 'roadmap' && (
-        <Navbar
-          activeView={activeView}
-          setActiveView={setActiveView}
-        />
-      )}
+      {!isRoadmap && <CustomCursor />}
+      {!isRoadmap && <Navbar />}
 
       <main className="main-content">
-        {activeView === 'home' ? (
-          <>
-            <Hero setActiveView={setActiveView} />
-            <SectionSeparator leftText="0x01" rightText="load_expertise" />
-            <Expertise />
-            <SectionSeparator leftText="0x02" rightText="query_projects" />
-            <Projects />
-            <SectionSeparator leftText="0x03" rightText="read_timeline" />
-            <Experience />
-            <SectionSeparator leftText="0x04" rightText="handshake_sync" />
-            <Contact />
-          </>
-        ) : activeView === 'roadmap' ? (
-          <RoadmapTracker />
-        ) : activeView === 'admin' ? (
-          <div className="admin-view-wrapper">
-            <AdminConsole setActiveView={setActiveView} />
-          </div>
-        ) : (
-          <div className="blog-view-wrapper">
-            <Blog />
-          </div>
-        )}
+        <Routes>
+          <Route path="/" element={<HomePage />} />
+          <Route path="/blog" element={<div className="blog-view-wrapper"><Blog /></div>} />
+          <Route path="/blog/:slug" element={<div className="blog-view-wrapper"><Blog /></div>} />
+          <Route path="/admin" element={<div className="admin-view-wrapper"><AdminConsole /></div>} />
+          <Route path="/roadmap" element={<RoadmapTracker />} />
+          <Route path="*" element={<HomePage />} />
+        </Routes>
       </main>
 
-      {activeView !== 'roadmap' && (
+      {!isRoadmap && (
         <footer className="footer font-mono">
           <div className="container footer-container">
             <p>© {new Date().getFullYear()}. Made with passion by Baqar Hussain Naqvi.</p>
@@ -170,4 +121,3 @@ function App() {
 }
 
 export default App;
-
