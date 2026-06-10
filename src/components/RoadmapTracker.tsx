@@ -252,7 +252,7 @@ const highlightCode = (code: string, lang: 'csharp' | 'python') => {
     .replace(/>/g, "&gt;");
 
   const tokens: string[] = [];
-  
+
   const commentRegex = lang === 'csharp' ? /(\/\/.*)/g : /(\#.*)/g;
   const stringRegex = /("(?:[^"\\]|\\.)*"|'(?:[^'\\]|\\.)*')/g;
 
@@ -270,7 +270,7 @@ const highlightCode = (code: string, lang: 'csharp' | 'python') => {
 
   const csharpKeywords = /\b(public|private|protected|async|await|var|new|class|interface|string|int|void|return|try|catch|finally|null|using|namespace|get|set)\b/g;
   const pythonKeywords = /\b(def|async|await|import|class|None|pass|try|except|finally|from|in|if|as|and|or|not|elif|else|import)\b/g;
-  
+
   const csharpTypes = /\b(Console|WriteLine|List|Dictionary|Task|Exception|DoWork|Cleanup|Log|FetchDataAsync|Delay)\b/g;
   const pythonTypes = /\b(print|asyncio|sleep|append|len|range|self|do_work|cleanup|log|str|fetch_data_async)\b/g;
 
@@ -296,6 +296,90 @@ const highlightCode = (code: string, lang: 'csharp' | 'python') => {
   return escaped;
 };
 
+const PROJECTS = [
+  {
+    id: 1, monthId: 1, weeks: 'Week 3',
+    title: 'AI Clinical Assistant',
+    techStack: ['Python', 'FastAPI', 'OpenAI API', 'Pydantic'],
+    input: 'List of symptoms as strings',
+    output: 'Possible conditions + suggested next steps',
+    note: 'POST /analyze-symptoms',
+    type: 'api',
+  },
+  {
+    id: 2, monthId: 1, weeks: 'Week 4',
+    title: 'Insurance Authorization Assistant',
+    techStack: ['Python', 'FastAPI', 'OpenAI', 'Pydantic'],
+    input: 'Patient info + insurance type + procedure',
+    output: 'Structured JSON: approved/denied, checklist, missing docs',
+    note: 'Few-shot + XML tags + structured output',
+    type: 'agent',
+  },
+  {
+    id: 3, monthId: 2, weeks: 'Week 6',
+    title: 'Hospital Policy Assistant',
+    techStack: ['Python', 'FastAPI', 'LangChain', 'PDF splitter'],
+    input: 'Hospital Policy PDF manuals',
+    output: 'Split text chunks + source metadata mapping',
+    note: 'POST /ingest',
+    type: 'rag',
+  },
+  {
+    id: 4, monthId: 2, weeks: 'Week 7',
+    title: 'Smart Claims Validation Pipeline',
+    techStack: ['Python', 'FastAPI', 'LangGraph', 'SQLite'],
+    input: 'Claim requests (membership, pre-auth, code checks)',
+    output: 'Validation reports + audit history + approval flags',
+    note: 'Human audit gate if claim > $5,000',
+    type: 'agent',
+  },
+  {
+    id: 5, monthId: 3, weeks: 'Weeks 9–13',
+    title: 'AKHST Knowledge Assistant',
+    techStack: ['Python', 'FastAPI', 'Qdrant', 'Hybrid Search', 'RAGAS'],
+    input: 'Insurance policy PDFs + user query',
+    output: 'Cited answers + policy references',
+    note: 'RAGAS Faithfulness target: > 0.85',
+    type: 'rag',
+  },
+  {
+    id: 6, monthId: 4, weeks: 'Weeks 14–17',
+    title: 'Insurance Multi-Agent System',
+    techStack: ['Python', 'CrewAI', 'LangGraph', 'Supervisor pattern'],
+    input: 'Complex insurance tasks needing multi-step reasoning',
+    output: 'Coordinated agent outputs + human approval workflow',
+    note: 'Supervisor → Claims Analyst + Auditor agents',
+    type: 'agent',
+  },
+  {
+    id: 7, monthId: 5, weeks: 'Weeks 18–19',
+    title: 'Hospital Search MCP Server',
+    techStack: ['Python', 'SQLite', 'FastMCP', 'SSE Transport'],
+    input: 'Mock patient DB + natural language queries',
+    output: 'Structured query results via SSE transport',
+    note: 'SQL validation + SSE HTTP endpoint',
+    type: 'api',
+  },
+  {
+    id: 8, monthId: 5, weeks: 'Weeks 20–21',
+    title: 'Voice Medical Assistant',
+    techStack: ['Python', 'Whisper', 'Claude API', 'ElevenLabs TTS'],
+    input: 'Voice input via microphone',
+    output: 'Synthesized spoken clinical response',
+    note: 'STT → LLM → TTS streaming pipeline',
+    type: 'voice',
+  },
+  {
+    id: 9, monthId: 6, weeks: 'Weeks 22–23',
+    title: 'Insurance Copilot SaaS',
+    techStack: ['Next.js', 'FastAPI', 'Clerk/Supabase', 'ECS Fargate'],
+    input: 'User account + insurance data',
+    output: 'React dashboard + streaming AI responses + PDF export',
+    note: 'Frontend: React · Backend: FastAPI on ECS',
+    type: 'saas',
+  },
+] as const;
+
 export const RoadmapTracker: React.FC = () => {
   const [curriculum] = useState<Month[]>(curriculumData as Month[]);
   const [completedTaskIds, setCompletedTaskIds] = useState<Record<string, boolean>>({});
@@ -303,7 +387,6 @@ export const RoadmapTracker: React.FC = () => {
   const [activeMonthId, setActiveMonthId] = useState<number>(1);
   const [activeWeekId, setActiveWeekId] = useState<number>(1);
 
-  // Theme state
   const [theme, setTheme] = useState<'light' | 'dark'>(() => {
     const savedTheme = localStorage.getItem('roadmapTheme');
     if (savedTheme === 'light' || savedTheme === 'dark') return savedTheme;
@@ -314,7 +397,6 @@ export const RoadmapTracker: React.FC = () => {
     localStorage.setItem('roadmapTheme', theme);
   }, [theme]);
 
-  // Auth state
   const [role, setRole] = useState<'admin' | 'visitor' | null>(() => {
     const savedRole = sessionStorage.getItem('roadmapRole');
     if (savedRole === 'admin' || savedRole === 'visitor') return savedRole;
@@ -325,7 +407,6 @@ export const RoadmapTracker: React.FC = () => {
     return sessionStorage.getItem('roadmapToken') || sessionStorage.getItem('adminToken');
   });
 
-  // UI state
   const [showLoginModal, setShowLoginModal] = useState<boolean>(false);
   const [loginUsername, setLoginUsername] = useState<string>('');
   const [loginPassword, setLoginPassword] = useState<string>('');
@@ -333,14 +414,12 @@ export const RoadmapTracker: React.FC = () => {
   const [isLoggingIn, setIsLoggingIn] = useState<boolean>(false);
   const [pendingAction, setPendingAction] = useState<string | null>(null);
 
-  // Journal form state
   const [learnedText, setLearnedText] = useState<string>('');
   const [difficultiesText, setDifficultiesText] = useState<string>('');
   const [notesText, setNotesText] = useState<string>('');
   const [isSavingJournal, setIsSavingJournal] = useState<boolean>(false);
   const [saveStatus, setSaveStatus] = useState<boolean>(false);
 
-  // Search and glossary modal states
   const [glossarySearch, setGlossarySearch] = useState<string>('');
   const [showGlossaryModal, setShowGlossaryModal] = useState<boolean>(false);
   const [glossaryCategory, setGlossaryCategory] = useState<string>('all');
@@ -348,19 +427,13 @@ export const RoadmapTracker: React.FC = () => {
 
   const renderDayTypeIcon = (type: string) => {
     const typeLower = type.toLowerCase();
-    if (typeLower === 'learn') {
-      return <BookOpen size={11} strokeWidth={2.5} style={{ marginRight: '4px' }} />;
-    } else if (typeLower === 'code') {
-      return <Code size={11} strokeWidth={2.5} style={{ marginRight: '4px' }} />;
-    } else if (typeLower === 'build') {
-      return <Wrench size={11} strokeWidth={2.5} style={{ marginRight: '4px' }} />;
-    } else if (typeLower === 'review') {
-      return <CheckSquare size={11} strokeWidth={2.5} style={{ marginRight: '4px' }} />;
-    }
+    if (typeLower === 'learn') return <BookOpen size={11} strokeWidth={2.5} style={{ marginRight: '4px' }} />;
+    if (typeLower === 'code') return <Code size={11} strokeWidth={2.5} style={{ marginRight: '4px' }} />;
+    if (typeLower === 'build') return <Wrench size={11} strokeWidth={2.5} style={{ marginRight: '4px' }} />;
+    if (typeLower === 'review') return <CheckSquare size={11} strokeWidth={2.5} style={{ marginRight: '4px' }} />;
     return null;
   };
 
-  // Automatically check if portfolio admin session changes
   useEffect(() => {
     const adminToken = sessionStorage.getItem('adminToken');
     const loggedOut = sessionStorage.getItem('roadmapLoggedOut');
@@ -372,7 +445,6 @@ export const RoadmapTracker: React.FC = () => {
     }
   }, [role]);
 
-  // Load progress and journals when token/role changes
   useEffect(() => {
     if (token && role) {
       fetchProgressAndJournals();
@@ -382,7 +454,6 @@ export const RoadmapTracker: React.FC = () => {
     }
   }, [token, role]);
 
-  // Sync journal draft state when active week changes
   useEffect(() => {
     const journalId = `week_${activeWeekId}`;
     const entry = journal[journalId];
@@ -403,7 +474,6 @@ export const RoadmapTracker: React.FC = () => {
     if (!activeToken) return;
     try {
       const headers = { 'Authorization': `Bearer ${activeToken}` };
-
       const [progressRes, journalRes] = await Promise.all([
         fetch('/api/roadmap/progress', { headers }),
         fetch('/api/roadmap/journal', { headers })
@@ -418,14 +488,12 @@ export const RoadmapTracker: React.FC = () => {
         const progressData = await progressRes.json();
         const journalData = await journalRes.json();
 
-        // Convert progress list to map
         const progressMap: Record<string, boolean> = {};
         progressData.forEach((p: { taskId: string; completed: boolean }) => {
           progressMap[p.taskId] = p.completed;
         });
         setCompletedTaskIds(progressMap);
 
-        // Convert journal array to map
         const journalMap: Record<string, JournalEntry> = {};
         journalData.forEach((j: { weekId: string; learned: string; difficulties: string; notes: string }) => {
           journalMap[j.weekId] = j;
@@ -452,9 +520,7 @@ export const RoadmapTracker: React.FC = () => {
       });
 
       const data = await res.json();
-      if (!res.ok) {
-        throw new Error(data.error || 'Authentication failed');
-      }
+      if (!res.ok) throw new Error(data.error || 'Authentication failed');
 
       sessionStorage.setItem('roadmapToken', data.token);
       sessionStorage.setItem('roadmapRole', data.role);
@@ -470,25 +536,18 @@ export const RoadmapTracker: React.FC = () => {
       setLoginUsername('');
       setLoginPassword('');
 
-      // Fetch user's existing progress using the new token
       const fetchedData = await fetchProgressAndJournals(data.token);
 
-      // Automatically execute the pending action that prompted the login modal
       if (pendingAction) {
         if (pendingAction.startsWith('toggle_')) {
           const taskId = pendingAction.replace('toggle_', '');
           const wasCompleted = fetchedData ? !!fetchedData.progressMap[taskId] : false;
           const isCompleted = !wasCompleted;
-          
           setCompletedTaskIds(prev => ({ ...prev, [taskId]: isCompleted }));
-          
           try {
             await fetch('/api/roadmap/progress', {
               method: 'POST',
-              headers: {
-                'Content-Type': 'application/json',
-                'Authorization': `Bearer ${data.token}`
-              },
+              headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${data.token}` },
               body: JSON.stringify({ taskId, completed: isCompleted })
             });
           } catch (err) {
@@ -500,25 +559,12 @@ export const RoadmapTracker: React.FC = () => {
           try {
             await fetch('/api/roadmap/journal', {
               method: 'POST',
-              headers: {
-                'Content-Type': 'application/json',
-                'Authorization': `Bearer ${data.token}`
-              },
-              body: JSON.stringify({
-                id: journalId,
-                learned: learnedText,
-                difficulties: difficultiesText,
-                notes: notesText
-              })
+              headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${data.token}` },
+              body: JSON.stringify({ id: journalId, learned: learnedText, difficulties: difficultiesText, notes: notesText })
             });
             setJournal(prev => ({
               ...prev,
-              [journalId]: {
-                weekId: journalId,
-                learned: learnedText,
-                difficulties: difficultiesText,
-                notes: notesText
-              }
+              [journalId]: { weekId: journalId, learned: learnedText, difficulties: difficultiesText, notes: notesText }
             }));
             setSaveStatus(true);
             setTimeout(() => setSaveStatus(false), 3000);
@@ -557,22 +603,15 @@ export const RoadmapTracker: React.FC = () => {
 
     const wasCompleted = !!completedTaskIds[taskId];
     const isCompleted = !wasCompleted;
-
     setCompletedTaskIds(prev => ({ ...prev, [taskId]: isCompleted }));
 
     try {
       const res = await fetch('/api/roadmap/progress', {
         method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${token}`
-        },
+        headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` },
         body: JSON.stringify({ taskId, completed: isCompleted })
       });
-
-      if (!res.ok) {
-        throw new Error();
-      }
+      if (!res.ok) throw new Error();
     } catch (err) {
       console.error('Failed to update task completion:', err);
       setCompletedTaskIds(prev => ({ ...prev, [taskId]: wasCompleted }));
@@ -592,32 +631,16 @@ export const RoadmapTracker: React.FC = () => {
     try {
       const res = await fetch('/api/roadmap/journal', {
         method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${token}`
-        },
-        body: JSON.stringify({
-          id: journalId,
-          learned: learnedText,
-          difficulties: difficultiesText,
-          notes: notesText
-        })
+        headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` },
+        body: JSON.stringify({ id: journalId, learned: learnedText, difficulties: difficultiesText, notes: notesText })
       });
 
-      if (!res.ok) {
-        throw new Error();
-      }
+      if (!res.ok) throw new Error();
 
       setJournal(prev => ({
         ...prev,
-        [journalId]: {
-          weekId: journalId,
-          learned: learnedText,
-          difficulties: difficultiesText,
-          notes: notesText
-        }
+        [journalId]: { weekId: journalId, learned: learnedText, difficulties: difficultiesText, notes: notesText }
       }));
-
       setSaveStatus(true);
       setTimeout(() => setSaveStatus(false), 3000);
     } catch (err) {
@@ -636,7 +659,6 @@ export const RoadmapTracker: React.FC = () => {
     }
   };
 
-  // Calculations
   let totalTasks = 0;
   let completedTasks = 0;
   let totalHours = 0;
@@ -645,9 +667,7 @@ export const RoadmapTracker: React.FC = () => {
   curriculum.forEach(m => {
     m.weeks.forEach(w => {
       const hrMatch = w.focus_hours.match(/(\d+)\s*hours?/i);
-      if (hrMatch) {
-        totalHours += parseInt(hrMatch[1], 10);
-      }
+      if (hrMatch) totalHours += parseInt(hrMatch[1], 10);
       w.days.forEach(d => {
         d.tasks.forEach(t => {
           totalTasks++;
@@ -662,7 +682,7 @@ export const RoadmapTracker: React.FC = () => {
   const activeMonth = curriculum.find(m => m.id === activeMonthId);
   const activeWeek = activeMonth?.weeks.find(w => w.id === activeWeekId);
 
-  const filteredDays = activeWeek 
+  const filteredDays = activeWeek
     ? (weekSearch.trim() === ''
       ? activeWeek.days
       : activeWeek.days.map(day => {
@@ -673,18 +693,65 @@ export const RoadmapTracker: React.FC = () => {
         }).filter(day => day.tasks.length > 0))
     : [];
 
+  const RING_R = 22;
+  const RING_CIRC = 2 * Math.PI * RING_R; // 138.23
+  const NODE_R = 11;
+  const NODE_CIRC = 2 * Math.PI * NODE_R; // 69.11
+
   return (
     <div className={`roadmap-wrapper theme-${theme}`}>
       <div className="roadmap-app-container container">
-        {/* Header */}
+
+        {/* ── Header: ring | title | kpi + auth ── */}
         <header className="roadmap-header">
-          <div className="roadmap-version-badge font-mono">
-            <span className="roadmap-badge-dot"></span>
-            <span>GENAI ROADMAP // INTERACTIVE TRACKER</span>
+          <div className="roadmap-progress-ring-wrap">
+            <svg viewBox="0 0 56 56" width="56" height="56">
+              <circle className="roadmap-ring-track" cx="28" cy="28" r={RING_R} />
+              <circle
+                className="roadmap-ring-fill"
+                cx="28" cy="28" r={RING_R}
+                strokeDasharray={RING_CIRC}
+                strokeDashoffset={RING_CIRC * (1 - overallPercent / 100)}
+                style={{ transform: 'rotate(-90deg)', transformOrigin: 'center', transformBox: 'fill-box' }}
+              />
+            </svg>
+            <span className="roadmap-ring-overlay">{overallPercent}%</span>
           </div>
 
-          <div className="roadmap-header-title-row">
+          <div className="roadmap-header-title-block">
+            <div className="roadmap-version-badge font-mono">
+              <span className="roadmap-badge-dot"></span>
+              <span>GENAI ROADMAP // INTERACTIVE TRACKER</span>
+            </div>
             <h1 className="roadmap-title">GenAI Roadmap Activity Tracker</h1>
+            <p className="roadmap-subtitle">
+              Track learning checkpoints, task progress, and retrospective journal notes across the 24-week curriculum.
+            </p>
+          </div>
+
+          <div className="roadmap-header-right">
+            <div className="roadmap-kpi-strip font-mono">
+              <div className="roadmap-kpi-item">
+                <span className="roadmap-kpi-val">{overallPercent}%</span>
+                <span className="roadmap-kpi-lbl">Progress</span>
+              </div>
+              <div className="roadmap-kpi-divider" />
+              <div className="roadmap-kpi-item">
+                <span className="roadmap-kpi-val">{completedTasks}<span className="roadmap-kpi-total"> / {totalTasks}</span></span>
+                <span className="roadmap-kpi-lbl">Tasks</span>
+              </div>
+              <div className="roadmap-kpi-divider" />
+              <div className="roadmap-kpi-item">
+                <span className="roadmap-kpi-val">~{totalHours}<span className="roadmap-kpi-total"> hrs</span></span>
+                <span className="roadmap-kpi-lbl">Hours</span>
+              </div>
+              <div className="roadmap-kpi-divider" />
+              <div className="roadmap-kpi-item">
+                <span className="roadmap-kpi-val">{journalCount}<span className="roadmap-kpi-total"> / 24</span></span>
+                <span className="roadmap-kpi-lbl">Journals</span>
+              </div>
+            </div>
+
             <div className="roadmap-header-actions font-mono">
               <button
                 onClick={() => setTheme(theme === 'light' ? 'dark' : 'light')}
@@ -706,10 +773,6 @@ export const RoadmapTracker: React.FC = () => {
               )}
             </div>
           </div>
-
-          <p className="roadmap-subtitle">
-            Track your learning checkpoints, tasks progress, and retrospective journal notes across the 24-week curriculum.
-          </p>
         </header>
 
         {/* Guest Banner */}
@@ -720,191 +783,261 @@ export const RoadmapTracker: React.FC = () => {
           </div>
         )}
 
-        {/* KPI Panel */}
-        <section className="roadmap-stats-grid">
-          <div className="roadmap-stat-card">
-            <div className="roadmap-stat-icon">
-              <TrendingUp size={24} />
-            </div>
-            <div className="roadmap-stat-info">
-              <span className="roadmap-stat-val">{overallPercent}%</span>
-              <span className="roadmap-stat-lbl">OVERALL PROGRESS</span>
-            </div>
-          </div>
-          <div className="roadmap-stat-card">
-            <div className="roadmap-stat-icon">
-              <CheckCircle2 size={24} />
-            </div>
-            <div className="roadmap-stat-info">
-              <span className="roadmap-stat-val">
-                {completedTasks} <span className="roadmap-stat-total">/ {totalTasks}</span>
-              </span>
-              <span className="roadmap-stat-lbl">TASKS COMPLETED</span>
-            </div>
-          </div>
-          <div className="roadmap-stat-card">
-            <div className="roadmap-stat-icon">
-              <Clock size={24} />
-            </div>
-            <div className="roadmap-stat-info">
-              <span className="roadmap-stat-val">~{totalHours} hrs</span>
-              <span className="roadmap-stat-lbl">CURRICULUM SIZE</span>
-            </div>
-          </div>
-          <div className="roadmap-stat-card">
-            <div className="roadmap-stat-icon">
-              <BookMarked size={24} />
-            </div>
-            <div className="roadmap-stat-info">
-              <span className="roadmap-stat-val">{journalCount} <span className="roadmap-stat-total">/ 24</span></span>
-              <span className="roadmap-stat-lbl">WEEKLY JOURNALS FILLED</span>
-            </div>
-          </div>
-        </section>
+        {/* ── Master progress bar ── */}
+        <div className="roadmap-master-bar">
+          <div className="roadmap-master-fill" style={{ width: overallPercent + '%' }} />
+        </div>
 
-        {/* Dashboard Content */}
-        <div className="roadmap-dashboard-layout">
-          {/* Sidebar */}
-          <aside className="roadmap-sidebar">
-            <div className="roadmap-navigation-panel">
-              <div className="roadmap-nav-section-title">ROADMAP MONTHS</div>
-              <ul className="roadmap-month-list">
-                {validMonths.map(m => {
-                  let mTotal = 0;
-                  let mDone = 0;
-                  m.weeks.forEach(w => {
-                    w.days.forEach(d => {
-                      d.tasks.forEach(t => {
-                        mTotal++;
-                        if (completedTaskIds[t.id]) mDone++;
-                      });
-                    });
-                  });
-                  const mPercent = mTotal > 0 ? Math.round((mDone / mTotal) * 100) : 0;
+        {/* ── Timeline ribbon ── */}
+        <div className="roadmap-timeline-ribbon">
+          {validMonths.map((m, idx) => {
+            let mTotal = 0, mDone = 0;
+            m.weeks.forEach(w => w.days.forEach(d => d.tasks.forEach(t => {
+              mTotal++;
+              if (completedTaskIds[t.id]) mDone++;
+            })));
+            const mPct = mTotal > 0 ? Math.round((mDone / mTotal) * 100) : 0;
+            const offset = NODE_CIRC * (1 - mPct / 100);
+            const shortTitle = m.title.includes(':') ? m.title.split(':').slice(1).join(':').trim() : m.title;
 
-                  return (
-                    <li key={m.id}>
-                      <button
-                        className={`roadmap-month-nav-btn ${activeMonthId === m.id ? 'active' : ''}`}
-                        onClick={() => handleMonthSelect(m.id)}
-                      >
-                        <span className="roadmap-month-nav-title">
-                          M{m.id}: {m.title}
-                        </span>
-                        <span className="roadmap-month-nav-progress font-mono">{mPercent}%</span>
-                      </button>
-                    </li>
-                  );
-                })}
-              </ul>
-            </div>
-
-            {/* Mindset Widget */}
-            {activeWeek && activeWeek.csharp_mindset && (
-              <div className="roadmap-companion-card">
-                <span className="roadmap-companion-title font-mono">
-                  <Compass size={16} />
-                  Mindset Shift
-                </span>
-                <div
-                  className="roadmap-companion-body"
-                  dangerouslySetInnerHTML={{ __html: activeWeek.csharp_mindset }}
-                />
-              </div>
-            )}
-
-            {/* C# to Python Syntax Card */}
-            <div
-              className="roadmap-companion-card roadmap-sidebar-glossary"
-              style={{ cursor: 'pointer', transition: 'var(--transition-smooth)' }}
-              onClick={() => setShowGlossaryModal(true)}
-            >
-              <span className="roadmap-companion-title font-mono">
-                <BookOpen size={16} />
-                Parallel Syntax
-              </span>
-              <div className="roadmap-companion-body font-sans" style={{ borderLeft: '3px solid var(--accent)', paddingLeft: '10px' }}>
-                <p style={{ margin: 0, fontSize: '13px', color: 'var(--text-secondary)' }}>
-                  A quick comparative lookup of C# constructs mapping directly to Python equivalents.
-                </p>
-                <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginTop: '12px' }}>
-                  <span className="font-mono" style={{ fontSize: '11px', color: 'var(--text-muted)', background: 'var(--code-bg)', padding: '2px 6px', borderRadius: '4px' }}>
-                    12 rules loaded
-                  </span>
-                  <span className="font-mono" style={{ fontSize: '12px', color: 'var(--accent)', fontWeight: 600, display: 'inline-flex', alignItems: 'center', gap: '4px' }}>
-                    Open Guide →
-                  </span>
-                </div>
-              </div>
-            </div>
-          </aside>
-
-          {/* Main Area */}
-          <main className="roadmap-content-area">
-            {/* Week Selector */}
-            {activeMonth && (
-              <div className="roadmap-week-tabs">
-                {activeMonth.weeks.map(w => (
-                  <button
-                    key={w.id}
-                    className={`roadmap-week-tab-btn ${activeWeekId === w.id ? 'active' : ''}`}
-                    onClick={() => setActiveWeekId(w.id)}
-                  >
-                    Week {w.week_number}
-                  </button>
-                ))}
-              </div>
-            )}
-
-            {/* Week Headers */}
-            {activeWeek && (
-              <>
-                <div className="roadmap-week-info-card">
-                  <div className="roadmap-week-info-header">
-                    <h2 className="roadmap-week-info-title">Week {activeWeek.week_number} — {activeWeek.title}</h2>
-                    <span className="roadmap-week-info-meta">{activeWeek.focus_hours}</span>
-                  </div>
-
-                  {activeWeek.weekly_goal && (
-                    <div className="roadmap-goal-box">
-                      <Calendar size={16} />
-                      <p className="roadmap-goal-text"><strong>Goal:</strong> {activeWeek.weekly_goal}</p>
-                    </div>
-                  )}
-                </div>
-
-                {/* Week-specific task search */}
-                <div className="roadmap-week-search-row">
-                  <div className="roadmap-week-search-container">
-                    <Search size={14} className="roadmap-week-search-icon" />
-                    <input
-                      type="text"
-                      className="roadmap-week-search-input"
-                      placeholder={`Search tasks in Week ${activeWeek.week_number}... (e.g., Corey Schafer)`}
-                      value={weekSearch}
-                      onChange={e => setWeekSearch(e.target.value)}
+            return (
+              <React.Fragment key={m.id}>
+                {idx > 0 && <div className={`timeline-connector${mPct >= 100 ? ' filled' : ''}`} />}
+                <button
+                  className={`timeline-node${activeMonthId === m.id ? ' active' : ''}`}
+                  onClick={() => handleMonthSelect(m.id)}
+                >
+                  <svg viewBox="0 0 30 30" width="30" height="30" style={{ overflow: 'visible' }}>
+                    <circle className="roadmap-ring-track" cx="15" cy="15" r={NODE_R} />
+                    <circle
+                      className="roadmap-ring-fill"
+                      cx="15" cy="15" r={NODE_R}
+                      strokeDasharray={NODE_CIRC}
+                      strokeDashoffset={offset}
+                      style={{ transform: 'rotate(-90deg)', transformOrigin: 'center', transformBox: 'fill-box' }}
                     />
-                    {weekSearch && (
-                      <button
-                        className="roadmap-week-search-clear-btn"
-                        onClick={() => setWeekSearch('')}
-                      >
-                        <X size={14} />
-                      </button>
-                    )}
+                  </svg>
+                  <span className="timeline-node-label">M{m.id}</span>
+                  <span className="timeline-node-title">{shortTitle}</span>
+                </button>
+              </React.Fragment>
+            );
+          })}
+        </div>
+
+        {/* ── Week pills ── */}
+        {activeMonth && (
+          <div className="roadmap-week-pills">
+            {activeMonth.weeks.map(w => (
+              <button
+                key={w.id}
+                className={`week-pill${activeWeekId === w.id ? ' active' : ''}`}
+                onClick={() => setActiveWeekId(w.id)}
+              >
+                Week {w.week_number}
+              </button>
+            ))}
+          </div>
+        )}
+
+        {/* ── Content grid ── */}
+        {activeWeek && (
+          <>
+          {/* Projects for active month — shown when week is selected */}
+          {(() => {
+            const monthProjects = PROJECTS.filter(p => p.monthId === activeMonthId);
+            if (monthProjects.length === 0) return null;
+            return (
+              <div className="roadmap-projects-section">
+                <div className="roadmap-projects-header">
+                  <span className="roadmap-projects-title font-mono">
+                    <TrendingUp size={13} />
+                    M{activeMonthId} CAPSTONE {monthProjects.length > 1 ? 'PROJECTS' : 'PROJECT'}
+                  </span>
+                  <span className="roadmap-projects-count font-mono">{monthProjects.length} build{monthProjects.length > 1 ? 's' : ''} this month</span>
+                </div>
+                <div className="roadmap-projects-scroll">
+                  {monthProjects.map(project => (
+                    <div key={project.id} className={`project-card project-type-${project.type} project-active`}>
+                      <div className="project-card-top-bar" />
+                      <div className="project-card-head">
+                        <span className="project-num font-mono">#{project.id}</span>
+                        <span className="project-meta font-mono">M{project.monthId} · {project.weeks}</span>
+                      </div>
+                      <h3 className="project-title">{project.title}</h3>
+                      <div className="project-tech-stack">
+                        {project.techStack.slice(0, 3).map(tech => (
+                          <span key={tech} className="project-tech-badge font-mono">{tech}</span>
+                        ))}
+                        {project.techStack.length > 3 && (
+                          <span className="project-tech-badge font-mono">+{project.techStack.length - 3}</span>
+                        )}
+                      </div>
+                      <div className="project-details">
+                        <div className="project-detail-row">
+                          <span className="project-detail-label">IN</span>
+                          <span className="project-detail-val">{project.input}</span>
+                        </div>
+                        <div className="project-detail-row">
+                          <span className="project-detail-label">OUT</span>
+                          <span className="project-detail-val">{project.output}</span>
+                        </div>
+                        <div className="project-detail-row project-note-row">
+                          <span className="project-detail-label">↗</span>
+                          <span className="project-detail-val project-note">{project.note}</span>
+                        </div>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            );
+          })()}
+
+          <div className="roadmap-content-grid">
+
+            {/* LEFT: sticky panel */}
+            <aside className="roadmap-left-panel">
+              {/* Week info */}
+              <div className="roadmap-week-info-card">
+                <div className="roadmap-week-info-header">
+                  <h2 className="roadmap-week-info-title">Week {activeWeek.week_number} — {activeWeek.title}</h2>
+                  <span className="roadmap-week-info-meta">{activeWeek.focus_hours}</span>
+                </div>
+                {activeWeek.weekly_goal && (
+                  <div className="roadmap-goal-box">
+                    <Calendar size={16} />
+                    <p className="roadmap-goal-text"><strong>Goal:</strong> {activeWeek.weekly_goal}</p>
                   </div>
-                  {weekSearch && (
-                    <span className="roadmap-week-search-status font-mono">
-                      {filteredDays.reduce((acc, d) => acc + d.tasks.length, 0)} match(es) found
-                    </span>
-                  )}
+                )}
+              </div>
+
+              {/* Journal — div, not section, to avoid global padding:0 reset */}
+              <div className="roadmap-journal-section">
+                <div className="roadmap-journal-header-row">
+                  <h2 className="roadmap-week-info-title" style={{ fontSize: '1rem' }}>Week {activeWeek.week_number} — Retro Log</h2>
+                  <span className="roadmap-week-info-meta">
+                    {saveStatus ? (
+                      <span className="font-mono" style={{ color: 'var(--color-build)', display: 'inline-flex', alignItems: 'center', gap: '4px' }}>
+                        <Check size={14} /> Saved
+                      </span>
+                    ) : `W${activeWeek.week_number}`}
+                  </span>
                 </div>
 
-                {/* Checklist Grid */}
-                {filteredDays.length > 0 ? (
-                  <div className="roadmap-day-grid">
-                    {filteredDays.map((day) => (
+                <div className="roadmap-journal-grid font-sans">
+                  <div className="roadmap-journal-field">
+                    <label className="roadmap-journal-label">💡 What I learned</label>
+                    <textarea
+                      className="roadmap-journal-input"
+                      placeholder={role ? "Key concepts, tools, experiments..." : "Login to write/save notes..."}
+                      disabled={!role}
+                      value={learnedText}
+                      onChange={e => setLearnedText(e.target.value)}
+                    />
+                  </div>
+                  <div className="roadmap-journal-field">
+                    <label className="roadmap-journal-label">⚠️ Difficulties & Bugs</label>
+                    <textarea
+                      className="roadmap-journal-input"
+                      placeholder={role ? "Errors, roadblocks, gaps to study..." : "Login to write/save notes..."}
+                      disabled={!role}
+                      value={difficultiesText}
+                      onChange={e => setDifficultiesText(e.target.value)}
+                    />
+                  </div>
+                  <div className="roadmap-journal-field">
+                    <label className="roadmap-journal-label">📝 Notes & Ideas</label>
+                    <textarea
+                      className="roadmap-journal-input"
+                      placeholder={role ? "Reflections, next steps, project sketches..." : "Login to write/save notes..."}
+                      disabled={!role}
+                      value={notesText}
+                      onChange={e => setNotesText(e.target.value)}
+                    />
+                  </div>
+                </div>
+
+                <div className="roadmap-journal-footer">
+                  <button onClick={handleSaveJournal} disabled={isSavingJournal} className="roadmap-btn-primary">
+                    {isSavingJournal ? 'Saving...' : 'Save Review'}
+                  </button>
+                </div>
+              </div>
+
+              {/* Mindset */}
+              {activeWeek.csharp_mindset && (
+                <div className="roadmap-companion-card">
+                  <span className="roadmap-companion-title font-mono">
+                    <Compass size={16} />
+                    Mindset Shift
+                  </span>
+                  <div className="roadmap-companion-body" dangerouslySetInnerHTML={{ __html: activeWeek.csharp_mindset }} />
+                </div>
+              )}
+
+              {/* Glossary link */}
+              <div
+                className="roadmap-companion-card roadmap-sidebar-glossary"
+                style={{ cursor: 'pointer', transition: 'var(--transition-smooth)' }}
+                onClick={() => setShowGlossaryModal(true)}
+              >
+                <span className="roadmap-companion-title font-mono">
+                  <BookOpen size={16} />
+                  Parallel Syntax
+                </span>
+                <div className="roadmap-companion-body font-sans" style={{ borderLeft: '3px solid var(--accent)', paddingLeft: '10px' }}>
+                  <p style={{ margin: 0, fontSize: '13px', color: 'var(--text-secondary)' }}>
+                    A quick comparative lookup of C# constructs mapping directly to Python equivalents.
+                  </p>
+                  <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginTop: '12px' }}>
+                    <span className="font-mono" style={{ fontSize: '11px', color: 'var(--text-muted)', background: 'var(--code-bg)', padding: '2px 6px', borderRadius: '4px' }}>
+                      12 rules loaded
+                    </span>
+                    <span className="font-mono" style={{ fontSize: '12px', color: 'var(--accent)', fontWeight: 600, display: 'inline-flex', alignItems: 'center', gap: '4px' }}>
+                      Open Guide →
+                    </span>
+                  </div>
+                </div>
+              </div>
+            </aside>
+
+            {/* RIGHT: day cards */}
+            <div className="roadmap-day-area">
+              <div className="roadmap-week-search-row">
+                <div className="roadmap-week-search-container">
+                  <Search size={14} className="roadmap-week-search-icon" />
+                  <input
+                    type="text"
+                    className="roadmap-week-search-input"
+                    placeholder={`Search tasks in Week ${activeWeek.week_number}... (e.g., Corey Schafer)`}
+                    value={weekSearch}
+                    onChange={e => setWeekSearch(e.target.value)}
+                  />
+                  {weekSearch && (
+                    <button className="roadmap-week-search-clear-btn" onClick={() => setWeekSearch('')}>
+                      <X size={14} />
+                    </button>
+                  )}
+                </div>
+                {weekSearch && (
+                  <span className="roadmap-week-search-status font-mono">
+                    {filteredDays.reduce((acc, d) => acc + d.tasks.length, 0)} match(es) found
+                  </span>
+                )}
+              </div>
+
+              {filteredDays.length > 0 ? (
+                <div className="roadmap-day-grid">
+                  {filteredDays.map((day) => {
+                    const dayTotal = day.tasks.length;
+                    const dayDone = day.tasks.filter(t => completedTaskIds[t.id]).length;
+                    const dayPct = dayTotal > 0 ? Math.round((dayDone / dayTotal) * 100) : 0;
+                    return (
                       <div key={day.id} className="roadmap-day-card">
+                        <div className="day-progress-bar">
+                          <div className="day-progress-fill" style={{ width: dayPct + '%' }} />
+                        </div>
                         <div className="roadmap-day-header">
                           <div className="roadmap-day-title-group">
                             <span className="roadmap-day-name">{day.day_name}</span>
@@ -915,18 +1048,15 @@ export const RoadmapTracker: React.FC = () => {
                             {day.type}
                           </span>
                         </div>
-
                         <ul className="roadmap-task-list">
                           {day.tasks.map(task => {
                             const isDone = !!completedTaskIds[task.id];
                             return (
-                              <li 
+                              <li
                                 key={task.id}
                                 className={`roadmap-task-item ${isDone ? 'completed' : ''}`}
                                 onClick={(e) => {
-                                  if ((e.target as HTMLElement).closest('a')) {
-                                    return;
-                                  }
+                                  if ((e.target as HTMLElement).closest('a')) return;
                                   handleToggleTask(task.id);
                                 }}
                               >
@@ -942,89 +1072,25 @@ export const RoadmapTracker: React.FC = () => {
                           })}
                         </ul>
                       </div>
-                    ))}
-                  </div>
-                ) : (
-                  <div className="roadmap-syntax-empty font-sans" style={{ background: 'var(--bg-card)', border: '1px solid var(--border-color)', borderRadius: 'var(--radius-md)', padding: '3rem', textAlign: 'center' }}>
-                    No tasks matching "{weekSearch}" found in Week {activeWeek.week_number}.
-                  </div>
-                )}
-
-                {/* Journal Block */}
-                <section className="roadmap-journal-section">
-                  <h2 className="roadmap-week-info-title">Week {activeWeek.week_number} — Retro Log</h2>
-                  <span className="roadmap-week-info-meta">
-                    {saveStatus ? (
-                      <span className="roadmap-journal-saved-lbl font-mono" style={{ color: 'var(--color-build)', display: 'inline-flex', alignItems: 'center', gap: '4px' }}>
-                        <Check size={14} />
-                        Log Saved
-                      </span>
-                    ) : (
-                      `RETROSPECTIVE LOG // WEEK ${activeWeek.week_number}`
-                    )}
-                  </span>
-
-
-                  <div className="roadmap-journal-grid font-sans">
-                    <div className="roadmap-journal-field">
-                      <label className="roadmap-journal-label">💡 What I learned this week</label>
-                      <textarea
-                        className="roadmap-journal-input"
-                        placeholder={role ? "Summarize key concepts, tools, or experiments..." : "Login to write/save notes..."}
-                        disabled={!role}
-                        value={learnedText}
-                        onChange={e => setLearnedText(e.target.value)}
-                      />
-                    </div>
-
-                    <div className="roadmap-journal-field">
-                      <label className="roadmap-journal-label">⚠️ Difficulties & Bugs</label>
-                      <textarea
-                        className="roadmap-journal-input"
-                        placeholder={role ? "Mention errors, roadblocks or things to study further..." : "Login to write/save notes..."}
-                        disabled={!role}
-                        value={difficultiesText}
-                        onChange={e => setDifficultiesText(e.target.value)}
-                      />
-                    </div>
-
-                    <div className="roadmap-journal-field">
-                      <label className="roadmap-journal-label">📝 General Review & Ideas</label>
-                      <textarea
-                        className="roadmap-journal-input"
-                        placeholder={role ? "Reflections, next steps, coding project sketches..." : "Login to write/save notes..."}
-                        disabled={!role}
-                        value={notesText}
-                        onChange={e => setNotesText(e.target.value)}
-                      />
-                    </div>
-                  </div>
-
-                  <div className="roadmap-journal-footer">
-                    <button
-                      onClick={handleSaveJournal}
-                      disabled={isSavingJournal}
-                      className="roadmap-btn-primary"
-                    >
-                      {isSavingJournal ? 'Saving...' : 'Save Review'}
-                    </button>
-                  </div>
-                </section>
-              </>
-            )}
-          </main>
-        </div>
+                    );
+                  })}
+                </div>
+              ) : (
+                <div className="roadmap-syntax-empty font-sans" style={{ background: 'var(--bg-card)', border: '1px solid var(--border-color)', borderRadius: 'var(--radius-md)', padding: '3rem', textAlign: 'center' }}>
+                  No tasks matching "{weekSearch}" found in Week {activeWeek.week_number}.
+                </div>
+              )}
+            </div>
+          </div>
+          </>
+        )}
       </div>
 
-      {/* Login Gate Modal */}
+      {/* ── Login Modal ── */}
       {showLoginModal && (
         <div
           className="roadmap-modal-overlay"
-          onClick={(e) => {
-            if (e.target === e.currentTarget) {
-              setShowLoginModal(false);
-            }
-          }}
+          onClick={(e) => { if (e.target === e.currentTarget) setShowLoginModal(false); }}
         >
           <div className="roadmap-modal-card">
             <div className="roadmap-modal-header">
@@ -1088,15 +1154,11 @@ export const RoadmapTracker: React.FC = () => {
         </div>
       )}
 
-      {/* Parallel Syntax Catalog Modal */}
+      {/* ── Glossary Modal ── */}
       {showGlossaryModal && (
         <div
           className="roadmap-modal-overlay roadmap-syntax-modal-overlay"
-          onClick={(e) => {
-            if (e.target === e.currentTarget) {
-              setShowGlossaryModal(false);
-            }
-          }}
+          onClick={(e) => { if (e.target === e.currentTarget) setShowGlossaryModal(false); }}
         >
           <div className="roadmap-modal-card roadmap-syntax-modal-card">
             <div className="roadmap-modal-header">
@@ -1114,7 +1176,6 @@ export const RoadmapTracker: React.FC = () => {
                 A quick-reference lookup comparing C# constructs and their Python equivalents. Select a category or use the search bar to filter rules.
               </p>
 
-              {/* Search and Category Filter Row */}
               <div className="roadmap-syntax-filter-row">
                 <div className="roadmap-syntax-search-container">
                   <Search size={14} className="roadmap-syntax-search-icon" />
@@ -1148,7 +1209,6 @@ export const RoadmapTracker: React.FC = () => {
                 </div>
               </div>
 
-              {/* Grid of comparative cards */}
               <div className="roadmap-syntax-cards-grid">
                 {glossaryItems
                   .filter(item => {
@@ -1171,11 +1231,7 @@ export const RoadmapTracker: React.FC = () => {
                           <span className="roadmap-syntax-term-py font-mono">{item.python}</span>
                         </div>
                       </div>
-
-                      <div className="roadmap-syntax-card-desc font-sans">
-                        {item.desc}
-                      </div>
-
+                      <div className="roadmap-syntax-card-desc font-sans">{item.desc}</div>
                       <div className="roadmap-syntax-card-code-section">
                         <div style={{ position: 'relative' }}>
                           <span className="roadmap-syntax-code-label font-mono">C#</span>
@@ -1196,19 +1252,17 @@ export const RoadmapTracker: React.FC = () => {
                     item.desc.toLowerCase().includes(glossarySearch.toLowerCase());
                   return matchesCategory && matchesSearch;
                 }).length === 0 && (
-                    <div className="roadmap-syntax-empty font-sans">
-                      No matching syntax rules found. Try adjusting your filters.
-                    </div>
-                  )}
+                  <div className="roadmap-syntax-empty font-sans">
+                    No matching syntax rules found. Try adjusting your filters.
+                  </div>
+                )}
               </div>
             </div>
           </div>
         </div>
       )}
 
-      {/* Embedded CSS rules */}
       <style>{`
-        /* Reset raw section element paddings that leak from global portfolio stylesheet */
         .roadmap-wrapper section {
           padding: 0 !important;
           position: relative;
@@ -1228,52 +1282,41 @@ export const RoadmapTracker: React.FC = () => {
           --bg-gradient: radial-gradient(circle at 50% 0%, #e2e8f0 0%, #f8fafc 100%);
           --bg-card: #ffffff;
           --bg-card-hover: #f1f5f9;
-          
           --text-primary: #0f172a;
           --text-secondary: #475569;
           --text-muted: #94a3b8;
           --text-info: #0284c7;
-          
           --border-color: rgba(0, 0, 0, 0.06);
           --border-hover: rgba(14, 165, 233, 0.3);
           --accent: #0284c7;
           --accent-rgb: 2, 132, 199;
           --accent-glow: rgba(2, 132, 199, 0.06);
           --accent-border: rgba(2, 132, 199, 0.15);
-          
           --color-learn: #3b82f6;
           --color-build: #10b981;
           --color-read: #f59e0b;
           --color-check: #8b5cf6;
-          
           --badge-info-bg: rgba(2, 132, 199, 0.06);
           --badge-info-text: #0369a1;
           --badge-info-border: rgba(2, 132, 199, 0.12);
-
           --shadow-sm: 0 2px 4px rgba(0,0,0,0.02);
           --shadow-md: 0 4px 12px rgba(15, 23, 42, 0.04);
           --shadow-lg: 0 10px 25px -5px rgba(15, 23, 42, 0.06), 0 8px 10px -6px rgba(15, 23, 42, 0.06);
-
           --progress-badge-bg: rgba(0, 0, 0, 0.05);
           --code-bg: rgba(0, 0, 0, 0.04);
           --goal-bg: rgba(2, 132, 199, 0.03);
           --goal-border: rgba(2, 132, 199, 0.08);
-          
           --day-type-learn-bg: rgba(59, 130, 246, 0.08);
           --day-type-build-bg: rgba(16, 185, 129, 0.08);
           --day-type-read-bg: rgba(245, 158, 11, 0.08);
-          
           --input-bg: #f8fafc;
           --modal-bg: #ffffff;
           --modal-overlay-bg: rgba(15, 23, 42, 0.6);
-          
           --btn-primary-bg: #0f172a;
           --btn-primary-text: #ffffff;
           --btn-primary-hover-bg: #1e293b;
-
           --timeline-btn-active-bg: #0f172a;
           --timeline-btn-active-text: #ffffff;
-
           --title-gradient: linear-gradient(135deg, #0f172a 40%, #0284c7 100%);
         }
 
@@ -1282,52 +1325,41 @@ export const RoadmapTracker: React.FC = () => {
           --bg-gradient: radial-gradient(circle at 50% 0%, #151d2a 0%, #080b11 100%);
           --bg-card: #111724;
           --bg-card-hover: #182032;
-          
           --text-primary: #f1f5f9;
           --text-secondary: #94a3b8;
           --text-muted: #64748b;
           --text-info: #38bdf8;
-          
           --border-color: rgba(255, 255, 255, 0.08);
           --border-hover: rgba(56, 189, 248, 0.4);
           --accent: #38bdf8;
           --accent-rgb: 56, 189, 248;
           --accent-glow: rgba(56, 189, 248, 0.08);
           --accent-border: rgba(56, 189, 248, 0.3);
-          
           --color-learn: #60a5fa;
           --color-build: #34d399;
           --color-read: #fbbf24;
           --color-check: #a78bfa;
-          
           --badge-info-bg: rgba(56, 189, 248, 0.08);
           --badge-info-text: #38bdf8;
           --badge-info-border: rgba(56, 189, 248, 0.2);
-
           --shadow-sm: 0 2px 4px rgba(0,0,0,0.15);
           --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.3);
           --shadow-lg: 0 10px 25px -5px rgba(0,0,0,0.5), 0 8px 10px -6px rgba(0,0,0,0.5);
-
           --progress-badge-bg: rgba(255, 255, 255, 0.08);
           --code-bg: rgba(255, 255, 255, 0.06);
           --goal-bg: rgba(56, 189, 248, 0.04);
           --goal-border: rgba(56, 189, 248, 0.12);
-          
           --day-type-learn-bg: rgba(96, 165, 250, 0.15);
           --day-type-build-bg: rgba(52, 211, 153, 0.15);
           --day-type-read-bg: rgba(251, 191, 36, 0.15);
-          
           --input-bg: #0c101a;
           --modal-bg: #111724;
           --modal-overlay-bg: rgba(0, 0, 0, 0.85);
-          
           --btn-primary-bg: #38bdf8;
           --btn-primary-text: #080b11;
           --btn-primary-hover-bg: #7dd3fc;
-
           --timeline-btn-active-bg: #38bdf8;
           --timeline-btn-active-text: #080b11;
-
           --title-gradient: linear-gradient(135deg, #ffffff 45%, #38bdf8 100%);
         }
 
@@ -1348,10 +1380,102 @@ export const RoadmapTracker: React.FC = () => {
           margin: 0 auto;
           padding: 0 1.5rem;
         }
+
+        /* ── Header ── */
         .roadmap-header {
-          text-align: center;
-          margin-bottom: 2.5rem;
+          display: flex;
+          align-items: flex-start;
+          gap: 1.5rem;
+          margin-bottom: 1.5rem;
         }
+        .roadmap-progress-ring-wrap {
+          position: relative;
+          width: 56px;
+          height: 56px;
+          flex-shrink: 0;
+          margin-top: 4px;
+        }
+        .roadmap-ring-overlay {
+          position: absolute;
+          inset: 0;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          font-size: 10px;
+          font-weight: 700;
+          font-family: var(--font-mono);
+          color: var(--accent);
+          pointer-events: none;
+        }
+        .roadmap-ring-track {
+          fill: none;
+          stroke: var(--border-color);
+          stroke-width: 4;
+        }
+        .roadmap-ring-fill {
+          fill: none;
+          stroke: var(--accent);
+          stroke-width: 4;
+          stroke-linecap: round;
+          transition: stroke-dashoffset 0.8s cubic-bezier(0.4,0,0.2,1);
+        }
+        .roadmap-header-title-block {
+          flex: 1;
+          display: flex;
+          flex-direction: column;
+          gap: 0.35rem;
+          min-width: 0;
+        }
+        .roadmap-header-right {
+          display: flex;
+          flex-direction: column;
+          align-items: flex-end;
+          gap: 0.75rem;
+          flex-shrink: 0;
+        }
+        .roadmap-kpi-strip {
+          display: flex;
+          align-items: center;
+          gap: 1rem;
+        }
+        .roadmap-kpi-divider {
+          width: 1px;
+          height: 28px;
+          background: var(--border-color);
+          flex-shrink: 0;
+        }
+        .roadmap-kpi-item {
+          display: flex;
+          flex-direction: column;
+          align-items: flex-start;
+        }
+        .roadmap-kpi-val {
+          font-size: 1.25rem;
+          font-weight: 700;
+          font-family: var(--font-mono);
+          color: var(--text-primary);
+          line-height: 1.1;
+        }
+        .roadmap-kpi-total {
+          font-size: 11px;
+          color: var(--text-muted);
+          font-weight: 500;
+        }
+        .roadmap-kpi-lbl {
+          font-size: 9px;
+          text-transform: uppercase;
+          letter-spacing: 0.07em;
+          color: var(--text-muted);
+          font-weight: 700;
+          margin-top: 2px;
+        }
+        .roadmap-header-actions {
+          display: flex;
+          align-items: center;
+          gap: 0.75rem;
+        }
+
+        /* ── Version badge ── */
         .roadmap-version-badge {
           display: inline-flex;
           align-items: center;
@@ -1362,12 +1486,12 @@ export const RoadmapTracker: React.FC = () => {
           color: var(--badge-info-text);
           border: 1px solid var(--badge-info-border);
           border-radius: 30px;
-          padding: 6px 14px;
+          padding: 4px 12px;
           text-transform: uppercase;
           letter-spacing: 0.05em;
-          margin-bottom: 0.75rem;
           font-weight: 600;
           box-shadow: var(--shadow-sm);
+          width: fit-content;
         }
         .roadmap-badge-dot {
           width: 6px;
@@ -1376,28 +1500,23 @@ export const RoadmapTracker: React.FC = () => {
           border-radius: 50%;
           box-shadow: 0 0 6px var(--accent);
         }
-        .roadmap-header-title-row {
-          display: flex;
-          justify-content: center;
-          align-items: center;
-          position: relative;
-          margin-bottom: 0.5rem;
-        }
         .roadmap-title {
-          font-size: 2.75rem;
+          font-size: 2rem;
           font-weight: 800;
           letter-spacing: -0.03em;
           background: var(--title-gradient);
           -webkit-background-clip: text;
           -webkit-text-fill-color: transparent;
+          line-height: 1.15;
         }
-        .roadmap-header-actions {
-          position: absolute;
-          right: 0;
-          display: flex;
-          align-items: center;
-          gap: 0.75rem;
+        .roadmap-subtitle {
+          font-size: 0.9rem;
+          color: var(--text-secondary);
+          max-width: 520px;
+          margin: 0;
         }
+
+        /* ── Theme / auth buttons ── */
         .roadmap-theme-toggle-btn {
           background: var(--bg-card);
           border: 1px solid var(--border-color);
@@ -1438,296 +1557,177 @@ export const RoadmapTracker: React.FC = () => {
           color: var(--text-primary);
           border-color: var(--border-hover);
         }
-        .roadmap-subtitle {
-          font-size: 1.1rem;
-          color: var(--text-secondary);
-          max-width: 650px;
-          margin: 0 auto;
-        }
+
+        /* ── Guest banner ── */
         .roadmap-banner-alert {
           background: rgba(245, 158, 11, 0.08);
           border: 1px solid rgba(245, 158, 11, 0.2);
           color: var(--color-read);
           border-radius: var(--radius-sm);
           padding: 10px 16px;
-          margin-bottom: 2rem;
+          margin-bottom: 1.5rem;
           display: flex;
           align-items: center;
           gap: 10px;
           font-size: 13px;
         }
-        /* Stats grid */
-        .roadmap-stats-grid {
-          display: grid;
-          grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-          gap: 1.25rem;
-          margin-bottom: 2.5rem;
+
+        /* ── Master progress bar ── */
+        .roadmap-master-bar {
+          height: 6px;
+          background: var(--border-color);
+          border-radius: 3px;
+          margin-bottom: 2rem;
+          overflow: hidden;
         }
-        .roadmap-stat-card {
-          background: var(--bg-card);
-          border: 1px solid var(--border-color);
-          border-radius: var(--radius-md);
-          padding: 1.25rem;
+        .roadmap-master-fill {
+          height: 100%;
+          border-radius: 3px;
+          background: linear-gradient(90deg, var(--accent) 0%, rgba(var(--accent-rgb), 0.45) 100%);
+          transition: width 0.8s cubic-bezier(0.4,0,0.2,1);
+        }
+
+        /* ── Timeline ribbon ── */
+        .roadmap-timeline-ribbon {
           display: flex;
           align-items: center;
-          gap: 1rem;
+          overflow-x: auto;
+          scrollbar-width: none;
+          padding: 0.5rem 0 1rem;
+          margin-bottom: 1.25rem;
+        }
+        .roadmap-timeline-ribbon::-webkit-scrollbar { display: none; }
+        .timeline-connector {
+          flex: 1;
+          min-width: 24px;
+          height: 2px;
+          background: var(--border-color);
+          position: relative;
+          overflow: hidden;
+        }
+        .timeline-connector.filled::after {
+          content: '';
+          position: absolute;
+          inset: 0;
+          background: var(--accent);
+        }
+        .timeline-node {
+          background: var(--bg-card);
+          border: 1px solid var(--border-color);
+          border-radius: var(--radius-sm);
+          padding: 0.65rem 1.1rem;
+          cursor: pointer;
+          flex-shrink: 0;
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          gap: 5px;
+          min-width: 88px;
           transition: var(--transition-smooth);
           box-shadow: var(--shadow-sm);
         }
-        .roadmap-stat-card:hover {
+        .timeline-node:hover {
+          border-color: var(--accent-border);
+          background: var(--bg-card-hover);
           transform: translateY(-2px);
-          border-color: var(--border-hover);
           box-shadow: var(--shadow-md);
         }
-        .roadmap-stat-icon {
-          width: 48px;
-          height: 48px;
-          border-radius: 10px;
+        .timeline-node.active {
+          border-color: var(--accent);
           background: var(--accent-glow);
-          color: var(--accent);
-          display: flex;
-          align-items: center;
-          justify-content: center;
+          box-shadow: 0 0 14px var(--accent-glow), var(--shadow-sm);
         }
-        .roadmap-stat-info {
-          display: flex;
-          flex-direction: column;
-        }
-        .roadmap-stat-val {
-          font-size: 1.75rem;
-          font-weight: 700;
-          color: var(--text-primary);
+        .timeline-node-label {
+          font-size: 10px;
+          font-weight: 800;
           font-family: var(--font-mono);
-          line-height: 1.2;
-        }
-        .roadmap-stat-total {
-          font-size: 14px;
           color: var(--text-muted);
-        }
-        .roadmap-stat-lbl {
-          font-size: 11px;
-          color: var(--text-secondary);
           text-transform: uppercase;
-          letter-spacing: 0.05em;
-          font-weight: 600;
+          letter-spacing: 0.1em;
         }
-        /* Dashboard layout */
-        .roadmap-dashboard-layout {
-          display: grid;
-          grid-template-columns: 280px 1fr;
-          gap: 2rem;
-          align-items: start;
+        .timeline-node.active .timeline-node-label { color: var(--accent); }
+        .timeline-node-title {
+          font-size: 10px;
+          color: var(--text-secondary);
+          max-width: 100px;
+          text-align: center;
+          white-space: normal;
+          line-height: 1.3;
+          overflow: hidden;
+          display: -webkit-box;
+          -webkit-line-clamp: 2;
+          -webkit-box-orient: vertical;
         }
-        @media (max-width: 1024px) {
-          .roadmap-dashboard-layout {
-            grid-template-columns: 1fr;
-          }
-          .roadmap-header-actions {
-            position: static;
-            margin: 1rem auto 0;
-            width: fit-content;
-            justify-content: center;
-          }
-          .roadmap-header-title-row {
-            flex-direction: column;
-          }
-        }
-        /* Sidebar */
-        .roadmap-sidebar {
+
+        /* ── Week pills ── */
+        .roadmap-week-pills {
           display: flex;
-          flex-direction: column;
-          gap: 1.5rem;
+          gap: 0.5rem;
+          overflow-x: auto;
+          scrollbar-width: none;
+          padding-bottom: 4px;
+          margin-bottom: 1.5rem;
         }
-        .roadmap-navigation-panel {
+        .roadmap-week-pills::-webkit-scrollbar { display: none; }
+        .week-pill {
+          padding: 8px 18px;
           background: var(--bg-card);
           border: 1px solid var(--border-color);
-          border-radius: var(--radius-md);
-          padding: 1rem;
-          box-shadow: var(--shadow-sm);
-        }
-        .roadmap-nav-section-title {
-          font-size: 11px;
-          text-transform: uppercase;
-          color: var(--text-muted);
-          letter-spacing: 0.08em;
-          margin-bottom: 0.75rem;
-          padding-left: 0.5rem;
-          font-weight: 700;
-        }
-        .roadmap-month-list {
-          list-style: none;
-          display: flex;
-          flex-direction: column;
-          gap: 6px;
-        }
-        .roadmap-month-nav-btn {
-          width: 100%;
-          padding: 10px 12px;
-          border: 1px solid transparent;
-          background: transparent;
-          border-radius: var(--radius-sm);
+          border-radius: 24px;
           color: var(--text-secondary);
-          text-align: left;
+          font-size: 13px;
+          font-weight: 600;
           cursor: pointer;
-          font-size: 14px;
-          font-weight: 500;
-          display: flex;
-          align-items: center;
-          justify-content: space-between;
+          white-space: nowrap;
           transition: var(--transition-smooth);
           font-family: inherit;
-        }
-        .roadmap-month-nav-btn:hover {
-          background: var(--bg-card-hover);
-          color: var(--text-primary);
-        }
-        .roadmap-month-nav-btn.active {
-          background: var(--accent-glow);
-          color: var(--accent);
-          border-color: var(--accent-border);
-          font-weight: 600;
-        }
-        .roadmap-month-nav-title {
-          text-overflow: ellipsis;
-          overflow: hidden;
-          white-space: nowrap;
-          max-width: 170px;
-        }
-        .roadmap-month-nav-progress {
-          font-size: 11px;
-          font-family: var(--font-mono);
-          background: var(--progress-badge-bg);
-          padding: 2px 6px;
-          border-radius: 10px;
-          color: var(--text-secondary);
-        }
-        .roadmap-month-nav-btn.active .roadmap-month-nav-progress {
-          background: var(--accent-glow);
-          color: var(--accent);
-        }
-        /* Mindset shift widget */
-        .roadmap-companion-card {
-          background: var(--bg-card);
-          border: 1px solid var(--border-color);
-          border-radius: var(--radius-md);
-          padding: 1.25rem;
-          box-shadow: var(--shadow-sm);
-          display: flex;
-          flex-direction: column;
-          gap: 0.75rem;
-        }
-        .roadmap-companion-title {
-          font-size: 15px;
-          font-weight: 600;
-          color: var(--text-primary);
-          display: flex;
-          align-items: center;
-          gap: 8px;
-        }
-        .roadmap-companion-body {
-          font-size: 13px;
-          color: var(--text-secondary);
-          line-height: 1.6;
-          border-left: 3px solid var(--accent);
-          padding-left: 10px;
-        }
-        .roadmap-companion-body code {
-          font-family: var(--font-mono);
-          background: var(--code-bg);
-          padding: 1px 4px;
-          border-radius: 3px;
-          font-size: 11.5px;
-          color: var(--text-primary);
-        }
-        /* Main Area */
-        .roadmap-content-area {
-          display: flex;
-          flex-direction: column;
-          gap: 1.5rem;
-        }
-        /* Week selector tabs */
-        .roadmap-week-tabs {
-          display: flex;
-          gap: 6px;
-          overflow-x: auto;
-          padding-bottom: 6px;
-        }
-        .roadmap-week-tab-btn {
-          padding: 10px 16px;
-          background: var(--bg-card);
-          border: 1px solid var(--border-color);
-          border-radius: 20px;
-          color: var(--text-secondary);
-          font-size: 13px;
-          font-weight: 600;
-          cursor: pointer;
-          white-space: nowrap;
-          transition: var(--transition-smooth);
           box-shadow: var(--shadow-sm);
         }
-        .roadmap-week-tab-btn:hover {
+        .week-pill:hover {
           background: var(--bg-card-hover);
           color: var(--text-primary);
+          border-color: var(--border-hover);
         }
-        .roadmap-week-tab-btn.active {
+        .week-pill.active {
           background: var(--timeline-btn-active-bg);
           color: var(--timeline-btn-active-text);
           border-color: var(--timeline-btn-active-bg);
         }
-        /* Week header card */
-        .roadmap-week-info-card {
-          background: var(--bg-card);
-          border: 1px solid var(--border-color);
-          border-radius: var(--radius-md);
-          padding: 1.5rem;
-          box-shadow: var(--shadow-sm);
+
+        /* ── Content grid ── */
+        .roadmap-content-grid {
+          display: grid;
+          grid-template-columns: 340px 1fr;
+          gap: 1.5rem;
+          align-items: start;
+        }
+        .roadmap-day-area {
           display: flex;
           flex-direction: column;
-          gap: 1rem;
-        }
-        .roadmap-week-info-header {
-          display: flex;
-          justify-content: space-between;
-          align-items: flex-start;
-          flex-wrap: wrap;
-          gap: 0.5rem;
-        }
-        .roadmap-week-info-title {
-          font-size: 1.5rem;
-          font-weight: 700;
-          color: var(--text-primary);
-        }
-        .roadmap-week-info-meta {
-          font-size: 12px;
-          font-family: var(--font-mono);
-          color: var(--text-muted);
-        }
-        .roadmap-goal-box {
-          background: var(--goal-bg);
-          border: 1px solid var(--goal-border);
-          border-radius: var(--radius-sm);
-          padding: 1rem;
-          display: flex;
-          gap: 0.75rem;
-          align-items: flex-start;
-          font-size: 14px;
-          color: var(--text-info);
-          line-height: 1.5;
-        }
-        .roadmap-goal-box svg {
-          flex-shrink: 0;
-          color: var(--accent);
-          margin-top: 2px;
-        }
-        .roadmap-goal-text {
-          margin: 0;
-        }
-        /* Day grid */
-        .roadmap-day-grid {
-          display: grid;
-          grid-template-columns: 1fr;
           gap: 1.25rem;
         }
+        .roadmap-left-panel {
+          position: sticky;
+          top: 2rem;
+          display: flex;
+          flex-direction: column;
+          gap: 1.25rem;
+        }
+        .roadmap-journal-header-row {
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          margin-bottom: 1rem;
+        }
+
+        /* ── Day grid: 2 columns ── */
+        .roadmap-day-grid {
+          display: grid;
+          grid-template-columns: repeat(2, 1fr);
+          gap: 1.25rem;
+        }
+
+        /* ── Day card ── */
         .roadmap-day-card {
           background: var(--bg-card);
           border: 1px solid var(--border-color);
@@ -1739,6 +1739,18 @@ export const RoadmapTracker: React.FC = () => {
         .roadmap-day-card:hover {
           box-shadow: var(--shadow-md);
           border-color: var(--border-hover);
+        }
+        .day-progress-bar {
+          height: 3px;
+          background: var(--border-color);
+          margin: -1.25rem -1.25rem 1.25rem;
+          border-radius: 12px 12px 0 0;
+          overflow: hidden;
+        }
+        .day-progress-fill {
+          height: 100%;
+          background: linear-gradient(90deg, var(--color-build), var(--accent));
+          transition: width 0.5s ease;
         }
         .roadmap-day-header {
           display: flex;
@@ -1753,7 +1765,7 @@ export const RoadmapTracker: React.FC = () => {
           flex-direction: column;
         }
         .roadmap-day-name {
-          font-size: 16px;
+          font-size: 15px;
           font-weight: 700;
           color: var(--text-primary);
         }
@@ -1794,7 +1806,8 @@ export const RoadmapTracker: React.FC = () => {
           color: #a78bfa;
           border: 1px solid rgba(139, 92, 246, 0.25);
         }
-        /* Checklists */
+
+        /* ── Task list ── */
         .roadmap-task-list {
           list-style: none;
           display: flex;
@@ -1805,16 +1818,14 @@ export const RoadmapTracker: React.FC = () => {
           display: flex;
           align-items: flex-start;
           gap: 0.75rem;
-          font-size: 13.5px;
+          font-size: 13px;
           color: var(--text-secondary);
           cursor: pointer;
           user-select: none;
           padding: 2px 0;
           transition: var(--transition-smooth);
         }
-        .roadmap-task-item:hover {
-          color: var(--text-primary);
-        }
+        .roadmap-task-item:hover { color: var(--text-primary); }
         .roadmap-task-checkbox-container {
           position: relative;
           width: 18px;
@@ -1835,9 +1846,7 @@ export const RoadmapTracker: React.FC = () => {
           border-color: var(--color-build);
           background-color: var(--color-build);
         }
-        .roadmap-task-checkbox-container.checked svg {
-          color: #ffffff;
-        }
+        .roadmap-task-checkbox-container.checked svg { color: #ffffff; }
         .roadmap-task-text {
           transition: var(--transition-smooth);
           line-height: 1.4;
@@ -1848,9 +1857,7 @@ export const RoadmapTracker: React.FC = () => {
           transition: var(--transition-smooth);
           font-weight: 500;
         }
-        .roadmap-task-text a:hover {
-          color: var(--text-info);
-        }
+        .roadmap-task-text a:hover { color: var(--text-info); }
         .roadmap-task-item.completed .roadmap-task-text {
           text-decoration: line-through;
           color: var(--text-muted);
@@ -1868,50 +1875,78 @@ export const RoadmapTracker: React.FC = () => {
           background: rgba(16, 185, 129, 0.1);
           color: var(--color-build);
         }
-        /* Journal Section */
+
+        /* ── Week info card ── */
+        .roadmap-week-info-card {
+          background: var(--bg-card);
+          border: 1px solid var(--border-color);
+          border-radius: var(--radius-md);
+          padding: 1.25rem;
+          box-shadow: var(--shadow-sm);
+          display: flex;
+          flex-direction: column;
+          gap: 1rem;
+        }
+        .roadmap-week-info-header {
+          display: flex;
+          justify-content: space-between;
+          align-items: flex-start;
+          flex-wrap: wrap;
+          gap: 0.5rem;
+        }
+        .roadmap-week-info-title {
+          font-size: 1.25rem;
+          font-weight: 700;
+          color: var(--text-primary);
+        }
+        .roadmap-week-info-meta {
+          font-size: 12px;
+          font-family: var(--font-mono);
+          color: var(--text-muted);
+        }
+        .roadmap-goal-box {
+          background: var(--goal-bg);
+          border: 1px solid var(--goal-border);
+          border-radius: var(--radius-sm);
+          padding: 0.9rem;
+          display: flex;
+          gap: 0.75rem;
+          align-items: flex-start;
+          font-size: 13.5px;
+          color: var(--text-info);
+          line-height: 1.5;
+        }
+        .roadmap-goal-box svg {
+          flex-shrink: 0;
+          color: var(--accent);
+          margin-top: 2px;
+        }
+        .roadmap-goal-text { margin: 0; }
+
+        /* ── Journal ── */
         .roadmap-journal-section {
           background: var(--bg-card);
           border: 1px solid var(--border-color);
           border-radius: var(--radius-md);
-          padding: 1.5rem;
+          padding: 1.25rem;
           box-shadow: var(--shadow-sm);
           display: flex;
           flex-direction: column;
-          gap: 1.25rem;
-        }
-        .roadmap-journal-header {
-          display: flex;
-          align-items: center;
-          justify-content: space-between;
-        }
-        .roadmap-journal-title {
-          font-size: 17px;
-          font-weight: 700;
-          color: var(--text-primary);
-          display: flex;
-          align-items: center;
-          gap: 8px;
-        }
-        .roadmap-journal-saved-lbl {
-          font-size: 12px;
-          color: var(--color-build);
-          display: flex;
-          align-items: center;
-          gap: 4px;
+          gap: 1rem;
         }
         .roadmap-journal-grid {
           display: grid;
-          grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-          gap: 1.25rem;
+          grid-template-columns: 1fr;
+          gap: 1rem;
         }
         .roadmap-journal-field {
           background: var(--bg-card-hover);
           border: 1px solid var(--border-color);
           border-radius: 10px;
-          padding: 1.25rem;
+          padding: 1rem;
           display: flex;
           flex-direction: column;
-          gap: 0.75rem;
+          gap: 0.6rem;
           transition: var(--transition-smooth);
           position: relative;
           overflow: hidden;
@@ -1919,10 +1954,8 @@ export const RoadmapTracker: React.FC = () => {
         .roadmap-journal-field::before {
           content: '';
           position: absolute;
-          top: 0;
-          left: 0;
-          width: 3px;
-          height: 100%;
+          top: 0; left: 0;
+          width: 3px; height: 100%;
           background: var(--accent);
           opacity: 0.35;
           transition: var(--transition-smooth);
@@ -1932,11 +1965,9 @@ export const RoadmapTracker: React.FC = () => {
           background: var(--bg-card);
           box-shadow: var(--shadow-md);
         }
-        .roadmap-journal-field:hover::before {
-          opacity: 0.7;
-        }
+        .roadmap-journal-field:hover::before { opacity: 0.7; }
         .roadmap-journal-label {
-          font-size: 13px;
+          font-size: 12px;
           font-weight: 600;
           color: var(--text-primary);
           display: flex;
@@ -1946,12 +1977,12 @@ export const RoadmapTracker: React.FC = () => {
         }
         .roadmap-journal-input {
           width: 100%;
-          height: 100px;
-          min-height: 100px;
+          height: 90px;
+          min-height: 90px;
           background: var(--input-bg);
           border: 1px solid var(--border-color);
           border-radius: 8px;
-          padding: 12px 14px;
+          padding: 10px 12px;
           font-family: inherit;
           font-size: 13px;
           line-height: 1.5;
@@ -1962,7 +1993,6 @@ export const RoadmapTracker: React.FC = () => {
         }
         .roadmap-journal-input:focus {
           border-color: var(--accent);
-          background: var(--input-bg);
           box-shadow: 0 0 0 3px var(--accent-glow);
         }
         .roadmap-journal-input::placeholder {
@@ -1977,13 +2007,12 @@ export const RoadmapTracker: React.FC = () => {
         .roadmap-journal-footer {
           display: flex;
           justify-content: flex-end;
-          margin-top: 0.5rem;
         }
         .roadmap-btn-primary {
           background: var(--btn-primary-bg);
           color: var(--btn-primary-text);
           border: none;
-          padding: 10px 20px;
+          padding: 9px 18px;
           border-radius: var(--radius-sm);
           font-size: 13px;
           font-weight: 600;
@@ -2001,126 +2030,109 @@ export const RoadmapTracker: React.FC = () => {
         .roadmap-btn-primary:disabled {
           opacity: 0.6;
           cursor: not-allowed;
+          transform: none;
         }
-        /* Sidebar glossary custom styles */
-        .roadmap-sidebar-glossary {
-          gap: 0.75rem;
-        }
-        .roadmap-sidebar-glossary-search {
-          position: relative;
-          width: 100%;
-        }
-        .roadmap-sidebar-search-icon {
-          position: absolute;
-          left: 10px;
-          top: 50%;
-          transform: translateY(-50%);
-          color: var(--text-muted);
-        }
-        .roadmap-sidebar-search-input {
-          width: 100%;
-          padding: 6px 10px 6px 28px;
-          border: 1px solid var(--border-color);
-          border-radius: 6px;
-          font-size: 12px;
-          outline: none;
-          background: var(--input-bg);
-          transition: var(--transition-smooth);
-          color: var(--text-primary);
-          font-family: var(--font-sans);
-        }
-        .roadmap-sidebar-search-input:focus {
-          border-color: var(--accent);
+
+        /* ── Companion cards (mindset + glossary) ── */
+        .roadmap-companion-card {
           background: var(--bg-card);
-          box-shadow: 0 0 0 2px var(--accent-glow);
-        }
-        .roadmap-sidebar-glossary-list {
+          border: 1px solid var(--border-color);
+          border-radius: var(--radius-md);
+          padding: 1.25rem;
+          box-shadow: var(--shadow-sm);
           display: flex;
           flex-direction: column;
-          gap: 0.5rem;
-          max-height: 380px;
-          overflow-y: auto;
-          padding-right: 4px;
+          gap: 0.75rem;
         }
-        .roadmap-sidebar-glossary-list::-webkit-scrollbar {
-          width: 4px;
+        .roadmap-companion-title {
+          font-size: 14px;
+          font-weight: 600;
+          color: var(--text-primary);
+          display: flex;
+          align-items: center;
+          gap: 8px;
         }
-        .roadmap-sidebar-glossary-list::-webkit-scrollbar-thumb {
-          background: rgba(255, 255, 255, 0.1);
-          border-radius: 2px;
+        .roadmap-companion-body {
+          font-size: 13px;
+          color: var(--text-secondary);
+          line-height: 1.6;
+          border-left: 3px solid var(--accent);
+          padding-left: 10px;
         }
-        .roadmap-sidebar-glossary-item {
-          border: 1px solid var(--border-color);
-          border-radius: 6px;
-          background: rgba(255, 255, 255, 0.015);
-          overflow: hidden;
-          transition: var(--transition-smooth);
-          flex-shrink: 0;
+        .roadmap-companion-body code {
+          font-family: var(--font-mono);
+          background: var(--code-bg);
+          padding: 1px 4px;
+          border-radius: 3px;
+          font-size: 11.5px;
+          color: var(--text-primary);
         }
-        .roadmap-sidebar-glossary-item:hover {
-          border-color: var(--accent-border);
-          background: var(--bg-card-hover);
-        }
-        .roadmap-sidebar-glossary-item.expanded {
-          border-color: var(--accent-border);
-          background: var(--accent-glow);
-        }
-        .roadmap-sidebar-glossary-header {
-          width: 100%;
-          background: transparent;
-          border: none;
-          padding: 10px 12px;
+        .roadmap-sidebar-glossary { gap: 0.75rem; }
+
+        /* ── Week search ── */
+        .roadmap-week-search-row {
           display: flex;
           align-items: center;
           justify-content: space-between;
-          cursor: pointer;
+          gap: 1rem;
+          flex-wrap: wrap;
+        }
+        .roadmap-week-search-container {
+          position: relative;
+          display: flex;
+          align-items: center;
+          width: 380px;
+          max-width: 100%;
+        }
+        .roadmap-week-search-icon {
+          position: absolute;
+          left: 12px;
+          color: var(--text-muted);
+        }
+        .roadmap-week-search-input {
+          width: 100%;
+          padding: 8px 36px 8px 36px;
+          border: 1px solid var(--border-color);
+          border-radius: var(--radius-sm);
+          font-size: 13px;
+          outline: none;
+          background: var(--bg-card);
+          transition: var(--transition-smooth);
           color: var(--text-primary);
-          min-height: 44px;
-          line-height: 1.4;
+          font-family: var(--font-sans);
+          box-shadow: var(--shadow-sm);
         }
-        .roadmap-sidebar-glossary-csharp {
-          font-size: 11px;
-          font-weight: 600;
-          color: var(--text-secondary);
-          width: 45%;
-          word-break: break-all;
-          text-align: left;
+        .roadmap-week-search-input:focus {
+          border-color: var(--accent);
+          box-shadow: 0 0 0 2px var(--accent-glow);
         }
-        .roadmap-sidebar-glossary-arrow {
-          font-size: 10px;
+        .roadmap-week-search-clear-btn {
+          position: absolute;
+          right: 12px;
+          background: none;
+          border: none;
           color: var(--text-muted);
-          width: 10%;
-          text-align: center;
+          cursor: pointer;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          padding: 0;
+          transition: var(--transition-smooth);
         }
-        .roadmap-sidebar-glossary-python {
+        .roadmap-week-search-clear-btn:hover { color: var(--text-primary); }
+        .roadmap-week-search-status {
           font-size: 11px;
-          font-weight: 600;
           color: var(--accent);
-          width: 45%;
-          word-break: break-all;
-          text-align: right;
+          background: var(--accent-glow);
+          padding: 4px 10px;
+          border-radius: 20px;
+          border: 1px solid var(--accent-border);
         }
-        .roadmap-sidebar-glossary-desc {
-          padding: 8px 10px;
-          font-size: 11px;
-          color: var(--text-secondary);
-          line-height: 1.4;
-          border-top: 1px solid var(--border-color);
-          background: rgba(0, 0, 0, 0.15);
-        }
-        .roadmap-sidebar-glossary-empty {
-          font-size: 12px;
-          color: var(--text-muted);
-          text-align: center;
-          padding: 1rem;
-        }
-        /* Login modal gatekeeper */
+
+        /* ── Login modal ── */
         .roadmap-modal-overlay {
           position: fixed;
-          top: 0;
-          left: 0;
-          right: 0;
-          bottom: 0;
+          top: 0; left: 0; right: 0; bottom: 0;
           background: rgba(0, 0, 0, 0.5) !important;
           backdrop-filter: blur(10px) !important;
           -webkit-backdrop-filter: blur(10px) !important;
@@ -2163,9 +2175,7 @@ export const RoadmapTracker: React.FC = () => {
           cursor: pointer;
           transition: var(--transition-smooth);
         }
-        .roadmap-modal-close:hover {
-          color: var(--text-primary);
-        }
+        .roadmap-modal-close:hover { color: var(--text-primary); }
         .roadmap-modal-form {
           padding: 1.5rem;
           display: flex;
@@ -2239,11 +2249,9 @@ export const RoadmapTracker: React.FC = () => {
           cursor: pointer;
           transition: var(--transition-smooth);
         }
-        .roadmap-modal-btn:hover {
-          background: var(--btn-primary-hover-bg);
-        }
+        .roadmap-modal-btn:hover { background: var(--btn-primary-hover-bg); }
 
-        /* Parallel Syntax Modal Styles */
+        /* ── Glossary modal ── */
         .roadmap-syntax-modal-overlay {
           padding: 2rem;
           z-index: 210;
@@ -2407,17 +2415,21 @@ export const RoadmapTracker: React.FC = () => {
           grid-template-columns: 1fr 1fr;
           gap: 1rem;
         }
-        @media (max-width: 768px) {
-          .roadmap-syntax-card-code-section {
-            grid-template-columns: 1fr;
-          }
-          .roadmap-syntax-filter-row {
-            flex-direction: column;
-            align-items: flex-start;
-          }
-          .roadmap-syntax-search-container {
-            width: 100%;
-          }
+        .roadmap-syntax-code-label {
+          position: absolute;
+          top: 6px;
+          right: 10px;
+          font-size: 9px;
+          color: var(--text-muted);
+          text-transform: uppercase;
+          letter-spacing: 0.05em;
+          z-index: 10;
+        }
+        .roadmap-syntax-empty {
+          text-align: center;
+          padding: 3rem;
+          color: var(--text-muted);
+          font-size: 14px;
         }
         .code-block {
           background: #0f131a !important;
@@ -2430,16 +2442,6 @@ export const RoadmapTracker: React.FC = () => {
           color: #e2e8f0 !important;
           margin: 0 !important;
         }
-        .roadmap-syntax-code-label {
-          position: absolute;
-          top: 6px;
-          right: 10px;
-          font-size: 9px;
-          color: var(--text-muted);
-          text-transform: uppercase;
-          letter-spacing: 0.05em;
-          z-index: 10;
-        }
         .code-block code {
           background: transparent !important;
           color: inherit !important;
@@ -2447,91 +2449,184 @@ export const RoadmapTracker: React.FC = () => {
           font-size: inherit !important;
           padding: 0 !important;
         }
-        .code-block .token.keyword {
-          color: #ff79c6 !important;
-          font-weight: bold;
-        }
-        .code-block .token.string {
-          color: #50fa7b !important;
-        }
-        .code-block .token.comment {
-          color: #6272a4 !important;
-          font-style: italic;
-        }
-        .code-block .token.number {
-          color: #bd93f9 !important;
-        }
-        .code-block .token.type {
-          color: #8be9fd !important;
-        }
-        .roadmap-syntax-empty {
-          text-align: center;
-          padding: 3rem;
-          color: var(--text-muted);
-          font-size: 14px;
-        }
+        .code-block .token.keyword { color: #ff79c6 !important; font-weight: bold; }
+        .code-block .token.string { color: #50fa7b !important; }
+        .code-block .token.comment { color: #6272a4 !important; font-style: italic; }
+        .code-block .token.number { color: #bd93f9 !important; }
+        .code-block .token.type { color: #8be9fd !important; }
 
-        /* Week Search Row Styles */
-        .roadmap-week-search-row {
+        /* ── Projects section ── */
+        .roadmap-projects-section {
+          margin-bottom: 1.75rem;
+        }
+        .roadmap-projects-header {
           display: flex;
           align-items: center;
           justify-content: space-between;
-          gap: 1rem;
-          margin-bottom: 1rem;
-          flex-wrap: wrap;
+          margin-bottom: 0.8rem;
         }
-        .roadmap-week-search-container {
-          position: relative;
-          display: flex;
-          align-items: center;
-          width: 380px;
-          max-width: 100%;
-        }
-        .roadmap-week-search-icon {
-          position: absolute;
-          left: 12px;
-          color: var(--text-muted);
-        }
-        .roadmap-week-search-input {
-          width: 100%;
-          padding: 8px 36px 8px 36px;
-          border: 1px solid var(--border-color);
-          border-radius: var(--radius-sm);
-          font-size: 13px;
-          outline: none;
-          background: var(--bg-card);
-          transition: var(--transition-smooth);
-          color: var(--text-primary);
-          font-family: var(--font-sans);
-          box-shadow: var(--shadow-sm);
-        }
-        .roadmap-week-search-input:focus {
-          border-color: var(--accent);
-          box-shadow: 0 0 0 2px var(--accent-glow);
-        }
-        .roadmap-week-search-clear-btn {
-          position: absolute;
-          right: 12px;
-          background: none;
-          border: none;
-          color: var(--text-muted);
-          cursor: pointer;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          padding: 0;
-          transition: var(--transition-smooth);
-        }
-        .roadmap-week-search-clear-btn:hover {
-          color: var(--text-primary);
-        }
-        .roadmap-week-search-status {
+        .roadmap-projects-title {
           font-size: 11px;
-          color: var(--accent);
+          font-weight: 700;
+          color: var(--text-muted);
+          text-transform: uppercase;
+          letter-spacing: 0.08em;
+          display: flex;
+          align-items: center;
+          gap: 6px;
+        }
+        .roadmap-projects-count {
+          font-size: 11px;
+          color: var(--text-muted);
+        }
+        .roadmap-projects-scroll {
+          display: flex;
+          gap: 1rem;
+          overflow-x: auto;
+          scrollbar-width: none;
+          padding-bottom: 6px;
+          cursor: default;
+        }
+        .roadmap-projects-scroll::-webkit-scrollbar { display: none; }
+
+        .project-card {
+          flex-shrink: 0;
+          width: 268px;
+          background: var(--bg-card);
+          border: 1px solid var(--border-color);
+          border-radius: var(--radius-md);
+          padding: 0 1.1rem 1.1rem;
+          position: relative;
+          overflow: hidden;
+          transition: var(--transition-smooth);
+          box-shadow: var(--shadow-sm);
+          cursor: pointer;
+        }
+        .project-card:hover {
+          border-color: var(--border-hover);
+          box-shadow: var(--shadow-md);
+          transform: translateY(-2px);
+        }
+        .project-card.project-active {
+          border-color: var(--accent-border);
           background: var(--accent-glow);
-          padding: 4px 10px;
-          border-radius: 20px;
-          border: 1px solid var(--accent-border);
+          box-shadow: 0 0 18px var(--accent-glow), var(--shadow-sm);
+        }
+
+        /* Colored top bar by project type */
+        .project-card-top-bar {
+          height: 3px;
+          margin: 0 -1.1rem 1rem;
+          border-radius: 0;
+        }
+        .project-type-api .project-card-top-bar    { background: linear-gradient(90deg, #3b82f6, #60a5fa); }
+        .project-type-agent .project-card-top-bar  { background: linear-gradient(90deg, #8b5cf6, #a78bfa); }
+        .project-type-rag .project-card-top-bar    { background: linear-gradient(90deg, #10b981, #34d399); }
+        .project-type-voice .project-card-top-bar  { background: linear-gradient(90deg, #f97316, #fb923c); }
+        .project-type-saas .project-card-top-bar   { background: linear-gradient(90deg, #f59e0b, #fbbf24); }
+
+        .project-card-head {
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          margin-bottom: 0.55rem;
+        }
+        .project-num {
+          font-size: 10px;
+          font-weight: 700;
+          color: var(--text-muted);
+          background: var(--code-bg);
+          padding: 2px 7px;
+          border-radius: 4px;
+        }
+        .project-meta {
+          font-size: 10px;
+          color: var(--text-muted);
+          font-family: var(--font-mono);
+        }
+        .project-card.project-active .project-meta { color: var(--accent); }
+        .project-card.project-active .project-num {
+          background: rgba(var(--accent-rgb), 0.15);
+          color: var(--accent);
+        }
+
+        .project-title {
+          font-size: 13px;
+          font-weight: 700;
+          color: var(--text-primary);
+          margin-bottom: 0.6rem;
+          line-height: 1.3;
+        }
+        .project-tech-stack {
+          display: flex;
+          flex-wrap: wrap;
+          gap: 4px;
+          margin-bottom: 0.75rem;
+        }
+        .project-tech-badge {
+          font-size: 10px;
+          padding: 2px 7px;
+          border-radius: 4px;
+          background: var(--code-bg);
+          color: var(--text-secondary);
+          border: 1px solid var(--border-color);
+          font-weight: 600;
+        }
+        .project-details {
+          display: flex;
+          flex-direction: column;
+          gap: 5px;
+          border-top: 1px solid var(--border-color);
+          padding-top: 0.65rem;
+        }
+        .project-detail-row {
+          display: flex;
+          gap: 7px;
+          align-items: flex-start;
+        }
+        .project-detail-label {
+          font-family: var(--font-mono);
+          font-size: 8.5px;
+          font-weight: 700;
+          text-transform: uppercase;
+          color: var(--text-muted);
+          flex-shrink: 0;
+          padding-top: 2px;
+          min-width: 22px;
+          letter-spacing: 0.05em;
+        }
+        .project-detail-val {
+          color: var(--text-secondary);
+          font-size: 11px;
+          line-height: 1.45;
+        }
+        .project-note-row { margin-top: 2px; }
+        .project-note {
+          color: var(--accent);
+          font-size: 10.5px;
+          font-family: var(--font-mono);
+        }
+        .project-type-api .project-detail-label    { color: #3b82f6; }
+        .project-type-agent .project-detail-label  { color: #8b5cf6; }
+        .project-type-rag .project-detail-label    { color: #10b981; }
+        .project-type-voice .project-detail-label  { color: #f97316; }
+        .project-type-saas .project-detail-label   { color: #f59e0b; }
+
+        /* ── Responsive ── */
+        @media (max-width: 1024px) {
+          .roadmap-content-grid { grid-template-columns: 1fr; }
+          .roadmap-left-panel { position: static; }
+          .roadmap-header { flex-wrap: wrap; }
+          .roadmap-header-right { flex-direction: row; align-items: center; width: 100%; justify-content: space-between; }
+        }
+        @media (max-width: 768px) {
+          .roadmap-day-grid { grid-template-columns: 1fr; }
+          .roadmap-title { font-size: 1.5rem; }
+          .roadmap-kpi-strip { gap: 0.75rem; }
+          .roadmap-syntax-card-code-section { grid-template-columns: 1fr; }
+          .roadmap-syntax-filter-row { flex-direction: column; align-items: flex-start; }
+          .roadmap-syntax-search-container { width: 100%; }
+          .roadmap-progress-ring-wrap { display: none; }
         }
       `}</style>
     </div>
