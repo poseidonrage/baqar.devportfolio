@@ -208,34 +208,45 @@ export const Hero: React.FC = () => {
     const wraps = hero.querySelectorAll<HTMLElement>('.block-wrap');
     if (!wraps.length) return;
 
-    // Strong exit directions so blocks fly out of viewport when scrolling down
+    // Exit vectors as fractions of the viewport so blocks fully fly off-screen,
+    // growing as they go; reversing scroll brings them back in
     const driftConfig = [
-      { sx: -140, sy: -200, scale: 0.35 },  // block 1: top-left → up-left
-      { sx: 60, sy: -220, scale: 0.3 },     // block 2: top-center → up
-      { sx: 180, sy: -180, scale: 0.35 },   // block 3: top-right → up-right
-      { sx: 200, sy: -120, scale: 0.3 },    // block 4: upper-right → right
-      { sx: 160, sy: 120, scale: 0.3 },     // block 5: mid-right → down-right
-      { sx: -120, sy: 160, scale: 0.35 },   // block 6: bottom-left → down-left
+      { dx: -0.9, dy: -0.7, scale: 1.4 },   // block 1: top-left → off up-left
+      { dx: 0.25, dy: -1.1, scale: 1.2 },   // block 2: top-center → off top
+      { dx: 0.9, dy: -0.8, scale: 1.4 },    // block 3: top-right → off up-right
+      { dx: 1.1, dy: -0.4, scale: 1.2 },    // block 4: upper-right → off right
+      { dx: 1.0, dy: 0.6, scale: 1.3 },     // block 5: mid-right → off down-right
+      { dx: -1.0, dy: 0.7, scale: 1.4 },    // block 6: bottom-left → off down-left
     ];
 
+    let raf = 0;
     const onScroll = () => {
-      const rect = hero.getBoundingClientRect();
-      // progress: 0 = hero top at viewport top, 1 = hero fully scrolled past
-      const progress = Math.max(0, Math.min(1, -rect.top / rect.height));
-      const eased = progress * progress; // ease-in curve
+      cancelAnimationFrame(raf);
+      raf = requestAnimationFrame(() => {
+        const rect = hero.getBoundingClientRect();
+        // progress hits 1 when ~70% of the hero has scrolled past, so blocks
+        // are fully gone before the next section settles in
+        const progress = Math.max(0, Math.min(1, -rect.top / (rect.height * 0.7)));
+        const eased = progress * progress;
+        const vw = window.innerWidth;
+        const vh = window.innerHeight;
 
-      wraps.forEach((wrap, i) => {
-        const cfg = driftConfig[i] || { sx: 0, sy: 0, scale: 0 };
-        const tx = cfg.sx * eased;
-        const ty = cfg.sy * eased;
-        const sc = 1 + (cfg.scale * eased);
-        wrap.style.transform = `translate3d(${tx}px, ${ty}px, 0) scale(${sc})`;
+        wraps.forEach((wrap, i) => {
+          const cfg = driftConfig[i] || { dx: 0, dy: 0, scale: 0 };
+          const tx = cfg.dx * vw * eased;
+          const ty = cfg.dy * vh * eased;
+          const sc = 1 + (cfg.scale * eased);
+          wrap.style.transform = `translate3d(${tx}px, ${ty}px, 0) scale(${sc})`;
+        });
       });
     };
 
     window.addEventListener('scroll', onScroll, { passive: true });
     onScroll();
-    return () => window.removeEventListener('scroll', onScroll);
+    return () => {
+      window.removeEventListener('scroll', onScroll);
+      cancelAnimationFrame(raf);
+    };
   }, []);
 
   return (

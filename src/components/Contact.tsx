@@ -109,31 +109,44 @@ export const Contact: React.FC = () => {
     const wraps = section.querySelectorAll<HTMLElement>('.cblock-wrap');
     if (!wraps.length) return;
 
+    // Exit vectors as fractions of the viewport — biased left so the cubes
+    // sweep across the footer on their way off-screen
     const driftConfig = [
-      { sx: -120, sy: 100, scale: 0.3 },    // block 1: bottom-left → down-left
-      { sx: -90, sy: 50, scale: 0.25 },     // block 2: mid-left → left
-      { sx: -60, sy: 130, scale: 0.3 },     // block 3: bottom-left → down
-      { sx: -140, sy: 80, scale: 0.3 },     // block 4: upper-left → down-left
+      { dx: -1.1, dy: 0.25, scale: 1.3 },   // block 1: bottom-left → off left, grazing footer
+      { dx: -1.2, dy: 0.1, scale: 1.2 },    // block 2: mid-left → off left
+      { dx: -0.9, dy: 0.35, scale: 1.3 },   // block 3: bottom-left → off lower-left
+      { dx: -1.15, dy: 0.2, scale: 1.2 },   // block 4: upper-left → off left
     ];
 
+    let raf = 0;
     const onScroll = () => {
-      const rect = section.getBoundingClientRect();
-      // progress: 0 = section top at viewport top, 1 = section fully scrolled past
-      const progress = Math.max(0, Math.min(1, -rect.top / rect.height));
-      const eased = progress * progress; // ease-in curve
+      cancelAnimationFrame(raf);
+      raf = requestAnimationFrame(() => {
+        const rect = section.getBoundingClientRect();
+        const vh = window.innerHeight;
+        const vw = window.innerWidth;
+        // Contact is the last section, so the page can never scroll fully past
+        // it — cap the flight so the cubes drift with scroll but remain visible
+        // at the bottom-of-page rest position
+        const progress = Math.max(0, Math.min(0.45, (vh - rect.top - rect.height * 0.55) / (vh * 0.5)));
+        const eased = progress * progress;
 
-      wraps.forEach((wrap, i) => {
-        const cfg = driftConfig[i] || { sx: 0, sy: 0, scale: 0 };
-        const tx = cfg.sx * eased;
-        const ty = cfg.sy * eased;
-        const sc = 1 + (cfg.scale * eased);
-        wrap.style.transform = `translate3d(${tx}px, ${ty}px, 0) scale(${sc})`;
+        wraps.forEach((wrap, i) => {
+          const cfg = driftConfig[i] || { dx: 0, dy: 0, scale: 0 };
+          const tx = cfg.dx * vw * eased;
+          const ty = cfg.dy * vh * eased;
+          const sc = 1 + (cfg.scale * eased);
+          wrap.style.transform = `translate3d(${tx}px, ${ty}px, 0) scale(${sc})`;
+        });
       });
     };
 
     window.addEventListener('scroll', onScroll, { passive: true });
     onScroll();
-    return () => window.removeEventListener('scroll', onScroll);
+    return () => {
+      window.removeEventListener('scroll', onScroll);
+      cancelAnimationFrame(raf);
+    };
   }, []);
 
   return (
@@ -468,9 +481,10 @@ export const Contact: React.FC = () => {
         /* 3D Cubes */
         .cblock-wrap {
           position: absolute;
-          z-index: 0;
+          /* above the footer so the cubes visibly sweep across it while exiting */
+          z-index: 60;
           pointer-events: none;
-          will-change: transform;
+          will-change: transform, opacity;
         }
         .cblock-drift {
           display: flex;

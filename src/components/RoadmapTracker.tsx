@@ -872,6 +872,29 @@ export const RoadmapTracker: React.FC = () => {
     return t > 0 ? Math.round((d / t) * 100) : 0;
   };
 
+  const monthPercent = (m: Month) => {
+    let t = 0, d = 0;
+    m.weeks.forEach(w => w.days.forEach(day => day.tasks.forEach(task => {
+      t++;
+      if (completedTaskIds[task.id]) d++;
+    })));
+    return t > 0 ? Math.round((d / t) * 100) : 0;
+  };
+
+  const monthShortTitle = (m: Month) =>
+    m.title.includes(':') ? m.title.split(':').slice(1).join(':').trim() : m.title;
+
+  // Shows the floating week dock once the pills row scrolls out of view
+  const [pillsStuck, setPillsStuck] = useState(false);
+  const pillsSentinelRef = useRef<HTMLDivElement | null>(null);
+  useEffect(() => {
+    const el = pillsSentinelRef.current;
+    if (!el) return;
+    const obs = new IntersectionObserver(([entry]) => setPillsStuck(!entry.isIntersecting), { threshold: 0 });
+    obs.observe(el);
+    return () => obs.disconnect();
+  }, []);
+
   const filteredDays = activeWeek
     ? (weekSearch.trim() === ''
       ? activeWeek.days
@@ -977,9 +1000,33 @@ export const RoadmapTracker: React.FC = () => {
           </div>
         )}
 
-        {/* ── Master progress bar ── */}
-        <div className="roadmap-master-bar">
-          <div className="roadmap-master-fill" style={{ width: overallPercent + '%' }} />
+        {/* ── Master progress bar: clickable month segments + progress thumb ── */}
+        <div className="roadmap-master-track-wrap">
+          <div className="roadmap-master-bar">
+            <div className="roadmap-master-fill" style={{ width: overallPercent + '%' }} />
+            <div className="roadmap-master-segments">
+              {validMonths.map(m => {
+                const mPct = monthPercent(m);
+                return (
+                  <button
+                    key={m.id}
+                    className={`master-seg${activeMonthId === m.id ? ' active' : ''}${mPct >= 100 ? ' done' : ''}`}
+                    style={{ flexGrow: m.weeks.length }}
+                    onClick={() => handleMonthSelect(m.id)}
+                    aria-label={`Jump to month ${m.id}: ${monthShortTitle(m)} (${mPct}% complete)`}
+                  >
+                    <span className="master-seg-tip font-mono">M{m.id} · {monthShortTitle(m)} · {mPct}%</span>
+                  </button>
+                );
+              })}
+            </div>
+            <div
+              className="roadmap-master-thumb"
+              style={{ left: `clamp(10px, ${overallPercent}%, calc(100% - 10px))` }}
+            >
+              <span className="roadmap-master-chip font-mono">{countedPercent}%</span>
+            </div>
+          </div>
         </div>
 
         {/* ── Timeline ribbon ── */}
@@ -1020,6 +1067,7 @@ export const RoadmapTracker: React.FC = () => {
         </div>
 
         {/* ── Week pills ── */}
+        <div ref={pillsSentinelRef} className="roadmap-pills-sentinel" aria-hidden="true" />
         {activeMonth && (
           <div className="roadmap-week-pills">
             {activeMonth.weeks.map(w => {
@@ -1041,15 +1089,39 @@ export const RoadmapTracker: React.FC = () => {
           </div>
         )}
 
+        {/* ── Floating week dock: flies in once the pills scroll away ── */}
+        {activeMonth && pillsStuck && (
+          <div className="roadmap-week-dock" key={`dock-${activeMonthId}`}>
+            <span className="week-dock-label font-mono">M{activeMonthId}</span>
+            {activeMonth.weeks.map((w, i) => {
+              const wPct = weekPercent(w);
+              return (
+                <button
+                  key={w.id}
+                  className={`week-dock-item${activeWeekId === w.id ? ' active' : ''}${wPct >= 100 ? ' done' : ''}`}
+                  style={{ animationDelay: `${i * 50}ms` }}
+                  onClick={() => setActiveWeekId(w.id)}
+                >
+                  <span className="week-dock-num font-mono">W{w.week_number}</span>
+                  <span className="week-dock-bar"><span style={{ width: wPct + '%' }} /></span>
+                  <span className="week-dock-tip font-mono">Week {w.week_number} · {wPct}%</span>
+                </button>
+              );
+            })}
+          </div>
+        )}
+
         {/* ── Content grid ── */}
         {activeWeek && (
           <>
-          {/* Projects for active month — shown when week is selected */}
+          {/* Capstone projects + weekly resources, side by side */}
           {(() => {
             const monthProjects = PROJECTS.filter(p => p.monthId === activeMonthId);
-            if (monthProjects.length === 0) return null;
+            if (monthProjects.length === 0 && activeWeekResources.length === 0) return null;
             return (
-              <div className="roadmap-projects-section">
+              <div className="roadmap-feature-row" key={`feat-${activeWeek.id}`}>
+              {monthProjects.length > 0 && (
+              <div className="roadmap-projects-section roadmap-anim-in">
                 <div className="roadmap-projects-header">
                   <span className="roadmap-projects-title font-mono">
                     <TrendingUp size={13} />
@@ -1092,30 +1164,11 @@ export const RoadmapTracker: React.FC = () => {
                   ))}
                 </div>
               </div>
-            );
-          })()}
-
-          <div className="roadmap-content-grid">
-
-            {/* LEFT: sticky panel */}
-            <aside className="roadmap-left-panel">
-              {/* Week info */}
-              <div className="roadmap-week-info-card">
-                <div className="roadmap-week-info-header">
-                  <h2 className="roadmap-week-info-title">Week {activeWeek.week_number} — {activeWeek.title}</h2>
-                  <span className="roadmap-week-info-meta">{activeWeek.focus_hours}</span>
-                </div>
-                {activeWeek.weekly_goal && (
-                  <div className="roadmap-goal-box">
-                    <Calendar size={16} />
-                    <p className="roadmap-goal-text"><strong>Goal:</strong> {activeWeek.weekly_goal}</p>
-                  </div>
-                )}
-              </div>
+              )}
 
               {/* Resources for this week */}
               {activeWeekResources.length > 0 && (
-                <div className="roadmap-resources-card" onMouseMove={handleCardSpotlight}>
+                <div className="roadmap-resources-card roadmap-anim-in" style={{ animationDelay: '90ms' }} onMouseMove={handleCardSpotlight}>
                   <div className="roadmap-resources-header">
                     <span className="roadmap-companion-title font-mono">
                       <Sparkles size={16} className="roadmap-resources-spark" />
@@ -1150,9 +1203,30 @@ export const RoadmapTracker: React.FC = () => {
                   </div>
                 </div>
               )}
+              </div>
+            );
+          })()}
+
+          <div className="roadmap-content-grid">
+
+            {/* LEFT: sticky panel */}
+            <aside className="roadmap-left-panel">
+              {/* Week info */}
+              <div className="roadmap-week-info-card roadmap-anim-in" key={`info-${activeWeek.id}`}>
+                <div className="roadmap-week-info-header">
+                  <h2 className="roadmap-week-info-title">Week {activeWeek.week_number} — {activeWeek.title}</h2>
+                  <span className="roadmap-week-info-meta">{activeWeek.focus_hours}</span>
+                </div>
+                {activeWeek.weekly_goal && (
+                  <div className="roadmap-goal-box">
+                    <Calendar size={16} />
+                    <p className="roadmap-goal-text"><strong>Goal:</strong> {activeWeek.weekly_goal}</p>
+                  </div>
+                )}
+              </div>
 
               {/* Journal — div, not section, to avoid global padding:0 reset */}
-              <div className="roadmap-journal-section">
+              <div className="roadmap-journal-section roadmap-anim-in" key={`journal-${activeWeek.id}`} style={{ animationDelay: '60ms' }}>
                 <div className="roadmap-journal-header-row">
                   <h2 className="roadmap-week-info-title" style={{ fontSize: '1rem' }}>Week {activeWeek.week_number} — Retro Log</h2>
                   <span className="roadmap-week-info-meta">
@@ -1206,7 +1280,7 @@ export const RoadmapTracker: React.FC = () => {
 
               {/* Mindset */}
               {activeWeek.csharp_mindset && (
-                <div className="roadmap-companion-card">
+                <div className="roadmap-companion-card roadmap-anim-in" key={`mindset-${activeWeek.id}`} style={{ animationDelay: '120ms' }}>
                   <span className="roadmap-companion-title font-mono">
                     <Compass size={16} />
                     Mindset Shift
@@ -1217,8 +1291,9 @@ export const RoadmapTracker: React.FC = () => {
 
               {/* Glossary link */}
               <div
-                className="roadmap-companion-card roadmap-sidebar-glossary"
-                style={{ cursor: 'pointer', transition: 'var(--transition-smooth)' }}
+                className="roadmap-companion-card roadmap-sidebar-glossary roadmap-anim-in"
+                key={`glossary-${activeWeek.id}`}
+                style={{ cursor: 'pointer', transition: 'var(--transition-smooth)', animationDelay: '180ms' }}
                 onClick={() => setShowGlossaryModal(true)}
               >
                 <span className="roadmap-companion-title font-mono">
@@ -1516,44 +1591,46 @@ export const RoadmapTracker: React.FC = () => {
           --radius-sm: 8px;
           --radius-md: 12px;
           --radius-lg: 20px;
-          --font-sans: 'Outfit', sans-serif;
-          --font-mono: 'JetBrains Mono', monospace;
+          --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+          --font-display: 'Space Grotesk', 'Inter', sans-serif;
+          --font-mono: 'JetBrains Mono', 'Roboto Mono', monospace;
           --transition-smooth: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
         .roadmap-wrapper.theme-light {
-          --bg-app: #f8fafc;
-          --bg-gradient: radial-gradient(circle at 50% 0%, #e2e8f0 0%, #f8fafc 100%);
+          --bg-app: #f4f7fb;
+          --bg-gradient: radial-gradient(circle at 50% 0%, #e0eaf5 0%, #f4f7fb 60%);
           --bg-card: #ffffff;
-          --bg-card-hover: #f1f5f9;
+          --bg-card-hover: #eef4fa;
           --text-primary: #0f172a;
-          --text-secondary: #475569;
-          --text-muted: #94a3b8;
-          --text-info: #0284c7;
-          --border-color: rgba(0, 0, 0, 0.06);
-          --border-hover: rgba(14, 165, 233, 0.3);
+          --text-secondary: #44536b;
+          --text-muted: #7e8fa6;
+          --text-info: #0369a1;
+          --border-color: rgba(15, 23, 42, 0.1);
+          --border-hover: rgba(2, 132, 199, 0.35);
           --accent: #0284c7;
           --accent-rgb: 2, 132, 199;
-          --accent-glow: rgba(2, 132, 199, 0.06);
-          --accent-border: rgba(2, 132, 199, 0.15);
+          --accent-glow: rgba(2, 132, 199, 0.08);
+          --accent-border: rgba(2, 132, 199, 0.25);
           --color-learn: #3b82f6;
           --color-build: #10b981;
           --color-read: #f59e0b;
           --color-check: #8b5cf6;
-          --badge-info-bg: rgba(2, 132, 199, 0.06);
+          --badge-info-bg: rgba(2, 132, 199, 0.08);
           --badge-info-text: #0369a1;
-          --badge-info-border: rgba(2, 132, 199, 0.12);
-          --shadow-sm: 0 2px 4px rgba(0,0,0,0.02);
-          --shadow-md: 0 4px 12px rgba(15, 23, 42, 0.04);
-          --shadow-lg: 0 10px 25px -5px rgba(15, 23, 42, 0.06), 0 8px 10px -6px rgba(15, 23, 42, 0.06);
-          --progress-badge-bg: rgba(0, 0, 0, 0.05);
-          --code-bg: rgba(0, 0, 0, 0.04);
-          --goal-bg: rgba(2, 132, 199, 0.03);
-          --goal-border: rgba(2, 132, 199, 0.08);
+          --badge-info-border: rgba(2, 132, 199, 0.2);
+          --shadow-sm: 0 1px 3px rgba(15, 23, 42, 0.06);
+          --shadow-md: 0 4px 14px rgba(15, 23, 42, 0.09);
+          --shadow-lg: 0 12px 28px -6px rgba(15, 23, 42, 0.14), 0 8px 10px -6px rgba(15, 23, 42, 0.08);
+          --progress-badge-bg: rgba(15, 23, 42, 0.06);
+          --code-bg: rgba(15, 23, 42, 0.05);
+          --goal-bg: rgba(2, 132, 199, 0.05);
+          --goal-border: rgba(2, 132, 199, 0.16);
+          --bg-sticky: rgba(244, 247, 251, 0.85);
           --day-type-learn-bg: rgba(59, 130, 246, 0.08);
           --day-type-build-bg: rgba(16, 185, 129, 0.08);
           --day-type-read-bg: rgba(245, 158, 11, 0.08);
-          --input-bg: #f8fafc;
+          --input-bg: #f1f5fa;
           --modal-bg: #ffffff;
           --modal-overlay-bg: rgba(15, 23, 42, 0.6);
           --btn-primary-bg: #0f172a;
@@ -1597,6 +1674,7 @@ export const RoadmapTracker: React.FC = () => {
           --day-type-build-bg: rgba(52, 211, 153, 0.15);
           --day-type-read-bg: rgba(251, 191, 36, 0.15);
           --input-bg: #0c101a;
+          --bg-sticky: rgba(8, 11, 17, 0.8);
           --modal-bg: #111724;
           --modal-overlay-bg: rgba(0, 0, 0, 0.85);
           --btn-primary-bg: #38bdf8;
@@ -1816,19 +1894,108 @@ export const RoadmapTracker: React.FC = () => {
           font-size: 13px;
         }
 
-        /* ── Master progress bar ── */
+        /* ── Master progress bar: interactive month segments ── */
+        .roadmap-master-track-wrap {
+          margin-bottom: 2.4rem;
+          padding-top: 0.5rem;
+        }
         .roadmap-master-bar {
-          height: 6px;
+          position: relative;
+          height: 10px;
           background: var(--border-color);
-          border-radius: 3px;
-          margin-bottom: 2rem;
+          border-radius: 6px;
+          transition: height 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .roadmap-master-bar:hover { height: 16px; }
+        .roadmap-master-fill {
+          position: absolute;
+          left: 0; top: 0; bottom: 0;
+          border-radius: 6px;
+          background: linear-gradient(90deg, var(--accent), #8b5cf6, var(--color-build));
+          background-size: 200% 100%;
+          transition: width 0.8s cubic-bezier(0.4,0,0.2,1);
+        }
+        .roadmap-master-segments {
+          position: absolute;
+          inset: 0;
+          display: flex;
+          border-radius: 6px;
           overflow: hidden;
         }
-        .roadmap-master-fill {
-          height: 100%;
-          border-radius: 3px;
-          background: linear-gradient(90deg, var(--accent) 0%, rgba(var(--accent-rgb), 0.45) 100%);
-          transition: width 0.8s cubic-bezier(0.4,0,0.2,1);
+        .master-seg {
+          position: relative;
+          flex-basis: 0;
+          background: transparent;
+          border: none;
+          border-right: 2px solid var(--bg-app);
+          cursor: pointer;
+          padding: 0;
+          transition: var(--transition-smooth);
+        }
+        .master-seg:last-child { border-right: none; }
+        .master-seg:hover { background: rgba(var(--accent-rgb), 0.16); }
+        .master-seg.active { box-shadow: inset 0 0 0 2px rgba(var(--accent-rgb), 0.45); }
+        .master-seg-tip {
+          position: absolute;
+          bottom: calc(100% + 10px);
+          left: 50%;
+          transform: translateX(-50%) translateY(4px);
+          opacity: 0;
+          pointer-events: none;
+          white-space: nowrap;
+          background: var(--btn-primary-bg);
+          color: var(--btn-primary-text);
+          font-size: 10px;
+          font-weight: 600;
+          padding: 4px 9px;
+          border-radius: 6px;
+          box-shadow: var(--shadow-md);
+          transition: var(--transition-smooth);
+          z-index: 6;
+        }
+        .master-seg-tip::after {
+          content: '';
+          position: absolute;
+          top: 100%;
+          left: 50%;
+          transform: translateX(-50%);
+          border: 4px solid transparent;
+          border-top-color: var(--btn-primary-bg);
+        }
+        .master-seg:first-child .master-seg-tip { left: 0; transform: translateX(0) translateY(4px); }
+        .master-seg:first-child .master-seg-tip::after { left: 14px; }
+        .master-seg:last-child .master-seg-tip { left: auto; right: 0; transform: translateY(4px); }
+        .master-seg:last-child .master-seg-tip::after { left: auto; right: 10px; }
+        .master-seg:hover .master-seg-tip { opacity: 1; transform: translateX(-50%) translateY(0); }
+        .master-seg:first-child:hover .master-seg-tip { transform: translateX(0) translateY(0); }
+        .master-seg:last-child:hover .master-seg-tip { transform: translateY(0); }
+        .roadmap-master-thumb {
+          position: absolute;
+          top: 50%;
+          transform: translate(-50%, -50%);
+          width: 14px;
+          height: 14px;
+          border-radius: 50%;
+          background: var(--bg-card);
+          border: 3px solid var(--accent);
+          box-shadow: 0 0 10px rgba(var(--accent-rgb), 0.5);
+          transition: left 0.8s cubic-bezier(0.4,0,0.2,1);
+          pointer-events: none;
+          z-index: 3;
+        }
+        .roadmap-master-chip {
+          position: absolute;
+          top: calc(100% + 8px);
+          left: 50%;
+          transform: translateX(-50%);
+          background: var(--accent);
+          color: #ffffff;
+          font-size: 10px;
+          font-weight: 700;
+          padding: 2px 7px;
+          border-radius: 5px;
+          box-shadow: var(--shadow-sm);
+          white-space: nowrap;
         }
 
         /* ── Timeline ribbon ── */
@@ -2913,7 +3080,7 @@ export const RoadmapTracker: React.FC = () => {
           filter: blur(90px);
           opacity: 0.18;
         }
-        .theme-light .roadmap-aurora-blob { opacity: 0.13; }
+        .theme-light .roadmap-aurora-blob { opacity: 0.09; }
         .roadmap-aurora-blob.blob-a {
           top: -140px; left: -100px;
           background: radial-gradient(circle, rgba(var(--accent-rgb), 0.9), transparent 70%);
@@ -2931,7 +3098,7 @@ export const RoadmapTracker: React.FC = () => {
           animation: roadmapTitleSheen 8s ease infinite alternate;
         }
         .roadmap-badge-dot { animation: roadmapDotPulse 2.2s ease-in-out infinite; }
-        .roadmap-master-fill { position: relative; overflow: hidden; }
+        .roadmap-master-fill { overflow: hidden; }
         .roadmap-master-fill::after {
           content: '';
           position: absolute;
@@ -3127,6 +3294,141 @@ export const RoadmapTracker: React.FC = () => {
           color: var(--accent);
         }
 
+        /* ── Display typeface for headings ── */
+        .roadmap-title,
+        .roadmap-week-info-title,
+        .roadmap-day-name,
+        .project-title {
+          font-family: var(--font-display);
+        }
+
+        /* ── Shared section entrance + heading pulse ── */
+        .roadmap-anim-in {
+          animation: roadmapItemIn 0.5s cubic-bezier(0.22, 1, 0.36, 1) both;
+        }
+        .roadmap-companion-title > svg,
+        .roadmap-projects-title > svg {
+          color: var(--accent);
+          animation: roadmapSparkPulse 2.6s ease-in-out infinite;
+        }
+
+        /* ── Feature row: capstone projects + weekly resources ── */
+        .roadmap-feature-row {
+          display: grid;
+          grid-template-columns: minmax(0, 1fr) 360px;
+          gap: 1.25rem;
+          align-items: start;
+          margin-bottom: 1.75rem;
+        }
+        .roadmap-feature-row .roadmap-projects-section {
+          margin-bottom: 0;
+          min-width: 0;
+        }
+        .roadmap-feature-row .roadmap-resources-card {
+          max-height: 420px;
+          overflow-y: auto;
+          scrollbar-width: thin;
+        }
+
+        /* ── Floating week dock ── */
+        .roadmap-pills-sentinel { height: 1px; }
+        @keyframes roadmapDockIn {
+          from { opacity: 0; transform: translateX(-28px); }
+          to   { opacity: 1; transform: translateX(0); }
+        }
+        .roadmap-week-dock {
+          position: fixed;
+          left: 16px;
+          top: 22vh;
+          display: flex;
+          flex-direction: column;
+          gap: 6px;
+          z-index: 120;
+          background: var(--bg-sticky);
+          backdrop-filter: blur(14px);
+          -webkit-backdrop-filter: blur(14px);
+          border: 1px solid var(--border-color);
+          border-radius: 14px;
+          padding: 12px 8px;
+          box-shadow: var(--shadow-lg);
+          animation: roadmapDockIn 0.45s cubic-bezier(0.22, 1, 0.36, 1) both;
+        }
+        .week-dock-label {
+          font-size: 10px;
+          font-weight: 800;
+          color: var(--accent);
+          text-align: center;
+          letter-spacing: 0.1em;
+          margin-bottom: 2px;
+        }
+        .week-dock-item {
+          position: relative;
+          width: 46px;
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          gap: 4px;
+          padding: 8px 0 7px;
+          border-radius: 10px;
+          border: 1px solid transparent;
+          background: transparent;
+          cursor: pointer;
+          transition: var(--transition-smooth);
+          animation: roadmapItemIn 0.4s cubic-bezier(0.22, 1, 0.36, 1) both;
+        }
+        .week-dock-item:hover {
+          background: var(--accent-glow);
+          border-color: var(--accent-border);
+          transform: translateX(3px);
+        }
+        .week-dock-item.active { background: var(--timeline-btn-active-bg); }
+        .week-dock-item.active .week-dock-num { color: var(--timeline-btn-active-text); }
+        .week-dock-num {
+          font-size: 11px;
+          font-weight: 700;
+          color: var(--text-secondary);
+        }
+        .week-dock-item.done .week-dock-num { color: var(--color-build); }
+        .week-dock-bar {
+          width: 24px;
+          height: 3px;
+          border-radius: 2px;
+          background: var(--border-color);
+          overflow: hidden;
+        }
+        .week-dock-item.active .week-dock-bar { background: rgba(128, 128, 128, 0.4); }
+        .week-dock-bar span {
+          display: block;
+          height: 100%;
+          border-radius: 2px;
+          background: linear-gradient(90deg, var(--color-build), var(--accent));
+          transition: width 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .week-dock-tip {
+          position: absolute;
+          left: calc(100% + 12px);
+          top: 50%;
+          transform: translateY(-50%) translateX(-4px);
+          opacity: 0;
+          pointer-events: none;
+          white-space: nowrap;
+          background: var(--btn-primary-bg);
+          color: var(--btn-primary-text);
+          font-size: 10px;
+          font-weight: 600;
+          padding: 4px 9px;
+          border-radius: 6px;
+          box-shadow: var(--shadow-md);
+          transition: var(--transition-smooth);
+        }
+        .week-dock-item:hover .week-dock-tip {
+          opacity: 1;
+          transform: translateY(-50%) translateX(0);
+        }
+        @media (max-width: 1500px) {
+          .roadmap-week-dock { display: none; }
+        }
+
         /* ── Reduced motion ── */
         @media (prefers-reduced-motion: reduce) {
           .roadmap-wrapper *,
@@ -3141,6 +3443,8 @@ export const RoadmapTracker: React.FC = () => {
         /* ── Responsive ── */
         @media (max-width: 1024px) {
           .roadmap-content-grid { grid-template-columns: 1fr; }
+          .roadmap-feature-row { grid-template-columns: 1fr; }
+          .roadmap-feature-row .roadmap-resources-card { max-height: none; }
           .roadmap-left-panel { position: static; }
           .roadmap-header { flex-wrap: wrap; }
           .roadmap-header-right { flex-direction: row; align-items: center; width: 100%; justify-content: space-between; }
