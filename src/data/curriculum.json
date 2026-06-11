@@ -451,6 +451,12 @@
                 "day_id": 300,
                 "task_num": 3,
                 "content": "Run the 10-line Python example from their docs. See a response. You're now an AI developer. (20 min)"
+              },
+              {
+                "id": "w3_d0_t4_book",
+                "day_id": 300,
+                "task_num": 4,
+                "content": "<strong>Book companion:</strong> skim <em>LLMs In 100 Images</em> (building blocks: transformers, attention, embeddings) and <em>30 Agents</em> Ch 13 — The Healthcare Intelligence Agent. (30 min)"
               }
             ]
           },
@@ -651,6 +657,12 @@
                 "day_id": 400,
                 "task_num": 3,
                 "content": "Read: Anthropic prompt engineering guide — focus on the \"be specific\" and \"use XML tags\" sections (20 min)"
+              },
+              {
+                "id": "w4_d0_t4_book",
+                "day_id": 400,
+                "task_num": 4,
+                "content": "<strong>Book companion:</strong> read <em>30 Agents</em> Ch 3 — The Art of Agent Prompting. (30 min)"
               }
             ]
           },
@@ -860,6 +872,12 @@
                 "day_id": 500,
                 "task_num": 3,
                 "content": "Setup LangFuse public/secret keys in your .env. This is your essential visual debugger! (15 min)"
+              },
+              {
+                "id": "w5_d0_t4_book",
+                "day_id": 500,
+                "task_num": 4,
+                "content": "<strong>Book companion:</strong> read <em>30 Agents</em> Ch 2 — The Agent Engineer's Toolkit and <em>Generative AI with LangChain</em> Ch 2 — First Steps with LangChain. (45 min)"
               }
             ]
           },
@@ -1048,6 +1066,12 @@
                 "day_id": 600,
                 "task_num": 2,
                 "content": "Install dependencies: pip install pypdf docx2txt and load a clinical PDF document (30 min)"
+              },
+              {
+                "id": "w6_d0_t3_book",
+                "day_id": 600,
+                "task_num": 3,
+                "content": "<strong>Book companion:</strong> read <em>30 Agents</em> Ch 6 — Knowledge Retrieval &amp; Document Intelligence and <em>Generative AI with LangChain</em> Ch 4 — RAG Systems (first pass). (45 min)"
               }
             ]
           },
@@ -1218,6 +1242,12 @@
                 "day_id": 700,
                 "task_num": 2,
                 "content": "Read LangGraph concepts: StateGraph, Nodes, Edges, entry points. (45 min)"
+              },
+              {
+                "id": "w7_d0_t3_book",
+                "day_id": 700,
+                "task_num": 3,
+                "content": "<strong>Book companion:</strong> read <em>30 Agents</em> Ch 7 — Tool Manipulation &amp; Orchestration and <em>Generative AI with LangChain</em> Ch 3 — Workflows with LangGraph. (45 min)"
               }
             ]
           },
@@ -1382,6 +1412,12 @@
                 "day_id": 800,
                 "task_num": 2,
                 "content": "Setup a simple memory database checkpointer: MemorySaver (30 min)"
+              },
+              {
+                "id": "w8_d0_t3_book",
+                "day_id": 800,
+                "task_num": 3,
+                "content": "<strong>Book companion:</strong> read <em>30 Agents</em> Ch 5 — Planning &amp; Memory-Augmented Agents and <em>Building Agentic AI Systems</em> Ch 8 — Building Trust. (45 min)"
               }
             ]
           },
@@ -1555,6 +1591,12 @@
                 "day_id": 900,
                 "task_num": 3,
                 "content": "Generate sample embeddings using OpenAI's API: text-embedding-3-small (20 min)"
+              },
+              {
+                "id": "w9_d0_t4_book",
+                "day_id": 900,
+                "task_num": 4,
+                "content": "<strong>Book companion:</strong> read <em>LLM Engineer's Handbook</em> Ch 4 — RAG Feature Pipeline (embeddings &amp; vector DB sections). (30 min)"
               }
             ]
           },
@@ -1877,6 +1919,12 @@
                 "day_id": 1100,
                 "task_num": 2,
                 "content": "Compare pros and cons of each method. (15 min)"
+              },
+              {
+                "id": "w11_d0_t3_book",
+                "day_id": 1100,
+                "task_num": 3,
+                "content": "<strong>Book companion:</strong> reread <em>Generative AI with LangChain</em> Ch 4 — RAG Systems (advanced retrieval, deep pass). (30 min)"
               }
             ]
           },
@@ -2035,6 +2083,12 @@
                 "day_id": 1200,
                 "task_num": 2,
                 "content": "Compare to plain chunking. (15 min)"
+              },
+              {
+                "id": "w12_d0_t3_book",
+                "day_id": 1200,
+                "task_num": 3,
+                "content": "<strong>Book companion:</strong> read <em>LLM Engineer's Handbook</em> Ch 9 — RAG Inference Pipeline. (30 min)"
               }
             ]
           },
@@ -2187,6 +2241,12 @@
                 "day_id": 1300,
                 "task_num": 2,
                 "content": "Install RAGAS: pip install ragas (15 min)"
+              },
+              {
+                "id": "w13_d0_t3_book",
+                "day_id": 1300,
+                "task_num": 3,
+                "content": "<strong>Book companion:</strong> read <em>30 Agents</em> Ch 8 &amp; 12 — Verification, Validation &amp; Ethical Agents and <em>Generative AI with LangChain</em> Ch 8 — Evaluation &amp; Testing. (45 min)"
               }
             ]
           },
@@ -2354,6 +2414,12 @@
                 "day_id": 1400,
                 "task_num": 2,
                 "content": "Compare to plain prompting styles. (15 min)"
+              },
+              {
+                "id": "w14_d0_t3_book",
+                "day_id": 1400,
+                "task_num": 3,
+                "content": "<strong>Book companion:</strong> read <em>30 Agents</em> Ch 1 &amp; 5 — Foundations &amp; Cognitive Architectures and <em>Building Agentic AI Systems</em> Ch 2–4 — Principles, Components &amp; Reflection. (60 min)"
               }
             ]
           },
@@ -2506,6 +2572,12 @@
                 "day_id": 1500,
                 "task_num": 2,
                 "content": "Install CrewAI: pip install crewai (15 min)"
+              },
+              {
+                "id": "w15_d0_t3_book",
+                "day_id": 1500,
+                "task_num": 3,
+                "content": "<strong>Book companion:</strong> read <em>30 Agents</em> Ch 15 — The Collective Intelligence Agent and <em>Generative AI with LangChain</em> Ch 6 — Multi-Agent Systems. (45 min)"
               }
             ]
           },
@@ -2810,6 +2882,12 @@
                 "day_id": 1700,
                 "task_num": 2,
                 "content": "Compare to sequential execution. (15 min)"
+              },
+              {
+                "id": "w17_d0_t3_book",
+                "day_id": 1700,
+                "task_num": 3,
+                "content": "<strong>Book companion:</strong> read <em>Building Agentic AI Systems</em> Ch 6–7 — Coordinator–Worker–Delegator (your capstone's blueprint) and <em>30 Agents</em> Ch 9. (45 min)"
               }
             ]
           },
@@ -2971,6 +3049,12 @@
                 "day_id": 1800,
                 "task_num": 2,
                 "content": "Review transport mechanics. (15 min)"
+              },
+              {
+                "id": "w18_d0_t3_book",
+                "day_id": 1800,
+                "task_num": 3,
+                "content": "<strong>Book companion:</strong> read <em>Building Agentic AI Systems</em> Ch 5 — Enabling Tool Use and Planning in Agents. (30 min)"
               }
             ]
           },
@@ -3439,6 +3523,12 @@
                 "day_id": 2100,
                 "task_num": 2,
                 "content": "Transcribe file via Whisper API. (15 min)"
+              },
+              {
+                "id": "w21_d0_t3_book",
+                "day_id": 2100,
+                "task_num": 3,
+                "content": "<strong>Book companion:</strong> read <em>30 Agents</em> Ch 11 — Multi-Modal Perception Agents (audio sections). (30 min)"
               }
             ]
           },
@@ -3606,6 +3696,12 @@
                 "day_id": 2200,
                 "task_num": 2,
                 "content": "Install Docker Desktop on Windows. (30 min)"
+              },
+              {
+                "id": "w22_d0_t3_book",
+                "day_id": 2200,
+                "task_num": 3,
+                "content": "<strong>Book companion:</strong> read <em>LLM Engineer's Handbook</em> Ch 10 — Inference Pipeline Deployment on AWS. (30 min)"
               }
             ]
           },
@@ -3922,6 +4018,12 @@
                 "day_id": 2400,
                 "task_num": 2,
                 "content": "Analyze API response times. (30 min)"
+              },
+              {
+                "id": "w24_d0_t3_book",
+                "day_id": 2400,
+                "task_num": 3,
+                "content": "<strong>Book companion:</strong> read <em>30 Agents</em> Ch 4 — Deployment &amp; Responsible Development and <em>LLM Engineer's Handbook</em> Ch 8 &amp; 11 — Inference Optimization, LLMOps. (60 min)"
               }
             ]
           },
@@ -4074,6 +4176,12 @@
                 "day_id": 2500,
                 "task_num": 2,
                 "content": "Map IBM course 1 concepts: tokenization → data loaders → training pipeline. Note 3 things RAG never required you to know. (20 min)"
+              },
+              {
+                "id": "w25_d0_t3_book",
+                "day_id": 2500,
+                "task_num": 3,
+                "content": "<strong>Book companion:</strong> read <em>LLM Engineer's Handbook</em> Ch 5–6 — SFT &amp; Preference Alignment and the training/decoding sections of <em>LLMs In 100 Images</em>. (60 min)"
               }
             ]
           },
