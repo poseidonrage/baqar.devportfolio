@@ -1092,22 +1092,31 @@ export const RoadmapTracker: React.FC = () => {
         {/* ── Floating week dock: flies in once the pills scroll away ── */}
         {activeMonth && pillsStuck && (
           <div className="roadmap-week-dock" key={`dock-${activeMonthId}`}>
-            <span className="week-dock-label font-mono">M{activeMonthId}</span>
-            {activeMonth.weeks.map((w, i) => {
-              const wPct = weekPercent(w);
-              return (
+            {validMonths.map(m => (
+              <React.Fragment key={m.id}>
                 <button
-                  key={w.id}
-                  className={`week-dock-item${activeWeekId === w.id ? ' active' : ''}${wPct >= 100 ? ' done' : ''}`}
-                  style={{ animationDelay: `${i * 50}ms` }}
-                  onClick={() => setActiveWeekId(w.id)}
+                  className={`week-dock-month${activeMonthId === m.id ? ' active' : ''}${monthPercent(m) >= 100 ? ' done' : ''}`}
+                  onClick={() => handleMonthSelect(m.id)}
                 >
-                  <span className="week-dock-num font-mono">W{w.week_number}</span>
-                  <span className="week-dock-bar"><span style={{ width: wPct + '%' }} /></span>
-                  <span className="week-dock-tip font-mono">Week {w.week_number} · {wPct}%</span>
+                  M{m.id}
                 </button>
-              );
-            })}
+                {activeMonthId === m.id && m.weeks.map((w, i) => {
+                  const wPct = weekPercent(w);
+                  return (
+                    <button
+                      key={w.id}
+                      className={`week-dock-item${activeWeekId === w.id ? ' active' : ''}${wPct >= 100 ? ' done' : ''}`}
+                      style={{ animationDelay: `${i * 50}ms` }}
+                      onClick={() => setActiveWeekId(w.id)}
+                    >
+                      <span className="week-dock-num font-mono">W{w.week_number}</span>
+                      <span className="week-dock-bar"><span style={{ width: wPct + '%' }} /></span>
+                      <span className="week-dock-tip font-mono">Week {w.week_number} · {wPct}%</span>
+                    </button>
+                  );
+                })}
+              </React.Fragment>
+            ))}
           </div>
         )}
 
@@ -3333,34 +3342,50 @@ export const RoadmapTracker: React.FC = () => {
         /* ── Floating week dock ── */
         .roadmap-pills-sentinel { height: 1px; }
         @keyframes roadmapDockIn {
-          from { opacity: 0; transform: translateX(-28px); }
-          to   { opacity: 1; transform: translateX(0); }
+          from { opacity: 0; transform: translateY(-50%) translateX(-28px); }
+          to   { opacity: 1; transform: translateY(-50%) translateX(0); }
         }
         .roadmap-week-dock {
           position: fixed;
           left: 16px;
-          top: 22vh;
+          top: 50%;
+          transform: translateY(-50%);
           display: flex;
           flex-direction: column;
-          gap: 6px;
+          gap: 4px;
           z-index: 120;
           background: var(--bg-sticky);
           backdrop-filter: blur(14px);
           -webkit-backdrop-filter: blur(14px);
           border: 1px solid var(--border-color);
           border-radius: 14px;
-          padding: 12px 8px;
+          padding: 10px 8px;
           box-shadow: var(--shadow-lg);
           animation: roadmapDockIn 0.45s cubic-bezier(0.22, 1, 0.36, 1) both;
         }
-        .week-dock-label {
+        .week-dock-month {
+          width: 46px;
+          padding: 5px 0;
+          border: none;
+          border-radius: 8px;
+          background: transparent;
+          font-family: var(--font-mono);
           font-size: 10px;
           font-weight: 800;
-          color: var(--accent);
-          text-align: center;
-          letter-spacing: 0.1em;
-          margin-bottom: 2px;
+          letter-spacing: 0.08em;
+          color: var(--text-muted);
+          cursor: pointer;
+          transition: var(--transition-smooth);
         }
+        .week-dock-month:hover {
+          color: var(--accent);
+          background: var(--accent-glow);
+        }
+        .week-dock-month.active {
+          color: var(--accent);
+          background: var(--accent-glow);
+        }
+        .week-dock-month.done { color: var(--color-build); }
         .week-dock-item {
           position: relative;
           width: 46px;

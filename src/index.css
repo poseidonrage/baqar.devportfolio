@@ -100,6 +100,10 @@ a {
   transition: var(--transition-fast);
 }
 
+/* Font utilities (used as class names across components) */
+.font-mono { font-family: var(--font-mono); }
+.font-sans { font-family: var(--font-sans); }
+
 /* Chunky Underline Effect (Inspired by tamalsen.dev) */
 .chonky-underline {
   position: relative;

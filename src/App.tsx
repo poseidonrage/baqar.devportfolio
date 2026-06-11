@@ -35,6 +35,19 @@ function App() {
   const [scrollPct, setScrollPct] = useState(0);
   const [showTopBtn, setShowTopBtn] = useState(false);
 
+  // Per-route document titles
+  useEffect(() => {
+    if (isRoadmap) {
+      document.title = 'GenAI Roadmap Tracker | Baqar Hussain Naqvi';
+    } else if (location.pathname.startsWith('/blog')) {
+      document.title = 'Blog | Baqar Hussain Naqvi';
+    } else if (location.pathname.startsWith('/admin')) {
+      document.title = 'Admin Console | Baqar Hussain Naqvi';
+    } else {
+      document.title = 'Baqar Hussain Naqvi | Program Analyst & Systems Integration Specialist';
+    }
+  }, [location.pathname, isRoadmap]);
+
   // Reading progress bar across the top of the page + back-to-top visibility
   useEffect(() => {
     let raf = 0;

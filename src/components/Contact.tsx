@@ -122,13 +122,13 @@ export const Contact: React.FC = () => {
     const onScroll = () => {
       cancelAnimationFrame(raf);
       raf = requestAnimationFrame(() => {
-        const rect = section.getBoundingClientRect();
+        const doc = document.documentElement;
         const vh = window.innerHeight;
         const vw = window.innerWidth;
-        // Contact is the last section, so the page can never scroll fully past
-        // it — cap the flight so the cubes drift with scroll but remain visible
-        // at the bottom-of-page rest position
-        const progress = Math.max(0, Math.min(0.45, (vh - rect.top - rect.height * 0.55) / (vh * 0.5)));
+        // Anchored to the page bottom: cubes rest in place when fully scrolled
+        // down (footer in view) and fly off-screen as you scroll back up
+        const remaining = doc.scrollHeight - vh - doc.scrollTop;
+        const progress = Math.max(0, Math.min(1, remaining / (vh * 0.9)));
         const eased = progress * progress;
 
         wraps.forEach((wrap, i) => {
