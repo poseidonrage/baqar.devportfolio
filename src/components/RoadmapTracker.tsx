@@ -403,8 +403,9 @@ const RESOURCE_KIND_META: Record<ResourceKind, { label: string; Icon: React.Comp
   book: { label: 'Book', Icon: Library },
 };
 
-// "30 Agents Every AI Engineer Must Build" — Imran Ahmad, Packt (owned copy)
-const AGENTS_BOOK_URL = 'https://www.packtpub.com/en-us/product/30-agents-every-ai-engineer-must-build-9781806109005';
+// "30 Agents Every AI Engineer Must Build" — Imran Ahmad, Packt (owned copy);
+// links to the official code repo with runnable examples per chapter
+const AGENTS_BOOK_URL = 'https://github.com/PacktPublishing/30-Agents-Every-AI-Engineer-Must-Build';
 const agentsBook = (chapters: string): WeekResource => ({
   title: `30 Agents · ${chapters}`,
   source: 'Imran Ahmad · Packt',
