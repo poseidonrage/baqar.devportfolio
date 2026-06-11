@@ -1600,8 +1600,8 @@ export const RoadmapTracker: React.FC = () => {
           --radius-sm: 8px;
           --radius-md: 12px;
           --radius-lg: 20px;
-          --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
-          --font-display: 'Space Grotesk', 'Inter', sans-serif;
+          --font-sans: 'Ubuntu', 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+          --font-display: 'Ubuntu', 'Space Grotesk', sans-serif;
           --font-mono: 'JetBrains Mono', 'Roboto Mono', monospace;
           --transition-smooth: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
         }
