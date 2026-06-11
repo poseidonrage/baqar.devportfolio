@@ -1436,10 +1436,11 @@ export const RoadmapTracker: React.FC = () => {
                         <ul className="roadmap-task-list">
                           {day.tasks.map(task => {
                             const isDone = !!completedTaskIds[task.id];
+                            const isBookTask = task.id.endsWith('_book');
                             return (
                               <li
                                 key={task.id}
-                                className={`roadmap-task-item ${isDone ? 'completed' : ''}`}
+                                className={`roadmap-task-item ${isDone ? 'completed' : ''}${isBookTask ? ' book-task' : ''}`}
                                 onClick={(e) => {
                                   if ((e.target as HTMLElement).closest('a')) return;
                                   handleToggleTask(task.id);
@@ -1449,8 +1450,17 @@ export const RoadmapTracker: React.FC = () => {
                                   {isDone && <Check size={10} strokeWidth={4} />}
                                 </div>
                                 <span className="roadmap-task-text">
-                                  <span className="roadmap-task-num-badge">{task.task_num}</span>
-                                  <span dangerouslySetInnerHTML={{ __html: task.content }} />
+                                  {isBookTask ? (
+                                    <span className="book-task-badge font-mono">
+                                      <Library size={11} strokeWidth={2.5} />
+                                      Book Companion
+                                    </span>
+                                  ) : (
+                                    <span className="roadmap-task-num-badge">{task.task_num}</span>
+                                  )}
+                                  <span dangerouslySetInnerHTML={{ __html: isBookTask
+                                    ? task.content.replace(/^<strong>Book companion:<\/strong>\s*/i, '')
+                                    : task.content }} />
                                 </span>
                               </li>
                             );
@@ -3245,6 +3255,60 @@ export const RoadmapTracker: React.FC = () => {
           inset: -2px;
           border-radius: 6px;
           animation: roadmapCheckBurst 0.5s ease-out forwards;
+        }
+
+        /* ── Book companion tasks ── */
+        .roadmap-task-item.book-task {
+          background: linear-gradient(135deg, rgba(236, 72, 153, 0.07), rgba(139, 92, 246, 0.07));
+          border: 1px solid rgba(236, 72, 153, 0.22);
+          border-radius: 10px;
+          padding: 10px 12px;
+          position: relative;
+          overflow: hidden;
+        }
+        .roadmap-task-item.book-task::before {
+          content: '';
+          position: absolute;
+          left: 0; top: 0; bottom: 0;
+          width: 3px;
+          background: linear-gradient(180deg, #ec4899, #8b5cf6);
+        }
+        .roadmap-task-item.book-task:hover {
+          border-color: rgba(236, 72, 153, 0.45);
+          box-shadow: 0 4px 14px rgba(236, 72, 153, 0.12);
+          transform: translateX(3px);
+        }
+        .roadmap-task-item.book-task:hover .roadmap-task-checkbox-container {
+          border-color: #ec4899;
+        }
+        .book-task-badge {
+          display: inline-flex;
+          align-items: center;
+          gap: 4px;
+          background: linear-gradient(90deg, #ec4899, #8b5cf6);
+          color: #ffffff;
+          font-size: 9px;
+          font-weight: 800;
+          letter-spacing: 0.08em;
+          text-transform: uppercase;
+          padding: 2.5px 9px;
+          border-radius: 20px;
+          margin-right: 8px;
+          white-space: nowrap;
+          vertical-align: 1px;
+          box-shadow: 0 2px 8px rgba(236, 72, 153, 0.35);
+        }
+        .book-task .roadmap-task-text em {
+          font-weight: 600;
+          color: #db2777;
+        }
+        .theme-dark .book-task .roadmap-task-text em { color: #f472b6; }
+        .roadmap-task-item.book-task.completed {
+          opacity: 0.75;
+        }
+        .roadmap-task-item.book-task.completed .book-task-badge {
+          background: var(--color-build);
+          box-shadow: none;
         }
 
         /* ── Resources for this week ── */
