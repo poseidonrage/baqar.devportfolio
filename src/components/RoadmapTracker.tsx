@@ -3333,29 +3333,28 @@ export const RoadmapTracker: React.FC = () => {
         /* ── Floating week dock ── */
         .roadmap-pills-sentinel { height: 1px; }
         @keyframes roadmapDockIn {
-          from { opacity: 0; transform: translateY(-50%) translateX(-28px); }
-          to   { opacity: 1; transform: translateY(-50%) translateX(0); }
+          from { opacity: 0; transform: translateX(-28px); }
+          to   { opacity: 1; transform: translateX(0); }
         }
         .roadmap-week-dock {
           position: fixed;
-          left: 14px;
-          top: 50%;
-          transform: translateY(-50%);
+          left: 16px;
+          top: 22vh;
           display: flex;
           flex-direction: column;
-          gap: 5px;
+          gap: 6px;
           z-index: 120;
           background: var(--bg-sticky);
           backdrop-filter: blur(14px);
           -webkit-backdrop-filter: blur(14px);
           border: 1px solid var(--border-color);
           border-radius: 14px;
-          padding: 10px 7px;
+          padding: 12px 8px;
           box-shadow: var(--shadow-lg);
           animation: roadmapDockIn 0.45s cubic-bezier(0.22, 1, 0.36, 1) both;
         }
         .week-dock-label {
-          font-size: 9px;
+          font-size: 10px;
           font-weight: 800;
           color: var(--accent);
           text-align: center;
@@ -3364,12 +3363,12 @@ export const RoadmapTracker: React.FC = () => {
         }
         .week-dock-item {
           position: relative;
-          width: 42px;
+          width: 46px;
           display: flex;
           flex-direction: column;
           align-items: center;
           gap: 4px;
-          padding: 6px 0 6px;
+          padding: 8px 0 7px;
           border-radius: 10px;
           border: 1px solid transparent;
           background: transparent;
@@ -3385,13 +3384,13 @@ export const RoadmapTracker: React.FC = () => {
         .week-dock-item.active { background: var(--timeline-btn-active-bg); }
         .week-dock-item.active .week-dock-num { color: var(--timeline-btn-active-text); }
         .week-dock-num {
-          font-size: 10px;
+          font-size: 11px;
           font-weight: 700;
           color: var(--text-secondary);
         }
         .week-dock-item.done .week-dock-num { color: var(--color-build); }
         .week-dock-bar {
-          width: 22px;
+          width: 24px;
           height: 3px;
           border-radius: 2px;
           background: var(--border-color);

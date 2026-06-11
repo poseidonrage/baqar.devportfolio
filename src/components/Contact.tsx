@@ -109,31 +109,42 @@ export const Contact: React.FC = () => {
     const wraps = section.querySelectorAll<HTMLElement>('.cblock-wrap');
     if (!wraps.length) return;
 
+    // Exit vectors as fractions of the viewport so blocks fly off-screen
     const driftConfig = [
-      { sx: -120, sy: 100, scale: 0.3 },    // block 1: bottom-left → down-left
-      { sx: -90, sy: 50, scale: 0.25 },     // block 2: mid-left → left
-      { sx: -60, sy: 130, scale: 0.3 },     // block 3: bottom-left → down
-      { sx: -140, sy: 80, scale: 0.3 },     // block 4: upper-left → down-left
+      { dx: -0.8, dy: 0.5, scale: 1.3 },    // block 1: bottom-left → off down-left
+      { dx: -1.0, dy: 0.2, scale: 1.2 },    // block 2: mid-left → off left
+      { dx: -0.5, dy: 0.8, scale: 1.3 },    // block 3: bottom-left → off bottom
+      { dx: -0.9, dy: 0.4, scale: 1.2 },    // block 4: upper-left → off down-left
     ];
 
+    let raf = 0;
     const onScroll = () => {
-      const rect = section.getBoundingClientRect();
-      // progress: 0 = section top at viewport top, 1 = section fully scrolled past
-      const progress = Math.max(0, Math.min(1, -rect.top / rect.height));
-      const eased = progress * progress; // ease-in curve
+      cancelAnimationFrame(raf);
+      raf = requestAnimationFrame(() => {
+        const rect = section.getBoundingClientRect();
+        const vh = window.innerHeight;
+        const vw = window.innerWidth;
+        // Contact sits at the page bottom and rarely scrolls fully past, so
+        // progress is driven by how far past its midpoint the viewport is
+        const progress = Math.max(0, Math.min(1, (vh - rect.top - rect.height * 0.55) / (vh * 0.5)));
+        const eased = progress * progress;
 
-      wraps.forEach((wrap, i) => {
-        const cfg = driftConfig[i] || { sx: 0, sy: 0, scale: 0 };
-        const tx = cfg.sx * eased;
-        const ty = cfg.sy * eased;
-        const sc = 1 + (cfg.scale * eased);
-        wrap.style.transform = `translate3d(${tx}px, ${ty}px, 0) scale(${sc})`;
+        wraps.forEach((wrap, i) => {
+          const cfg = driftConfig[i] || { dx: 0, dy: 0, scale: 0 };
+          const tx = cfg.dx * vw * eased;
+          const ty = cfg.dy * vh * eased;
+          const sc = 1 + (cfg.scale * eased);
+          wrap.style.transform = `translate3d(${tx}px, ${ty}px, 0) scale(${sc})`;
+        });
       });
     };
 
     window.addEventListener('scroll', onScroll, { passive: true });
     onScroll();
-    return () => window.removeEventListener('scroll', onScroll);
+    return () => {
+      window.removeEventListener('scroll', onScroll);
+      cancelAnimationFrame(raf);
+    };
   }, []);
 
   return (

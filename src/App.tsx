@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import { ArrowUp } from 'lucide-react';
 import { Routes, Route, useLocation } from 'react-router-dom';
 import { Navbar } from './components/Navbar';
 import { Hero } from './components/Hero';
@@ -32,8 +33,9 @@ function App() {
   const location = useLocation();
   const isRoadmap = location.pathname === '/roadmap';
   const [scrollPct, setScrollPct] = useState(0);
+  const [showTopBtn, setShowTopBtn] = useState(false);
 
-  // Reading progress bar across the top of the page
+  // Reading progress bar across the top of the page + back-to-top visibility
   useEffect(() => {
     let raf = 0;
     const onScroll = () => {
@@ -42,6 +44,7 @@ function App() {
         const doc = document.documentElement;
         const max = doc.scrollHeight - doc.clientHeight;
         setScrollPct(max > 0 ? (doc.scrollTop / max) * 100 : 0);
+        setShowTopBtn(doc.scrollTop > 500);
       });
     };
     onScroll();
@@ -131,6 +134,23 @@ function App() {
         </Routes>
       </main>
 
+      <button
+        className={`scroll-top-btn${showTopBtn ? ' visible' : ''}`}
+        onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
+        aria-label="Scroll back to top"
+      >
+        <svg viewBox="0 0 44 44" width="44" height="44" aria-hidden="true">
+          <circle className="scroll-top-track" cx="22" cy="22" r="19" />
+          <circle
+            className="scroll-top-ring"
+            cx="22" cy="22" r="19"
+            strokeDasharray={2 * Math.PI * 19}
+            strokeDashoffset={(2 * Math.PI * 19) * (1 - scrollPct / 100)}
+          />
+        </svg>
+        <ArrowUp size={17} strokeWidth={2.5} />
+      </button>
+
       {!isRoadmap && (
         <footer className="footer font-mono">
           <div className="container footer-container">
@@ -198,6 +218,57 @@ function App() {
           z-index: 1000;
           pointer-events: none;
           background: transparent;
+        }
+        .scroll-top-btn {
+          position: fixed;
+          right: 22px;
+          bottom: 22px;
+          width: 44px;
+          height: 44px;
+          border-radius: 50%;
+          border: none;
+          background: rgba(13, 20, 30, 0.85);
+          backdrop-filter: blur(10px);
+          -webkit-backdrop-filter: blur(10px);
+          color: var(--accent-color, #66d9ed);
+          cursor: pointer;
+          z-index: 900;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          opacity: 0;
+          transform: translateY(16px) scale(0.85);
+          pointer-events: none;
+          transition: opacity 0.35s cubic-bezier(0.22, 1, 0.36, 1),
+                      transform 0.35s cubic-bezier(0.22, 1, 0.36, 1),
+                      box-shadow 0.35s ease;
+          box-shadow: 0 4px 16px rgba(0, 0, 0, 0.4);
+        }
+        .scroll-top-btn.visible {
+          opacity: 1;
+          transform: translateY(0) scale(1);
+          pointer-events: auto;
+        }
+        .scroll-top-btn:hover {
+          transform: translateY(-3px) scale(1.05);
+          box-shadow: 0 6px 20px rgba(0, 0, 0, 0.5), 0 0 14px var(--accent-glow, rgba(102, 217, 237, 0.2));
+        }
+        .scroll-top-btn svg:first-child {
+          position: absolute;
+          inset: 0;
+          transform: rotate(-90deg);
+        }
+        .scroll-top-track {
+          fill: none;
+          stroke: rgba(255, 255, 255, 0.1);
+          stroke-width: 2.5;
+        }
+        .scroll-top-ring {
+          fill: none;
+          stroke: var(--accent-color, #66d9ed);
+          stroke-width: 2.5;
+          stroke-linecap: round;
+          transition: stroke-dashoffset 0.15s linear;
         }
         .scroll-progress span {
           display: block;
