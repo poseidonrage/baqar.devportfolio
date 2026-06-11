@@ -1,12 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import {
-  CheckCircle2,
   BookOpen,
   Compass,
   TrendingUp,
   Calendar,
-  Clock,
-  BookMarked,
   Search,
   Check,
   AlertCircle,
