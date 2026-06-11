@@ -61,7 +61,9 @@ html {
 body {
   min-height: 100vh;
   position: relative;
-  overflow-x: hidden;
+  /* clip (not hidden): stops parallax-transformed elements from extending the
+     scrollable area past the footer, without creating a scroll container */
+  overflow: clip;
   background: radial-gradient(circle at 50% 50%, #15222e 0%, #070b0e 100%);
   background-attachment: fixed;
   -webkit-font-smoothing: antialiased;

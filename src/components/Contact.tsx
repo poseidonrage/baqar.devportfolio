@@ -109,12 +109,13 @@ export const Contact: React.FC = () => {
     const wraps = section.querySelectorAll<HTMLElement>('.cblock-wrap');
     if (!wraps.length) return;
 
-    // Exit vectors as fractions of the viewport so blocks fly off-screen
+    // Exit vectors as fractions of the viewport — biased left so the cubes
+    // sweep across the footer on their way off-screen
     const driftConfig = [
-      { dx: -0.8, dy: 0.5, scale: 1.3 },    // block 1: bottom-left → off down-left
-      { dx: -1.0, dy: 0.2, scale: 1.2 },    // block 2: mid-left → off left
-      { dx: -0.5, dy: 0.8, scale: 1.3 },    // block 3: bottom-left → off bottom
-      { dx: -0.9, dy: 0.4, scale: 1.2 },    // block 4: upper-left → off down-left
+      { dx: -1.1, dy: 0.25, scale: 1.3 },   // block 1: bottom-left → off left, grazing footer
+      { dx: -1.2, dy: 0.1, scale: 1.2 },    // block 2: mid-left → off left
+      { dx: -0.9, dy: 0.35, scale: 1.3 },   // block 3: bottom-left → off lower-left
+      { dx: -1.15, dy: 0.2, scale: 1.2 },   // block 4: upper-left → off left
     ];
 
     let raf = 0;
@@ -128,6 +129,8 @@ export const Contact: React.FC = () => {
         // progress is driven by how far past its midpoint the viewport is
         const progress = Math.max(0, Math.min(1, (vh - rect.top - rect.height * 0.55) / (vh * 0.5)));
         const eased = progress * progress;
+        // Fade out over the last 40% of the flight so they vanish gracefully
+        const opacity = Math.max(0, Math.min(1, (1 - eased) / 0.4));
 
         wraps.forEach((wrap, i) => {
           const cfg = driftConfig[i] || { dx: 0, dy: 0, scale: 0 };
@@ -135,6 +138,7 @@ export const Contact: React.FC = () => {
           const ty = cfg.dy * vh * eased;
           const sc = 1 + (cfg.scale * eased);
           wrap.style.transform = `translate3d(${tx}px, ${ty}px, 0) scale(${sc})`;
+          wrap.style.opacity = String(opacity);
         });
       });
     };
@@ -479,9 +483,10 @@ export const Contact: React.FC = () => {
         /* 3D Cubes */
         .cblock-wrap {
           position: absolute;
-          z-index: 0;
+          /* above the footer so the cubes visibly sweep across it while exiting */
+          z-index: 60;
           pointer-events: none;
-          will-change: transform;
+          will-change: transform, opacity;
         }
         .cblock-drift {
           display: flex;
