@@ -20,7 +20,8 @@ import {
   FileText,
   GraduationCap,
   FolderGit2,
-  ArrowUpRight
+  ArrowUpRight,
+  Library
 } from 'lucide-react';
 import curriculumData from '../data/curriculum.json';
 
@@ -383,7 +384,7 @@ const PROJECTS = [
   },
 ] as const;
 
-type ResourceKind = 'video' | 'docs' | 'article' | 'course' | 'repo' | 'tool';
+type ResourceKind = 'video' | 'docs' | 'article' | 'course' | 'repo' | 'tool' | 'book';
 
 interface WeekResource {
   title: string;
@@ -399,7 +400,18 @@ const RESOURCE_KIND_META: Record<ResourceKind, { label: string; Icon: React.Comp
   course: { label: 'Course', Icon: GraduationCap },
   repo: { label: 'Repo', Icon: FolderGit2 },
   tool: { label: 'Tool', Icon: Wrench },
+  book: { label: 'Book', Icon: Library },
 };
+
+// "30 Agents Every AI Engineer Must Build" — Imran Ahmad, Packt (owned copy);
+// links to the official code repo with runnable examples per chapter
+const AGENTS_BOOK_URL = 'https://github.com/PacktPublishing/30-Agents-Every-AI-Engineer-Must-Build';
+const agentsBook = (chapters: string): WeekResource => ({
+  title: `30 Agents · ${chapters}`,
+  source: 'Imran Ahmad · Packt',
+  url: AGENTS_BOOK_URL,
+  kind: 'book',
+});
 
 // Curated picks mapped to each curriculum week (keyed by week id)
 const WEEK_RESOURCES: Record<number, WeekResource[]> = {
@@ -419,37 +431,49 @@ const WEEK_RESOURCES: Record<number, WeekResource[]> = {
     { title: 'Claude API — Getting Started', source: 'Anthropic', url: 'https://docs.anthropic.com/en/api/getting-started', kind: 'docs' },
     { title: 'OpenAI API Quickstart', source: 'OpenAI', url: 'https://platform.openai.com/docs/quickstart', kind: 'docs' },
     { title: 'Anthropic Cookbook — Code Examples', source: 'GitHub', url: 'https://github.com/anthropics/anthropic-cookbook', kind: 'repo' },
+    agentsBook('Ch 13 — The Healthcare Intelligence Agent'),
+    { title: 'LLMs In 100 Images — How LLMs Work, Visually', source: 'Ashish Bamania', url: 'https://bamaniaashish.gumroad.com/l/llmbook', kind: 'book' },
   ],
   4: [
     { title: 'Prompt Engineering Overview', source: 'Anthropic', url: 'https://docs.anthropic.com/en/docs/build-with-claude/prompt-engineering/overview', kind: 'docs' },
     { title: 'Structured Outputs Guide', source: 'OpenAI', url: 'https://platform.openai.com/docs/guides/structured-outputs', kind: 'docs' },
     { title: 'Pydantic Models — Concepts', source: 'Pydantic', url: 'https://docs.pydantic.dev/latest/concepts/models/', kind: 'docs' },
     { title: 'Instructor — Structured LLM Outputs', source: 'useinstructor.com', url: 'https://python.useinstructor.com/', kind: 'tool' },
+    agentsBook('Ch 3 — The Art of Agent Prompting'),
   ],
   5: [
     { title: 'LangChain Expression Language (LCEL)', source: 'LangChain', url: 'https://python.langchain.com/docs/concepts/lcel/', kind: 'docs' },
     { title: 'LangChain Academy — Free Courses', source: 'LangChain', url: 'https://academy.langchain.com/', kind: 'course' },
     { title: 'LangChain Crash Course', source: 'freeCodeCamp', url: 'https://www.youtube.com/watch?v=lG7Uxts9SXs', kind: 'video' },
+    agentsBook("Ch 2 — The Agent Engineer's Toolkit"),
+    { title: 'Generative AI with LangChain — Ch 2: First Steps with LangChain', source: 'Ben Auffarth · Packt', url: 'https://github.com/benman1/generative_ai_with_langchain', kind: 'book' },
   ],
   6: [
     { title: 'Document Loaders — Concepts', source: 'LangChain', url: 'https://python.langchain.com/docs/concepts/document_loaders/', kind: 'docs' },
     { title: 'Text Splitters — Concepts', source: 'LangChain', url: 'https://python.langchain.com/docs/concepts/text_splitters/', kind: 'docs' },
     { title: 'Chunking Strategies for LLM Applications', source: 'Pinecone', url: 'https://www.pinecone.io/learn/chunking-strategies/', kind: 'article' },
+    agentsBook('Ch 6 — Knowledge Retrieval & Document Intelligence Agents'),
+    { title: 'Generative AI with LangChain — Ch 4: RAG & Documents (first pass)', source: 'Ben Auffarth · Packt', url: 'https://github.com/benman1/generative_ai_with_langchain', kind: 'book' },
   ],
   7: [
     { title: 'LangGraph Documentation', source: 'LangChain', url: 'https://langchain-ai.github.io/langgraph/', kind: 'docs' },
     { title: 'Introduction to LangGraph', source: 'LangChain Academy', url: 'https://academy.langchain.com/courses/intro-to-langgraph', kind: 'course' },
     { title: 'LangGraph Low-Level Concepts (State, Nodes, Edges)', source: 'LangChain', url: 'https://langchain-ai.github.io/langgraph/concepts/low_level/', kind: 'docs' },
+    agentsBook('Ch 7 — Tool Manipulation & Orchestration Agents'),
+    { title: 'Generative AI with LangChain — Ch 3: Workflows with LangGraph', source: 'Ben Auffarth · Packt', url: 'https://github.com/benman1/generative_ai_with_langchain', kind: 'book' },
   ],
   8: [
     { title: 'Human-in-the-Loop — Concepts', source: 'LangGraph', url: 'https://langchain-ai.github.io/langgraph/concepts/human_in_the_loop/', kind: 'docs' },
     { title: 'Breakpoints & Interrupts', source: 'LangGraph', url: 'https://langchain-ai.github.io/langgraph/concepts/breakpoints/', kind: 'docs' },
     { title: 'Persistence & Checkpointers', source: 'LangGraph', url: 'https://langchain-ai.github.io/langgraph/concepts/persistence/', kind: 'docs' },
+    agentsBook('Ch 5 — Planning & Memory-Augmented Agents'),
+    { title: 'Building Agentic AI Systems — Ch 8: Building Trust', source: 'Biswas & Talukdar · Packt', url: 'https://github.com/PacktPublishing/Building-Agentic-AI-Systems', kind: 'book' },
   ],
   9: [
     { title: 'Chroma — Getting Started', source: 'Chroma', url: 'https://docs.trychroma.com/getting-started', kind: 'docs' },
     { title: 'Embeddings Guide', source: 'OpenAI', url: 'https://platform.openai.com/docs/guides/embeddings', kind: 'docs' },
     { title: 'What Are Embeddings? (Free Book)', source: 'Vicki Boykis', url: 'https://vickiboykis.com/what_are_embeddings/', kind: 'article' },
+    { title: "LLM Engineer's Handbook — Ch 4: RAG Feature Pipeline", source: 'Iusztin & Labonne · Packt', url: 'https://github.com/PacktPublishing/LLM-Engineers-Handbook', kind: 'book' },
   ],
   10: [
     { title: 'Qdrant Quickstart', source: 'Qdrant', url: 'https://qdrant.tech/documentation/quickstart/', kind: 'docs' },
@@ -460,26 +484,34 @@ const WEEK_RESOURCES: Record<number, WeekResource[]> = {
     { title: 'Hybrid Queries (Dense + Sparse)', source: 'Qdrant', url: 'https://qdrant.tech/documentation/concepts/hybrid-queries/', kind: 'docs' },
     { title: 'Getting Started with Hybrid Search', source: 'Pinecone', url: 'https://www.pinecone.io/learn/hybrid-search-intro/', kind: 'article' },
     { title: 'Rerank — Improve Search Relevance', source: 'Cohere', url: 'https://cohere.com/rerank', kind: 'tool' },
+    { title: 'Generative AI with LangChain — Ch 4: Intelligent RAG Systems', source: 'Ben Auffarth · Packt', url: 'https://github.com/benman1/generative_ai_with_langchain', kind: 'book' },
   ],
   12: [
     { title: 'Introducing Contextual Retrieval', source: 'Anthropic', url: 'https://www.anthropic.com/news/contextual-retrieval', kind: 'article' },
     { title: 'Parent Document Retriever — How-to', source: 'LangChain', url: 'https://python.langchain.com/docs/how_to/parent_document_retriever/', kind: 'docs' },
     { title: 'Retrieval — Concepts Deep Dive', source: 'LangChain', url: 'https://python.langchain.com/docs/concepts/retrieval/', kind: 'docs' },
+    { title: "LLM Engineer's Handbook — Ch 9: RAG Inference Pipeline", source: 'Iusztin & Labonne · Packt', url: 'https://github.com/PacktPublishing/LLM-Engineers-Handbook', kind: 'book' },
   ],
   13: [
     { title: 'RAGAS — Evaluation Documentation', source: 'RAGAS', url: 'https://docs.ragas.io/', kind: 'docs' },
     { title: 'Guardrails AI Documentation', source: 'Guardrails', url: 'https://www.guardrailsai.com/docs', kind: 'docs' },
     { title: 'Building & Evaluating Advanced RAG', source: 'DeepLearning.AI', url: 'https://www.deeplearning.ai/short-courses/building-evaluating-advanced-rag/', kind: 'course' },
+    agentsBook('Ch 8 & 12 — Verification, Validation & Ethical Agents'),
+    { title: 'Generative AI with LangChain — Ch 8: Evaluation & Testing', source: 'Ben Auffarth · Packt', url: 'https://github.com/benman1/generative_ai_with_langchain', kind: 'book' },
   ],
   14: [
     { title: 'ReAct: Synergizing Reasoning and Acting (Paper)', source: 'arXiv', url: 'https://arxiv.org/abs/2210.03629', kind: 'article' },
     { title: 'Building Effective Agents', source: 'Anthropic', url: 'https://www.anthropic.com/research/building-effective-agents', kind: 'article' },
     { title: 'ReAct Agent from Scratch', source: 'LangGraph', url: 'https://langchain-ai.github.io/langgraph/how-tos/react-agent-from-scratch/', kind: 'docs' },
+    agentsBook('Ch 1 & 5 — Foundations & Cognitive Architectures'),
+    { title: 'Building Agentic AI Systems — Ch 2–4: Principles, Components & Reflection', source: 'Biswas & Talukdar · Packt', url: 'https://github.com/PacktPublishing/Building-Agentic-AI-Systems', kind: 'book' },
   ],
   15: [
     { title: 'CrewAI Documentation', source: 'CrewAI', url: 'https://docs.crewai.com/', kind: 'docs' },
     { title: 'Multi AI Agent Systems with crewAI', source: 'DeepLearning.AI', url: 'https://www.deeplearning.ai/short-courses/multi-ai-agent-systems-with-crewai/', kind: 'course' },
     { title: 'CrewAI Examples', source: 'GitHub', url: 'https://github.com/crewAIInc/crewAI-examples', kind: 'repo' },
+    agentsBook('Ch 15 — The Collective Intelligence Agent'),
+    { title: 'Generative AI with LangChain — Ch 6: Multi-Agent Systems', source: 'Ben Auffarth · Packt', url: 'https://github.com/benman1/generative_ai_with_langchain', kind: 'book' },
   ],
   16: [
     { title: 'Semantic Kernel Overview', source: 'Microsoft Learn', url: 'https://learn.microsoft.com/en-us/semantic-kernel/overview/', kind: 'docs' },
@@ -490,11 +522,14 @@ const WEEK_RESOURCES: Record<number, WeekResource[]> = {
     { title: 'Multi-Agent Systems — Concepts', source: 'LangGraph', url: 'https://langchain-ai.github.io/langgraph/concepts/multi_agent/', kind: 'docs' },
     { title: 'Don’t Build Multi-Agents (Counterpoint)', source: 'Cognition', url: 'https://cognition.ai/blog/dont-build-multi-agents', kind: 'article' },
     { title: 'LangSmith — Tracing & Observability', source: 'LangChain', url: 'https://docs.smith.langchain.com/', kind: 'tool' },
+    agentsBook('Ch 9 — Code-Gen, Security-Hardened & Self-Improving Agents'),
+    { title: 'Building Agentic AI Systems — Ch 6–7: Coordinator–Worker–Delegator', source: 'Biswas & Talukdar · Packt', url: 'https://github.com/PacktPublishing/Building-Agentic-AI-Systems', kind: 'book' },
   ],
   18: [
     { title: 'Model Context Protocol — Introduction', source: 'MCP', url: 'https://modelcontextprotocol.io/introduction', kind: 'docs' },
     { title: 'Introducing the Model Context Protocol', source: 'Anthropic', url: 'https://www.anthropic.com/news/model-context-protocol', kind: 'article' },
     { title: 'MCP Python SDK', source: 'GitHub', url: 'https://github.com/modelcontextprotocol/python-sdk', kind: 'repo' },
+    { title: 'Building Agentic AI Systems — Ch 5: Tool Use and Planning', source: 'Biswas & Talukdar · Packt', url: 'https://github.com/PacktPublishing/Building-Agentic-AI-Systems', kind: 'book' },
   ],
   19: [
     { title: 'FastMCP — Build MCP Servers Fast', source: 'gofastmcp.com', url: 'https://gofastmcp.com/', kind: 'docs' },
@@ -510,11 +545,13 @@ const WEEK_RESOURCES: Record<number, WeekResource[]> = {
     { title: 'openai/whisper — Speech Recognition', source: 'GitHub', url: 'https://github.com/openai/whisper', kind: 'repo' },
     { title: 'ElevenLabs — Text to Speech Docs', source: 'ElevenLabs', url: 'https://elevenlabs.io/docs', kind: 'docs' },
     { title: 'Pipecat — Voice AI Pipelines', source: 'GitHub', url: 'https://github.com/pipecat-ai/pipecat', kind: 'repo' },
+    agentsBook('Ch 11 — Multi-Modal Perception Agents'),
   ],
   22: [
     { title: 'Multi-Stage Builds', source: 'Docker', url: 'https://docs.docker.com/build/building/multi-stage/', kind: 'docs' },
     { title: 'FastAPI in Containers — Deployment', source: 'FastAPI', url: 'https://fastapi.tiangolo.com/deployment/docker/', kind: 'docs' },
     { title: 'Amazon ECS — Getting Started', source: 'AWS', url: 'https://docs.aws.amazon.com/AmazonECS/latest/developerguide/getting-started.html', kind: 'docs' },
+    { title: "LLM Engineer's Handbook — Ch 10: Deployment on AWS", source: 'Iusztin & Labonne · Packt', url: 'https://github.com/PacktPublishing/LLM-Engineers-Handbook', kind: 'book' },
   ],
   23: [
     { title: 'Next.js — Official Interactive Course', source: 'Vercel', url: 'https://nextjs.org/learn', kind: 'course' },
@@ -525,6 +562,16 @@ const WEEK_RESOURCES: Record<number, WeekResource[]> = {
     { title: 'Langfuse — LLM Observability Docs', source: 'Langfuse', url: 'https://langfuse.com/docs', kind: 'docs' },
     { title: '12-Factor Agents — Production Principles', source: 'GitHub', url: 'https://github.com/humanlayer/12factor-agents', kind: 'repo' },
     { title: 'Make a README — Portfolio Polish', source: 'makeareadme.com', url: 'https://www.makeareadme.com/', kind: 'article' },
+    agentsBook('Ch 4 — Deployment & Responsible Development'),
+    { title: "LLM Engineer's Handbook — Ch 8 & 11: Inference Optimization, LLMOps", source: 'Iusztin & Labonne · Packt', url: 'https://github.com/PacktPublishing/LLM-Engineers-Handbook', kind: 'book' },
+  ],
+  25: [
+    { title: 'Generative AI Engineering with LLMs (Specialization)', source: 'IBM · Coursera', url: 'https://www.coursera.org/specializations/generative-ai-engineering-with-llms', kind: 'course' },
+    { title: 'The Illustrated Transformer', source: 'Jay Alammar', url: 'https://jalammar.github.io/illustrated-transformer/', kind: 'article' },
+    { title: 'PEFT — Parameter-Efficient Fine-Tuning', source: 'Hugging Face', url: 'https://huggingface.co/docs/peft', kind: 'docs' },
+    { title: 'Illustrating RLHF', source: 'Hugging Face', url: 'https://huggingface.co/blog/rlhf', kind: 'article' },
+    { title: "LLM Engineer's Handbook — Ch 5–6: SFT & Preference Alignment (DPO)", source: 'Iusztin & Labonne · Packt', url: 'https://github.com/PacktPublishing/LLM-Engineers-Handbook', kind: 'book' },
+    { title: 'LLMs In 100 Images — Architecture, Training & Decoding', source: 'Ashish Bamania', url: 'https://bamaniaashish.gumroad.com/l/llmbook', kind: 'book' },
   ],
 };
 
@@ -964,7 +1011,7 @@ export const RoadmapTracker: React.FC = () => {
               </div>
               <div className="roadmap-kpi-divider" />
               <div className="roadmap-kpi-item">
-                <span className="roadmap-kpi-val">{countedJournals}<span className="roadmap-kpi-total"> / 24</span></span>
+                <span className="roadmap-kpi-val">{countedJournals}<span className="roadmap-kpi-total"> / 25</span></span>
                 <span className="roadmap-kpi-lbl">Journals</span>
               </div>
             </div>
@@ -3283,6 +3330,7 @@ export const RoadmapTracker: React.FC = () => {
         .resource-kind-course .resource-icon  { background: rgba(139, 92, 246, 0.12); color: var(--color-check); }
         .resource-kind-repo .resource-icon    { background: rgba(16, 185, 129, 0.12); color: var(--color-build); }
         .resource-kind-tool .resource-icon    { background: rgba(6, 182, 212, 0.12);  color: #22d3ee; }
+        .resource-kind-book .resource-icon    { background: rgba(236, 72, 153, 0.12); color: #ec4899; }
         .resource-body {
           display: flex;
           flex-direction: column;
