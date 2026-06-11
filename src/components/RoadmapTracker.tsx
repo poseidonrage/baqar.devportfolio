@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import {
   BookOpen,
   Compass,
@@ -14,7 +14,13 @@ import {
   Moon,
   Code,
   Wrench,
-  CheckSquare
+  CheckSquare,
+  Sparkles,
+  PlayCircle,
+  FileText,
+  GraduationCap,
+  FolderGit2,
+  ArrowUpRight
 } from 'lucide-react';
 import curriculumData from '../data/curriculum.json';
 
@@ -377,6 +383,173 @@ const PROJECTS = [
   },
 ] as const;
 
+type ResourceKind = 'video' | 'docs' | 'article' | 'course' | 'repo' | 'tool';
+
+interface WeekResource {
+  title: string;
+  source: string;
+  url: string;
+  kind: ResourceKind;
+}
+
+const RESOURCE_KIND_META: Record<ResourceKind, { label: string; Icon: React.ComponentType<{ size?: number | string; strokeWidth?: number | string }> }> = {
+  video: { label: 'Video', Icon: PlayCircle },
+  docs: { label: 'Docs', Icon: BookOpen },
+  article: { label: 'Article', Icon: FileText },
+  course: { label: 'Course', Icon: GraduationCap },
+  repo: { label: 'Repo', Icon: FolderGit2 },
+  tool: { label: 'Tool', Icon: Wrench },
+};
+
+// Curated picks mapped to each curriculum week (keyed by week id)
+const WEEK_RESOURCES: Record<number, WeekResource[]> = {
+  1: [
+    { title: 'Python OOP Tutorial Series', source: 'Corey Schafer', url: 'https://www.youtube.com/playlist?list=PL-osiE80TeTsqhIuOqKhwlXsIBIdSeYtc', kind: 'video' },
+    { title: 'Classes — Official Python Tutorial', source: 'docs.python.org', url: 'https://docs.python.org/3/tutorial/classes.html', kind: 'docs' },
+    { title: 'OOP in Python 3', source: 'Real Python', url: 'https://realpython.com/python3-object-oriented-programming/', kind: 'article' },
+    { title: 'Python Track — Practice Exercises', source: 'Exercism', url: 'https://exercism.org/tracks/python', kind: 'course' },
+  ],
+  2: [
+    { title: 'First Steps Tutorial', source: 'FastAPI', url: 'https://fastapi.tiangolo.com/tutorial/first-steps/', kind: 'docs' },
+    { title: 'Concurrency and async / await', source: 'FastAPI', url: 'https://fastapi.tiangolo.com/async/', kind: 'docs' },
+    { title: 'Async IO in Python: A Complete Walkthrough', source: 'Real Python', url: 'https://realpython.com/async-io-python/', kind: 'article' },
+    { title: 'FastAPI Full Course', source: 'freeCodeCamp', url: 'https://www.youtube.com/watch?v=0sOvCWFmrtA', kind: 'video' },
+  ],
+  3: [
+    { title: 'Claude API — Getting Started', source: 'Anthropic', url: 'https://docs.anthropic.com/en/api/getting-started', kind: 'docs' },
+    { title: 'OpenAI API Quickstart', source: 'OpenAI', url: 'https://platform.openai.com/docs/quickstart', kind: 'docs' },
+    { title: 'Anthropic Cookbook — Code Examples', source: 'GitHub', url: 'https://github.com/anthropics/anthropic-cookbook', kind: 'repo' },
+  ],
+  4: [
+    { title: 'Prompt Engineering Overview', source: 'Anthropic', url: 'https://docs.anthropic.com/en/docs/build-with-claude/prompt-engineering/overview', kind: 'docs' },
+    { title: 'Structured Outputs Guide', source: 'OpenAI', url: 'https://platform.openai.com/docs/guides/structured-outputs', kind: 'docs' },
+    { title: 'Pydantic Models — Concepts', source: 'Pydantic', url: 'https://docs.pydantic.dev/latest/concepts/models/', kind: 'docs' },
+    { title: 'Instructor — Structured LLM Outputs', source: 'useinstructor.com', url: 'https://python.useinstructor.com/', kind: 'tool' },
+  ],
+  5: [
+    { title: 'LangChain Expression Language (LCEL)', source: 'LangChain', url: 'https://python.langchain.com/docs/concepts/lcel/', kind: 'docs' },
+    { title: 'LangChain Academy — Free Courses', source: 'LangChain', url: 'https://academy.langchain.com/', kind: 'course' },
+    { title: 'LangChain Crash Course', source: 'freeCodeCamp', url: 'https://www.youtube.com/watch?v=lG7Uxts9SXs', kind: 'video' },
+  ],
+  6: [
+    { title: 'Document Loaders — Concepts', source: 'LangChain', url: 'https://python.langchain.com/docs/concepts/document_loaders/', kind: 'docs' },
+    { title: 'Text Splitters — Concepts', source: 'LangChain', url: 'https://python.langchain.com/docs/concepts/text_splitters/', kind: 'docs' },
+    { title: 'Chunking Strategies for LLM Applications', source: 'Pinecone', url: 'https://www.pinecone.io/learn/chunking-strategies/', kind: 'article' },
+  ],
+  7: [
+    { title: 'LangGraph Documentation', source: 'LangChain', url: 'https://langchain-ai.github.io/langgraph/', kind: 'docs' },
+    { title: 'Introduction to LangGraph', source: 'LangChain Academy', url: 'https://academy.langchain.com/courses/intro-to-langgraph', kind: 'course' },
+    { title: 'LangGraph Low-Level Concepts (State, Nodes, Edges)', source: 'LangChain', url: 'https://langchain-ai.github.io/langgraph/concepts/low_level/', kind: 'docs' },
+  ],
+  8: [
+    { title: 'Human-in-the-Loop — Concepts', source: 'LangGraph', url: 'https://langchain-ai.github.io/langgraph/concepts/human_in_the_loop/', kind: 'docs' },
+    { title: 'Breakpoints & Interrupts', source: 'LangGraph', url: 'https://langchain-ai.github.io/langgraph/concepts/breakpoints/', kind: 'docs' },
+    { title: 'Persistence & Checkpointers', source: 'LangGraph', url: 'https://langchain-ai.github.io/langgraph/concepts/persistence/', kind: 'docs' },
+  ],
+  9: [
+    { title: 'Chroma — Getting Started', source: 'Chroma', url: 'https://docs.trychroma.com/getting-started', kind: 'docs' },
+    { title: 'Embeddings Guide', source: 'OpenAI', url: 'https://platform.openai.com/docs/guides/embeddings', kind: 'docs' },
+    { title: 'What Are Embeddings? (Free Book)', source: 'Vicki Boykis', url: 'https://vickiboykis.com/what_are_embeddings/', kind: 'article' },
+  ],
+  10: [
+    { title: 'Qdrant Quickstart', source: 'Qdrant', url: 'https://qdrant.tech/documentation/quickstart/', kind: 'docs' },
+    { title: 'Payload Filtering — Concepts', source: 'Qdrant', url: 'https://qdrant.tech/documentation/concepts/filtering/', kind: 'docs' },
+    { title: 'Docker — Get Started', source: 'Docker', url: 'https://docs.docker.com/get-started/', kind: 'docs' },
+  ],
+  11: [
+    { title: 'Hybrid Queries (Dense + Sparse)', source: 'Qdrant', url: 'https://qdrant.tech/documentation/concepts/hybrid-queries/', kind: 'docs' },
+    { title: 'Getting Started with Hybrid Search', source: 'Pinecone', url: 'https://www.pinecone.io/learn/hybrid-search-intro/', kind: 'article' },
+    { title: 'Rerank — Improve Search Relevance', source: 'Cohere', url: 'https://cohere.com/rerank', kind: 'tool' },
+  ],
+  12: [
+    { title: 'Introducing Contextual Retrieval', source: 'Anthropic', url: 'https://www.anthropic.com/news/contextual-retrieval', kind: 'article' },
+    { title: 'Parent Document Retriever — How-to', source: 'LangChain', url: 'https://python.langchain.com/docs/how_to/parent_document_retriever/', kind: 'docs' },
+    { title: 'Retrieval — Concepts Deep Dive', source: 'LangChain', url: 'https://python.langchain.com/docs/concepts/retrieval/', kind: 'docs' },
+  ],
+  13: [
+    { title: 'RAGAS — Evaluation Documentation', source: 'RAGAS', url: 'https://docs.ragas.io/', kind: 'docs' },
+    { title: 'Guardrails AI Documentation', source: 'Guardrails', url: 'https://www.guardrailsai.com/docs', kind: 'docs' },
+    { title: 'Building & Evaluating Advanced RAG', source: 'DeepLearning.AI', url: 'https://www.deeplearning.ai/short-courses/building-evaluating-advanced-rag/', kind: 'course' },
+  ],
+  14: [
+    { title: 'ReAct: Synergizing Reasoning and Acting (Paper)', source: 'arXiv', url: 'https://arxiv.org/abs/2210.03629', kind: 'article' },
+    { title: 'Building Effective Agents', source: 'Anthropic', url: 'https://www.anthropic.com/research/building-effective-agents', kind: 'article' },
+    { title: 'ReAct Agent from Scratch', source: 'LangGraph', url: 'https://langchain-ai.github.io/langgraph/how-tos/react-agent-from-scratch/', kind: 'docs' },
+  ],
+  15: [
+    { title: 'CrewAI Documentation', source: 'CrewAI', url: 'https://docs.crewai.com/', kind: 'docs' },
+    { title: 'Multi AI Agent Systems with crewAI', source: 'DeepLearning.AI', url: 'https://www.deeplearning.ai/short-courses/multi-ai-agent-systems-with-crewai/', kind: 'course' },
+    { title: 'CrewAI Examples', source: 'GitHub', url: 'https://github.com/crewAIInc/crewAI-examples', kind: 'repo' },
+  ],
+  16: [
+    { title: 'Semantic Kernel Overview', source: 'Microsoft Learn', url: 'https://learn.microsoft.com/en-us/semantic-kernel/overview/', kind: 'docs' },
+    { title: 'Plugins — Concepts', source: 'Microsoft Learn', url: 'https://learn.microsoft.com/en-us/semantic-kernel/concepts/plugins/', kind: 'docs' },
+    { title: 'microsoft/semantic-kernel', source: 'GitHub', url: 'https://github.com/microsoft/semantic-kernel', kind: 'repo' },
+  ],
+  17: [
+    { title: 'Multi-Agent Systems — Concepts', source: 'LangGraph', url: 'https://langchain-ai.github.io/langgraph/concepts/multi_agent/', kind: 'docs' },
+    { title: 'Don’t Build Multi-Agents (Counterpoint)', source: 'Cognition', url: 'https://cognition.ai/blog/dont-build-multi-agents', kind: 'article' },
+    { title: 'LangSmith — Tracing & Observability', source: 'LangChain', url: 'https://docs.smith.langchain.com/', kind: 'tool' },
+  ],
+  18: [
+    { title: 'Model Context Protocol — Introduction', source: 'MCP', url: 'https://modelcontextprotocol.io/introduction', kind: 'docs' },
+    { title: 'Introducing the Model Context Protocol', source: 'Anthropic', url: 'https://www.anthropic.com/news/model-context-protocol', kind: 'article' },
+    { title: 'MCP Python SDK', source: 'GitHub', url: 'https://github.com/modelcontextprotocol/python-sdk', kind: 'repo' },
+  ],
+  19: [
+    { title: 'FastMCP — Build MCP Servers Fast', source: 'gofastmcp.com', url: 'https://gofastmcp.com/', kind: 'docs' },
+    { title: 'Reference MCP Servers', source: 'GitHub', url: 'https://github.com/modelcontextprotocol/servers', kind: 'repo' },
+    { title: 'sqlite3 — Python Standard Library', source: 'docs.python.org', url: 'https://docs.python.org/3/library/sqlite3.html', kind: 'docs' },
+  ],
+  20: [
+    { title: 'n8n Documentation', source: 'n8n', url: 'https://docs.n8n.io/', kind: 'docs' },
+    { title: 'Self-Hosting n8n with Docker', source: 'n8n', url: 'https://docs.n8n.io/hosting/installation/docker/', kind: 'docs' },
+    { title: 'Workflow Template Library', source: 'n8n', url: 'https://n8n.io/workflows/', kind: 'tool' },
+  ],
+  21: [
+    { title: 'openai/whisper — Speech Recognition', source: 'GitHub', url: 'https://github.com/openai/whisper', kind: 'repo' },
+    { title: 'ElevenLabs — Text to Speech Docs', source: 'ElevenLabs', url: 'https://elevenlabs.io/docs', kind: 'docs' },
+    { title: 'Pipecat — Voice AI Pipelines', source: 'GitHub', url: 'https://github.com/pipecat-ai/pipecat', kind: 'repo' },
+  ],
+  22: [
+    { title: 'Multi-Stage Builds', source: 'Docker', url: 'https://docs.docker.com/build/building/multi-stage/', kind: 'docs' },
+    { title: 'FastAPI in Containers — Deployment', source: 'FastAPI', url: 'https://fastapi.tiangolo.com/deployment/docker/', kind: 'docs' },
+    { title: 'Amazon ECS — Getting Started', source: 'AWS', url: 'https://docs.aws.amazon.com/AmazonECS/latest/developerguide/getting-started.html', kind: 'docs' },
+  ],
+  23: [
+    { title: 'Next.js — Official Interactive Course', source: 'Vercel', url: 'https://nextjs.org/learn', kind: 'course' },
+    { title: 'Supabase Auth Guide', source: 'Supabase', url: 'https://supabase.com/docs/guides/auth', kind: 'docs' },
+    { title: 'Vercel AI SDK — Streaming UI', source: 'Vercel', url: 'https://sdk.vercel.ai/docs', kind: 'docs' },
+  ],
+  24: [
+    { title: 'Langfuse — LLM Observability Docs', source: 'Langfuse', url: 'https://langfuse.com/docs', kind: 'docs' },
+    { title: '12-Factor Agents — Production Principles', source: 'GitHub', url: 'https://github.com/humanlayer/12factor-agents', kind: 'repo' },
+    { title: 'Make a README — Portfolio Polish', source: 'makeareadme.com', url: 'https://www.makeareadme.com/', kind: 'article' },
+  ],
+};
+
+// Animates a number toward `target` with an ease-out curve (used by KPI strip)
+const useCountUp = (target: number, duration = 700) => {
+  const [value, setValue] = useState(target);
+  const prevRef = useRef(target);
+  useEffect(() => {
+    const from = prevRef.current;
+    if (from === target) return;
+    prevRef.current = target;
+    const start = performance.now();
+    let raf = 0;
+    const tick = (now: number) => {
+      const p = Math.min((now - start) / duration, 1);
+      const eased = 1 - Math.pow(1 - p, 3);
+      setValue(Math.round(from + (target - from) * eased));
+      if (p < 1) raf = requestAnimationFrame(tick);
+    };
+    raf = requestAnimationFrame(tick);
+    return () => cancelAnimationFrame(raf);
+  }, [target, duration]);
+  return value;
+};
+
 export const RoadmapTracker: React.FC = () => {
   const [curriculum] = useState<Month[]>(curriculumData as Month[]);
   const [completedTaskIds, setCompletedTaskIds] = useState<Record<string, boolean>>({});
@@ -675,9 +848,29 @@ export const RoadmapTracker: React.FC = () => {
   });
 
   const overallPercent = totalTasks > 0 ? Math.round((completedTasks / totalTasks) * 100) : 0;
+  const countedPercent = useCountUp(overallPercent);
+  const countedTasks = useCountUp(completedTasks);
+  const countedJournals = useCountUp(journalCount);
   const validMonths = curriculum.filter(m => m.weeks.length > 0);
   const activeMonth = curriculum.find(m => m.id === activeMonthId);
   const activeWeek = activeMonth?.weeks.find(w => w.id === activeWeekId);
+  const activeWeekResources = activeWeek ? (WEEK_RESOURCES[activeWeek.id] || []) : [];
+
+  // Tracks cursor position over a card so the CSS spotlight can follow it
+  const handleCardSpotlight = (e: React.MouseEvent<HTMLElement>) => {
+    const rect = e.currentTarget.getBoundingClientRect();
+    e.currentTarget.style.setProperty('--mx', `${e.clientX - rect.left}px`);
+    e.currentTarget.style.setProperty('--my', `${e.clientY - rect.top}px`);
+  };
+
+  const weekPercent = (w: Week) => {
+    let t = 0, d = 0;
+    w.days.forEach(day => day.tasks.forEach(task => {
+      t++;
+      if (completedTaskIds[task.id]) d++;
+    }));
+    return t > 0 ? Math.round((d / t) * 100) : 0;
+  };
 
   const filteredDays = activeWeek
     ? (weekSearch.trim() === ''
@@ -697,6 +890,10 @@ export const RoadmapTracker: React.FC = () => {
 
   return (
     <div className={`roadmap-wrapper theme-${theme}`}>
+      <div className="roadmap-aurora" aria-hidden="true">
+        <span className="roadmap-aurora-blob blob-a" />
+        <span className="roadmap-aurora-blob blob-b" />
+      </div>
       <div className="roadmap-app-container container">
 
         {/* ── Header: ring | title | kpi + auth ── */}
@@ -712,7 +909,7 @@ export const RoadmapTracker: React.FC = () => {
                 style={{ transform: 'rotate(-90deg)', transformOrigin: 'center', transformBox: 'fill-box' }}
               />
             </svg>
-            <span className="roadmap-ring-overlay">{overallPercent}%</span>
+            <span className="roadmap-ring-overlay">{countedPercent}%</span>
           </div>
 
           <div className="roadmap-header-title-block">
@@ -729,12 +926,12 @@ export const RoadmapTracker: React.FC = () => {
           <div className="roadmap-header-right">
             <div className="roadmap-kpi-strip font-mono">
               <div className="roadmap-kpi-item">
-                <span className="roadmap-kpi-val">{overallPercent}%</span>
+                <span className="roadmap-kpi-val">{countedPercent}%</span>
                 <span className="roadmap-kpi-lbl">Progress</span>
               </div>
               <div className="roadmap-kpi-divider" />
               <div className="roadmap-kpi-item">
-                <span className="roadmap-kpi-val">{completedTasks}<span className="roadmap-kpi-total"> / {totalTasks}</span></span>
+                <span className="roadmap-kpi-val">{countedTasks}<span className="roadmap-kpi-total"> / {totalTasks}</span></span>
                 <span className="roadmap-kpi-lbl">Tasks</span>
               </div>
               <div className="roadmap-kpi-divider" />
@@ -744,7 +941,7 @@ export const RoadmapTracker: React.FC = () => {
               </div>
               <div className="roadmap-kpi-divider" />
               <div className="roadmap-kpi-item">
-                <span className="roadmap-kpi-val">{journalCount}<span className="roadmap-kpi-total"> / 24</span></span>
+                <span className="roadmap-kpi-val">{countedJournals}<span className="roadmap-kpi-total"> / 24</span></span>
                 <span className="roadmap-kpi-lbl">Journals</span>
               </div>
             </div>
@@ -825,15 +1022,22 @@ export const RoadmapTracker: React.FC = () => {
         {/* ── Week pills ── */}
         {activeMonth && (
           <div className="roadmap-week-pills">
-            {activeMonth.weeks.map(w => (
-              <button
-                key={w.id}
-                className={`week-pill${activeWeekId === w.id ? ' active' : ''}`}
-                onClick={() => setActiveWeekId(w.id)}
-              >
-                Week {w.week_number}
-              </button>
-            ))}
+            {activeMonth.weeks.map(w => {
+              const wPct = weekPercent(w);
+              return (
+                <button
+                  key={w.id}
+                  className={`week-pill${activeWeekId === w.id ? ' active' : ''}${wPct >= 100 ? ' done' : ''}`}
+                  onClick={() => setActiveWeekId(w.id)}
+                >
+                  <span className="week-pill-label">
+                    Week {w.week_number}
+                    {wPct >= 100 && <Check size={11} strokeWidth={3.5} className="week-pill-check" />}
+                  </span>
+                  <span className="week-pill-track"><span className="week-pill-fill" style={{ width: wPct + '%' }} /></span>
+                </button>
+              );
+            })}
           </div>
         )}
 
@@ -908,6 +1112,44 @@ export const RoadmapTracker: React.FC = () => {
                   </div>
                 )}
               </div>
+
+              {/* Resources for this week */}
+              {activeWeekResources.length > 0 && (
+                <div className="roadmap-resources-card" onMouseMove={handleCardSpotlight}>
+                  <div className="roadmap-resources-header">
+                    <span className="roadmap-companion-title font-mono">
+                      <Sparkles size={16} className="roadmap-resources-spark" />
+                      Resources for this week
+                    </span>
+                    <span className="roadmap-resources-count font-mono">{activeWeekResources.length} picks</span>
+                  </div>
+                  <p className="roadmap-resources-blurb">
+                    Hand-picked for Week {activeWeek.week_number} — {activeWeek.title}.
+                  </p>
+                  <div className="roadmap-resources-list" key={activeWeek.id}>
+                    {activeWeekResources.map((res, idx) => {
+                      const { label, Icon } = RESOURCE_KIND_META[res.kind];
+                      return (
+                        <a
+                          key={res.url}
+                          className={`resource-item resource-kind-${res.kind}`}
+                          href={res.url}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          style={{ animationDelay: `${idx * 70}ms` }}
+                        >
+                          <span className="resource-icon"><Icon size={15} strokeWidth={2.2} /></span>
+                          <span className="resource-body">
+                            <span className="resource-title">{res.title}</span>
+                            <span className="resource-meta font-mono">{res.source} · {label}</span>
+                          </span>
+                          <ArrowUpRight size={14} className="resource-arrow" />
+                        </a>
+                      );
+                    })}
+                  </div>
+                </div>
+              )}
 
               {/* Journal — div, not section, to avoid global padding:0 reset */}
               <div className="roadmap-journal-section">
@@ -1025,13 +1267,18 @@ export const RoadmapTracker: React.FC = () => {
               </div>
 
               {filteredDays.length > 0 ? (
-                <div className="roadmap-day-grid">
-                  {filteredDays.map((day) => {
+                <div className="roadmap-day-grid" key={activeWeek.id}>
+                  {filteredDays.map((day, dayIdx) => {
                     const dayTotal = day.tasks.length;
                     const dayDone = day.tasks.filter(t => completedTaskIds[t.id]).length;
                     const dayPct = dayTotal > 0 ? Math.round((dayDone / dayTotal) * 100) : 0;
                     return (
-                      <div key={day.id} className="roadmap-day-card">
+                      <div
+                        key={day.id}
+                        className={`roadmap-day-card${dayPct >= 100 ? ' day-complete' : ''}`}
+                        style={{ animationDelay: `${dayIdx * 65}ms` }}
+                        onMouseMove={handleCardSpotlight}
+                      >
                         <div className="day-progress-bar">
                           <div className="day-progress-fill" style={{ width: dayPct + '%' }} />
                         </div>
@@ -2608,6 +2855,288 @@ export const RoadmapTracker: React.FC = () => {
         .project-type-rag .project-detail-label    { color: #10b981; }
         .project-type-voice .project-detail-label  { color: #f97316; }
         .project-type-saas .project-detail-label   { color: #f59e0b; }
+
+        /* ── Micro-animation keyframes ── */
+        @keyframes roadmapCardIn {
+          from { opacity: 0; transform: translateY(14px) scale(0.985); }
+          to   { opacity: 1; transform: none; }
+        }
+        @keyframes roadmapItemIn {
+          from { opacity: 0; transform: translateX(-8px); }
+          to   { opacity: 1; transform: none; }
+        }
+        @keyframes roadmapCheckPop {
+          0%   { transform: scale(0.7); }
+          55%  { transform: scale(1.18); }
+          100% { transform: scale(1); }
+        }
+        @keyframes roadmapCheckBurst {
+          from { box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.45); }
+          to   { box-shadow: 0 0 0 10px rgba(16, 185, 129, 0); }
+        }
+        @keyframes roadmapBarShimmer {
+          from { transform: translateX(-100%); }
+          to   { transform: translateX(220%); }
+        }
+        @keyframes roadmapTitleSheen {
+          from { background-position: 0% center; }
+          to   { background-position: 100% center; }
+        }
+        @keyframes roadmapDotPulse {
+          0%, 100% { box-shadow: 0 0 4px var(--accent); transform: scale(1); }
+          50%      { box-shadow: 0 0 11px var(--accent); transform: scale(1.15); }
+        }
+        @keyframes roadmapSparkPulse {
+          0%, 100% { transform: scale(1) rotate(0deg); opacity: 0.75; }
+          50%      { transform: scale(1.18) rotate(8deg); opacity: 1; }
+        }
+        @keyframes roadmapAuroraDrift {
+          from { transform: translate(0, 0) scale(1); }
+          to   { transform: translate(60px, 40px) scale(1.15); }
+        }
+
+        /* ── Aurora backdrop ── */
+        .roadmap-wrapper { position: relative; }
+        .roadmap-app-container { position: relative; z-index: 1; }
+        .roadmap-aurora {
+          position: absolute;
+          inset: 0;
+          overflow: hidden;
+          pointer-events: none;
+          z-index: 0;
+        }
+        .roadmap-aurora-blob {
+          position: absolute;
+          width: 460px;
+          height: 460px;
+          border-radius: 50%;
+          filter: blur(90px);
+          opacity: 0.18;
+        }
+        .theme-light .roadmap-aurora-blob { opacity: 0.13; }
+        .roadmap-aurora-blob.blob-a {
+          top: -140px; left: -100px;
+          background: radial-gradient(circle, rgba(var(--accent-rgb), 0.9), transparent 70%);
+          animation: roadmapAuroraDrift 16s ease-in-out infinite alternate;
+        }
+        .roadmap-aurora-blob.blob-b {
+          top: 30%; right: -140px;
+          background: radial-gradient(circle, rgba(139, 92, 246, 0.8), transparent 70%);
+          animation: roadmapAuroraDrift 20s ease-in-out infinite alternate-reverse;
+        }
+
+        /* ── Header polish ── */
+        .roadmap-title {
+          background-size: 200% auto;
+          animation: roadmapTitleSheen 8s ease infinite alternate;
+        }
+        .roadmap-badge-dot { animation: roadmapDotPulse 2.2s ease-in-out infinite; }
+        .roadmap-master-fill { position: relative; overflow: hidden; }
+        .roadmap-master-fill::after {
+          content: '';
+          position: absolute;
+          top: 0; bottom: 0; left: 0;
+          width: 45%;
+          background: linear-gradient(105deg, transparent 0%, rgba(255, 255, 255, 0.4) 50%, transparent 100%);
+          animation: roadmapBarShimmer 2.8s ease-in-out infinite;
+        }
+
+        /* ── Week pill progress ── */
+        .week-pill {
+          display: flex;
+          flex-direction: column;
+          align-items: stretch;
+          gap: 5px;
+          padding: 7px 16px;
+        }
+        .week-pill:hover { transform: translateY(-1px); }
+        .week-pill-label {
+          display: inline-flex;
+          align-items: center;
+          justify-content: center;
+          gap: 5px;
+        }
+        .week-pill-check { color: var(--color-build); }
+        .week-pill.active .week-pill-check { color: inherit; }
+        .week-pill-track {
+          display: block;
+          height: 3px;
+          min-width: 54px;
+          border-radius: 2px;
+          background: var(--border-color);
+          overflow: hidden;
+        }
+        .week-pill-fill {
+          display: block;
+          height: 100%;
+          border-radius: 2px;
+          background: linear-gradient(90deg, var(--color-build), var(--accent));
+          transition: width 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .week-pill.active .week-pill-track { background: rgba(128, 128, 128, 0.35); }
+        .week-pill.active .week-pill-fill { background: var(--timeline-btn-active-text); }
+
+        /* ── Day card entrance, spotlight & complete glow ── */
+        .roadmap-day-card {
+          position: relative;
+          overflow: hidden;
+          animation: roadmapCardIn 0.55s cubic-bezier(0.22, 1, 0.36, 1) both;
+        }
+        .roadmap-day-card:hover { transform: translateY(-3px); }
+        .roadmap-day-card::after,
+        .roadmap-resources-card::after {
+          content: '';
+          position: absolute;
+          inset: 0;
+          border-radius: inherit;
+          background: radial-gradient(200px circle at var(--mx, 50%) var(--my, 50%), rgba(var(--accent-rgb), 0.09), transparent 70%);
+          opacity: 0;
+          transition: opacity 0.35s ease;
+          pointer-events: none;
+        }
+        .roadmap-day-card:hover::after,
+        .roadmap-resources-card:hover::after { opacity: 1; }
+        .roadmap-day-card.day-complete {
+          border-color: rgba(16, 185, 129, 0.35);
+          box-shadow: 0 0 0 1px rgba(16, 185, 129, 0.12), 0 6px 18px rgba(16, 185, 129, 0.1);
+        }
+
+        /* ── Task micro-interactions ── */
+        .roadmap-task-item:hover { transform: translateX(3px); }
+        .roadmap-task-checkbox-container.checked {
+          animation: roadmapCheckPop 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+        .roadmap-task-checkbox-container.checked::after {
+          content: '';
+          position: absolute;
+          inset: -2px;
+          border-radius: 6px;
+          animation: roadmapCheckBurst 0.5s ease-out forwards;
+        }
+
+        /* ── Resources for this week ── */
+        .roadmap-resources-card {
+          background: var(--bg-card);
+          border: 1px solid var(--accent-border);
+          border-radius: var(--radius-md);
+          padding: 1.25rem;
+          box-shadow: var(--shadow-sm);
+          display: flex;
+          flex-direction: column;
+          gap: 0.65rem;
+          position: relative;
+          overflow: hidden;
+        }
+        .roadmap-resources-card::before {
+          content: '';
+          position: absolute;
+          top: 0; left: 0; right: 0;
+          height: 3px;
+          background: linear-gradient(90deg, var(--accent), #8b5cf6, var(--color-build));
+        }
+        .roadmap-resources-header {
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          gap: 0.5rem;
+        }
+        .roadmap-resources-spark { color: var(--accent); animation: roadmapSparkPulse 2.4s ease-in-out infinite; }
+        .roadmap-resources-count {
+          font-size: 10px;
+          font-weight: 600;
+          color: var(--accent);
+          background: var(--accent-glow);
+          border: 1px solid var(--accent-border);
+          border-radius: 20px;
+          padding: 2px 8px;
+          white-space: nowrap;
+        }
+        .roadmap-resources-blurb {
+          font-size: 12px;
+          color: var(--text-muted);
+          margin: 0;
+          line-height: 1.45;
+        }
+        .roadmap-resources-list {
+          display: flex;
+          flex-direction: column;
+          gap: 0.5rem;
+        }
+        .resource-item {
+          display: flex;
+          align-items: center;
+          gap: 0.65rem;
+          padding: 0.6rem 0.7rem;
+          border: 1px solid var(--border-color);
+          border-radius: 10px;
+          background: var(--bg-card-hover);
+          text-decoration: none;
+          transition: var(--transition-smooth);
+          animation: roadmapItemIn 0.45s cubic-bezier(0.22, 1, 0.36, 1) both;
+        }
+        .resource-item:hover {
+          transform: translateX(4px);
+          border-color: var(--accent-border);
+          background: var(--bg-card);
+          box-shadow: var(--shadow-md);
+        }
+        .resource-icon {
+          width: 30px;
+          height: 30px;
+          flex-shrink: 0;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          border-radius: 8px;
+          transition: var(--transition-smooth);
+        }
+        .resource-item:hover .resource-icon { transform: scale(1.1) rotate(-4deg); }
+        .resource-kind-video .resource-icon   { background: rgba(239, 68, 68, 0.12);  color: #ef4444; }
+        .resource-kind-docs .resource-icon    { background: rgba(var(--accent-rgb), 0.12); color: var(--accent); }
+        .resource-kind-article .resource-icon { background: rgba(245, 158, 11, 0.12); color: var(--color-read); }
+        .resource-kind-course .resource-icon  { background: rgba(139, 92, 246, 0.12); color: var(--color-check); }
+        .resource-kind-repo .resource-icon    { background: rgba(16, 185, 129, 0.12); color: var(--color-build); }
+        .resource-kind-tool .resource-icon    { background: rgba(6, 182, 212, 0.12);  color: #22d3ee; }
+        .resource-body {
+          display: flex;
+          flex-direction: column;
+          min-width: 0;
+        }
+        .resource-title {
+          font-size: 12.5px;
+          font-weight: 600;
+          color: var(--text-primary);
+          line-height: 1.35;
+        }
+        .resource-meta {
+          font-size: 10px;
+          color: var(--text-muted);
+          margin-top: 1px;
+        }
+        .resource-arrow {
+          margin-left: auto;
+          flex-shrink: 0;
+          color: var(--text-muted);
+          opacity: 0;
+          transform: translate(-3px, 3px);
+          transition: var(--transition-smooth);
+        }
+        .resource-item:hover .resource-arrow {
+          opacity: 1;
+          transform: translate(0, 0);
+          color: var(--accent);
+        }
+
+        /* ── Reduced motion ── */
+        @media (prefers-reduced-motion: reduce) {
+          .roadmap-wrapper *,
+          .roadmap-wrapper *::before,
+          .roadmap-wrapper *::after {
+            animation-duration: 0.01ms !important;
+            animation-iteration-count: 1 !important;
+            transition-duration: 0.01ms !important;
+          }
+        }
 
         /* ── Responsive ── */
         @media (max-width: 1024px) {
