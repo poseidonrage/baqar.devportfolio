@@ -526,6 +526,12 @@ const WEEK_RESOURCES: Record<number, WeekResource[]> = {
     { title: '12-Factor Agents — Production Principles', source: 'GitHub', url: 'https://github.com/humanlayer/12factor-agents', kind: 'repo' },
     { title: 'Make a README — Portfolio Polish', source: 'makeareadme.com', url: 'https://www.makeareadme.com/', kind: 'article' },
   ],
+  25: [
+    { title: 'Generative AI Engineering with LLMs (Specialization)', source: 'IBM · Coursera', url: 'https://www.coursera.org/specializations/generative-ai-engineering-with-llms', kind: 'course' },
+    { title: 'The Illustrated Transformer', source: 'Jay Alammar', url: 'https://jalammar.github.io/illustrated-transformer/', kind: 'article' },
+    { title: 'PEFT — Parameter-Efficient Fine-Tuning', source: 'Hugging Face', url: 'https://huggingface.co/docs/peft', kind: 'docs' },
+    { title: 'Illustrating RLHF', source: 'Hugging Face', url: 'https://huggingface.co/blog/rlhf', kind: 'article' },
+  ],
 };
 
 // Animates a number toward `target` with an ease-out curve (used by KPI strip)
@@ -964,7 +970,7 @@ export const RoadmapTracker: React.FC = () => {
               </div>
               <div className="roadmap-kpi-divider" />
               <div className="roadmap-kpi-item">
-                <span className="roadmap-kpi-val">{countedJournals}<span className="roadmap-kpi-total"> / 24</span></span>
+                <span className="roadmap-kpi-val">{countedJournals}<span className="roadmap-kpi-total"> / 25</span></span>
                 <span className="roadmap-kpi-lbl">Journals</span>
               </div>
             </div>

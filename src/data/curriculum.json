@@ -3575,7 +3575,7 @@
   {
     "id": 6,
     "title": "SaaS MVP + deployment + portfolio",
-    "weeks_range": "Weeks 22–24",
+    "weeks_range": "Weeks 22–24 + elective",
     "hours": "~30 hours",
     "badge_text": "Ship it",
     "weeks": [
@@ -4042,6 +4042,158 @@
                 "day_id": 2406,
                 "task_num": 2,
                 "content": "Clean up unused sandbox setups. (60 min)"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "id": 25,
+        "month_id": 6,
+        "week_number": 25,
+        "title": "Elective — Transformer Internals & LLM Fine-Tuning",
+        "focus_hours": "10 hours total · Transformer architecture, tokenization, Hugging Face, PEFT / LoRA, instruction tuning, RLHF / DPO",
+        "csharp_mindset": "<p><strong>C# dev mindset:</strong> Until now you have consumed LLMs like a NuGet package — this week you open the package source. A transformer is the runtime; fine-tuning is recompiling parts of it for your domain. LoRA is like extension methods: you bolt small trainable adapters onto a frozen base instead of forking the whole framework.</p>",
+        "weekly_goal": "By Sunday you understand the transformer architecture end-to-end (tokenization, embeddings, attention, generation), can fine-tune a small model with LoRA using Hugging Face, and can argue when fine-tuning beats RAG and vice versa. Mirrors IBM's Generative AI Engineering with LLMs specialization.",
+        "days": [
+          {
+            "id": 2500,
+            "week_id": 25,
+            "day_name": "Monday",
+            "hours": "1 hour · learning",
+            "type": "Learn",
+            "tasks": [
+              {
+                "id": "w25_d0_t1",
+                "day_id": 2500,
+                "task_num": 1,
+                "content": "Read <a href=\"https://jalammar.github.io/illustrated-transformer/\" target=\"_blank\">The Illustrated Transformer</a>: encoder/decoder stacks, self-attention, positional encoding. (40 min)"
+              },
+              {
+                "id": "w25_d0_t2",
+                "day_id": 2500,
+                "task_num": 2,
+                "content": "Map IBM course 1 concepts: tokenization → data loaders → training pipeline. Note 3 things RAG never required you to know. (20 min)"
+              }
+            ]
+          },
+          {
+            "id": 2501,
+            "week_id": 25,
+            "day_name": "Tuesday",
+            "hours": "1.5 hours · learning",
+            "type": "Learn",
+            "tasks": [
+              {
+                "id": "w25_d1_t1",
+                "day_id": 2501,
+                "task_num": 1,
+                "content": "Explore tokenizers hands-on: load GPT-2 and Llama tokenizers in Hugging Face, compare BPE vs SentencePiece output on the same sentence. (45 min)"
+              },
+              {
+                "id": "w25_d1_t2",
+                "day_id": 2501,
+                "task_num": 2,
+                "content": "Study embeddings vs contextual representations: why word2vec ≠ transformer hidden states. Skim attention-head visualizations. (45 min)"
+              }
+            ]
+          },
+          {
+            "id": 2502,
+            "week_id": 25,
+            "day_name": "Wednesday",
+            "hours": "1.5 hours · coding",
+            "type": "Code",
+            "tasks": [
+              {
+                "id": "w25_d2_t1",
+                "day_id": 2502,
+                "task_num": 1,
+                "content": "Run a small causal LM (distilGPT-2) locally with transformers pipeline; experiment with temperature, top-k, top-p and watch generations change. (60 min)"
+              },
+              {
+                "id": "w25_d2_t2",
+                "day_id": 2502,
+                "task_num": 2,
+                "content": "Implement a single scaled dot-product attention function in raw PyTorch / NumPy to demystify QKV. (30 min)"
+              }
+            ]
+          },
+          {
+            "id": 2503,
+            "week_id": 25,
+            "day_name": "Thursday",
+            "hours": "2 hours · coding",
+            "type": "Code",
+            "tasks": [
+              {
+                "id": "w25_d3_t1",
+                "day_id": 2503,
+                "task_num": 1,
+                "content": "Fine-tune with Hugging Face Trainer: full fine-tune of a tiny model on a toy dataset; note GPU/memory cost. (60 min)"
+              },
+              {
+                "id": "w25_d3_t2",
+                "day_id": 2503,
+                "task_num": 2,
+                "content": "Redo it with PEFT + LoRA adapters; compare trainable parameter counts and results. (60 min)"
+              }
+            ]
+          },
+          {
+            "id": 2504,
+            "week_id": 25,
+            "day_name": "Friday",
+            "hours": "1 hour · learning",
+            "type": "Learn",
+            "tasks": [
+              {
+                "id": "w25_d4_t1",
+                "day_id": 2504,
+                "task_num": 1,
+                "content": "Study instruction tuning vs preference alignment: read Hugging Face's <a href=\"https://huggingface.co/blog/rlhf\" target=\"_blank\">Illustrating RLHF</a> and the DPO summary. (60 min)"
+              }
+            ]
+          },
+          {
+            "id": 2505,
+            "week_id": 25,
+            "day_name": "Saturday",
+            "hours": "2 hours · project work",
+            "type": "Build",
+            "tasks": [
+              {
+                "id": "w25_d5_t1",
+                "day_id": 2505,
+                "task_num": 1,
+                "content": "Mini-project: LoRA fine-tune Flan-T5-small on 100–200 insurance/clinical Q&A pairs (synthesize them with Claude). (90 min)"
+              },
+              {
+                "id": "w25_d5_t2",
+                "day_id": 2505,
+                "task_num": 2,
+                "content": "Evaluate before vs after on 10 held-out questions; record where fine-tuning helped and where it hallucinated. (30 min)"
+              }
+            ]
+          },
+          {
+            "id": 2506,
+            "week_id": 25,
+            "day_name": "Sunday",
+            "hours": "1 hour · review",
+            "type": "Review",
+            "tasks": [
+              {
+                "id": "w25_d6_t1",
+                "day_id": 2506,
+                "task_num": 1,
+                "content": "Write a fine-tuning vs RAG decision matrix (data freshness, cost, latency, control) in your journal. (30 min)"
+              },
+              {
+                "id": "w25_d6_t2",
+                "day_id": 2506,
+                "task_num": 2,
+                "content": "Push the LoRA notebook + matrix to GitHub; link it from your portfolio README. (30 min)"
               }
             ]
           }
