@@ -884,7 +884,7 @@ export const RoadmapTracker: React.FC = () => {
   const monthShortTitle = (m: Month) =>
     m.title.includes(':') ? m.title.split(':').slice(1).join(':').trim() : m.title;
 
-  // Adds a blur backdrop to the week selector once it sticks to the viewport top
+  // Shows the floating week dock once the pills row scrolls out of view
   const [pillsStuck, setPillsStuck] = useState(false);
   const pillsSentinelRef = useRef<HTMLDivElement | null>(null);
   useEffect(() => {
@@ -1066,10 +1066,9 @@ export const RoadmapTracker: React.FC = () => {
           })}
         </div>
 
-        {/* ── Week pills (stick to top while scrolling) ── */}
+        {/* ── Week pills ── */}
         <div ref={pillsSentinelRef} className="roadmap-pills-sentinel" aria-hidden="true" />
         {activeMonth && (
-          <div className={`roadmap-week-pills-sticky${pillsStuck ? ' is-stuck' : ''}`}>
           <div className="roadmap-week-pills">
             {activeMonth.weeks.map(w => {
               const wPct = weekPercent(w);
@@ -1088,6 +1087,27 @@ export const RoadmapTracker: React.FC = () => {
               );
             })}
           </div>
+        )}
+
+        {/* ── Floating week dock: flies in once the pills scroll away ── */}
+        {activeMonth && pillsStuck && (
+          <div className="roadmap-week-dock" key={`dock-${activeMonthId}`}>
+            <span className="week-dock-label font-mono">M{activeMonthId}</span>
+            {activeMonth.weeks.map((w, i) => {
+              const wPct = weekPercent(w);
+              return (
+                <button
+                  key={w.id}
+                  className={`week-dock-item${activeWeekId === w.id ? ' active' : ''}${wPct >= 100 ? ' done' : ''}`}
+                  style={{ animationDelay: `${i * 50}ms` }}
+                  onClick={() => setActiveWeekId(w.id)}
+                >
+                  <span className="week-dock-num font-mono">W{w.week_number}</span>
+                  <span className="week-dock-bar"><span style={{ width: wPct + '%' }} /></span>
+                  <span className="week-dock-tip font-mono">Week {w.week_number} · {wPct}%</span>
+                </button>
+              );
+            })}
           </div>
         )}
 
@@ -1571,8 +1591,9 @@ export const RoadmapTracker: React.FC = () => {
           --radius-sm: 8px;
           --radius-md: 12px;
           --radius-lg: 20px;
-          --font-sans: 'Outfit', sans-serif;
-          --font-mono: 'JetBrains Mono', monospace;
+          --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+          --font-display: 'Space Grotesk', 'Inter', sans-serif;
+          --font-mono: 'JetBrains Mono', 'Roboto Mono', monospace;
           --transition-smooth: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
@@ -3273,6 +3294,14 @@ export const RoadmapTracker: React.FC = () => {
           color: var(--accent);
         }
 
+        /* ── Display typeface for headings ── */
+        .roadmap-title,
+        .roadmap-week-info-title,
+        .roadmap-day-name,
+        .project-title {
+          font-family: var(--font-display);
+        }
+
         /* ── Shared section entrance + heading pulse ── */
         .roadmap-anim-in {
           animation: roadmapItemIn 0.5s cubic-bezier(0.22, 1, 0.36, 1) both;
@@ -3301,24 +3330,104 @@ export const RoadmapTracker: React.FC = () => {
           scrollbar-width: thin;
         }
 
-        /* ── Sticky week selector ── */
+        /* ── Floating week dock ── */
         .roadmap-pills-sentinel { height: 1px; }
-        .roadmap-week-pills-sticky {
-          position: sticky;
-          top: 0;
-          z-index: 90;
-          margin: 0 -1.5rem 1.5rem;
-          padding: 0.6rem 1.5rem 0.5rem;
-          border-bottom: 1px solid transparent;
-          transition: var(--transition-smooth);
+        @keyframes roadmapDockIn {
+          from { opacity: 0; transform: translateY(-50%) translateX(-28px); }
+          to   { opacity: 1; transform: translateY(-50%) translateX(0); }
         }
-        .roadmap-week-pills-sticky .roadmap-week-pills { margin-bottom: 0; }
-        .roadmap-week-pills-sticky.is-stuck {
+        .roadmap-week-dock {
+          position: fixed;
+          left: 14px;
+          top: 50%;
+          transform: translateY(-50%);
+          display: flex;
+          flex-direction: column;
+          gap: 5px;
+          z-index: 120;
           background: var(--bg-sticky);
           backdrop-filter: blur(14px);
           -webkit-backdrop-filter: blur(14px);
-          border-bottom-color: var(--border-color);
+          border: 1px solid var(--border-color);
+          border-radius: 14px;
+          padding: 10px 7px;
+          box-shadow: var(--shadow-lg);
+          animation: roadmapDockIn 0.45s cubic-bezier(0.22, 1, 0.36, 1) both;
+        }
+        .week-dock-label {
+          font-size: 9px;
+          font-weight: 800;
+          color: var(--accent);
+          text-align: center;
+          letter-spacing: 0.1em;
+          margin-bottom: 2px;
+        }
+        .week-dock-item {
+          position: relative;
+          width: 42px;
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          gap: 4px;
+          padding: 6px 0 6px;
+          border-radius: 10px;
+          border: 1px solid transparent;
+          background: transparent;
+          cursor: pointer;
+          transition: var(--transition-smooth);
+          animation: roadmapItemIn 0.4s cubic-bezier(0.22, 1, 0.36, 1) both;
+        }
+        .week-dock-item:hover {
+          background: var(--accent-glow);
+          border-color: var(--accent-border);
+          transform: translateX(3px);
+        }
+        .week-dock-item.active { background: var(--timeline-btn-active-bg); }
+        .week-dock-item.active .week-dock-num { color: var(--timeline-btn-active-text); }
+        .week-dock-num {
+          font-size: 10px;
+          font-weight: 700;
+          color: var(--text-secondary);
+        }
+        .week-dock-item.done .week-dock-num { color: var(--color-build); }
+        .week-dock-bar {
+          width: 22px;
+          height: 3px;
+          border-radius: 2px;
+          background: var(--border-color);
+          overflow: hidden;
+        }
+        .week-dock-item.active .week-dock-bar { background: rgba(128, 128, 128, 0.4); }
+        .week-dock-bar span {
+          display: block;
+          height: 100%;
+          border-radius: 2px;
+          background: linear-gradient(90deg, var(--color-build), var(--accent));
+          transition: width 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .week-dock-tip {
+          position: absolute;
+          left: calc(100% + 12px);
+          top: 50%;
+          transform: translateY(-50%) translateX(-4px);
+          opacity: 0;
+          pointer-events: none;
+          white-space: nowrap;
+          background: var(--btn-primary-bg);
+          color: var(--btn-primary-text);
+          font-size: 10px;
+          font-weight: 600;
+          padding: 4px 9px;
+          border-radius: 6px;
           box-shadow: var(--shadow-md);
+          transition: var(--transition-smooth);
+        }
+        .week-dock-item:hover .week-dock-tip {
+          opacity: 1;
+          transform: translateY(-50%) translateX(0);
+        }
+        @media (max-width: 1500px) {
+          .roadmap-week-dock { display: none; }
         }
 
         /* ── Reduced motion ── */
