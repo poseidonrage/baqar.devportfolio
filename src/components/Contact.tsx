@@ -125,12 +125,11 @@ export const Contact: React.FC = () => {
         const rect = section.getBoundingClientRect();
         const vh = window.innerHeight;
         const vw = window.innerWidth;
-        // Contact sits at the page bottom and rarely scrolls fully past, so
-        // progress is driven by how far past its midpoint the viewport is
-        const progress = Math.max(0, Math.min(1, (vh - rect.top - rect.height * 0.55) / (vh * 0.5)));
+        // Contact is the last section, so the page can never scroll fully past
+        // it — cap the flight so the cubes drift with scroll but remain visible
+        // at the bottom-of-page rest position
+        const progress = Math.max(0, Math.min(0.45, (vh - rect.top - rect.height * 0.55) / (vh * 0.5)));
         const eased = progress * progress;
-        // Fade out over the last 40% of the flight so they vanish gracefully
-        const opacity = Math.max(0, Math.min(1, (1 - eased) / 0.4));
 
         wraps.forEach((wrap, i) => {
           const cfg = driftConfig[i] || { dx: 0, dy: 0, scale: 0 };
@@ -138,7 +137,6 @@ export const Contact: React.FC = () => {
           const ty = cfg.dy * vh * eased;
           const sc = 1 + (cfg.scale * eased);
           wrap.style.transform = `translate3d(${tx}px, ${ty}px, 0) scale(${sc})`;
-          wrap.style.opacity = String(opacity);
         });
       });
     };
