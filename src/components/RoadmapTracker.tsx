@@ -1066,6 +1066,16 @@ export const RoadmapTracker: React.FC = () => {
           })}
         </div>
 
+        {/* ── Active month description ── */}
+        {activeMonth && (
+          <div className="roadmap-month-desc roadmap-anim-in" key={`mdesc-${activeMonthId}`}>
+            <span className="month-desc-num font-mono">M{activeMonth.id}</span>
+            <h2 className="month-desc-title">{activeMonth.title}</h2>
+            <span className="month-desc-badge font-mono">{activeMonth.badge_text}</span>
+            <span className="month-desc-meta font-mono">{activeMonth.weeks_range} · {activeMonth.hours}</span>
+          </div>
+        )}
+
         {/* ── Week pills ── */}
         <div ref={pillsSentinelRef} className="roadmap-pills-sentinel" aria-hidden="true" />
         {activeMonth && (
@@ -3309,6 +3319,54 @@ export const RoadmapTracker: React.FC = () => {
         .roadmap-day-name,
         .project-title {
           font-family: var(--font-display);
+        }
+
+        /* ── Active month description strip ── */
+        .roadmap-month-desc {
+          display: flex;
+          align-items: center;
+          gap: 0.8rem;
+          flex-wrap: wrap;
+          margin: 0.25rem 0 1.25rem;
+          padding: 0.8rem 1.1rem;
+          background: var(--bg-card);
+          border: 1px solid var(--border-color);
+          border-left: 3px solid var(--accent);
+          border-radius: var(--radius-sm);
+          box-shadow: var(--shadow-sm);
+        }
+        .month-desc-num {
+          font-size: 11px;
+          font-weight: 800;
+          color: var(--accent);
+          background: var(--accent-glow);
+          border: 1px solid var(--accent-border);
+          border-radius: 6px;
+          padding: 3px 8px;
+          letter-spacing: 0.06em;
+        }
+        .month-desc-title {
+          font-family: var(--font-display);
+          font-size: 1.05rem;
+          font-weight: 700;
+          color: var(--text-primary);
+          margin: 0;
+        }
+        .month-desc-badge {
+          font-size: 10px;
+          font-weight: 700;
+          text-transform: uppercase;
+          letter-spacing: 0.07em;
+          color: var(--color-read);
+          background: rgba(245, 158, 11, 0.1);
+          border: 1px solid rgba(245, 158, 11, 0.25);
+          border-radius: 20px;
+          padding: 2px 9px;
+        }
+        .month-desc-meta {
+          margin-left: auto;
+          font-size: 11.5px;
+          color: var(--text-muted);
         }
 
         /* ── Shared section entrance + heading pulse ── */
