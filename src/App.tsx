@@ -35,6 +35,17 @@ function App() {
   const [scrollPct, setScrollPct] = useState(0);
   const [showTopBtn, setShowTopBtn] = useState(false);
 
+  // Site-wide light/dark theme (roadmap page manages its own theme)
+  const [siteTheme, setSiteTheme] = useState<'dark' | 'light'>(() => {
+    const saved = localStorage.getItem('siteTheme');
+    return saved === 'light' ? 'light' : 'dark';
+  });
+  useEffect(() => {
+    document.documentElement.setAttribute('data-site-theme', siteTheme);
+    localStorage.setItem('siteTheme', siteTheme);
+  }, [siteTheme]);
+  const toggleSiteTheme = () => setSiteTheme(t => (t === 'dark' ? 'light' : 'dark'));
+
   // Per-route document titles
   useEffect(() => {
     if (isRoadmap) {
@@ -134,7 +145,7 @@ function App() {
         </div>
       )}
       {!isRoadmap && <CustomCursor />}
-      {!isRoadmap && <Navbar />}
+      {!isRoadmap && <Navbar theme={siteTheme} onToggleTheme={toggleSiteTheme} />}
 
       <main className="main-content">
         <Routes>
