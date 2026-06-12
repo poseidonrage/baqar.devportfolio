@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { createPortal } from 'react-dom';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Sun, Moon, ArrowUpRight } from 'lucide-react';
@@ -190,7 +191,10 @@ export const Navbar: React.FC<NavbarProps> = ({ theme = 'dark', onToggleTheme })
         </div>
       </div>
 
-      {/* ── Mobile menu ── */}
+      {/* ── Mobile menu — portaled to <body>: the navbar's backdrop-filter
+           makes it a containing block for fixed descendants, which collapsed
+           the menu to the navbar's height once scrolled ── */}
+      {createPortal(
       <AnimatePresence>
         {menuOpen && (
           <motion.div
@@ -237,7 +241,9 @@ export const Navbar: React.FC<NavbarProps> = ({ theme = 'dark', onToggleTheme })
             </motion.div>
           </motion.div>
         )}
-      </AnimatePresence>
+      </AnimatePresence>,
+      document.body
+      )}
 
       <style>{`
         .navbar-container {

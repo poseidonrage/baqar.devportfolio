@@ -73,14 +73,25 @@ html[data-site-theme="light"] .btn-secondary {
 html[data-site-theme="light"] .btn-secondary:hover {
   background: rgba(13, 21, 38, 0.1);
 }
-/* Section backgrounds hardcoded dark in components */
+/* Section backgrounds hardcoded dark in components — let the body
+   gradient flow through in light mode for a coherent scheme */
 html[data-site-theme="light"] .hero-section,
 html[data-site-theme="light"] .contact-section {
-  background: #eef3fa;
+  background: transparent;
 }
-html[data-site-theme="light"] .spotlight-vignette { display: none; }
-html[data-site-theme="light"] .light-blob { opacity: 0.45; }
-html[data-site-theme="light"] .glow-line { opacity: 0.3; }
+html[data-site-theme="light"] .spotlight-vignette,
+html[data-site-theme="light"] .cspotlight-vignette { display: none; }
+html[data-site-theme="light"] .light-blob { opacity: 0.4; }
+html[data-site-theme="light"] .glow-line,
+html[data-site-theme="light"] .cglow-line { opacity: 0.3; }
+/* Terminal goes light too */
+html[data-site-theme="light"] .hero-terminal-wrapper {
+  background: rgba(255, 255, 255, 0.9);
+  box-shadow: 0 20px 40px -18px rgba(13, 21, 38, 0.22), 0 0 20px -3px var(--accent-glow);
+}
+html[data-site-theme="light"] .terminal-header {
+  background: rgba(13, 21, 38, 0.05);
+}
 /* Navbar + footer glass surfaces */
 html[data-site-theme="light"] .navbar-container.navbar-scrolled {
   background: rgba(243, 246, 251, 0.85);
