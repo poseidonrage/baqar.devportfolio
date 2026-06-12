@@ -39,6 +39,12 @@
                 "day_id": 100,
                 "task_num": 3,
                 "content": "Open a .py file and replicate every example as you watch (15 min)"
+              },
+              {
+                "id": "w1_d0_t4_course",
+                "day_id": 100,
+                "task_num": 4,
+                "content": "<strong>Course companion:</strong> watch <em>ByteByteAI</em> — Python &amp; ML foundations module. (30 min)"
               }
             ]
           },
@@ -663,6 +669,12 @@
                 "day_id": 400,
                 "task_num": 4,
                 "content": "<strong>Book companion:</strong> read <em>30 Agents</em> Ch 3 — The Art of Agent Prompting. (30 min)"
+              },
+              {
+                "id": "w4_d0_t5_course",
+                "day_id": 400,
+                "task_num": 5,
+                "content": "<strong>Course companion:</strong> watch <em>ByteByteAI</em> — Prompt Engineering module (few-shot, CoT) and skim its Customer Support Chatbot project. (45 min)"
               }
             ]
           },
@@ -1072,6 +1084,12 @@
                 "day_id": 600,
                 "task_num": 3,
                 "content": "<strong>Book companion:</strong> read <em>30 Agents</em> Ch 6 — Knowledge Retrieval &amp; Document Intelligence and <em>Generative AI with LangChain</em> Ch 4 — RAG Systems (first pass). (45 min)"
+              },
+              {
+                "id": "w6_d0_t4_course",
+                "day_id": 600,
+                "task_num": 4,
+                "content": "<strong>Course companion:</strong> watch <em>SwirlAI E2E AI Engineering</em> — RAG Systems module. (45 min)"
               }
             ]
           },
@@ -1925,6 +1943,12 @@
                 "day_id": 1100,
                 "task_num": 3,
                 "content": "<strong>Book companion:</strong> reread <em>Generative AI with LangChain</em> Ch 4 — RAG Systems (advanced retrieval, deep pass). (30 min)"
+              },
+              {
+                "id": "w11_d0_t4_course",
+                "day_id": 1100,
+                "task_num": 4,
+                "content": "<strong>Course companion:</strong> watch <em>SwirlAI E2E AI Engineering</em> — Hybrid Retrieval (BM25 + Dense) &amp; Reranking module. (45 min)"
               }
             ]
           },
@@ -2247,6 +2271,12 @@
                 "day_id": 1300,
                 "task_num": 3,
                 "content": "<strong>Book companion:</strong> read <em>30 Agents</em> Ch 8 &amp; 12 — Verification, Validation &amp; Ethical Agents and <em>Generative AI with LangChain</em> Ch 8 — Evaluation &amp; Testing. (45 min)"
+              },
+              {
+                "id": "w13_d0_t4_course",
+                "day_id": 1300,
+                "task_num": 4,
+                "content": "<strong>Course companion:</strong> watch <em>SwirlAI E2E AI Engineering</em> — Evaluation &amp; failure detection module. (45 min)"
               }
             ]
           },
@@ -2420,6 +2450,12 @@
                 "day_id": 1400,
                 "task_num": 3,
                 "content": "<strong>Book companion:</strong> read <em>30 Agents</em> Ch 1 &amp; 5 — Foundations &amp; Cognitive Architectures and <em>Building Agentic AI Systems</em> Ch 2–4 — Principles, Components &amp; Reflection. (60 min)"
+              },
+              {
+                "id": "w14_d0_t4_course",
+                "day_id": 1400,
+                "task_num": 4,
+                "content": "<strong>Course companion:</strong> watch <em>SwirlAI E2E AI Engineering</em> — Agents &amp; Agentic RAG module, plus <em>ByteByteAI</em>'s Ask-the-Web agent project. (60 min)"
               }
             ]
           },
@@ -2888,6 +2924,12 @@
                 "day_id": 1700,
                 "task_num": 3,
                 "content": "<strong>Book companion:</strong> read <em>Building Agentic AI Systems</em> Ch 6–7 — Coordinator–Worker–Delegator (your capstone's blueprint) and <em>30 Agents</em> Ch 9. (45 min)"
+              },
+              {
+                "id": "w17_d0_t4_course",
+                "day_id": 1700,
+                "task_num": 4,
+                "content": "<strong>Course companion:</strong> watch <em>ByteByteAI</em> — Deep Research with Search &amp; Reasoning Models project. (45 min)"
               }
             ]
           },
@@ -3702,6 +3744,12 @@
                 "day_id": 2200,
                 "task_num": 3,
                 "content": "<strong>Book companion:</strong> read <em>LLM Engineer's Handbook</em> Ch 10 — Inference Pipeline Deployment on AWS. (30 min)"
+              },
+              {
+                "id": "w22_d0_t4_course",
+                "day_id": 2200,
+                "task_num": 4,
+                "content": "<strong>Course companion:</strong> watch <em>SwirlAI E2E AI Engineering</em> — Deployment module (try it on Modal credits). (45 min)"
               }
             ]
           },
@@ -4024,6 +4072,12 @@
                 "day_id": 2400,
                 "task_num": 3,
                 "content": "<strong>Book companion:</strong> read <em>30 Agents</em> Ch 4 — Deployment &amp; Responsible Development and <em>LLM Engineer's Handbook</em> Ch 8 &amp; 11 — Inference Optimization, LLMOps. (60 min)"
+              },
+              {
+                "id": "w24_d0_t4_course",
+                "day_id": 2400,
+                "task_num": 4,
+                "content": "<strong>Course companion:</strong> watch <em>SwirlAI E2E AI Engineering</em> — LLMOps &amp; monitoring module. (45 min)"
               }
             ]
           },
