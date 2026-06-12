@@ -406,6 +406,7 @@ export const WEEK_RESOURCES: Record<number, WeekResource[]> = {
     { title: 'Classes — Official Python Tutorial', source: 'docs.python.org', url: 'https://docs.python.org/3/tutorial/classes.html', kind: 'docs' },
     { title: 'OOP in Python 3', source: 'Real Python', url: 'https://realpython.com/python3-object-oriented-programming/', kind: 'article' },
     { title: 'Python Track — Practice Exercises', source: 'Exercism', url: 'https://exercism.org/tracks/python', kind: 'course' },
+    { title: 'ByteByteAI — Python & ML Foundations module', source: 'ByteByteGo', url: 'https://bytebyteai.com/c/ai-engineering', kind: 'video' },
   ],
   2: [
     { title: 'First Steps Tutorial', source: 'FastAPI', url: 'https://fastapi.tiangolo.com/tutorial/first-steps/', kind: 'docs' },
@@ -426,6 +427,7 @@ export const WEEK_RESOURCES: Record<number, WeekResource[]> = {
     { title: 'Pydantic Models — Concepts', source: 'Pydantic', url: 'https://docs.pydantic.dev/latest/concepts/models/', kind: 'docs' },
     { title: 'Instructor — Structured LLM Outputs', source: 'useinstructor.com', url: 'https://python.useinstructor.com/', kind: 'tool' },
     agentsBook('Ch 3 — The Art of Agent Prompting'),
+    { title: 'ByteByteAI — Prompt Engineering + Support Chatbot project', source: 'ByteByteGo', url: 'https://bytebyteai.com/c/ai-engineering', kind: 'video' },
   ],
   5: [
     { title: 'LangChain Expression Language (LCEL)', source: 'LangChain', url: 'https://python.langchain.com/docs/concepts/lcel/', kind: 'docs' },
@@ -440,6 +442,7 @@ export const WEEK_RESOURCES: Record<number, WeekResource[]> = {
     { title: 'Chunking Strategies for LLM Applications', source: 'Pinecone', url: 'https://www.pinecone.io/learn/chunking-strategies/', kind: 'article' },
     agentsBook('Ch 6 — Knowledge Retrieval & Document Intelligence Agents'),
     { title: 'Generative AI with LangChain — Ch 4: RAG & Documents (first pass)', source: 'Ben Auffarth · Packt', url: 'https://github.com/benman1/generative_ai_with_langchain', kind: 'book' },
+    { title: 'SwirlAI E2E AI Engineering — RAG Systems module', source: 'Aurimas Griciūnas · Maven', url: 'https://maven.com/swirl-ai/end-to-end-ai-engineering', kind: 'video' },
   ],
   7: [
     { title: 'LangGraph Documentation', source: 'LangChain', url: 'https://langchain-ai.github.io/langgraph/', kind: 'docs' },
@@ -471,6 +474,7 @@ export const WEEK_RESOURCES: Record<number, WeekResource[]> = {
     { title: 'Getting Started with Hybrid Search', source: 'Pinecone', url: 'https://www.pinecone.io/learn/hybrid-search-intro/', kind: 'article' },
     { title: 'Rerank — Improve Search Relevance', source: 'Cohere', url: 'https://cohere.com/rerank', kind: 'tool' },
     { title: 'Generative AI with LangChain — Ch 4: Intelligent RAG Systems', source: 'Ben Auffarth · Packt', url: 'https://github.com/benman1/generative_ai_with_langchain', kind: 'book' },
+    { title: 'SwirlAI E2E AI Engineering — Hybrid Retrieval & Reranking module', source: 'Aurimas Griciūnas · Maven', url: 'https://maven.com/swirl-ai/end-to-end-ai-engineering', kind: 'video' },
   ],
   12: [
     { title: 'Introducing Contextual Retrieval', source: 'Anthropic', url: 'https://www.anthropic.com/news/contextual-retrieval', kind: 'article' },
@@ -484,6 +488,7 @@ export const WEEK_RESOURCES: Record<number, WeekResource[]> = {
     { title: 'Building & Evaluating Advanced RAG', source: 'DeepLearning.AI', url: 'https://www.deeplearning.ai/short-courses/building-evaluating-advanced-rag/', kind: 'course' },
     agentsBook('Ch 8 & 12 — Verification, Validation & Ethical Agents'),
     { title: 'Generative AI with LangChain — Ch 8: Evaluation & Testing', source: 'Ben Auffarth · Packt', url: 'https://github.com/benman1/generative_ai_with_langchain', kind: 'book' },
+    { title: 'SwirlAI E2E AI Engineering — Evaluation & Failure Detection module', source: 'Aurimas Griciūnas · Maven', url: 'https://maven.com/swirl-ai/end-to-end-ai-engineering', kind: 'video' },
   ],
   14: [
     { title: 'ReAct: Synergizing Reasoning and Acting (Paper)', source: 'arXiv', url: 'https://arxiv.org/abs/2210.03629', kind: 'article' },
@@ -491,6 +496,7 @@ export const WEEK_RESOURCES: Record<number, WeekResource[]> = {
     { title: 'ReAct Agent from Scratch', source: 'LangGraph', url: 'https://langchain-ai.github.io/langgraph/how-tos/react-agent-from-scratch/', kind: 'docs' },
     agentsBook('Ch 1 & 5 — Foundations & Cognitive Architectures'),
     { title: 'Building Agentic AI Systems — Ch 2–4: Principles, Components & Reflection', source: 'Biswas & Talukdar · Packt', url: 'https://github.com/PacktPublishing/Building-Agentic-AI-Systems', kind: 'book' },
+    { title: 'SwirlAI E2E AI Engineering — Agents & Agentic RAG module', source: 'Aurimas Griciūnas · Maven', url: 'https://maven.com/swirl-ai/end-to-end-ai-engineering', kind: 'video' },
   ],
   15: [
     { title: 'CrewAI Documentation', source: 'CrewAI', url: 'https://docs.crewai.com/', kind: 'docs' },
@@ -510,6 +516,7 @@ export const WEEK_RESOURCES: Record<number, WeekResource[]> = {
     { title: 'LangSmith — Tracing & Observability', source: 'LangChain', url: 'https://docs.smith.langchain.com/', kind: 'tool' },
     agentsBook('Ch 9 — Code-Gen, Security-Hardened & Self-Improving Agents'),
     { title: 'Building Agentic AI Systems — Ch 6–7: Coordinator–Worker–Delegator', source: 'Biswas & Talukdar · Packt', url: 'https://github.com/PacktPublishing/Building-Agentic-AI-Systems', kind: 'book' },
+    { title: 'ByteByteAI — Deep Research with Reasoning Models project', source: 'ByteByteGo', url: 'https://bytebyteai.com/c/ai-engineering', kind: 'video' },
   ],
   18: [
     { title: 'Model Context Protocol — Introduction', source: 'MCP', url: 'https://modelcontextprotocol.io/introduction', kind: 'docs' },
@@ -538,6 +545,7 @@ export const WEEK_RESOURCES: Record<number, WeekResource[]> = {
     { title: 'FastAPI in Containers — Deployment', source: 'FastAPI', url: 'https://fastapi.tiangolo.com/deployment/docker/', kind: 'docs' },
     { title: 'Amazon ECS — Getting Started', source: 'AWS', url: 'https://docs.aws.amazon.com/AmazonECS/latest/developerguide/getting-started.html', kind: 'docs' },
     { title: "LLM Engineer's Handbook — Ch 10: Deployment on AWS", source: 'Iusztin & Labonne · Packt', url: 'https://github.com/PacktPublishing/LLM-Engineers-Handbook', kind: 'book' },
+    { title: 'SwirlAI E2E AI Engineering — Deployment module', source: 'Aurimas Griciūnas · Maven', url: 'https://maven.com/swirl-ai/end-to-end-ai-engineering', kind: 'video' },
   ],
   23: [
     { title: 'Next.js — Official Interactive Course', source: 'Vercel', url: 'https://nextjs.org/learn', kind: 'course' },
@@ -550,6 +558,7 @@ export const WEEK_RESOURCES: Record<number, WeekResource[]> = {
     { title: 'Make a README — Portfolio Polish', source: 'makeareadme.com', url: 'https://www.makeareadme.com/', kind: 'article' },
     agentsBook('Ch 4 — Deployment & Responsible Development'),
     { title: "LLM Engineer's Handbook — Ch 8 & 11: Inference Optimization, LLMOps", source: 'Iusztin & Labonne · Packt', url: 'https://github.com/PacktPublishing/LLM-Engineers-Handbook', kind: 'book' },
+    { title: 'SwirlAI E2E AI Engineering — LLMOps & Monitoring module', source: 'Aurimas Griciūnas · Maven', url: 'https://maven.com/swirl-ai/end-to-end-ai-engineering', kind: 'video' },
   ],
   25: [
     { title: 'Generative AI Engineering with LLMs (Specialization)', source: 'IBM · Coursera', url: 'https://www.coursera.org/specializations/generative-ai-engineering-with-llms', kind: 'course' },

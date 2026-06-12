@@ -19,6 +19,7 @@ import {
   Sparkles,
   ArrowUpRight,
   Library,
+  PlayCircle,
   Menu,
   ChevronDown,
   Flame,
@@ -753,10 +754,11 @@ export const RoadmapTracker: React.FC = () => {
                               {day.tasks.map(task => {
                                 const isDone = !!completedTaskIds[task.id];
                                 const isBookTask = task.id.endsWith('_book');
+                                const isCourseTask = task.id.endsWith('_course');
                                 return (
                                   <li
                                     key={task.id}
-                                    className={`rt-task${isDone ? ' done' : ''}${isBookTask ? ' book' : ''}`}
+                                    className={`rt-task${isDone ? ' done' : ''}${isBookTask ? ' book' : ''}${isCourseTask ? ' course' : ''}`}
                                     onClick={(e) => {
                                       if ((e.target as HTMLElement).closest('a')) return;
                                       handleToggleTask(task.id);
@@ -770,11 +772,15 @@ export const RoadmapTracker: React.FC = () => {
                                         <span className="rt-book-badge font-mono">
                                           <Library size={10} strokeWidth={2.5} /> Book
                                         </span>
+                                      ) : isCourseTask ? (
+                                        <span className="rt-book-badge rt-course-badge font-mono">
+                                          <PlayCircle size={10} strokeWidth={2.5} /> Course
+                                        </span>
                                       ) : (
                                         <span className="rt-task-num font-mono">{task.task_num}</span>
                                       )}
-                                      <span dangerouslySetInnerHTML={{ __html: isBookTask
-                                        ? task.content.replace(/^<strong>Book companion:<\/strong>\s*/i, '')
+                                      <span dangerouslySetInnerHTML={{ __html: (isBookTask || isCourseTask)
+                                        ? task.content.replace(/^<strong>(Book|Course) companion:<\/strong>\s*/i, '')
                                         : task.content }} />
                                     </span>
                                   </li>
@@ -1715,6 +1721,30 @@ export const RoadmapTracker: React.FC = () => {
         .rt-task.book .rt-task-text em { font-weight: 600; color: var(--pink); }
         .rt-task.book.done { opacity: 0.72; }
         .rt-task.book.done .rt-book-badge { background: var(--green); box-shadow: none; }
+
+        /* Course companion task (cyan/blue variant of the book treatment) */
+        .rt-task.course {
+          background: linear-gradient(135deg, rgba(34, 211, 238, 0.07), rgba(var(--accent-rgb), 0.07));
+          border: 1px solid rgba(34, 211, 238, 0.25);
+          border-radius: 10px;
+          padding: 9px 11px;
+          position: relative;
+          overflow: hidden;
+        }
+        .rt-task.course::before {
+          content: '';
+          position: absolute; left: 0; top: 0; bottom: 0; width: 3px;
+          background: linear-gradient(180deg, #22d3ee, var(--accent));
+        }
+        .rt-task.course:hover { border-color: rgba(34, 211, 238, 0.5); box-shadow: 0 4px 14px rgba(34, 211, 238, 0.12); }
+        .rt-course-badge {
+          background: linear-gradient(90deg, #22d3ee, var(--accent));
+          box-shadow: 0 2px 8px rgba(34, 211, 238, 0.35);
+        }
+        .rt-task.course .rt-task-text em { font-weight: 600; color: #22d3ee; }
+        .rt-wrapper.theme-light .rt-task.course .rt-task-text em { color: #0e7490; }
+        .rt-task.course.done { opacity: 0.72; }
+        .rt-task.course.done .rt-course-badge { background: var(--green); box-shadow: none; }
 
         .rt-empty {
           padding: 2.6rem;
