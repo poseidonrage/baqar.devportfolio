@@ -59,11 +59,6 @@ const useCountUp = (target: number, duration = 700) => {
 
 const easeOut = [0.22, 1, 0.36, 1] as const;
 
-// Shared NotebookLM notebook containing all study sources (5 books +
-// AI in Healthcare + Stanford CME295 Transformers & LLMs playlist).
-// Paste the notebook's public share URL here to enable the sidebar button.
-const NOTEBOOKLM_URL = 'https://notebooklm.google.com/';
-
 export const RoadmapTracker: React.FC = () => {
   const [curriculum] = useState<Month[]>(curriculumData as Month[]);
   const [completedTaskIds, setCompletedTaskIds] = useState<Record<string, boolean>>({});
@@ -502,16 +497,6 @@ export const RoadmapTracker: React.FC = () => {
       </nav>
 
       <div className="rt-side-footer">
-        {NOTEBOOKLM_URL && (
-          <a className="rt-side-notebooklm" href={NOTEBOOKLM_URL} target="_blank" rel="noopener noreferrer">
-            <span className="rt-nlm-icon"><Sparkles size={15} strokeWidth={2.4} /></span>
-            <span className="rt-nlm-body">
-              <span className="rt-nlm-title">Ask NotebookLM</span>
-              <span className="rt-nlm-sub font-mono">5 books · CME295 · healthcare</span>
-            </span>
-            <ArrowUpRight size={14} className="rt-nlm-arrow" />
-          </a>
-        )}
         <button className="rt-side-action" onClick={() => setShowGlossaryModal(true)}>
           <BookOpen size={15} />
           <span>Parallel Syntax</span>
@@ -1248,39 +1233,6 @@ export const RoadmapTracker: React.FC = () => {
 
         /* Sidebar footer */
         .rt-side-footer { display: flex; flex-direction: column; gap: 8px; }
-        .rt-side-notebooklm {
-          display: flex;
-          align-items: center;
-          gap: 10px;
-          padding: 10px 12px;
-          border-radius: var(--r-sm);
-          text-decoration: none;
-          color: var(--text-1);
-          background: linear-gradient(135deg, rgba(var(--accent-rgb), 0.14), rgba(167, 139, 250, 0.14));
-          border: 1px solid var(--accent-line);
-          transition: var(--t);
-          position: relative;
-          overflow: hidden;
-        }
-        .rt-side-notebooklm:hover {
-          transform: translateY(-1px);
-          box-shadow: var(--shadow-2);
-          border-color: var(--accent);
-        }
-        .rt-nlm-icon {
-          width: 30px; height: 30px;
-          display: flex; align-items: center; justify-content: center;
-          border-radius: 9px;
-          background: linear-gradient(135deg, var(--accent), var(--violet));
-          color: #fff;
-          flex-shrink: 0;
-          box-shadow: 0 3px 10px rgba(var(--accent-rgb), 0.4);
-        }
-        .rt-nlm-body { display: flex; flex-direction: column; min-width: 0; }
-        .rt-nlm-title { font-size: 12.5px; font-weight: 700; line-height: 1.2; }
-        .rt-nlm-sub { font-size: 9px; color: var(--text-3); text-transform: uppercase; letter-spacing: 0.04em; }
-        .rt-nlm-arrow { margin-left: auto; color: var(--accent); flex-shrink: 0; transition: var(--t); }
-        .rt-side-notebooklm:hover .rt-nlm-arrow { transform: translate(2px, -2px); }
         .rt-side-action {
           display: flex; align-items: center; gap: 8px;
           padding: 9px 12px;
