@@ -1,6 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { ArrowLeft, Clock, Calendar, User, Send } from 'lucide-react';
+import { marked } from 'marked';
+
+marked.setOptions({ breaks: true, gfm: true });
 
 interface BlogPost {
   id: string;
@@ -348,7 +351,7 @@ app.Run();`}
 
               <div className="post-body">
                 {typeof activePost.content === 'string' ? (
-                  <div dangerouslySetInnerHTML={{ __html: activePost.content }} />
+                  <div dangerouslySetInnerHTML={{ __html: marked.parse(activePost.content) as string }} />
                 ) : (
                   activePost.content
                 )}
@@ -615,18 +618,49 @@ app.Run();`}
         .post-body p {
           margin-bottom: 1.5rem;
         }
-        .post-body h3 {
-          font-size: 1.5rem;
+        .post-body h1,
+        .post-body h2,
+        .post-body h3,
+        .post-body h4 {
           color: var(--text-primary);
+          line-height: 1.25;
           margin-top: 2.5rem;
           margin-bottom: 1rem;
         }
-        .post-body ul {
+        .post-body h1 { font-size: 1.9rem; }
+        .post-body h2 { font-size: 1.6rem; }
+        .post-body h3 { font-size: 1.35rem; }
+        .post-body h4 { font-size: 1.15rem; }
+        .post-body ul,
+        .post-body ol {
           margin-bottom: 1.5rem;
           padding-left: 1.5rem;
         }
         .post-body li {
           margin-bottom: 0.5rem;
+        }
+        .post-body li > ul,
+        .post-body li > ol {
+          margin-top: 0.5rem;
+          margin-bottom: 0.5rem;
+        }
+        .post-body a {
+          color: var(--accent-color);
+          text-decoration: underline;
+          text-underline-offset: 2px;
+        }
+        .post-body a:hover { opacity: 0.8; }
+        .post-body strong { color: var(--text-primary); font-weight: 700; }
+        .post-body hr {
+          border: none;
+          border-top: 1px solid var(--border-color);
+          margin: 2.5rem 0;
+        }
+        .post-body img {
+          max-width: 100%;
+          height: auto;
+          border-radius: 8px;
+          margin: 1.5rem 0;
         }
         .post-body blockquote {
           border-left: 3px solid var(--accent-color);
@@ -634,6 +668,32 @@ app.Run();`}
           padding: 1rem 1.5rem;
           margin: 2rem 0;
           font-style: italic;
+          color: var(--text-primary);
+        }
+        .post-body blockquote p:last-child { margin-bottom: 0; }
+        .post-body pre {
+          background: #0f131a;
+          border: 1px solid var(--border-color);
+          border-radius: 8px;
+          padding: 1.25rem;
+          overflow-x: auto;
+          margin: 1.5rem 0;
+        }
+        .post-body pre code {
+          background: none;
+          border: none;
+          padding: 0;
+          font-size: 0.85rem;
+          line-height: 1.6;
+          color: #e2e8f0;
+        }
+        .post-body code {
+          font-family: var(--font-mono);
+          font-size: 0.85em;
+          background: rgba(var(--accent-rgb), 0.08);
+          border: 1px solid var(--border-color);
+          border-radius: 4px;
+          padding: 0.1rem 0.4rem;
           color: var(--text-primary);
         }
         .code-block {
