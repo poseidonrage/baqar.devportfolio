@@ -89,16 +89,34 @@ export const Contact: React.FC = () => {
     setFormState((prev) => ({ ...prev, [name]: value }));
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (formState.name && formState.email && formState.message) {
-      setSentStatus('sending');
-      // Simulate submission
-      setTimeout(() => {
-        setSentStatus('success');
-        setFormState({ name: '', email: '', message: '' });
-        setTimeout(() => setSentStatus(null), 4000);
-      }, 1500);
+    if (!formState.name || !formState.email || !formState.message) return;
+
+    setSentStatus('sending');
+    try {
+      const res = await fetch('/api/contact', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          name: formState.name,
+          email: formState.email,
+          message: formState.message,
+        }),
+      });
+
+      if (!res.ok) {
+        const data = await res.json().catch(() => ({}));
+        throw new Error(data.error || 'Failed to send message');
+      }
+
+      setSentStatus('success');
+      setFormState({ name: '', email: '', message: '' });
+      setTimeout(() => setSentStatus(null), 4000);
+    } catch (err) {
+      console.error('Failed to submit contact message:', err);
+      setSentStatus('error');
+      setTimeout(() => setSentStatus(null), 5000);
     }
   };
 
@@ -244,6 +262,8 @@ export const Contact: React.FC = () => {
                   'Sending...'
                 ) : sentStatus === 'success' ? (
                   <>Message Sent! <Check size={16} /></>
+                ) : sentStatus === 'error' ? (
+                  <>Failed — try again <Send size={16} /></>
                 ) : (
                   <>Send Message <Send size={16} /></>
                 )}
