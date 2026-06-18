@@ -59,13 +59,35 @@ const useCountUp = (target: number, duration = 700) => {
 
 const easeOut = [0.22, 1, 0.36, 1] as const;
 
+// Resume where the learner left off: read the saved week from localStorage and
+// resolve it (plus its parent month) against the curriculum, falling back to the
+// first valid week if nothing is saved or the saved id no longer exists.
+const readSavedPosition = (): { monthId: number; weekId: number } => {
+  const months = curriculumData as Month[];
+  const savedWeek = parseInt(localStorage.getItem('roadmapActiveWeek') || '', 10);
+  if (Number.isFinite(savedWeek)) {
+    for (const m of months) {
+      const wk = m.weeks.find(w => w.id === savedWeek);
+      if (wk) return { monthId: m.id, weekId: wk.id };
+    }
+  }
+  const firstMonth = months.find(m => m.weeks.length > 0);
+  return { monthId: firstMonth?.id ?? 1, weekId: firstMonth?.weeks[0]?.id ?? 1 };
+};
+
 export const RoadmapTracker: React.FC = () => {
   const [curriculum] = useState<Month[]>(curriculumData as Month[]);
   const [completedTaskIds, setCompletedTaskIds] = useState<Record<string, boolean>>({});
   const [journal, setJournal] = useState<Record<string, JournalEntry>>({});
-  const [activeMonthId, setActiveMonthId] = useState<number>(1);
-  const [activeWeekId, setActiveWeekId] = useState<number>(1);
+  const [activeMonthId, setActiveMonthId] = useState<number>(() => readSavedPosition().monthId);
+  const [activeWeekId, setActiveWeekId] = useState<number>(() => readSavedPosition().weekId);
   const [sidebarOpen, setSidebarOpen] = useState<boolean>(false);
+
+  // Persist the current month/week so a return visit resumes here
+  useEffect(() => {
+    localStorage.setItem('roadmapActiveWeek', String(activeWeekId));
+    localStorage.setItem('roadmapActiveMonth', String(activeMonthId));
+  }, [activeMonthId, activeWeekId]);
 
   const [theme, setTheme] = useState<'light' | 'dark'>(() => {
     const savedTheme = localStorage.getItem('roadmapTheme');
