@@ -539,7 +539,10 @@ export const RoadmapTracker: React.FC<{ config: RoadmapConfig }> = ({ config }) 
       </nav>
 
       <div className="rt-side-footer">
-        <button className="rt-side-action" onClick={() => setShowGlossaryModal(true)}>
+          <div className="rt-watermark font-mono" style={{ fontSize: "10px", opacity: 0.5, marginBottom: "8px", textAlign: "center", width: "100%", whiteSpace: "nowrap" }}>
+            by Baqar Hussain aka Harshmelllow
+          </div>
+          <button className="rt-side-action" onClick={() => setShowGlossaryModal(true)}>
           <BookOpen size={15} />
           <span>Parallel Syntax</span>
         </button>
@@ -2102,3 +2105,4 @@ export const RoadmapTracker: React.FC<{ config: RoadmapConfig }> = ({ config }) 
     </div>
   );
 };
+
