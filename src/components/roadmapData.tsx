@@ -33,7 +33,7 @@ export interface Week {
   week_number: number;
   title: string;
   focus_hours: string;
-  csharp_mindset: string;
+  mindset: string;
   weekly_goal: string;
   days: Day[];
 }
@@ -54,7 +54,9 @@ export interface JournalEntry {
   notes: string;
 }
 
-export const glossaryItems = [
+export interface GlossaryItem { csharp: string; python: string; category: string; desc: string; csharpCode?: string; pythonCode?: string; }
+
+export const glossaryItems: GlossaryItem[] = [
   {
     csharp: "async / await",
     python: "async / await",
@@ -286,7 +288,9 @@ export const highlightCode = (code: string, lang: 'csharp' | 'python') => {
   return escaped;
 };
 
-export const PROJECTS = [
+export interface Project { id: number; monthId: number; weeks: string; title: string; techStack: string[]; input: string; output: string; note: string; type: string; }
+
+export const PROJECTS: Project[] = [
   {
     id: 1, monthId: 1, weeks: 'Week 3',
     title: 'AI Clinical Assistant',
@@ -368,7 +372,7 @@ export const PROJECTS = [
     note: 'Frontend: React · Backend: FastAPI on ECS',
     type: 'saas',
   },
-] as const;
+];
 
 export type ResourceKind = 'video' | 'docs' | 'article' | 'course' | 'repo' | 'tool' | 'book';
 

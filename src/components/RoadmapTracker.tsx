@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
+import { Link } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import {
   BookOpen,
@@ -25,15 +26,9 @@ import {
   Flame,
   NotebookPen
 } from 'lucide-react';
-import curriculumData from '../data/curriculum.json';
 import type { Month, Week, JournalEntry } from './roadmapData';
-import {
-  glossaryItems,
-  highlightCode,
-  PROJECTS,
-  RESOURCE_KIND_META,
-  WEEK_RESOURCES
-} from './roadmapData';
+import { highlightCode, RESOURCE_KIND_META } from './roadmapData';
+import type { RoadmapConfig } from './roadmapConfigs';
 
 // Animates a number toward `target` with an ease-out curve
 const useCountUp = (target: number, duration = 700) => {
@@ -59,12 +54,18 @@ const useCountUp = (target: number, duration = 700) => {
 
 const easeOut = [0.22, 1, 0.36, 1] as const;
 
+// The roadmap tracks this tracker family hosts, for the header switcher
+const TRACKS = [
+  { label: 'GenAI', path: '/roadmap' },
+  { label: 'ML', path: '/ml-roadmap' },
+];
+
 // Resume where the learner left off: read the saved week from localStorage and
 // resolve it (plus its parent month) against the curriculum, falling back to the
 // first valid week if nothing is saved or the saved id no longer exists.
-const readSavedPosition = (): { monthId: number; weekId: number } => {
-  const months = curriculumData as Month[];
-  const savedWeek = parseInt(localStorage.getItem('roadmapActiveWeek') || '', 10);
+const readSavedPosition = (config: RoadmapConfig): { monthId: number; weekId: number } => {
+  const months = config.curriculum;
+  const savedWeek = parseInt(localStorage.getItem(`${config.prefix}roadmapActiveWeek`) || '', 10);
   if (Number.isFinite(savedWeek)) {
     for (const m of months) {
       const wk = m.weeks.find(w => w.id === savedWeek);
@@ -75,19 +76,22 @@ const readSavedPosition = (): { monthId: number; weekId: number } => {
   return { monthId: firstMonth?.id ?? 1, weekId: firstMonth?.weeks[0]?.id ?? 1 };
 };
 
-export const RoadmapTracker: React.FC = () => {
-  const [curriculum] = useState<Month[]>(curriculumData as Month[]);
+export const RoadmapTracker: React.FC<{ config: RoadmapConfig }> = ({ config }) => {
+  // Read straight from the prop — it never changes for a mounted instance
+  // (App keys each route's tracker), and freezing it in state left a stale
+  // sidebar when React reused the component across a track switch.
+  const curriculum: Month[] = config.curriculum;
   const [completedTaskIds, setCompletedTaskIds] = useState<Record<string, boolean>>({});
   const [journal, setJournal] = useState<Record<string, JournalEntry>>({});
-  const [activeMonthId, setActiveMonthId] = useState<number>(() => readSavedPosition().monthId);
-  const [activeWeekId, setActiveWeekId] = useState<number>(() => readSavedPosition().weekId);
+  const [activeMonthId, setActiveMonthId] = useState<number>(() => readSavedPosition(config).monthId);
+  const [activeWeekId, setActiveWeekId] = useState<number>(() => readSavedPosition(config).weekId);
   const [sidebarOpen, setSidebarOpen] = useState<boolean>(false);
 
   // Persist the current month/week so a return visit resumes here
   useEffect(() => {
-    localStorage.setItem('roadmapActiveWeek', String(activeWeekId));
-    localStorage.setItem('roadmapActiveMonth', String(activeMonthId));
-  }, [activeMonthId, activeWeekId]);
+    localStorage.setItem(`${config.prefix}roadmapActiveWeek`, String(activeWeekId));
+    localStorage.setItem(`${config.prefix}roadmapActiveMonth`, String(activeMonthId));
+  }, [activeMonthId, activeWeekId, config.prefix]);
 
   const [theme, setTheme] = useState<'light' | 'dark'>(() => {
     const savedTheme = localStorage.getItem('roadmapTheme');
@@ -157,7 +161,7 @@ export const RoadmapTracker: React.FC = () => {
   }, [token, role]);
 
   useEffect(() => {
-    const journalId = `week_${activeWeekId}`;
+    const journalId = `${config.prefix}week_${activeWeekId}`;
     const entry = journal[journalId];
     if (entry) {
       setLearnedText(entry.learned || '');
@@ -256,7 +260,7 @@ export const RoadmapTracker: React.FC = () => {
             console.error('Failed to save pending toggle:', err);
           }
         } else if (pendingAction === 'save_journal') {
-          const journalId = `week_${activeWeekId}`;
+          const journalId = `${config.prefix}week_${activeWeekId}`;
           setIsSavingJournal(true);
           try {
             await fetch('/api/roadmap/journal', {
@@ -327,7 +331,7 @@ export const RoadmapTracker: React.FC = () => {
       return;
     }
 
-    const journalId = `week_${activeWeekId}`;
+    const journalId = `${config.prefix}week_${activeWeekId}`;
     setIsSavingJournal(true);
 
     try {
@@ -370,7 +374,11 @@ export const RoadmapTracker: React.FC = () => {
   let totalTasks = 0;
   let completedTasks = 0;
   let totalHours = 0;
-  const journalCount = Object.keys(journal).length;
+  // The journal API returns every entry for the role, both trackers — count only this one's weeks
+  const journalCount = curriculum.reduce(
+    (n, m) => n + m.weeks.filter(w => journal[`${config.prefix}week_${w.id}`]).length,
+    0
+  );
 
   curriculum.forEach(m => {
     m.weeks.forEach(w => {
@@ -391,8 +399,8 @@ export const RoadmapTracker: React.FC = () => {
   const validMonths = curriculum.filter(m => m.weeks.length > 0);
   const activeMonth = curriculum.find(m => m.id === activeMonthId);
   const activeWeek = activeMonth?.weeks.find(w => w.id === activeWeekId);
-  const activeWeekResources = activeWeek ? (WEEK_RESOURCES[activeWeek.id] || []) : [];
-  const monthProjects = PROJECTS.filter(p => p.monthId === activeMonthId);
+  const activeWeekResources = activeWeek ? (config.resources[activeWeek.id] || []) : [];
+  const monthProjects = config.projects.filter(p => p.monthId === activeMonthId);
 
   const weekPercent = (w: Week) => {
     let t = 0, d = 0;
@@ -431,7 +439,7 @@ export const RoadmapTracker: React.FC = () => {
   const RING_R = 26;
   const RING_CIRC = 2 * Math.PI * RING_R;
 
-  const glossaryFiltered = glossaryItems.filter(item => {
+  const glossaryFiltered = config.glossary.filter(item => {
     const matchesCategory = glossaryCategory === 'all' || item.category === glossaryCategory;
     const matchesSearch = item.csharp.toLowerCase().includes(glossarySearch.toLowerCase()) ||
       item.python.toLowerCase().includes(glossarySearch.toLowerCase()) ||
@@ -444,9 +452,21 @@ export const RoadmapTracker: React.FC = () => {
       <div className="rt-side-brand">
         <span className="rt-brand-mark"><Flame size={17} strokeWidth={2.4} /></span>
         <div>
-          <span className="rt-brand-name">GenAI Roadmap</span>
-          <span className="rt-brand-sub font-mono">25-week tracker</span>
+          <span className="rt-brand-name">{config.brandName}</span>
+          <span className="rt-brand-sub font-mono">{config.brandSub}</span>
         </div>
+      </div>
+
+      <div className="rt-track-switch font-mono">
+        {TRACKS.map(t => (
+          <Link
+            key={t.path}
+            to={t.path}
+            className={t.path === config.path ? 'active' : ''}
+          >
+            {t.label}
+          </Link>
+        ))}
       </div>
 
       <div className="rt-side-progress">
@@ -466,7 +486,7 @@ export const RoadmapTracker: React.FC = () => {
         <div className="rt-side-stats font-mono">
           <div><strong>{countedTasks}</strong><span>/{totalTasks} tasks</span></div>
           <div><strong>~{totalHours}</strong><span>hours</span></div>
-          <div><strong>{journalCount}</strong><span>/25 journals</span></div>
+          <div><strong>{journalCount}</strong><span>/{config.journalTotal} journals</span></div>
         </div>
       </div>
 
@@ -555,7 +575,7 @@ export const RoadmapTracker: React.FC = () => {
           <Menu size={18} />
         </button>
         <span className="rt-topbar-title">
-          <Flame size={15} /> GenAI Roadmap
+          <Flame size={15} /> {config.brandName}
           {activeWeek && <span className="font-mono"> · W{activeWeek.week_number}</span>}
         </span>
         <span className="rt-topbar-pct font-mono">{overallPercent}%</span>
@@ -867,20 +887,20 @@ export const RoadmapTracker: React.FC = () => {
                   </div>
 
                   <div className="rt-panel-stack">
-                    {activeWeek.csharp_mindset && (
+                    {activeWeek.mindset && (
                       <div className="rt-panel">
                         <div className="rt-section-head">
-                          <h2 className="rt-section-title"><Compass size={15} className="rt-spark" /> Mindset shift</h2>
+                          <h2 className="rt-section-title"><Compass size={15} className="rt-spark" /> {config.mindsetLabel}</h2>
                         </div>
-                        <div className="rt-mindset" dangerouslySetInnerHTML={{ __html: activeWeek.csharp_mindset }} />
+                        <div className="rt-mindset" dangerouslySetInnerHTML={{ __html: activeWeek.mindset }} />
                       </div>
                     )}
                     <button className="rt-panel rt-glossary-cta" onClick={() => setShowGlossaryModal(true)}>
                       <div className="rt-section-head">
-                        <h2 className="rt-section-title"><BookOpen size={15} className="rt-spark" /> Parallel syntax</h2>
-                        <span className="rt-section-count font-mono">{glossaryItems.length} rules</span>
+                        <h2 className="rt-section-title"><BookOpen size={15} className="rt-spark" /> {config.glossaryTitle}</h2>
+                        <span className="rt-section-count font-mono">{config.glossary.length} {config.glossaryUnit}</span>
                       </div>
-                      <p>C# constructs mapped to their Python equivalents — quick comparative lookup.</p>
+                      <p>{config.glossaryBlurb}</p>
                       <span className="rt-glossary-open font-mono">Open guide <ArrowUpRight size={13} /></span>
                     </button>
                   </div>
@@ -948,7 +968,7 @@ export const RoadmapTracker: React.FC = () => {
             transition={{ duration: 0.25, ease: easeOut }}
           >
             <div className="rt-modal-head">
-              <span className="rt-modal-title font-mono"><BookOpen size={15} /> Parallel syntax guide</span>
+              <span className="rt-modal-title font-mono"><BookOpen size={15} /> {config.glossaryModalTitle}</span>
               <button onClick={() => setShowGlossaryModal(false)} className="rt-icon-btn"><X size={16} /></button>
             </div>
             <div className="rt-glossary-body">
@@ -966,7 +986,7 @@ export const RoadmapTracker: React.FC = () => {
                   )}
                 </div>
                 <div className="rt-glossary-cats font-mono">
-                  {['all', 'basics', 'collections', 'oop', 'advanced'].map((cat) => (
+                  {config.glossaryCategories.map((cat) => (
                     <button
                       key={cat}
                       className={glossaryCategory === cat ? 'active' : ''}
@@ -982,21 +1002,21 @@ export const RoadmapTracker: React.FC = () => {
                 {glossaryFiltered.map((item, idx) => (
                   <div key={idx} className="rt-glossary-card">
                     <div className="rt-glossary-card-head">
-                      <span className="rt-gbadge cs font-mono">C#</span>
+                      <span className="rt-gbadge cs font-mono">{config.glossaryLeftLabel}</span>
                       <span className="rt-gterm font-mono">{item.csharp}</span>
                       <span className="rt-garrow">→</span>
-                      <span className="rt-gbadge py font-mono">Python</span>
+                      <span className="rt-gbadge py font-mono">{config.glossaryRightLabel}</span>
                       <span className="rt-gterm accent font-mono">{item.python}</span>
                     </div>
                     <p>{item.desc}</p>
                     <div className="rt-glossary-code">
                       <div>
-                        <span className="rt-code-label font-mono">C#</span>
-                        <pre className="code-block font-mono"><code dangerouslySetInnerHTML={{ __html: highlightCode(item.csharpCode, 'csharp') }} /></pre>
+                        <span className="rt-code-label font-mono">{config.glossaryLeftLabel}</span>
+                        <pre className="code-block font-mono"><code dangerouslySetInnerHTML={{ __html: highlightCode(item.csharpCode || '', config.glossaryLeftLang) }} /></pre>
                       </div>
                       <div>
-                        <span className="rt-code-label font-mono">Python</span>
-                        <pre className="code-block font-mono"><code dangerouslySetInnerHTML={{ __html: highlightCode(item.pythonCode, 'python') }} /></pre>
+                        <span className="rt-code-label font-mono">{config.glossaryRightLabel}</span>
+                        <pre className="code-block font-mono"><code dangerouslySetInnerHTML={{ __html: highlightCode(item.pythonCode || '', config.glossaryRightLang) }} /></pre>
                       </div>
                     </div>
                   </div>
@@ -1114,6 +1134,33 @@ export const RoadmapTracker: React.FC = () => {
           display: flex;
           align-items: center;
           gap: 0.7rem;
+        }
+        .rt-track-switch {
+          display: flex;
+          gap: 4px;
+          margin-top: 12px;
+          padding: 3px;
+          background: var(--bg-card);
+          border: 1px solid var(--line);
+          border-radius: 9px;
+        }
+        .rt-track-switch a {
+          flex: 1;
+          padding: 6px 10px;
+          border-radius: 6px;
+          font-size: 10.5px;
+          font-weight: 700;
+          letter-spacing: 0.05em;
+          text-transform: uppercase;
+          text-decoration: none;
+          text-align: center;
+          color: var(--text-3);
+          transition: var(--ease);
+        }
+        .rt-track-switch a:hover { color: var(--text-1); }
+        .rt-track-switch a.active {
+          background: var(--btn-bg);
+          color: var(--btn-text);
         }
         .rt-brand-mark {
           width: 38px;

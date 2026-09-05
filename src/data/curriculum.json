@@ -12,7 +12,7 @@
         "week_number": 1,
         "title": "Python core",
         "focus_hours": "Mon 1 Jun · 10 hours total · translation not learning",
-        "csharp_mindset": "<p><strong>C# dev mindset:</strong> Python has no types by default (add them with hints). No semicolons. Indentation IS the block. <code>def</code> = <code>void/method</code>. <code>self</code> = <code>this</code>. <code>dict</code> = <code>Dictionary</code>. <code>list</code> = <code>List</code>. That's 80% of the translation work.</p>",
+        "mindset": "<p><strong>C# dev mindset:</strong> Python has no types by default (add them with hints). No semicolons. Indentation IS the block. <code>def</code> = <code>void/method</code>. <code>self</code> = <code>this</code>. <code>dict</code> = <code>Dictionary</code>. <code>list</code> = <code>List</code>. That's 80% of the translation work.</p>",
         "weekly_goal": "By Sunday night you can write a Python class, call a function with typed parameters, read/write a JSON file, and run a script from the terminal. Nothing more.",
         "days": [
           {
@@ -224,7 +224,7 @@
         "week_number": 2,
         "title": "Async + FastAPI",
         "focus_hours": "10 hours · Poetry, pip, async/await, virtual environments, FastAPI basics",
-        "csharp_mindset": "<p><strong>C# dev mindset:</strong> <code>async/await</code> works the same conceptually but Python has a single event loop (like Node.js) not threads. <code>pip</code> = NuGet CLI. <code>Poetry</code> = your <code>.csproj</code> + NuGet combined. FastAPI = ASP.NET Minimal API but in 10 lines.</p>",
+        "mindset": "<p><strong>C# dev mindset:</strong> <code>async/await</code> works the same conceptually but Python has a single event loop (like Node.js) not threads. <code>pip</code> = NuGet CLI. <code>Poetry</code> = your <code>.csproj</code> + NuGet combined. FastAPI = ASP.NET Minimal API but in 10 lines.</p>",
         "weekly_goal": "By Sunday you have a running FastAPI server with 2 endpoints. You understand async/await in Python vs C#. You manage packages with Poetry. You never use the system Python again.",
         "days": [
           {
@@ -430,7 +430,7 @@
         "week_number": 3,
         "title": "OpenAI + Claude APIs",
         "focus_hours": "10 hours · chat completions, streaming, system prompts, calling from Python AND C#",
-        "csharp_mindset": "<p><strong>C# dev mindset:</strong> The OpenAI API is just an HTTP POST to <code>/v1/chat/completions</code>. You can call it with <code>HttpClient</code> in C# — no special SDK needed. The Python SDK is just a wrapper. Streaming = server-sent events, same as your existing Blazor streaming patterns.</p>",
+        "mindset": "<p><strong>C# dev mindset:</strong> The OpenAI API is just an HTTP POST to <code>/v1/chat/completions</code>. You can call it with <code>HttpClient</code> in C# — no special SDK needed. The Python SDK is just a wrapper. Streaming = server-sent events, same as your existing Blazor streaming patterns.</p>",
         "weekly_goal": "By Sunday you have a working FastAPI endpoint that calls an LLM and streams the response back. You've called the same API from C# too. Your AI Clinical Assistant is running end-to-end.",
         "days": [
           {
@@ -636,7 +636,7 @@
         "week_number": 4,
         "title": "Prompt engineering & structured outputs",
         "focus_hours": "10 hours · function calling, JSON mode, prompt patterns, Insurance Authorization project",
-        "csharp_mindset": "<p><strong>C# dev mindset:</strong> Function calling = you define a method signature (in JSON schema), the LLM decides when to \"call\" it and fills in the parameters. It never actually calls your function — it just returns a structured JSON saying \"I want to call X with these args.\" You then call your real function. Think of it as the LLM filling out a typed form.</p>",
+        "mindset": "<p><strong>C# dev mindset:</strong> Function calling = you define a method signature (in JSON schema), the LLM decides when to \"call\" it and fills in the parameters. It never actually calls your function — it just returns a structured JSON saying \"I want to call X with these args.\" You then call your real function. Think of it as the LLM filling out a typed form.</p>",
         "weekly_goal": "By Sunday you can make an LLM return reliable, structured JSON that you can map to a C# or Python object. You know 5 prompt patterns by name and when to use each. Your Insurance Authorization Assistant is done.",
         "days": [
           {
@@ -857,7 +857,7 @@
         "week_number": 5,
         "title": "LangChain Essentials & Chains",
         "focus_hours": "10 hours total · LCEL chains, prompt templates, output parsers, memory",
-        "csharp_mindset": "<p><strong>C# dev mindset:</strong> LangChain's <code>RunnableSequence</code> (using <code>|</code> pipe) is simply a functional Pipe-and-Filter or Middleware pipeline. Prompt templates are just advanced string interpolators. Output parsers replace manual JSON deserialization loops.</p>",
+        "mindset": "<p><strong>C# dev mindset:</strong> LangChain's <code>RunnableSequence</code> (using <code>|</code> pipe) is simply a functional Pipe-and-Filter or Middleware pipeline. Prompt templates are just advanced string interpolators. Output parsers replace manual JSON deserialization loops.</p>",
         "weekly_goal": "By Sunday you can build a functional sequence using LangChain Expression Language (LCEL) that feeds structured prompts into Claude/OpenAI and parses the output back into typed Python objects.",
         "days": [
           {
@@ -1057,7 +1057,7 @@
         "week_number": 6,
         "title": "Document Workflows & Retrieval Chains",
         "focus_hours": "10 hours total · Document loaders, text splitting, custom tools, retrieval chains",
-        "csharp_mindset": "<p><strong>C# dev mindset:</strong> Document loaders replace <code>StreamReader</code> file parser scripts. Splitting text is equivalent to chunking data for memory-efficient indexing. Custom tools map to delegate callbacks or reflection-based class bindings.</p>",
+        "mindset": "<p><strong>C# dev mindset:</strong> Document loaders replace <code>StreamReader</code> file parser scripts. Splitting text is equivalent to chunking data for memory-efficient indexing. Custom tools map to delegate callbacks or reflection-based class bindings.</p>",
         "weekly_goal": "By Sunday you can load a PDF policy manual, split it into chunks with optimized overlaps, and register custom Python functions as tools for models to invoke.",
         "days": [
           {
@@ -1239,7 +1239,7 @@
         "week_number": 7,
         "title": "LangGraph Agent Workflows (State & Nodes)",
         "focus_hours": "10 hours total · StateGraph, nodes, edges, conditional routing, cyclic graphs",
-        "csharp_mindset": "<p><strong>C# dev mindset:</strong> LangGraph is a State Machine engine (like Windows Workflow Foundation or stateless state machines). Nodes represent action methods. Edges determine branching rules. State is the shared context thread.</p>",
+        "mindset": "<p><strong>C# dev mindset:</strong> LangGraph is a State Machine engine (like Windows Workflow Foundation or stateless state machines). Nodes represent action methods. Edges determine branching rules. State is the shared context thread.</p>",
         "weekly_goal": "By Sunday you can build a cyclic state graph where nodes execute API tasks, modify a shared workflow state dictionary, and dynamically branch based on model choices.",
         "days": [
           {
@@ -1409,7 +1409,7 @@
         "week_number": 8,
         "title": "Human-in-the-Loop & Checked Workflows",
         "focus_hours": "10 hours total · State checkpointers, breakpoints, manual approval gates, custom modifications",
-        "csharp_mindset": "<p><strong>C# dev mindset:</strong> Breakpoints are asynchronous workflow savepoints. Pausing/resuming state graphs mirrors database persistence of long-running workflows with manual gateway reviews.</p>",
+        "mindset": "<p><strong>C# dev mindset:</strong> Breakpoints are asynchronous workflow savepoints. Pausing/resuming state graphs mirrors database persistence of long-running workflows with manual gateway reviews.</p>",
         "weekly_goal": "By Sunday you can pause agent executions before executing sensitive actions, persist intermediate state databases, and resume workflows after manual user approvals.",
         "days": [
           {
@@ -1582,7 +1582,7 @@
         "week_number": 9,
         "title": "Embeddings & Vector Stores (ChromaDB)",
         "focus_hours": "10 hours total · Vector embeddings, similarity searches, ChromaDB integration",
-        "csharp_mindset": "<p><strong>C# dev mindset:</strong> A vector database is similar to Lucene.NET or SQL indexes, but optimized for high-dimensional float array cosine similarity checks. It finds matching concepts rather than keyword patterns.</p>",
+        "mindset": "<p><strong>C# dev mindset:</strong> A vector database is similar to Lucene.NET or SQL indexes, but optimized for high-dimensional float array cosine similarity checks. It finds matching concepts rather than keyword patterns.</p>",
         "weekly_goal": "By Sunday you understand how text is transformed into float vector arrays, can write queries to check cosine similarity, and build collections in a local ChromaDB instance.",
         "days": [
           {
@@ -1758,7 +1758,7 @@
         "week_number": 10,
         "title": "Enterprise Vector Search (Qdrant)",
         "focus_hours": "10 hours total · Qdrant client, payloads, schema indices, Docker setup, text chunking",
-        "csharp_mindset": "<p><strong>C# dev mindset:</strong> ChromaDB is SQLite; Qdrant is SQL Server / Postgres. A scalable cluster instance running via Docker containers. High performance, transaction safety, and schema validation index layers.</p>",
+        "mindset": "<p><strong>C# dev mindset:</strong> ChromaDB is SQLite; Qdrant is SQL Server / Postgres. A scalable cluster instance running via Docker containers. High performance, transaction safety, and schema validation index layers.</p>",
         "weekly_goal": "By Sunday you can launch Qdrant using Docker containers, configure payload schema indexing filters, and load processed document chunks into enterprise storage pools.",
         "days": [
           {
@@ -1916,7 +1916,7 @@
         "week_number": 11,
         "title": "Production Retrieval (Hybrid Search & Re-ranking)",
         "focus_hours": "10 hours total · Hybrid search (dense + sparse), BM25, Cohere re-ranking, FlashRank",
-        "csharp_mindset": "<p><strong>C# dev mindset:</strong> Hybrid search matches combining Full-Text Indexing (LIKE queries) with vector matching scores. Re-ranking is similar to sorting list items using complex secondary scoring filters.</p>",
+        "mindset": "<p><strong>C# dev mindset:</strong> Hybrid search matches combining Full-Text Indexing (LIKE queries) with vector matching scores. Re-ranking is similar to sorting list items using complex secondary scoring filters.</p>",
         "weekly_goal": "By Sunday you can combine semantic vectors with traditional BM25 text queries in a single query pipeline and apply re-ranking model layers to retrieve the top 3 high-relevance chunks.",
         "days": [
           {
@@ -2086,7 +2086,7 @@
         "week_number": 12,
         "title": "Context Enrichment & Parent-Child Retrieval",
         "focus_hours": "10 hours total · Parent-document retriever, sentence window retrieval, hierarchical chunking",
-        "csharp_mindset": "<p><strong>C# dev mindset:</strong> Parent-Child mapping is similar to database relationships (One-to-Many). Search query targets children keys, but loads primary tables when formatting output contexts.</p>",
+        "mindset": "<p><strong>C# dev mindset:</strong> Parent-Child mapping is similar to database relationships (One-to-Many). Search query targets children keys, but loads primary tables when formatting output contexts.</p>",
         "weekly_goal": "By Sunday you can set up a parent-child indexing schema where search queries match small text chunks but retrieve the broader parent context parameters.",
         "days": [
           {
@@ -2244,7 +2244,7 @@
         "week_number": 13,
         "title": "RAG Evaluation & Safety Guardrails",
         "focus_hours": "10 hours total · RAGAS framework, hallucination filters, LLM-as-judge, input validation",
-        "csharp_mindset": "<p><strong>C# dev mindset:</strong> Evaluation is similar to unit testing, but for semantic verification. Asserting faithfulness replaces static assertions, verifying output consistency over test cases.</p>",
+        "mindset": "<p><strong>C# dev mindset:</strong> Evaluation is similar to unit testing, but for semantic verification. Asserting faithfulness replaces static assertions, verifying output consistency over test cases.</p>",
         "weekly_goal": "By Sunday you can run RAGAS benchmark metrics to score answer quality, create LLM-as-judge prompts to detect clinical hallucinations, and build input validation filters.",
         "days": [
           {
@@ -2423,7 +2423,7 @@
         "week_number": 14,
         "title": "Agent Architectures & ReAct Loops",
         "focus_hours": "10 hours total · ReAct loop, tool registry, dynamic dispatch, stop conditions",
-        "csharp_mindset": "<p><strong>C# dev mindset:</strong> A ReAct loop is an asynchronous <code>while(true)</code> loop containing a state transition switch block. The LLM's thought outputs determine the next case statement.</p>",
+        "mindset": "<p><strong>C# dev mindset:</strong> A ReAct loop is an asynchronous <code>while(true)</code> loop containing a state transition switch block. The LLM's thought outputs determine the next case statement.</p>",
         "weekly_goal": "By Sunday you can write a custom reasoning-and-acting execution loop from scratch without high-level libraries, handling tool extraction and loop stops.",
         "days": [
           {
@@ -2587,7 +2587,7 @@
         "week_number": 15,
         "title": "Multi-Agent Systems with CrewAI",
         "focus_hours": "10 hours total · CrewAI core, specialized roles, collaborative tasks, context sharing",
-        "csharp_mindset": "<p><strong>C# dev mindset:</strong> CrewAI maps to Orchestrator or Saga workflows. A sequence of service workers, each carrying unique configurations, modifying shared context data files.</p>",
+        "mindset": "<p><strong>C# dev mindset:</strong> CrewAI maps to Orchestrator or Saga workflows. A sequence of service workers, each carrying unique configurations, modifying shared context data files.</p>",
         "weekly_goal": "By Sunday you can build a collaborative multi-agent group using CrewAI, assign sequential tasks, and share context files between specialist workers.",
         "days": [
           {
@@ -2745,7 +2745,7 @@
         "week_number": 16,
         "title": "C# Semantic Kernel Agents (Parallel Practice)",
         "focus_hours": "10 hours total · Semantic Kernel (.NET 10), native plugins, ChatHistory loops, C# database queries",
-        "csharp_mindset": "<p><strong>C# dev mindset:</strong> Fully integrated in the Microsoft .NET 10 ecosystem. Dependency injection (<code>IServiceCollection</code>), C# methods as plugins, and typed models. LangChain tools map to C# class methods.</p>",
+        "mindset": "<p><strong>C# dev mindset:</strong> Fully integrated in the Microsoft .NET 10 ecosystem. Dependency injection (<code>IServiceCollection</code>), C# methods as plugins, and typed models. LangChain tools map to C# class methods.</p>",
         "weekly_goal": "By Sunday you can create native LLM plugins in C# using Semantic Kernel, register database queries as functions, and run typed agent loops inside Blazor projects.",
         "days": [
           {
@@ -2897,7 +2897,7 @@
         "week_number": 17,
         "title": "Production Agent Workflows",
         "focus_hours": "10 hours total · Hierarchical routers, LangGraph supervisor, state merges, safety guardrails",
-        "csharp_mindset": "<p><strong>C# dev mindset:</strong> Hierarchical routing mirrors centralized workflow controllers delegating sub-tasks to microservices, compiling outputs before returning response payloads.</p>",
+        "mindset": "<p><strong>C# dev mindset:</strong> Hierarchical routing mirrors centralized workflow controllers delegating sub-tasks to microservices, compiling outputs before returning response payloads.</p>",
         "weekly_goal": "By Sunday you can deploy supervisor router graphs that delegate queries to specialist agent workers and implement output guardrails to prevent data leaks.",
         "days": [
           {
@@ -3070,7 +3070,7 @@
         "week_number": 18,
         "title": "Model Context Protocol (MCP) Architecture",
         "focus_hours": "10 hours total · Model Context Protocol, stdio transport, Claude Desktop, JSON-RPC 2.0",
-        "csharp_mindset": "<p><strong>C# dev mindset:</strong> MCP is gRPC or OpenAPI but optimized specifically for LLMs. A standardized JSON-RPC 2.0 protocol over stdio streams or Server-Sent Events (SSE).</p>",
+        "mindset": "<p><strong>C# dev mindset:</strong> MCP is gRPC or OpenAPI but optimized specifically for LLMs. A standardized JSON-RPC 2.0 protocol over stdio streams or Server-Sent Events (SSE).</p>",
         "weekly_goal": "By Sunday you understand the MCP JSON-RPC spec, can build an stdio MCP server in Python, and configure Claude Desktop to query it for local tool outputs.",
         "days": [
           {
@@ -3234,7 +3234,7 @@
         "week_number": 19,
         "title": "Database-backed MCP Servers",
         "focus_hours": "10 hours total · Oracle DB connection, SQL sanitization, SSE transport, tool arguments",
-        "csharp_mindset": "<p><strong>C# dev mindset:</strong> Exposing database repositories to the LLM Client via stdio streams. Sanitizing parameters is similar to preventing SQL injections in ADO.NET.</p>",
+        "mindset": "<p><strong>C# dev mindset:</strong> Exposing database repositories to the LLM Client via stdio streams. Sanitizing parameters is similar to preventing SQL injections in ADO.NET.</p>",
         "weekly_goal": "By Sunday you can serve your MCP tools over Server-Sent Events (SSE) HTTP streams, connect to mock Oracle SQL databases, and secure database prompts.",
         "days": [
           {
@@ -3386,7 +3386,7 @@
         "week_number": 20,
         "title": "n8n Automation Workflows",
         "focus_hours": "10 hours total · n8n integration, triggers, webhooks, attachment parser nodes, self-hosting",
-        "csharp_mindset": "<p><strong>C# dev mindset:</strong> n8n replaces Azure Logic Apps, Power Automate, or custom trigger apps. A node-based system to route JSON payloads across APIs without writing boilerplate code.</p>",
+        "mindset": "<p><strong>C# dev mindset:</strong> n8n replaces Azure Logic Apps, Power Automate, or custom trigger apps. A node-based system to route JSON payloads across APIs without writing boilerplate code.</p>",
         "weekly_goal": "By Sunday you can launch self-hosted n8n in Docker containers, create automated webhook triggers, and build mail-to-AI invoice sorting canvas graphs.",
         "days": [
           {
@@ -3544,7 +3544,7 @@
         "week_number": 21,
         "title": "Voice AI Assistants",
         "focus_hours": "10 hours total · Whisper STT, ElevenLabs TTS, audio recording, streaming audio, completion latency",
-        "csharp_mindset": "<p><strong>C# dev mindset:</strong> Voice AI pipelines are event-driven audio stream transformations: Audio Bytes -&gt; Text -&gt; LLM Completion -&gt; Text -&gt; Audio Synthesizer Bytes.</p>",
+        "mindset": "<p><strong>C# dev mindset:</strong> Voice AI pipelines are event-driven audio stream transformations: Audio Bytes -&gt; Text -&gt; LLM Completion -&gt; Text -&gt; Audio Synthesizer Bytes.</p>",
         "weekly_goal": "By Sunday you can capture microphone audio, transcribe it via OpenAI Whisper, query clinical completions, and convert outputs to audio using ElevenLabs APIs.",
         "days": [
           {
@@ -3717,7 +3717,7 @@
         "week_number": 22,
         "title": "Docker Containers & AWS ECS Cloud Deploy",
         "focus_hours": "10 hours total · Dockerfiles, multi-stage builds, AWS ECS, Task Definitions",
-        "csharp_mindset": "<p><strong>C# dev mindset:</strong> Dockerizing a .NET Web API and deploying to Azure App Service / AWS ECS. Same containerization principles apply: copy binaries, expose ports, and inject environment variables.</p>",
+        "mindset": "<p><strong>C# dev mindset:</strong> Dockerizing a .NET Web API and deploying to Azure App Service / AWS ECS. Same containerization principles apply: copy binaries, expose ports, and inject environment variables.</p>",
         "weekly_goal": "By Sunday you can write multi-stage Dockerfiles for FastAPI backends, build container images, push them to AWS ECR, and run them on AWS ECS Fargate.",
         "days": [
           {
@@ -3887,7 +3887,7 @@
         "week_number": 23,
         "title": "Full-Stack SaaS MVP Construction (Next.js & React UI)",
         "focus_hours": "10 hours total · Next.js / Vite React, API connections, completion streaming, Supabase Auth",
-        "csharp_mindset": "<p><strong>C# dev mindset:</strong> Next.js/Vite frontend maps to Blazor WebAssembly or ASP.NET Razor clients calling backend Web APIs asynchronously via standard HTTP clients.</p>",
+        "mindset": "<p><strong>C# dev mindset:</strong> Next.js/Vite frontend maps to Blazor WebAssembly or ASP.NET Razor clients calling backend Web APIs asynchronously via standard HTTP clients.</p>",
         "weekly_goal": "By Sunday you can compile React UI pages in Next.js or Vite, integrate Supabase authorization workflows, and consume token streams from FastAPI endpoints.",
         "days": [
           {
@@ -4045,7 +4045,7 @@
         "week_number": 24,
         "title": "LLMOps & Portfolio Polish",
         "focus_hours": "10 hours total · Helicone / LangFuse costs, prompt management, prompt injections, HIPAA sanitizers, GitHub polish",
-        "csharp_mindset": "<p><strong>C# dev mindset:</strong> LLMOps corresponds to Application Insights monitoring, centralized prompt versioning, and API gateway logs. In LangFuse, prompts are retrieved via SDK rather than being hardcoded, similar to how Web.config or AppSettings configurations are fetched dynamically.</p>",
+        "mindset": "<p><strong>C# dev mindset:</strong> LLMOps corresponds to Application Insights monitoring, centralized prompt versioning, and API gateway logs. In LangFuse, prompts are retrieved via SDK rather than being hardcoded, similar to how Web.config or AppSettings configurations are fetched dynamically.</p>",
         "weekly_goal": "By Sunday you can configure self-hosted LangFuse observability dashboards, manage prompts dynamically via LangFuse Prompt Registry SDK, filter injections, and publish your complete portfolio",
         "days": [
           {
@@ -4209,7 +4209,7 @@
         "week_number": 25,
         "title": "Elective — Transformer Internals & LLM Fine-Tuning",
         "focus_hours": "10 hours total · Transformer architecture, tokenization, Hugging Face, PEFT / LoRA, instruction tuning, RLHF / DPO",
-        "csharp_mindset": "<p><strong>C# dev mindset:</strong> Until now you have consumed LLMs like a NuGet package — this week you open the package source. A transformer is the runtime; fine-tuning is recompiling parts of it for your domain. LoRA is like extension methods: you bolt small trainable adapters onto a frozen base instead of forking the whole framework.</p>",
+        "mindset": "<p><strong>C# dev mindset:</strong> Until now you have consumed LLMs like a NuGet package — this week you open the package source. A transformer is the runtime; fine-tuning is recompiling parts of it for your domain. LoRA is like extension methods: you bolt small trainable adapters onto a frozen base instead of forking the whole framework.</p>",
         "weekly_goal": "By Sunday you understand the transformer architecture end-to-end (tokenization, embeddings, attention, generation), can fine-tune a small model with LoRA using Hugging Face, and can argue when fine-tuning beats RAG and vice versa. Mirrors IBM's Generative AI Engineering with LLMs specialization.",
         "days": [
           {

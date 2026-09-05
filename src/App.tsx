@@ -12,6 +12,7 @@ import { CustomCursor } from './components/CustomCursor';
 import { SectionSeparator } from './components/SectionSeparator';
 import { AdminConsole } from './components/AdminConsole';
 import { RoadmapTracker } from './components/RoadmapTracker';
+import { genaiConfig, mlConfig } from './components/roadmapConfigs';
 
 function HomePage() {
   return (
@@ -31,7 +32,7 @@ function HomePage() {
 
 function App() {
   const location = useLocation();
-  const isRoadmap = location.pathname === '/roadmap';
+  const isRoadmap = location.pathname === '/roadmap' || location.pathname === '/ml-roadmap';
   const [scrollPct, setScrollPct] = useState(0);
   const [showTopBtn, setShowTopBtn] = useState(false);
 
@@ -49,7 +50,9 @@ function App() {
   // Per-route document titles
   useEffect(() => {
     if (isRoadmap) {
-      document.title = 'GenAI Roadmap Tracker | Baqar Hussain Naqvi';
+      document.title = location.pathname === '/ml-roadmap'
+        ? 'ML Roadmap Tracker | Baqar Hussain Naqvi'
+        : 'GenAI Roadmap Tracker | Baqar Hussain Naqvi';
     } else if (location.pathname.startsWith('/blog')) {
       document.title = 'Blog | Baqar Hussain Naqvi';
     } else if (location.pathname.startsWith('/admin')) {
@@ -153,7 +156,10 @@ function App() {
           <Route path="/blog" element={<div className="blog-view-wrapper"><Blog /></div>} />
           <Route path="/blog/:slug" element={<div className="blog-view-wrapper"><Blog /></div>} />
           <Route path="/admin" element={<div className="admin-view-wrapper"><AdminConsole /></div>} />
-          <Route path="/roadmap" element={<RoadmapTracker />} />
+          {/* key forces a remount when switching tracks, so each tracker
+              re-initializes from its own config and localStorage */}
+          <Route path="/roadmap" element={<RoadmapTracker key="genai" config={genaiConfig} />} />
+          <Route path="/ml-roadmap" element={<RoadmapTracker key="ml" config={mlConfig} />} />
           <Route path="*" element={<HomePage />} />
         </Routes>
       </main>
