@@ -22,9 +22,24 @@
             "hours": "2 hours · learning",
             "type": "Learn",
             "tasks": [
-              { "id": "ml_w1_d0_t1", "day_id": 1010, "task_num": 1, "content": "Watch <strong>Week 1 — Overview of Machine Learning</strong> and \"What is machine learning?\". Write a one-line definition in your own words." },
-              { "id": "ml_w1_d0_t2", "day_id": 1010, "task_num": 2, "content": "Watch <strong>Supervised learning part 1 &amp; 2</strong> and <strong>Unsupervised learning part 1 &amp; 2</strong>." },
-              { "id": "ml_w1_d0_t3", "day_id": 1010, "task_num": 3, "content": "List 3 problems from your own work and label each supervised / unsupervised, with the input <code>x</code> and target <code>y</code> named explicitly." }
+              {
+                "id": "ml_w1_d0_t1",
+                "day_id": 1010,
+                "task_num": 1,
+                "content": "Watch <strong>Week 1 — Overview of Machine Learning</strong> and \"What is machine learning?\". Write a one-line definition in your own words."
+              },
+              {
+                "id": "ml_w1_d0_t2",
+                "day_id": 1010,
+                "task_num": 2,
+                "content": "Watch <strong>Supervised learning part 1 &amp; 2</strong> and <strong>Unsupervised learning part 1 &amp; 2</strong>."
+              },
+              {
+                "id": "ml_w1_d0_t3",
+                "day_id": 1010,
+                "task_num": 3,
+                "content": "List 3 problems from your own work and label each supervised / unsupervised, with the input <code>x</code> and target <code>y</code> named explicitly."
+              }
             ]
           },
           {
@@ -34,10 +49,30 @@
             "hours": "2 hours · learning",
             "type": "Learn",
             "tasks": [
-              { "id": "ml_w1_d1_t1", "day_id": 1011, "task_num": 1, "content": "Watch <strong>Linear regression model part 1 &amp; 2</strong>. Learn the notation: <code>m</code> examples, <code>x⁽ⁱ⁾</code>, <code>y⁽ⁱ⁾</code>, <code>ŷ</code>." },
-              { "id": "ml_w1_d1_t2", "day_id": 1011, "task_num": 2, "content": "Watch <strong>Cost function formula</strong> and <strong>Cost function intuition</strong>." },
-              { "id": "ml_w1_d1_t3", "day_id": 1011, "task_num": 3, "content": "Watch <strong>Visualizing the cost function</strong> — understand why the contour plot is a bowl and what that guarantees." },
-              { "id": "ml_w1_d1_t4", "day_id": 1011, "task_num": 4, "content": "Write <code>J(w,b)</code> from memory on paper. Check it against the lecture slide." }
+              {
+                "id": "ml_w1_d1_t1",
+                "day_id": 1011,
+                "task_num": 1,
+                "content": "Watch <strong>Linear regression model part 1 &amp; 2</strong>. Learn the notation: <code>m</code> examples, <code>x⁽ⁱ⁾</code>, <code>y⁽ⁱ⁾</code>, <code>ŷ</code>."
+              },
+              {
+                "id": "ml_w1_d1_t2",
+                "day_id": 1011,
+                "task_num": 2,
+                "content": "Watch <strong>Cost function formula</strong> and <strong>Cost function intuition</strong>."
+              },
+              {
+                "id": "ml_w1_d1_t3",
+                "day_id": 1011,
+                "task_num": 3,
+                "content": "Watch <strong>Visualizing the cost function</strong> — understand why the contour plot is a bowl and what that guarantees."
+              },
+              {
+                "id": "ml_w1_d1_t4",
+                "day_id": 1011,
+                "task_num": 4,
+                "content": "Write <code>J(w,b)</code> from memory on paper. Check it against the lecture slide."
+              }
             ]
           },
           {
@@ -47,9 +82,24 @@
             "hours": "2 hours · coding",
             "type": "Code",
             "tasks": [
-              { "id": "ml_w1_d2_t1", "day_id": 1012, "task_num": 1, "content": "Complete the optional lab: <strong>Model representation</strong>." },
-              { "id": "ml_w1_d2_t2", "day_id": 1012, "task_num": 2, "content": "Complete the optional lab: <strong>Cost function</strong>." },
-              { "id": "ml_w1_d2_t3", "day_id": 1012, "task_num": 3, "content": "From a blank file, implement <code>compute_cost(X, y, w, b)</code> in NumPy. No loops — use vectorized operations." }
+              {
+                "id": "ml_w1_d2_t1",
+                "day_id": 1012,
+                "task_num": 1,
+                "content": "Complete the optional lab: <strong>Model representation</strong>."
+              },
+              {
+                "id": "ml_w1_d2_t2",
+                "day_id": 1012,
+                "task_num": 2,
+                "content": "Complete the optional lab: <strong>Cost function</strong>."
+              },
+              {
+                "id": "ml_w1_d2_t3",
+                "day_id": 1012,
+                "task_num": 3,
+                "content": "From a blank file, implement <code>compute_cost(X, y, w, b)</code> in NumPy. No loops — use vectorized operations."
+              }
             ]
           },
           {
@@ -59,10 +109,30 @@
             "hours": "2 hours · learning",
             "type": "Learn",
             "tasks": [
-              { "id": "ml_w1_d3_t1", "day_id": 1013, "task_num": 1, "content": "Watch <strong>Gradient descent</strong> and <strong>Implementing gradient descent</strong>." },
-              { "id": "ml_w1_d3_t2", "day_id": 1013, "task_num": 2, "content": "Watch <strong>Gradient descent intuition</strong> and <strong>Learning rate</strong>. Note what happens when α is too large vs too small." },
-              { "id": "ml_w1_d3_t3", "day_id": 1013, "task_num": 3, "content": "Watch <strong>Gradient descent for linear regression</strong> and <strong>Running gradient descent</strong>." },
-              { "id": "ml_w1_d3_t4", "day_id": 1013, "task_num": 4, "content": "Derive ∂J/∂w and ∂J/∂b by hand. This is the only derivation in the course you should be able to reproduce cold." }
+              {
+                "id": "ml_w1_d3_t1",
+                "day_id": 1013,
+                "task_num": 1,
+                "content": "Watch <strong>Gradient descent</strong> and <strong>Implementing gradient descent</strong>."
+              },
+              {
+                "id": "ml_w1_d3_t2",
+                "day_id": 1013,
+                "task_num": 2,
+                "content": "Watch <strong>Gradient descent intuition</strong> and <strong>Learning rate</strong>. Note what happens when α is too large vs too small."
+              },
+              {
+                "id": "ml_w1_d3_t3",
+                "day_id": 1013,
+                "task_num": 3,
+                "content": "Watch <strong>Gradient descent for linear regression</strong> and <strong>Running gradient descent</strong>."
+              },
+              {
+                "id": "ml_w1_d3_t4",
+                "day_id": 1013,
+                "task_num": 4,
+                "content": "Derive ∂J/∂w and ∂J/∂b by hand. This is the only derivation in the course you should be able to reproduce cold."
+              }
             ]
           },
           {
@@ -72,9 +142,24 @@
             "hours": "2 hours · building",
             "type": "Build",
             "tasks": [
-              { "id": "ml_w1_d4_t1", "day_id": 1014, "task_num": 1, "content": "Complete the optional lab: <strong>Gradient descent</strong>." },
-              { "id": "ml_w1_d4_t2", "day_id": 1014, "task_num": 2, "content": "Build a single-variable linear regression from scratch on a toy dataset — cost, gradients, and the descent loop, all your own code." },
-              { "id": "ml_w1_d4_t3", "day_id": 1014, "task_num": 3, "content": "Plot cost vs iteration. If it is not monotonically decreasing, your gradient or learning rate is wrong — debug before moving on." }
+              {
+                "id": "ml_w1_d4_t1",
+                "day_id": 1014,
+                "task_num": 1,
+                "content": "Complete the optional lab: <strong>Gradient descent</strong>."
+              },
+              {
+                "id": "ml_w1_d4_t2",
+                "day_id": 1014,
+                "task_num": 2,
+                "content": "Build a single-variable linear regression from scratch on a toy dataset — cost, gradients, and the descent loop, all your own code."
+              },
+              {
+                "id": "ml_w1_d4_t3",
+                "day_id": 1014,
+                "task_num": 3,
+                "content": "Plot cost vs iteration. If it is not monotonically decreasing, your gradient or learning rate is wrong — debug before moving on."
+              }
             ]
           },
           {
@@ -84,9 +169,24 @@
             "hours": "Review",
             "type": "Review",
             "tasks": [
-              { "id": "ml_w1_d5_t1", "day_id": 1015, "task_num": 1, "content": "Take the Week 1 practice quizzes until you score 100%." },
-              { "id": "ml_w1_d5_t2", "day_id": 1015, "task_num": 2, "content": "Explain gradient descent out loud in 60 seconds without notes." },
-              { "id": "ml_w1_d5_t3", "day_id": 1015, "task_num": 3, "content": "Fill in the Retro Log: what clicked, what did not, what to revisit." }
+              {
+                "id": "ml_w1_d5_t1",
+                "day_id": 1015,
+                "task_num": 1,
+                "content": "Take the Week 1 practice quizzes until you score 100%."
+              },
+              {
+                "id": "ml_w1_d5_t2",
+                "day_id": 1015,
+                "task_num": 2,
+                "content": "Explain gradient descent out loud in 60 seconds without notes."
+              },
+              {
+                "id": "ml_w1_d5_t3",
+                "day_id": 1015,
+                "task_num": 3,
+                "content": "Fill in the Retro Log: what clicked, what did not, what to revisit."
+              }
             ]
           }
         ]
@@ -107,9 +207,24 @@
             "hours": "2 hours · learning",
             "type": "Learn",
             "tasks": [
-              { "id": "ml_w2_d0_t1", "day_id": 1020, "task_num": 1, "content": "Watch <strong>Multiple features</strong> and <strong>Vectorization part 1 &amp; 2</strong>." },
-              { "id": "ml_w2_d0_t2", "day_id": 1020, "task_num": 2, "content": "Watch <strong>Gradient descent for multiple linear regression</strong>." },
-              { "id": "ml_w2_d0_t3", "day_id": 1020, "task_num": 3, "content": "Benchmark a Python loop vs <code>np.dot</code> on 100k elements. Record the speedup — this is why vectorization matters." }
+              {
+                "id": "ml_w2_d0_t1",
+                "day_id": 1020,
+                "task_num": 1,
+                "content": "Watch <strong>Multiple features</strong> and <strong>Vectorization part 1 &amp; 2</strong>."
+              },
+              {
+                "id": "ml_w2_d0_t2",
+                "day_id": 1020,
+                "task_num": 2,
+                "content": "Watch <strong>Gradient descent for multiple linear regression</strong>."
+              },
+              {
+                "id": "ml_w2_d0_t3",
+                "day_id": 1020,
+                "task_num": 3,
+                "content": "Benchmark a Python loop vs <code>np.dot</code> on 100k elements. Record the speedup — this is why vectorization matters."
+              }
             ]
           },
           {
@@ -119,9 +234,24 @@
             "hours": "2 hours · coding",
             "type": "Code",
             "tasks": [
-              { "id": "ml_w2_d1_t1", "day_id": 1021, "task_num": 1, "content": "Complete the optional lab: <strong>Python, NumPy and vectorization</strong>." },
-              { "id": "ml_w2_d1_t2", "day_id": 1021, "task_num": 2, "content": "Complete the optional lab: <strong>Multiple linear regression</strong>." },
-              { "id": "ml_w2_d1_t3", "day_id": 1021, "task_num": 3, "content": "Rewrite last week's single-variable model to accept an <code>(m, n)</code> matrix <code>X</code> with zero Python loops in the gradient." }
+              {
+                "id": "ml_w2_d1_t1",
+                "day_id": 1021,
+                "task_num": 1,
+                "content": "Complete the optional lab: <strong>Python, NumPy and vectorization</strong>."
+              },
+              {
+                "id": "ml_w2_d1_t2",
+                "day_id": 1021,
+                "task_num": 2,
+                "content": "Complete the optional lab: <strong>Multiple linear regression</strong>."
+              },
+              {
+                "id": "ml_w2_d1_t3",
+                "day_id": 1021,
+                "task_num": 3,
+                "content": "Rewrite last week's single-variable model to accept an <code>(m, n)</code> matrix <code>X</code> with zero Python loops in the gradient."
+              }
             ]
           },
           {
@@ -131,9 +261,24 @@
             "hours": "2 hours · learning",
             "type": "Learn",
             "tasks": [
-              { "id": "ml_w2_d2_t1", "day_id": 1022, "task_num": 1, "content": "Watch <strong>Feature scaling part 1 &amp; 2</strong>. Understand z-score normalization." },
-              { "id": "ml_w2_d2_t2", "day_id": 1022, "task_num": 2, "content": "Watch <strong>Checking gradient descent for convergence</strong> and <strong>Choosing the learning rate</strong>." },
-              { "id": "ml_w2_d2_t3", "day_id": 1022, "task_num": 3, "content": "Note the α sweep heuristic: try 0.001, 0.01, 0.1, 1 and compare cost curves." }
+              {
+                "id": "ml_w2_d2_t1",
+                "day_id": 1022,
+                "task_num": 1,
+                "content": "Watch <strong>Feature scaling part 1 &amp; 2</strong>. Understand z-score normalization."
+              },
+              {
+                "id": "ml_w2_d2_t2",
+                "day_id": 1022,
+                "task_num": 2,
+                "content": "Watch <strong>Checking gradient descent for convergence</strong> and <strong>Choosing the learning rate</strong>."
+              },
+              {
+                "id": "ml_w2_d2_t3",
+                "day_id": 1022,
+                "task_num": 3,
+                "content": "Note the α sweep heuristic: try 0.001, 0.01, 0.1, 1 and compare cost curves."
+              }
             ]
           },
           {
@@ -143,9 +288,24 @@
             "hours": "2 hours · learning",
             "type": "Learn",
             "tasks": [
-              { "id": "ml_w2_d3_t1", "day_id": 1023, "task_num": 1, "content": "Watch <strong>Feature engineering</strong> and <strong>Polynomial regression</strong>." },
-              { "id": "ml_w2_d3_t2", "day_id": 1023, "task_num": 2, "content": "Complete the optional labs: <strong>Feature scaling and learning rate</strong>, <strong>Feature engineering and polynomial regression</strong>." },
-              { "id": "ml_w2_d3_t3", "day_id": 1023, "task_num": 3, "content": "Complete the optional lab: <strong>Linear regression with scikit-learn</strong>. Compare its output to your own implementation." }
+              {
+                "id": "ml_w2_d3_t1",
+                "day_id": 1023,
+                "task_num": 1,
+                "content": "Watch <strong>Feature engineering</strong> and <strong>Polynomial regression</strong>."
+              },
+              {
+                "id": "ml_w2_d3_t2",
+                "day_id": 1023,
+                "task_num": 2,
+                "content": "Complete the optional labs: <strong>Feature scaling and learning rate</strong>, <strong>Feature engineering and polynomial regression</strong>."
+              },
+              {
+                "id": "ml_w2_d3_t3",
+                "day_id": 1023,
+                "task_num": 3,
+                "content": "Complete the optional lab: <strong>Linear regression with scikit-learn</strong>. Compare its output to your own implementation."
+              }
             ]
           },
           {
@@ -155,9 +315,24 @@
             "hours": "3 hours · building",
             "type": "Build",
             "tasks": [
-              { "id": "ml_w2_d4_t1", "day_id": 1024, "task_num": 1, "content": "Complete the graded lab: <strong>Linear Regression</strong> (Week 2 assignment)." },
-              { "id": "ml_w2_d4_t2", "day_id": 1024, "task_num": 2, "content": "Start <em>Project 1 — House Price Predictor</em>: load a real housing dataset, apply z-score scaling, fit multiple linear regression." },
-              { "id": "ml_w2_d4_t3", "day_id": 1024, "task_num": 3, "content": "Report train MSE and compare against a baseline that always predicts the mean. Beat the baseline or find out why not." }
+              {
+                "id": "ml_w2_d4_t1",
+                "day_id": 1024,
+                "task_num": 1,
+                "content": "Complete the graded lab: <strong>Linear Regression</strong> (Week 2 assignment)."
+              },
+              {
+                "id": "ml_w2_d4_t2",
+                "day_id": 1024,
+                "task_num": 2,
+                "content": "Start <em>Project 1 — House Price Predictor</em>: load a real housing dataset, apply z-score scaling, fit multiple linear regression."
+              },
+              {
+                "id": "ml_w2_d4_t3",
+                "day_id": 1024,
+                "task_num": 3,
+                "content": "Report train MSE and compare against a baseline that always predicts the mean. Beat the baseline or find out why not."
+              }
             ]
           },
           {
@@ -167,9 +342,24 @@
             "hours": "Review",
             "type": "Review",
             "tasks": [
-              { "id": "ml_w2_d5_t1", "day_id": 1025, "task_num": 1, "content": "Take the Week 2 practice quizzes until you score 100%." },
-              { "id": "ml_w2_d5_t2", "day_id": 1025, "task_num": 2, "content": "Write down, from memory, why feature scaling speeds up gradient descent." },
-              { "id": "ml_w2_d5_t3", "day_id": 1025, "task_num": 3, "content": "Fill in the Retro Log." }
+              {
+                "id": "ml_w2_d5_t1",
+                "day_id": 1025,
+                "task_num": 1,
+                "content": "Take the Week 2 practice quizzes until you score 100%."
+              },
+              {
+                "id": "ml_w2_d5_t2",
+                "day_id": 1025,
+                "task_num": 2,
+                "content": "Write down, from memory, why feature scaling speeds up gradient descent."
+              },
+              {
+                "id": "ml_w2_d5_t3",
+                "day_id": 1025,
+                "task_num": 3,
+                "content": "Fill in the Retro Log."
+              }
             ]
           }
         ]
@@ -190,9 +380,24 @@
             "hours": "2 hours · learning",
             "type": "Learn",
             "tasks": [
-              { "id": "ml_w3_d0_t1", "day_id": 1030, "task_num": 1, "content": "Watch <strong>Motivations</strong> and <strong>Logistic regression</strong>. Understand why linear regression fails on classification." },
-              { "id": "ml_w3_d0_t2", "day_id": 1030, "task_num": 2, "content": "Watch <strong>Decision boundary</strong>. Sketch the boundary for a 2-feature example by hand." },
-              { "id": "ml_w3_d0_t3", "day_id": 1030, "task_num": 3, "content": "Complete the optional labs: <strong>Classification</strong>, <strong>Sigmoid function and logistic regression</strong>, <strong>Decision boundary</strong>." }
+              {
+                "id": "ml_w3_d0_t1",
+                "day_id": 1030,
+                "task_num": 1,
+                "content": "Watch <strong>Motivations</strong> and <strong>Logistic regression</strong>. Understand why linear regression fails on classification."
+              },
+              {
+                "id": "ml_w3_d0_t2",
+                "day_id": 1030,
+                "task_num": 2,
+                "content": "Watch <strong>Decision boundary</strong>. Sketch the boundary for a 2-feature example by hand."
+              },
+              {
+                "id": "ml_w3_d0_t3",
+                "day_id": 1030,
+                "task_num": 3,
+                "content": "Complete the optional labs: <strong>Classification</strong>, <strong>Sigmoid function and logistic regression</strong>, <strong>Decision boundary</strong>."
+              }
             ]
           },
           {
@@ -202,9 +407,24 @@
             "hours": "2 hours · learning",
             "type": "Learn",
             "tasks": [
-              { "id": "ml_w3_d1_t1", "day_id": 1031, "task_num": 1, "content": "Watch <strong>Cost function for logistic regression</strong> and <strong>Simplified cost function</strong>." },
-              { "id": "ml_w3_d1_t2", "day_id": 1031, "task_num": 2, "content": "Watch <strong>Gradient descent implementation</strong> for logistic regression." },
-              { "id": "ml_w3_d1_t3", "day_id": 1031, "task_num": 3, "content": "Note the surprise: the gradient expression is identical in form to linear regression, but <code>f</code> is now the sigmoid. Understand why." }
+              {
+                "id": "ml_w3_d1_t1",
+                "day_id": 1031,
+                "task_num": 1,
+                "content": "Watch <strong>Cost function for logistic regression</strong> and <strong>Simplified cost function</strong>."
+              },
+              {
+                "id": "ml_w3_d1_t2",
+                "day_id": 1031,
+                "task_num": 2,
+                "content": "Watch <strong>Gradient descent implementation</strong> for logistic regression."
+              },
+              {
+                "id": "ml_w3_d1_t3",
+                "day_id": 1031,
+                "task_num": 3,
+                "content": "Note the surprise: the gradient expression is identical in form to linear regression, but <code>f</code> is now the sigmoid. Understand why."
+              }
             ]
           },
           {
@@ -214,9 +434,24 @@
             "hours": "2 hours · coding",
             "type": "Code",
             "tasks": [
-              { "id": "ml_w3_d2_t1", "day_id": 1032, "task_num": 1, "content": "Complete the optional labs: <strong>Logistic loss</strong>, <strong>Cost function for logistic regression</strong>, <strong>Gradient descent for logistic regression</strong>." },
-              { "id": "ml_w3_d2_t2", "day_id": 1032, "task_num": 2, "content": "Implement <code>sigmoid</code>, <code>compute_cost_logistic</code> and <code>compute_gradient_logistic</code> from scratch." },
-              { "id": "ml_w3_d2_t3", "day_id": 1032, "task_num": 3, "content": "Guard the sigmoid against overflow for large negative <code>z</code>. Test with <code>z = -1000</code>." }
+              {
+                "id": "ml_w3_d2_t1",
+                "day_id": 1032,
+                "task_num": 1,
+                "content": "Complete the optional labs: <strong>Logistic loss</strong>, <strong>Cost function for logistic regression</strong>, <strong>Gradient descent for logistic regression</strong>."
+              },
+              {
+                "id": "ml_w3_d2_t2",
+                "day_id": 1032,
+                "task_num": 2,
+                "content": "Implement <code>sigmoid</code>, <code>compute_cost_logistic</code> and <code>compute_gradient_logistic</code> from scratch."
+              },
+              {
+                "id": "ml_w3_d2_t3",
+                "day_id": 1032,
+                "task_num": 3,
+                "content": "Guard the sigmoid against overflow for large negative <code>z</code>. Test with <code>z = -1000</code>."
+              }
             ]
           },
           {
@@ -226,9 +461,24 @@
             "hours": "2 hours · learning",
             "type": "Learn",
             "tasks": [
-              { "id": "ml_w3_d3_t1", "day_id": 1033, "task_num": 1, "content": "Watch <strong>The problem of overfitting</strong> and <strong>Addressing overfitting</strong>." },
-              { "id": "ml_w3_d3_t2", "day_id": 1033, "task_num": 2, "content": "Watch <strong>Cost function with regularization</strong> and the regularized gradient descent lectures for both models." },
-              { "id": "ml_w3_d3_t3", "day_id": 1033, "task_num": 3, "content": "Complete the optional labs: <strong>Overfitting</strong> and <strong>Regularization</strong>. Note that <code>b</code> is not regularized." }
+              {
+                "id": "ml_w3_d3_t1",
+                "day_id": 1033,
+                "task_num": 1,
+                "content": "Watch <strong>The problem of overfitting</strong> and <strong>Addressing overfitting</strong>."
+              },
+              {
+                "id": "ml_w3_d3_t2",
+                "day_id": 1033,
+                "task_num": 2,
+                "content": "Watch <strong>Cost function with regularization</strong> and the regularized gradient descent lectures for both models."
+              },
+              {
+                "id": "ml_w3_d3_t3",
+                "day_id": 1033,
+                "task_num": 3,
+                "content": "Complete the optional labs: <strong>Overfitting</strong> and <strong>Regularization</strong>. Note that <code>b</code> is not regularized."
+              }
             ]
           },
           {
@@ -238,9 +488,24 @@
             "hours": "3 hours · building",
             "type": "Build",
             "tasks": [
-              { "id": "ml_w3_d4_t1", "day_id": 1034, "task_num": 1, "content": "Complete the graded lab: <strong>Logistic Regression</strong> (Week 3 assignment)." },
-              { "id": "ml_w3_d4_t2", "day_id": 1034, "task_num": 2, "content": "Finish <em>Project 1</em>: add a regularized logistic classifier and sweep λ over several orders of magnitude." },
-              { "id": "ml_w3_d4_t3", "day_id": 1034, "task_num": 3, "content": "Plot train vs held-out error against λ. Identify the underfit and overfit ends of the curve." }
+              {
+                "id": "ml_w3_d4_t1",
+                "day_id": 1034,
+                "task_num": 1,
+                "content": "Complete the graded lab: <strong>Logistic Regression</strong> (Week 3 assignment)."
+              },
+              {
+                "id": "ml_w3_d4_t2",
+                "day_id": 1034,
+                "task_num": 2,
+                "content": "Finish <em>Project 1</em>: add a regularized logistic classifier and sweep λ over several orders of magnitude."
+              },
+              {
+                "id": "ml_w3_d4_t3",
+                "day_id": 1034,
+                "task_num": 3,
+                "content": "Plot train vs held-out error against λ. Identify the underfit and overfit ends of the curve."
+              }
             ]
           },
           {
@@ -250,9 +515,24 @@
             "hours": "Review",
             "type": "Review",
             "tasks": [
-              { "id": "ml_w3_d5_t1", "day_id": 1035, "task_num": 1, "content": "Take the Week 3 quizzes until you score 100%. Course 1 complete." },
-              { "id": "ml_w3_d5_t2", "day_id": 1035, "task_num": 2, "content": "Summarize Course 1 in one page: model, cost, gradient, regularization." },
-              { "id": "ml_w3_d5_t3", "day_id": 1035, "task_num": 3, "content": "Fill in the Retro Log." }
+              {
+                "id": "ml_w3_d5_t1",
+                "day_id": 1035,
+                "task_num": 1,
+                "content": "Take the Week 3 quizzes until you score 100%. Course 1 complete."
+              },
+              {
+                "id": "ml_w3_d5_t2",
+                "day_id": 1035,
+                "task_num": 2,
+                "content": "Summarize Course 1 in one page: model, cost, gradient, regularization."
+              },
+              {
+                "id": "ml_w3_d5_t3",
+                "day_id": 1035,
+                "task_num": 3,
+                "content": "Fill in the Retro Log."
+              }
             ]
           }
         ]
@@ -272,7 +552,7 @@
         "week_number": 4,
         "title": "Neural Networks — Intuition & Forward Propagation",
         "focus_hours": "10 hours total · a layer is just many logistic units",
-        "mindset": "<p><strong>A neural network is not a new idea, it is composition.</strong> One neuron is the logistic regression you already wrote. A layer is several of them sharing an input. A network is layers chained together. Nothing new is introduced this week except notation for stacking.</p>",
+        "mindset": "<p><strong>A neural network is not a new idea, it is composition.</strong> One neuron is the logistic regression you already wrote. A layer is several of them sharing an input. A network is layers chained together. Nothing new is introduced this week except notation for stacking.</p><p class=\"rt-alert\"><svg width=\"15\" height=\"15\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3Z\"/><path d=\"M12 9v4\"/><path d=\"M12 17h.01\"/></svg><span><strong>2026 note — learn the concepts, not the framework:</strong> this course teaches TensorFlow/Keras, but by 2026 TensorFlow is in maintenance mode and PyTorch is the industry default (Keras 3 itself is now multi-backend). Do the labs as written, but map every concept — Sequential model, compile/fit, activations, softmax with <code>from_logits</code> — to its PyTorch equivalent. PyTorch is covered properly on the Post-ML roadmap.</span></p>",
         "weekly_goal": "By Sunday you can hand-compute a forward pass through a 2-layer network, build the same network in TensorFlow, and implement forward prop in raw NumPy.",
         "days": [
           {
@@ -282,9 +562,24 @@
             "hours": "2 hours · learning",
             "type": "Learn",
             "tasks": [
-              { "id": "ml_w4_d0_t1", "day_id": 1040, "task_num": 1, "content": "Watch <strong>Neurons and the brain</strong> and <strong>Demand prediction</strong>." },
-              { "id": "ml_w4_d0_t2", "day_id": 1040, "task_num": 2, "content": "Watch <strong>Example: recognizing images</strong>. Note how early layers learn edges and later layers learn parts." },
-              { "id": "ml_w4_d0_t3", "day_id": 1040, "task_num": 3, "content": "Draw a 2-layer network and label every <code>w</code>, <code>b</code>, and <code>a</code> with its layer superscript and unit subscript." }
+              {
+                "id": "ml_w4_d0_t1",
+                "day_id": 1040,
+                "task_num": 1,
+                "content": "Watch <strong>Neurons and the brain</strong> and <strong>Demand prediction</strong>."
+              },
+              {
+                "id": "ml_w4_d0_t2",
+                "day_id": 1040,
+                "task_num": 2,
+                "content": "Watch <strong>Example: recognizing images</strong>. Note how early layers learn edges and later layers learn parts."
+              },
+              {
+                "id": "ml_w4_d0_t3",
+                "day_id": 1040,
+                "task_num": 3,
+                "content": "Draw a 2-layer network and label every <code>w</code>, <code>b</code>, and <code>a</code> with its layer superscript and unit subscript."
+              }
             ]
           },
           {
@@ -294,9 +589,24 @@
             "hours": "2 hours · learning",
             "type": "Learn",
             "tasks": [
-              { "id": "ml_w4_d1_t1", "day_id": 1041, "task_num": 1, "content": "Watch <strong>Neural network layer</strong> and <strong>More complex neural networks</strong>." },
-              { "id": "ml_w4_d1_t2", "day_id": 1041, "task_num": 2, "content": "Watch <strong>Inference: making predictions (forward propagation)</strong>." },
-              { "id": "ml_w4_d1_t3", "day_id": 1041, "task_num": 3, "content": "By hand, forward-propagate a 2-input / 2-unit / 1-output network with numbers you choose. Verify in NumPy." }
+              {
+                "id": "ml_w4_d1_t1",
+                "day_id": 1041,
+                "task_num": 1,
+                "content": "Watch <strong>Neural network layer</strong> and <strong>More complex neural networks</strong>."
+              },
+              {
+                "id": "ml_w4_d1_t2",
+                "day_id": 1041,
+                "task_num": 2,
+                "content": "Watch <strong>Inference: making predictions (forward propagation)</strong>."
+              },
+              {
+                "id": "ml_w4_d1_t3",
+                "day_id": 1041,
+                "task_num": 3,
+                "content": "By hand, forward-propagate a 2-input / 2-unit / 1-output network with numbers you choose. Verify in NumPy."
+              }
             ]
           },
           {
@@ -306,9 +616,24 @@
             "hours": "2 hours · coding",
             "type": "Code",
             "tasks": [
-              { "id": "ml_w4_d2_t1", "day_id": 1042, "task_num": 1, "content": "Watch <strong>Inference in Code</strong> and <strong>Data in TensorFlow</strong>. Note the 2-D array convention." },
-              { "id": "ml_w4_d2_t2", "day_id": 1042, "task_num": 2, "content": "Watch <strong>Building a neural network</strong> — the Sequential API." },
-              { "id": "ml_w4_d2_t3", "day_id": 1042, "task_num": 3, "content": "Complete the optional labs: <strong>Neurons and Layers</strong>, <strong>Coffee Roasting in TensorFlow</strong>." }
+              {
+                "id": "ml_w4_d2_t1",
+                "day_id": 1042,
+                "task_num": 1,
+                "content": "Watch <strong>Inference in Code</strong> and <strong>Data in TensorFlow</strong>. Note the 2-D array convention."
+              },
+              {
+                "id": "ml_w4_d2_t2",
+                "day_id": 1042,
+                "task_num": 2,
+                "content": "Watch <strong>Building a neural network</strong> — the Sequential API."
+              },
+              {
+                "id": "ml_w4_d2_t3",
+                "day_id": 1042,
+                "task_num": 3,
+                "content": "Complete the optional labs: <strong>Neurons and Layers</strong>, <strong>Coffee Roasting in TensorFlow</strong>."
+              }
             ]
           },
           {
@@ -318,9 +643,24 @@
             "hours": "2 hours · coding",
             "type": "Code",
             "tasks": [
-              { "id": "ml_w4_d3_t1", "day_id": 1043, "task_num": 1, "content": "Watch <strong>Forward prop in a single layer</strong> and <strong>General implementation of forward propagation</strong>." },
-              { "id": "ml_w4_d3_t2", "day_id": 1043, "task_num": 2, "content": "Complete the optional lab: <strong>Coffee Roasting in NumPy</strong>." },
-              { "id": "ml_w4_d3_t3", "day_id": 1043, "task_num": 3, "content": "Write <code>dense(a_in, W, b)</code> and <code>sequential(x)</code> yourself, then check the output matches the TensorFlow model exactly." }
+              {
+                "id": "ml_w4_d3_t1",
+                "day_id": 1043,
+                "task_num": 1,
+                "content": "Watch <strong>Forward prop in a single layer</strong> and <strong>General implementation of forward propagation</strong>."
+              },
+              {
+                "id": "ml_w4_d3_t2",
+                "day_id": 1043,
+                "task_num": 2,
+                "content": "Complete the optional lab: <strong>Coffee Roasting in NumPy</strong>."
+              },
+              {
+                "id": "ml_w4_d3_t3",
+                "day_id": 1043,
+                "task_num": 3,
+                "content": "Write <code>dense(a_in, W, b)</code> and <code>sequential(x)</code> yourself, then check the output matches the TensorFlow model exactly."
+              }
             ]
           },
           {
@@ -330,9 +670,24 @@
             "hours": "2 hours · building",
             "type": "Build",
             "tasks": [
-              { "id": "ml_w4_d4_t1", "day_id": 1044, "task_num": 1, "content": "Complete the graded lab: <strong>Neural Networks for Binary Classification</strong>." },
-              { "id": "ml_w4_d4_t2", "day_id": 1044, "task_num": 2, "content": "Start <em>Project 2 — Handwritten Digit Recognizer</em>: load the digits data and build a baseline 2-layer network." },
-              { "id": "ml_w4_d4_t3", "day_id": 1044, "task_num": 3, "content": "Watch <strong>Is there a path to AGI?</strong> and <strong>How neural networks are implemented efficiently</strong> (matmul)." }
+              {
+                "id": "ml_w4_d4_t1",
+                "day_id": 1044,
+                "task_num": 1,
+                "content": "Complete the graded lab: <strong>Neural Networks for Binary Classification</strong>."
+              },
+              {
+                "id": "ml_w4_d4_t2",
+                "day_id": 1044,
+                "task_num": 2,
+                "content": "Start <em>Project 2 — Handwritten Digit Recognizer</em>: load the digits data and build a baseline 2-layer network."
+              },
+              {
+                "id": "ml_w4_d4_t3",
+                "day_id": 1044,
+                "task_num": 3,
+                "content": "Watch <strong>Is there a path to AGI?</strong> and <strong>How neural networks are implemented efficiently</strong> (matmul)."
+              }
             ]
           },
           {
@@ -342,9 +697,24 @@
             "hours": "Review",
             "type": "Review",
             "tasks": [
-              { "id": "ml_w4_d5_t1", "day_id": 1045, "task_num": 1, "content": "Take the Week 1 (Course 2) quizzes until you score 100%." },
-              { "id": "ml_w4_d5_t2", "day_id": 1045, "task_num": 2, "content": "Explain forward propagation as function composition in 60 seconds." },
-              { "id": "ml_w4_d5_t3", "day_id": 1045, "task_num": 3, "content": "Fill in the Retro Log." }
+              {
+                "id": "ml_w4_d5_t1",
+                "day_id": 1045,
+                "task_num": 1,
+                "content": "Take the Week 1 (Course 2) quizzes until you score 100%."
+              },
+              {
+                "id": "ml_w4_d5_t2",
+                "day_id": 1045,
+                "task_num": 2,
+                "content": "Explain forward propagation as function composition in 60 seconds."
+              },
+              {
+                "id": "ml_w4_d5_t3",
+                "day_id": 1045,
+                "task_num": 3,
+                "content": "Fill in the Retro Log."
+              }
             ]
           }
         ]
@@ -365,9 +735,24 @@
             "hours": "2 hours · learning",
             "type": "Learn",
             "tasks": [
-              { "id": "ml_w5_d0_t1", "day_id": 1050, "task_num": 1, "content": "Watch <strong>TensorFlow implementation</strong> and <strong>Training details</strong>." },
-              { "id": "ml_w5_d0_t2", "day_id": 1050, "task_num": 2, "content": "Map the three steps — define model, compile with loss, fit — back to what you wrote by hand in Course 1." },
-              { "id": "ml_w5_d0_t3", "day_id": 1050, "task_num": 3, "content": "Note that <code>BinaryCrossentropy</code> is exactly the logistic loss from Week 3." }
+              {
+                "id": "ml_w5_d0_t1",
+                "day_id": 1050,
+                "task_num": 1,
+                "content": "Watch <strong>TensorFlow implementation</strong> and <strong>Training details</strong>."
+              },
+              {
+                "id": "ml_w5_d0_t2",
+                "day_id": 1050,
+                "task_num": 2,
+                "content": "Map the three steps — define model, compile with loss, fit — back to what you wrote by hand in Course 1."
+              },
+              {
+                "id": "ml_w5_d0_t3",
+                "day_id": 1050,
+                "task_num": 3,
+                "content": "Note that <code>BinaryCrossentropy</code> is exactly the logistic loss from Week 3."
+              }
             ]
           },
           {
@@ -377,9 +762,24 @@
             "hours": "2 hours · learning",
             "type": "Learn",
             "tasks": [
-              { "id": "ml_w5_d1_t1", "day_id": 1051, "task_num": 1, "content": "Watch <strong>Alternatives to the sigmoid activation</strong> and <strong>Choosing activation functions</strong>." },
-              { "id": "ml_w5_d1_t2", "day_id": 1051, "task_num": 2, "content": "Watch <strong>Why do we need activation functions?</strong> Prove to yourself that stacked linear layers collapse to one." },
-              { "id": "ml_w5_d1_t3", "day_id": 1051, "task_num": 3, "content": "Complete the optional lab: <strong>ReLU activation</strong>." }
+              {
+                "id": "ml_w5_d1_t1",
+                "day_id": 1051,
+                "task_num": 1,
+                "content": "Watch <strong>Alternatives to the sigmoid activation</strong> and <strong>Choosing activation functions</strong>."
+              },
+              {
+                "id": "ml_w5_d1_t2",
+                "day_id": 1051,
+                "task_num": 2,
+                "content": "Watch <strong>Why do we need activation functions?</strong> Prove to yourself that stacked linear layers collapse to one."
+              },
+              {
+                "id": "ml_w5_d1_t3",
+                "day_id": 1051,
+                "task_num": 3,
+                "content": "Complete the optional lab: <strong>ReLU activation</strong>."
+              }
             ]
           },
           {
@@ -389,9 +789,24 @@
             "hours": "2 hours · learning",
             "type": "Learn",
             "tasks": [
-              { "id": "ml_w5_d2_t1", "day_id": 1052, "task_num": 1, "content": "Watch <strong>Multiclass</strong>, <strong>Softmax</strong>, and <strong>Neural network with softmax output</strong>." },
-              { "id": "ml_w5_d2_t2", "day_id": 1052, "task_num": 2, "content": "Watch <strong>Improved implementation of softmax</strong> — understand <code>from_logits=True</code> and why it avoids round-off." },
-              { "id": "ml_w5_d2_t3", "day_id": 1052, "task_num": 3, "content": "Watch <strong>Classification with multiple outputs</strong> — multi-label vs multi-class. Write down the difference." }
+              {
+                "id": "ml_w5_d2_t1",
+                "day_id": 1052,
+                "task_num": 1,
+                "content": "Watch <strong>Multiclass</strong>, <strong>Softmax</strong>, and <strong>Neural network with softmax output</strong>."
+              },
+              {
+                "id": "ml_w5_d2_t2",
+                "day_id": 1052,
+                "task_num": 2,
+                "content": "Watch <strong>Improved implementation of softmax</strong> — understand <code>from_logits=True</code> and why it avoids round-off."
+              },
+              {
+                "id": "ml_w5_d2_t3",
+                "day_id": 1052,
+                "task_num": 3,
+                "content": "Watch <strong>Classification with multiple outputs</strong> — multi-label vs multi-class. Write down the difference."
+              }
             ]
           },
           {
@@ -401,9 +816,24 @@
             "hours": "2 hours · coding",
             "type": "Code",
             "tasks": [
-              { "id": "ml_w5_d3_t1", "day_id": 1053, "task_num": 1, "content": "Watch <strong>Advanced Optimization</strong> (Adam) and <strong>Additional Layer Types</strong> (convolutional)." },
-              { "id": "ml_w5_d3_t2", "day_id": 1053, "task_num": 2, "content": "Complete the optional labs: <strong>Softmax</strong> and <strong>Multiclass</strong>." },
-              { "id": "ml_w5_d3_t3", "day_id": 1053, "task_num": 3, "content": "Retrain one of your models with Adam vs plain gradient descent and compare convergence curves." }
+              {
+                "id": "ml_w5_d3_t1",
+                "day_id": 1053,
+                "task_num": 1,
+                "content": "Watch <strong>Advanced Optimization</strong> (Adam) and <strong>Additional Layer Types</strong> (convolutional)."
+              },
+              {
+                "id": "ml_w5_d3_t2",
+                "day_id": 1053,
+                "task_num": 2,
+                "content": "Complete the optional labs: <strong>Softmax</strong> and <strong>Multiclass</strong>."
+              },
+              {
+                "id": "ml_w5_d3_t3",
+                "day_id": 1053,
+                "task_num": 3,
+                "content": "Retrain one of your models with Adam vs plain gradient descent and compare convergence curves."
+              }
             ]
           },
           {
@@ -413,9 +843,24 @@
             "hours": "3 hours · building",
             "type": "Build",
             "tasks": [
-              { "id": "ml_w5_d4_t1", "day_id": 1054, "task_num": 1, "content": "Complete the graded lab: <strong>Neural Networks for Multiclass Classification</strong>." },
-              { "id": "ml_w5_d4_t2", "day_id": 1054, "task_num": 2, "content": "Extend <em>Project 2</em> to all 10 digits with a softmax output and <code>from_logits=True</code>." },
-              { "id": "ml_w5_d4_t3", "day_id": 1054, "task_num": 3, "content": "Print a confusion matrix. Identify which two digits the model confuses most and hypothesize why." }
+              {
+                "id": "ml_w5_d4_t1",
+                "day_id": 1054,
+                "task_num": 1,
+                "content": "Complete the graded lab: <strong>Neural Networks for Multiclass Classification</strong>."
+              },
+              {
+                "id": "ml_w5_d4_t2",
+                "day_id": 1054,
+                "task_num": 2,
+                "content": "Extend <em>Project 2</em> to all 10 digits with a softmax output and <code>from_logits=True</code>."
+              },
+              {
+                "id": "ml_w5_d4_t3",
+                "day_id": 1054,
+                "task_num": 3,
+                "content": "Print a confusion matrix. Identify which two digits the model confuses most and hypothesize why."
+              }
             ]
           },
           {
@@ -425,9 +870,24 @@
             "hours": "Review",
             "type": "Review",
             "tasks": [
-              { "id": "ml_w5_d5_t1", "day_id": 1055, "task_num": 1, "content": "Take the Week 2 (Course 2) quizzes until you score 100%." },
-              { "id": "ml_w5_d5_t2", "day_id": 1055, "task_num": 2, "content": "Build a one-page cheat sheet: activation → when to use it." },
-              { "id": "ml_w5_d5_t3", "day_id": 1055, "task_num": 3, "content": "Fill in the Retro Log." }
+              {
+                "id": "ml_w5_d5_t1",
+                "day_id": 1055,
+                "task_num": 1,
+                "content": "Take the Week 2 (Course 2) quizzes until you score 100%."
+              },
+              {
+                "id": "ml_w5_d5_t2",
+                "day_id": 1055,
+                "task_num": 2,
+                "content": "Build a one-page cheat sheet: activation → when to use it."
+              },
+              {
+                "id": "ml_w5_d5_t3",
+                "day_id": 1055,
+                "task_num": 3,
+                "content": "Fill in the Retro Log."
+              }
             ]
           }
         ]
@@ -448,9 +908,24 @@
             "hours": "2 hours · learning",
             "type": "Learn",
             "tasks": [
-              { "id": "ml_w6_d0_t1", "day_id": 1060, "task_num": 1, "content": "Watch <strong>Deciding what to try next</strong> and <strong>Evaluating a model</strong>." },
-              { "id": "ml_w6_d0_t2", "day_id": 1060, "task_num": 2, "content": "Watch <strong>Model selection and training/cross-validation/test sets</strong>." },
-              { "id": "ml_w6_d0_t3", "day_id": 1060, "task_num": 3, "content": "Write down the rule: never choose a model on the test set. Understand exactly what it protects against." }
+              {
+                "id": "ml_w6_d0_t1",
+                "day_id": 1060,
+                "task_num": 1,
+                "content": "Watch <strong>Deciding what to try next</strong> and <strong>Evaluating a model</strong>."
+              },
+              {
+                "id": "ml_w6_d0_t2",
+                "day_id": 1060,
+                "task_num": 2,
+                "content": "Watch <strong>Model selection and training/cross-validation/test sets</strong>."
+              },
+              {
+                "id": "ml_w6_d0_t3",
+                "day_id": 1060,
+                "task_num": 3,
+                "content": "Write down the rule: never choose a model on the test set. Understand exactly what it protects against."
+              }
             ]
           },
           {
@@ -460,9 +935,24 @@
             "hours": "2 hours · learning",
             "type": "Learn",
             "tasks": [
-              { "id": "ml_w6_d1_t1", "day_id": 1061, "task_num": 1, "content": "Watch <strong>Diagnosing bias and variance</strong> and <strong>Regularization and bias/variance</strong>." },
-              { "id": "ml_w6_d1_t2", "day_id": 1061, "task_num": 2, "content": "Watch <strong>Establishing a baseline level of performance</strong> and <strong>Learning curves</strong>." },
-              { "id": "ml_w6_d1_t3", "day_id": 1061, "task_num": 3, "content": "Make the decision table: high bias → bigger model / more features / less λ. High variance → more data / fewer features / more λ." }
+              {
+                "id": "ml_w6_d1_t1",
+                "day_id": 1061,
+                "task_num": 1,
+                "content": "Watch <strong>Diagnosing bias and variance</strong> and <strong>Regularization and bias/variance</strong>."
+              },
+              {
+                "id": "ml_w6_d1_t2",
+                "day_id": 1061,
+                "task_num": 2,
+                "content": "Watch <strong>Establishing a baseline level of performance</strong> and <strong>Learning curves</strong>."
+              },
+              {
+                "id": "ml_w6_d1_t3",
+                "day_id": 1061,
+                "task_num": 3,
+                "content": "Make the decision table: high bias → bigger model / more features / less λ. High variance → more data / fewer features / more λ."
+              }
             ]
           },
           {
@@ -472,9 +962,24 @@
             "hours": "2 hours · coding",
             "type": "Code",
             "tasks": [
-              { "id": "ml_w6_d2_t1", "day_id": 1062, "task_num": 1, "content": "Watch <strong>Deciding what to try next revisited</strong> and <strong>Bias/variance and neural networks</strong>." },
-              { "id": "ml_w6_d2_t2", "day_id": 1062, "task_num": 2, "content": "Complete the optional lab: <strong>Model Evaluation and Selection</strong>." },
-              { "id": "ml_w6_d2_t3", "day_id": 1062, "task_num": 3, "content": "Complete the optional lab: <strong>Diagnosing Bias and Variance</strong>." }
+              {
+                "id": "ml_w6_d2_t1",
+                "day_id": 1062,
+                "task_num": 1,
+                "content": "Watch <strong>Deciding what to try next revisited</strong> and <strong>Bias/variance and neural networks</strong>."
+              },
+              {
+                "id": "ml_w6_d2_t2",
+                "day_id": 1062,
+                "task_num": 2,
+                "content": "Complete the optional lab: <strong>Model Evaluation and Selection</strong>."
+              },
+              {
+                "id": "ml_w6_d2_t3",
+                "day_id": 1062,
+                "task_num": 3,
+                "content": "Complete the optional lab: <strong>Diagnosing Bias and Variance</strong>."
+              }
             ]
           },
           {
@@ -484,9 +989,24 @@
             "hours": "2 hours · learning",
             "type": "Learn",
             "tasks": [
-              { "id": "ml_w6_d3_t1", "day_id": 1063, "task_num": 1, "content": "Watch <strong>Iterative loop of ML development</strong> and <strong>Error analysis</strong>." },
-              { "id": "ml_w6_d3_t2", "day_id": 1063, "task_num": 2, "content": "Watch <strong>Adding data</strong>, <strong>Transfer learning</strong>, and <strong>Full cycle of a machine learning project</strong>." },
-              { "id": "ml_w6_d3_t3", "day_id": 1063, "task_num": 3, "content": "Watch <strong>Error metrics for skewed datasets</strong> and <strong>Trading off precision and recall</strong>. Learn the F1 formula." }
+              {
+                "id": "ml_w6_d3_t1",
+                "day_id": 1063,
+                "task_num": 1,
+                "content": "Watch <strong>Iterative loop of ML development</strong> and <strong>Error analysis</strong>."
+              },
+              {
+                "id": "ml_w6_d3_t2",
+                "day_id": 1063,
+                "task_num": 2,
+                "content": "Watch <strong>Adding data</strong>, <strong>Transfer learning</strong>, and <strong>Full cycle of a machine learning project</strong>."
+              },
+              {
+                "id": "ml_w6_d3_t3",
+                "day_id": 1063,
+                "task_num": 3,
+                "content": "Watch <strong>Error metrics for skewed datasets</strong> and <strong>Trading off precision and recall</strong>. Learn the F1 formula."
+              }
             ]
           },
           {
@@ -496,9 +1016,24 @@
             "hours": "3 hours · building",
             "type": "Build",
             "tasks": [
-              { "id": "ml_w6_d4_t1", "day_id": 1064, "task_num": 1, "content": "Complete the graded lab: <strong>Advice for Applying Machine Learning</strong>." },
-              { "id": "ml_w6_d4_t2", "day_id": 1064, "task_num": 2, "content": "Run a real error analysis on <em>Project 2</em>: sample 50 misclassified digits and tag the failure cause." },
-              { "id": "ml_w6_d4_t3", "day_id": 1064, "task_num": 3, "content": "Plot a learning curve for the project and state in writing whether it is bias- or variance-limited." }
+              {
+                "id": "ml_w6_d4_t1",
+                "day_id": 1064,
+                "task_num": 1,
+                "content": "Complete the graded lab: <strong>Advice for Applying Machine Learning</strong>."
+              },
+              {
+                "id": "ml_w6_d4_t2",
+                "day_id": 1064,
+                "task_num": 2,
+                "content": "Run a real error analysis on <em>Project 2</em>: sample 50 misclassified digits and tag the failure cause."
+              },
+              {
+                "id": "ml_w6_d4_t3",
+                "day_id": 1064,
+                "task_num": 3,
+                "content": "Plot a learning curve for the project and state in writing whether it is bias- or variance-limited."
+              }
             ]
           },
           {
@@ -508,9 +1043,24 @@
             "hours": "Review",
             "type": "Review",
             "tasks": [
-              { "id": "ml_w6_d5_t1", "day_id": 1065, "task_num": 1, "content": "Take the Week 3 (Course 2) quizzes until you score 100%." },
-              { "id": "ml_w6_d5_t2", "day_id": 1065, "task_num": 2, "content": "Re-read your bias/variance decision table and commit it to memory." },
-              { "id": "ml_w6_d5_t3", "day_id": 1065, "task_num": 3, "content": "Fill in the Retro Log." }
+              {
+                "id": "ml_w6_d5_t1",
+                "day_id": 1065,
+                "task_num": 1,
+                "content": "Take the Week 3 (Course 2) quizzes until you score 100%."
+              },
+              {
+                "id": "ml_w6_d5_t2",
+                "day_id": 1065,
+                "task_num": 2,
+                "content": "Re-read your bias/variance decision table and commit it to memory."
+              },
+              {
+                "id": "ml_w6_d5_t3",
+                "day_id": 1065,
+                "task_num": 3,
+                "content": "Fill in the Retro Log."
+              }
             ]
           }
         ]
@@ -531,9 +1081,24 @@
             "hours": "2 hours · learning",
             "type": "Learn",
             "tasks": [
-              { "id": "ml_w7_d0_t1", "day_id": 1070, "task_num": 1, "content": "Watch <strong>Decision tree model</strong> and <strong>Learning process</strong>." },
-              { "id": "ml_w7_d0_t2", "day_id": 1070, "task_num": 2, "content": "Watch <strong>Measuring purity</strong> (entropy) and <strong>Choosing a split: information gain</strong>." },
-              { "id": "ml_w7_d0_t3", "day_id": 1070, "task_num": 3, "content": "Compute entropy and information gain by hand for a small 6-example split." }
+              {
+                "id": "ml_w7_d0_t1",
+                "day_id": 1070,
+                "task_num": 1,
+                "content": "Watch <strong>Decision tree model</strong> and <strong>Learning process</strong>."
+              },
+              {
+                "id": "ml_w7_d0_t2",
+                "day_id": 1070,
+                "task_num": 2,
+                "content": "Watch <strong>Measuring purity</strong> (entropy) and <strong>Choosing a split: information gain</strong>."
+              },
+              {
+                "id": "ml_w7_d0_t3",
+                "day_id": 1070,
+                "task_num": 3,
+                "content": "Compute entropy and information gain by hand for a small 6-example split."
+              }
             ]
           },
           {
@@ -543,9 +1108,24 @@
             "hours": "2 hours · learning",
             "type": "Learn",
             "tasks": [
-              { "id": "ml_w7_d1_t1", "day_id": 1071, "task_num": 1, "content": "Watch <strong>Putting it together</strong> and <strong>Using one-hot encoding of categorical features</strong>." },
-              { "id": "ml_w7_d1_t2", "day_id": 1071, "task_num": 2, "content": "Watch <strong>Continuous valued features</strong> and <strong>Regression trees</strong>." },
-              { "id": "ml_w7_d1_t3", "day_id": 1071, "task_num": 3, "content": "Complete the optional lab: <strong>Decision Trees</strong>." }
+              {
+                "id": "ml_w7_d1_t1",
+                "day_id": 1071,
+                "task_num": 1,
+                "content": "Watch <strong>Putting it together</strong> and <strong>Using one-hot encoding of categorical features</strong>."
+              },
+              {
+                "id": "ml_w7_d1_t2",
+                "day_id": 1071,
+                "task_num": 2,
+                "content": "Watch <strong>Continuous valued features</strong> and <strong>Regression trees</strong>."
+              },
+              {
+                "id": "ml_w7_d1_t3",
+                "day_id": 1071,
+                "task_num": 3,
+                "content": "Complete the optional lab: <strong>Decision Trees</strong>."
+              }
             ]
           },
           {
@@ -555,9 +1135,24 @@
             "hours": "2 hours · learning",
             "type": "Learn",
             "tasks": [
-              { "id": "ml_w7_d2_t1", "day_id": 1072, "task_num": 1, "content": "Watch <strong>Using multiple decision trees</strong> and <strong>Sampling with replacement</strong>." },
-              { "id": "ml_w7_d2_t2", "day_id": 1072, "task_num": 2, "content": "Watch <strong>Random forest algorithm</strong> and <strong>XGBoost</strong>." },
-              { "id": "ml_w7_d2_t3", "day_id": 1072, "task_num": 3, "content": "Watch <strong>When to use decision trees</strong>. Write the trees-vs-neural-networks rule in one sentence." }
+              {
+                "id": "ml_w7_d2_t1",
+                "day_id": 1072,
+                "task_num": 1,
+                "content": "Watch <strong>Using multiple decision trees</strong> and <strong>Sampling with replacement</strong>."
+              },
+              {
+                "id": "ml_w7_d2_t2",
+                "day_id": 1072,
+                "task_num": 2,
+                "content": "Watch <strong>Random forest algorithm</strong> and <strong>XGBoost</strong>."
+              },
+              {
+                "id": "ml_w7_d2_t3",
+                "day_id": 1072,
+                "task_num": 3,
+                "content": "Watch <strong>When to use decision trees</strong>. Write the trees-vs-neural-networks rule in one sentence."
+              }
             ]
           },
           {
@@ -567,9 +1162,24 @@
             "hours": "2 hours · coding",
             "type": "Code",
             "tasks": [
-              { "id": "ml_w7_d3_t1", "day_id": 1073, "task_num": 1, "content": "Complete the optional labs: <strong>Tree Ensembles</strong> and the XGBoost walkthrough." },
-              { "id": "ml_w7_d3_t2", "day_id": 1073, "task_num": 2, "content": "Fit <code>XGBClassifier</code> on the <em>Project 1</em> dataset and compare against your logistic regression." },
-              { "id": "ml_w7_d3_t3", "day_id": 1073, "task_num": 3, "content": "Inspect feature importances. Do they match your intuition about the data?" }
+              {
+                "id": "ml_w7_d3_t1",
+                "day_id": 1073,
+                "task_num": 1,
+                "content": "Complete the optional labs: <strong>Tree Ensembles</strong> and the XGBoost walkthrough."
+              },
+              {
+                "id": "ml_w7_d3_t2",
+                "day_id": 1073,
+                "task_num": 2,
+                "content": "Fit <code>XGBClassifier</code> on the <em>Project 1</em> dataset and compare against your logistic regression."
+              },
+              {
+                "id": "ml_w7_d3_t3",
+                "day_id": 1073,
+                "task_num": 3,
+                "content": "Inspect feature importances. Do they match your intuition about the data?"
+              }
             ]
           },
           {
@@ -579,9 +1189,24 @@
             "hours": "3 hours · building",
             "type": "Build",
             "tasks": [
-              { "id": "ml_w7_d4_t1", "day_id": 1074, "task_num": 1, "content": "Complete the graded lab: <strong>Decision Trees</strong> (Week 4 assignment). Course 2 complete." },
-              { "id": "ml_w7_d4_t2", "day_id": 1074, "task_num": 2, "content": "Finish <em>Project 2</em>: write up the final model, error analysis, and confusion matrix." },
-              { "id": "ml_w7_d4_t3", "day_id": 1074, "task_num": 3, "content": "Push both projects to GitHub with a README explaining the approach and results." }
+              {
+                "id": "ml_w7_d4_t1",
+                "day_id": 1074,
+                "task_num": 1,
+                "content": "Complete the graded lab: <strong>Decision Trees</strong> (Week 4 assignment). Course 2 complete."
+              },
+              {
+                "id": "ml_w7_d4_t2",
+                "day_id": 1074,
+                "task_num": 2,
+                "content": "Finish <em>Project 2</em>: write up the final model, error analysis, and confusion matrix."
+              },
+              {
+                "id": "ml_w7_d4_t3",
+                "day_id": 1074,
+                "task_num": 3,
+                "content": "Push both projects to GitHub with a README explaining the approach and results."
+              }
             ]
           },
           {
@@ -591,9 +1216,24 @@
             "hours": "Review",
             "type": "Review",
             "tasks": [
-              { "id": "ml_w7_d5_t1", "day_id": 1075, "task_num": 1, "content": "Take the Week 4 (Course 2) quizzes until you score 100%." },
-              { "id": "ml_w7_d5_t2", "day_id": 1075, "task_num": 2, "content": "Summarize Course 2 in one page: networks, training, diagnostics, trees." },
-              { "id": "ml_w7_d5_t3", "day_id": 1075, "task_num": 3, "content": "Fill in the Retro Log." }
+              {
+                "id": "ml_w7_d5_t1",
+                "day_id": 1075,
+                "task_num": 1,
+                "content": "Take the Week 4 (Course 2) quizzes until you score 100%."
+              },
+              {
+                "id": "ml_w7_d5_t2",
+                "day_id": 1075,
+                "task_num": 2,
+                "content": "Summarize Course 2 in one page: networks, training, diagnostics, trees."
+              },
+              {
+                "id": "ml_w7_d5_t3",
+                "day_id": 1075,
+                "task_num": 3,
+                "content": "Fill in the Retro Log."
+              }
             ]
           }
         ]
@@ -623,9 +1263,24 @@
             "hours": "2 hours · learning",
             "type": "Learn",
             "tasks": [
-              { "id": "ml_w8_d0_t1", "day_id": 1080, "task_num": 1, "content": "Watch <strong>What is clustering?</strong> and <strong>K-means intuition</strong>." },
-              { "id": "ml_w8_d0_t2", "day_id": 1080, "task_num": 2, "content": "Watch <strong>K-means algorithm</strong> and <strong>Optimization objective</strong>." },
-              { "id": "ml_w8_d0_t3", "day_id": 1080, "task_num": 3, "content": "Note that the two steps — assign, then move centroids — each provably decrease the cost." }
+              {
+                "id": "ml_w8_d0_t1",
+                "day_id": 1080,
+                "task_num": 1,
+                "content": "Watch <strong>What is clustering?</strong> and <strong>K-means intuition</strong>."
+              },
+              {
+                "id": "ml_w8_d0_t2",
+                "day_id": 1080,
+                "task_num": 2,
+                "content": "Watch <strong>K-means algorithm</strong> and <strong>Optimization objective</strong>."
+              },
+              {
+                "id": "ml_w8_d0_t3",
+                "day_id": 1080,
+                "task_num": 3,
+                "content": "Note that the two steps — assign, then move centroids — each provably decrease the cost."
+              }
             ]
           },
           {
@@ -635,9 +1290,24 @@
             "hours": "2 hours · coding",
             "type": "Code",
             "tasks": [
-              { "id": "ml_w8_d1_t1", "day_id": 1081, "task_num": 1, "content": "Watch <strong>Initializing K-means</strong> and <strong>Choosing the number of clusters</strong>." },
-              { "id": "ml_w8_d1_t2", "day_id": 1081, "task_num": 2, "content": "Implement K-means from scratch: assignment step, update step, and random restarts." },
-              { "id": "ml_w8_d1_t3", "day_id": 1081, "task_num": 3, "content": "Plot the elbow curve on a toy dataset and pick K. Note honestly how ambiguous the elbow is." }
+              {
+                "id": "ml_w8_d1_t1",
+                "day_id": 1081,
+                "task_num": 1,
+                "content": "Watch <strong>Initializing K-means</strong> and <strong>Choosing the number of clusters</strong>."
+              },
+              {
+                "id": "ml_w8_d1_t2",
+                "day_id": 1081,
+                "task_num": 2,
+                "content": "Implement K-means from scratch: assignment step, update step, and random restarts."
+              },
+              {
+                "id": "ml_w8_d1_t3",
+                "day_id": 1081,
+                "task_num": 3,
+                "content": "Plot the elbow curve on a toy dataset and pick K. Note honestly how ambiguous the elbow is."
+              }
             ]
           },
           {
@@ -647,9 +1317,24 @@
             "hours": "2 hours · learning",
             "type": "Learn",
             "tasks": [
-              { "id": "ml_w8_d2_t1", "day_id": 1082, "task_num": 1, "content": "Watch <strong>Finding unusual events</strong> and <strong>Gaussian (normal) distribution</strong>." },
-              { "id": "ml_w8_d2_t2", "day_id": 1082, "task_num": 2, "content": "Watch <strong>Anomaly detection algorithm</strong> and <strong>Developing and evaluating an anomaly detection system</strong>." },
-              { "id": "ml_w8_d2_t3", "day_id": 1082, "task_num": 3, "content": "Watch <strong>Anomaly detection vs supervised learning</strong>. Write the rule: very few positives and unseen failure modes → anomaly detection." }
+              {
+                "id": "ml_w8_d2_t1",
+                "day_id": 1082,
+                "task_num": 1,
+                "content": "Watch <strong>Finding unusual events</strong> and <strong>Gaussian (normal) distribution</strong>."
+              },
+              {
+                "id": "ml_w8_d2_t2",
+                "day_id": 1082,
+                "task_num": 2,
+                "content": "Watch <strong>Anomaly detection algorithm</strong> and <strong>Developing and evaluating an anomaly detection system</strong>."
+              },
+              {
+                "id": "ml_w8_d2_t3",
+                "day_id": 1082,
+                "task_num": 3,
+                "content": "Watch <strong>Anomaly detection vs supervised learning</strong>. Write the rule: very few positives and unseen failure modes → anomaly detection."
+              }
             ]
           },
           {
@@ -659,9 +1344,24 @@
             "hours": "2 hours · coding",
             "type": "Code",
             "tasks": [
-              { "id": "ml_w8_d3_t1", "day_id": 1083, "task_num": 1, "content": "Watch <strong>Choosing what features to use</strong> for anomaly detection — transforming features toward Gaussian." },
-              { "id": "ml_w8_d3_t2", "day_id": 1083, "task_num": 2, "content": "Implement <code>estimate_gaussian</code> and <code>select_threshold</code> using F1 on a cross-validation set." },
-              { "id": "ml_w8_d3_t3", "day_id": 1083, "task_num": 3, "content": "Test on a skewed dataset and confirm why accuracy would have been a useless metric here." }
+              {
+                "id": "ml_w8_d3_t1",
+                "day_id": 1083,
+                "task_num": 1,
+                "content": "Watch <strong>Choosing what features to use</strong> for anomaly detection — transforming features toward Gaussian."
+              },
+              {
+                "id": "ml_w8_d3_t2",
+                "day_id": 1083,
+                "task_num": 2,
+                "content": "Implement <code>estimate_gaussian</code> and <code>select_threshold</code> using F1 on a cross-validation set."
+              },
+              {
+                "id": "ml_w8_d3_t3",
+                "day_id": 1083,
+                "task_num": 3,
+                "content": "Test on a skewed dataset and confirm why accuracy would have been a useless metric here."
+              }
             ]
           },
           {
@@ -671,9 +1371,24 @@
             "hours": "2 hours · building",
             "type": "Build",
             "tasks": [
-              { "id": "ml_w8_d4_t1", "day_id": 1084, "task_num": 1, "content": "Complete the graded lab: <strong>K-means Clustering</strong>." },
-              { "id": "ml_w8_d4_t2", "day_id": 1084, "task_num": 2, "content": "Complete the graded lab: <strong>Anomaly Detection</strong>." },
-              { "id": "ml_w8_d4_t3", "day_id": 1084, "task_num": 3, "content": "Apply K-means to image colour compression — reduce an image to 16 colours and compare visually." }
+              {
+                "id": "ml_w8_d4_t1",
+                "day_id": 1084,
+                "task_num": 1,
+                "content": "Complete the graded lab: <strong>K-means Clustering</strong>."
+              },
+              {
+                "id": "ml_w8_d4_t2",
+                "day_id": 1084,
+                "task_num": 2,
+                "content": "Complete the graded lab: <strong>Anomaly Detection</strong>."
+              },
+              {
+                "id": "ml_w8_d4_t3",
+                "day_id": 1084,
+                "task_num": 3,
+                "content": "Apply K-means to image colour compression — reduce an image to 16 colours and compare visually."
+              }
             ]
           },
           {
@@ -683,9 +1398,24 @@
             "hours": "Review",
             "type": "Review",
             "tasks": [
-              { "id": "ml_w8_d5_t1", "day_id": 1085, "task_num": 1, "content": "Take the Week 1 (Course 3) quizzes until you score 100%." },
-              { "id": "ml_w8_d5_t2", "day_id": 1085, "task_num": 2, "content": "Explain why K-means needs random restarts, in one paragraph." },
-              { "id": "ml_w8_d5_t3", "day_id": 1085, "task_num": 3, "content": "Fill in the Retro Log." }
+              {
+                "id": "ml_w8_d5_t1",
+                "day_id": 1085,
+                "task_num": 1,
+                "content": "Take the Week 1 (Course 3) quizzes until you score 100%."
+              },
+              {
+                "id": "ml_w8_d5_t2",
+                "day_id": 1085,
+                "task_num": 2,
+                "content": "Explain why K-means needs random restarts, in one paragraph."
+              },
+              {
+                "id": "ml_w8_d5_t3",
+                "day_id": 1085,
+                "task_num": 3,
+                "content": "Fill in the Retro Log."
+              }
             ]
           }
         ]
@@ -696,7 +1426,7 @@
         "week_number": 9,
         "title": "Recommender Systems & PCA",
         "focus_hours": "10 hours total · learning features and parameters together",
-        "mindset": "<p><strong>Collaborative filtering learns the features as well as the weights.</strong> That is the genuinely new idea this week — gradient descent optimizes <code>x</code> and <code>w</code> simultaneously. Content-based filtering is the opposite: features are given, and two networks learn to embed them into the same space.</p>",
+        "mindset": "<p><strong>Collaborative filtering learns the features as well as the weights.</strong> That is the genuinely new idea this week — gradient descent optimizes <code>x</code> and <code>w</code> simultaneously. Content-based filtering is the opposite: features are given, and two networks learn to embed them into the same space.</p><p class=\"rt-alert\"><svg width=\"15\" height=\"15\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3Z\"/><path d=\"M12 9v4\"/><path d=\"M12 17h.01\"/></svg><span><strong>Skip / speedrun:</strong> Coursera Course 3 recommender systems material is foundational, but not the modern production approach. Don't spend too much time here. Modern recommendation systems at companies involve <strong>embeddings</strong>, <strong>retrieval</strong>, <strong>ranking systems</strong>, and <strong>large-scale data pipelines</strong> — covered later on the Post-ML roadmap. Learn the collaborative/content-based intuition, then move on.</span></p>",
         "weekly_goal": "By Sunday you can explain collaborative vs content-based filtering, know why mean normalization matters for new users, and can state what PCA actually preserves.",
         "days": [
           {
@@ -706,9 +1436,24 @@
             "hours": "2 hours · learning",
             "type": "Learn",
             "tasks": [
-              { "id": "ml_w9_d0_t1", "day_id": 1090, "task_num": 1, "content": "Watch <strong>Making recommendations</strong> and <strong>Using per-item features</strong>." },
-              { "id": "ml_w9_d0_t2", "day_id": 1090, "task_num": 2, "content": "Watch <strong>Collaborative filtering algorithm</strong> and <strong>Binary labels: favs, likes and clicks</strong>." },
-              { "id": "ml_w9_d0_t3", "day_id": 1090, "task_num": 3, "content": "Note the key move: <code>x</code> is not given, it is learned alongside <code>w</code>." }
+              {
+                "id": "ml_w9_d0_t1",
+                "day_id": 1090,
+                "task_num": 1,
+                "content": "Watch <strong>Making recommendations</strong> and <strong>Using per-item features</strong>."
+              },
+              {
+                "id": "ml_w9_d0_t2",
+                "day_id": 1090,
+                "task_num": 2,
+                "content": "Watch <strong>Collaborative filtering algorithm</strong> and <strong>Binary labels: favs, likes and clicks</strong>."
+              },
+              {
+                "id": "ml_w9_d0_t3",
+                "day_id": 1090,
+                "task_num": 3,
+                "content": "Note the key move: <code>x</code> is not given, it is learned alongside <code>w</code>."
+              }
             ]
           },
           {
@@ -718,9 +1463,24 @@
             "hours": "2 hours · learning",
             "type": "Learn",
             "tasks": [
-              { "id": "ml_w9_d1_t1", "day_id": 1091, "task_num": 1, "content": "Watch <strong>Mean normalization</strong>. Understand the cold-start problem it solves." },
-              { "id": "ml_w9_d1_t2", "day_id": 1091, "task_num": 2, "content": "Watch <strong>TensorFlow implementation of collaborative filtering</strong> and <strong>Finding related items</strong>." },
-              { "id": "ml_w9_d1_t3", "day_id": 1091, "task_num": 3, "content": "Watch <strong>Custom Training Loop</strong> — note <code>tf.GradientTape</code> and what it replaces." }
+              {
+                "id": "ml_w9_d1_t1",
+                "day_id": 1091,
+                "task_num": 1,
+                "content": "Watch <strong>Mean normalization</strong>. Understand the cold-start problem it solves."
+              },
+              {
+                "id": "ml_w9_d1_t2",
+                "day_id": 1091,
+                "task_num": 2,
+                "content": "Watch <strong>TensorFlow implementation of collaborative filtering</strong> and <strong>Finding related items</strong>."
+              },
+              {
+                "id": "ml_w9_d1_t3",
+                "day_id": 1091,
+                "task_num": 3,
+                "content": "Watch <strong>Custom Training Loop</strong> — note <code>tf.GradientTape</code> and what it replaces."
+              }
             ]
           },
           {
@@ -730,9 +1490,24 @@
             "hours": "2 hours · learning",
             "type": "Learn",
             "tasks": [
-              { "id": "ml_w9_d2_t1", "day_id": 1092, "task_num": 1, "content": "Watch <strong>Collaborative filtering vs content-based filtering</strong>." },
-              { "id": "ml_w9_d2_t2", "day_id": 1092, "task_num": 2, "content": "Watch <strong>Deep learning for content-based filtering</strong> and <strong>Recommending from a large catalogue</strong> (retrieval + ranking)." },
-              { "id": "ml_w9_d2_t3", "day_id": 1092, "task_num": 3, "content": "Watch <strong>Ethical use of recommender systems</strong>. Note one concrete failure mode you have seen in the wild." }
+              {
+                "id": "ml_w9_d2_t1",
+                "day_id": 1092,
+                "task_num": 1,
+                "content": "Watch <strong>Collaborative filtering vs content-based filtering</strong>."
+              },
+              {
+                "id": "ml_w9_d2_t2",
+                "day_id": 1092,
+                "task_num": 2,
+                "content": "Watch <strong>Deep learning for content-based filtering</strong> and <strong>Recommending from a large catalogue</strong> (retrieval + ranking)."
+              },
+              {
+                "id": "ml_w9_d2_t3",
+                "day_id": 1092,
+                "task_num": 3,
+                "content": "Watch <strong>Ethical use of recommender systems</strong>. Note one concrete failure mode you have seen in the wild."
+              }
             ]
           },
           {
@@ -742,9 +1517,24 @@
             "hours": "2 hours · coding",
             "type": "Code",
             "tasks": [
-              { "id": "ml_w9_d3_t1", "day_id": 1093, "task_num": 1, "content": "Watch <strong>Reducing the number of features</strong>, <strong>PCA algorithm</strong>, and <strong>PCA in code</strong>." },
-              { "id": "ml_w9_d3_t2", "day_id": 1093, "task_num": 2, "content": "Complete the optional lab: <strong>PCA and data visualization</strong>." },
-              { "id": "ml_w9_d3_t3", "day_id": 1093, "task_num": 3, "content": "Apply PCA to the <em>Project 2</em> digit data, project to 2-D, and colour by label. Do the clusters separate?" }
+              {
+                "id": "ml_w9_d3_t1",
+                "day_id": 1093,
+                "task_num": 1,
+                "content": "Watch <strong>Reducing the number of features</strong>, <strong>PCA algorithm</strong>, and <strong>PCA in code</strong>."
+              },
+              {
+                "id": "ml_w9_d3_t2",
+                "day_id": 1093,
+                "task_num": 2,
+                "content": "Complete the optional lab: <strong>PCA and data visualization</strong>."
+              },
+              {
+                "id": "ml_w9_d3_t3",
+                "day_id": 1093,
+                "task_num": 3,
+                "content": "Apply PCA to the <em>Project 2</em> digit data, project to 2-D, and colour by label. Do the clusters separate?"
+              }
             ]
           },
           {
@@ -754,9 +1544,24 @@
             "hours": "3 hours · building",
             "type": "Build",
             "tasks": [
-              { "id": "ml_w9_d4_t1", "day_id": 1094, "task_num": 1, "content": "Complete the graded lab: <strong>Collaborative Filtering Recommender Systems</strong>." },
-              { "id": "ml_w9_d4_t2", "day_id": 1094, "task_num": 2, "content": "Complete the graded lab: <strong>Deep Learning for Content-Based Filtering</strong>." },
-              { "id": "ml_w9_d4_t3", "day_id": 1094, "task_num": 3, "content": "Start <em>Project 3 — Movie Recommender</em>: build collaborative filtering on a public ratings dataset." }
+              {
+                "id": "ml_w9_d4_t1",
+                "day_id": 1094,
+                "task_num": 1,
+                "content": "Complete the graded lab: <strong>Collaborative Filtering Recommender Systems</strong>."
+              },
+              {
+                "id": "ml_w9_d4_t2",
+                "day_id": 1094,
+                "task_num": 2,
+                "content": "Complete the graded lab: <strong>Deep Learning for Content-Based Filtering</strong>."
+              },
+              {
+                "id": "ml_w9_d4_t3",
+                "day_id": 1094,
+                "task_num": 3,
+                "content": "Start <em>Project 3 — Movie Recommender</em>: build collaborative filtering on a public ratings dataset."
+              }
             ]
           },
           {
@@ -766,9 +1571,24 @@
             "hours": "Review",
             "type": "Review",
             "tasks": [
-              { "id": "ml_w9_d5_t1", "day_id": 1095, "task_num": 1, "content": "Take the Week 2 (Course 3) quizzes until you score 100%." },
-              { "id": "ml_w9_d5_t2", "day_id": 1095, "task_num": 2, "content": "Explain in writing when you would choose content-based over collaborative filtering." },
-              { "id": "ml_w9_d5_t3", "day_id": 1095, "task_num": 3, "content": "Fill in the Retro Log." }
+              {
+                "id": "ml_w9_d5_t1",
+                "day_id": 1095,
+                "task_num": 1,
+                "content": "Take the Week 2 (Course 3) quizzes until you score 100%."
+              },
+              {
+                "id": "ml_w9_d5_t2",
+                "day_id": 1095,
+                "task_num": 2,
+                "content": "Explain in writing when you would choose content-based over collaborative filtering."
+              },
+              {
+                "id": "ml_w9_d5_t3",
+                "day_id": 1095,
+                "task_num": 3,
+                "content": "Fill in the Retro Log."
+              }
             ]
           }
         ]
@@ -789,9 +1609,24 @@
             "hours": "2 hours · learning",
             "type": "Learn",
             "tasks": [
-              { "id": "ml_w10_d0_t1", "day_id": 1100, "task_num": 1, "content": "Watch <strong>What is Reinforcement Learning?</strong> and <strong>Mars rover example</strong>." },
-              { "id": "ml_w10_d0_t2", "day_id": 1100, "task_num": 2, "content": "Watch <strong>The Return in reinforcement learning</strong> and <strong>Making decisions: policies</strong>." },
-              { "id": "ml_w10_d0_t3", "day_id": 1100, "task_num": 3, "content": "Note what the discount factor γ actually encodes: impatience." }
+              {
+                "id": "ml_w10_d0_t1",
+                "day_id": 1100,
+                "task_num": 1,
+                "content": "Watch <strong>What is Reinforcement Learning?</strong> and <strong>Mars rover example</strong>."
+              },
+              {
+                "id": "ml_w10_d0_t2",
+                "day_id": 1100,
+                "task_num": 2,
+                "content": "Watch <strong>The Return in reinforcement learning</strong> and <strong>Making decisions: policies</strong>."
+              },
+              {
+                "id": "ml_w10_d0_t3",
+                "day_id": 1100,
+                "task_num": 3,
+                "content": "Note what the discount factor γ actually encodes: impatience."
+              }
             ]
           },
           {
@@ -801,9 +1636,24 @@
             "hours": "2 hours · learning",
             "type": "Learn",
             "tasks": [
-              { "id": "ml_w10_d1_t1", "day_id": 1101, "task_num": 1, "content": "Watch <strong>Review of key concepts</strong> and <strong>State-action value function definition</strong>." },
-              { "id": "ml_w10_d1_t2", "day_id": 1101, "task_num": 2, "content": "Watch <strong>Bellman equation</strong>. Write it out and explain each term in your own words." },
-              { "id": "ml_w10_d1_t3", "day_id": 1101, "task_num": 3, "content": "Complete the optional lab: <strong>State-action value function</strong>." }
+              {
+                "id": "ml_w10_d1_t1",
+                "day_id": 1101,
+                "task_num": 1,
+                "content": "Watch <strong>Review of key concepts</strong> and <strong>State-action value function definition</strong>."
+              },
+              {
+                "id": "ml_w10_d1_t2",
+                "day_id": 1101,
+                "task_num": 2,
+                "content": "Watch <strong>Bellman equation</strong>. Write it out and explain each term in your own words."
+              },
+              {
+                "id": "ml_w10_d1_t3",
+                "day_id": 1101,
+                "task_num": 3,
+                "content": "Complete the optional lab: <strong>State-action value function</strong>."
+              }
             ]
           },
           {
@@ -813,9 +1663,24 @@
             "hours": "2 hours · learning",
             "type": "Learn",
             "tasks": [
-              { "id": "ml_w10_d2_t1", "day_id": 1102, "task_num": 1, "content": "Watch <strong>Random (stochastic) environments</strong> and <strong>Example of continuous state space applications</strong>." },
-              { "id": "ml_w10_d2_t2", "day_id": 1102, "task_num": 2, "content": "Watch <strong>Lunar lander</strong> and <strong>Learning the state-value function</strong> (DQN)." },
-              { "id": "ml_w10_d2_t3", "day_id": 1102, "task_num": 3, "content": "Watch <strong>Algorithm refinement</strong>: improved network architecture, ε-greedy policy, mini-batch and soft updates." }
+              {
+                "id": "ml_w10_d2_t1",
+                "day_id": 1102,
+                "task_num": 1,
+                "content": "Watch <strong>Random (stochastic) environments</strong> and <strong>Example of continuous state space applications</strong>."
+              },
+              {
+                "id": "ml_w10_d2_t2",
+                "day_id": 1102,
+                "task_num": 2,
+                "content": "Watch <strong>Lunar lander</strong> and <strong>Learning the state-value function</strong> (DQN)."
+              },
+              {
+                "id": "ml_w10_d2_t3",
+                "day_id": 1102,
+                "task_num": 3,
+                "content": "Watch <strong>Algorithm refinement</strong>: improved network architecture, ε-greedy policy, mini-batch and soft updates."
+              }
             ]
           },
           {
@@ -825,9 +1690,24 @@
             "hours": "3 hours · building",
             "type": "Build",
             "tasks": [
-              { "id": "ml_w10_d3_t1", "day_id": 1103, "task_num": 1, "content": "Complete the graded lab: <strong>Reinforcement Learning — Lunar Lander</strong>." },
-              { "id": "ml_w10_d3_t2", "day_id": 1103, "task_num": 2, "content": "Watch <strong>The state of reinforcement learning</strong> and the specialization summary." },
-              { "id": "ml_w10_d3_t3", "day_id": 1103, "task_num": 3, "content": "Record a video of the trained lander and note how many episodes it took to solve." }
+              {
+                "id": "ml_w10_d3_t1",
+                "day_id": 1103,
+                "task_num": 1,
+                "content": "Complete the graded lab: <strong>Reinforcement Learning — Lunar Lander</strong>."
+              },
+              {
+                "id": "ml_w10_d3_t2",
+                "day_id": 1103,
+                "task_num": 2,
+                "content": "Watch <strong>The state of reinforcement learning</strong> and the specialization summary."
+              },
+              {
+                "id": "ml_w10_d3_t3",
+                "day_id": 1103,
+                "task_num": 3,
+                "content": "Record a video of the trained lander and note how many episodes it took to solve."
+              }
             ]
           },
           {
@@ -837,9 +1717,24 @@
             "hours": "3 hours · building",
             "type": "Build",
             "tasks": [
-              { "id": "ml_w10_d4_t1", "day_id": 1104, "task_num": 1, "content": "Finish <em>Project 3 — Movie Recommender</em> and publish it." },
-              { "id": "ml_w10_d4_t2", "day_id": 1104, "task_num": 2, "content": "Write a portfolio post covering all three projects: problem, approach, results, what you would do differently." },
-              { "id": "ml_w10_d4_t3", "day_id": 1104, "task_num": 3, "content": "Claim the specialization certificate and add it to your profile." }
+              {
+                "id": "ml_w10_d4_t1",
+                "day_id": 1104,
+                "task_num": 1,
+                "content": "Finish <em>Project 3 — Movie Recommender</em> and publish it."
+              },
+              {
+                "id": "ml_w10_d4_t2",
+                "day_id": 1104,
+                "task_num": 2,
+                "content": "Write a portfolio post covering all three projects: problem, approach, results, what you would do differently."
+              },
+              {
+                "id": "ml_w10_d4_t3",
+                "day_id": 1104,
+                "task_num": 3,
+                "content": "Claim the specialization certificate and add it to your profile."
+              }
             ]
           },
           {
@@ -849,9 +1744,24 @@
             "hours": "Review",
             "type": "Review",
             "tasks": [
-              { "id": "ml_w10_d5_t1", "day_id": 1105, "task_num": 1, "content": "Take the Week 3 (Course 3) quizzes until you score 100%. Specialization complete." },
-              { "id": "ml_w10_d5_t2", "day_id": 1105, "task_num": 2, "content": "Write the full-specialization retrospective: strongest topic, weakest topic, what to study next." },
-              { "id": "ml_w10_d5_t3", "day_id": 1105, "task_num": 3, "content": "Decide the next step — Deep Learning Specialization, or apply ML to a real problem at work." }
+              {
+                "id": "ml_w10_d5_t1",
+                "day_id": 1105,
+                "task_num": 1,
+                "content": "Take the Week 3 (Course 3) quizzes until you score 100%. Specialization complete."
+              },
+              {
+                "id": "ml_w10_d5_t2",
+                "day_id": 1105,
+                "task_num": 2,
+                "content": "Write the full-specialization retrospective: strongest topic, weakest topic, what to study next."
+              },
+              {
+                "id": "ml_w10_d5_t3",
+                "day_id": 1105,
+                "task_num": 3,
+                "content": "Decide the next step — Deep Learning Specialization, or apply ML to a real problem at work."
+              }
             ]
           }
         ]

@@ -1899,6 +1899,19 @@ export const RoadmapTracker: React.FC<{ config: RoadmapConfig }> = ({ config }) 
           font-size: 11.5px;
           color: var(--text-1);
         }
+        .rt-mindset .rt-alert {
+          display: flex;
+          gap: 10px;
+          align-items: flex-start;
+          margin-top: 10px;
+          padding: 10px 12px;
+          border-radius: 8px;
+          border: 1px solid rgba(244, 63, 94, 0.35);
+          border-left: 3px solid #f43f5e;
+          background: rgba(244, 63, 94, 0.08);
+        }
+        .rt-mindset .rt-alert strong:first-child { color: #fb7185; }
+        .rt-mindset .rt-alert svg { flex-shrink: 0; margin-top: 2px; color: #fb7185; }
         .rt-glossary-cta {
           text-align: left;
           cursor: pointer;
