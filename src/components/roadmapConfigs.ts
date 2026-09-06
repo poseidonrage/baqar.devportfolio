@@ -30,51 +30,77 @@ export interface RoadmapConfig {
   mindsetLabel: string;
 }
 
+// SELENE companion notebooks — supplemental only, never checklist tasks.
+const seleneNotebook = (title: string, url: string): WeekResource => ({
+  title: `SELENE - ${title}`,
+  source: 'SELENE - Chris van der Weth',
+  url,
+  kind: 'article',
+});
+
+const SELENE_EXPLORER: WeekResource = {
+  title: 'SELENE - Mastery Path Explorer',
+  source: 'SELENE - Topic Graph',
+  url: 'https://chrisvdw.net/selene/',
+  kind: 'tool',
+};
+
 const ML_RESOURCES: Record<number, WeekResource[]> = {
   101: [
     { title: 'Course 1 — Supervised ML: Regression and Classification', source: 'Coursera · DeepLearning.AI', url: 'https://www.coursera.org/learn/machine-learning', kind: 'course' },
     { title: 'Gradient Descent, Step-by-Step', source: 'StatQuest', url: 'https://www.youtube.com/watch?v=sDv4f4s2SB8', kind: 'video' },
     { title: 'NumPy: the absolute basics for beginners', source: 'numpy.org', url: 'https://numpy.org/doc/stable/user/absolute_beginners.html', kind: 'docs' },
+    SELENE_EXPLORER,
+    seleneNotebook('Linear Regression - Interactive Notebook', 'https://chrisvdweth.github.io/selene/notebooks/html/linear_regression_basics.html'),
   ],
   102: [
     { title: 'NumPy broadcasting', source: 'numpy.org', url: 'https://numpy.org/doc/stable/user/basics.broadcasting.html', kind: 'docs' },
     { title: 'Preprocessing data — scaling', source: 'scikit-learn', url: 'https://scikit-learn.org/stable/modules/preprocessing.html', kind: 'docs' },
     { title: 'Essence of linear algebra', source: '3Blue1Brown', url: 'https://www.youtube.com/playlist?list=PLZHQObOWTQDPD3MizzM2xVFitgF8hE_ab', kind: 'video' },
+    seleneNotebook('Linear Regression - Assumptions & Caveats', 'https://chrisvdweth.github.io/selene/notebooks/html/linear_regression_assumptions_caveats.html'),
   ],
   103: [
     { title: 'Logistic Regression', source: 'StatQuest', url: 'https://www.youtube.com/watch?v=yIYKR4sgzI8', kind: 'video' },
     { title: 'Regularization (Ridge / Lasso)', source: 'scikit-learn', url: 'https://scikit-learn.org/stable/modules/linear_model.html', kind: 'docs' },
     { title: 'Cross-entropy loss explained', source: 'ML Cheatsheet', url: 'https://ml-cheatsheet.readthedocs.io/en/latest/loss_functions.html', kind: 'article' },
+    seleneNotebook('Logistic Regression - The Math', 'https://chrisvdweth.github.io/selene/notebooks/html/logistic_regression_math.html'),
   ],
   104: [
     { title: 'Course 2 — Advanced Learning Algorithms', source: 'Coursera · DeepLearning.AI', url: 'https://www.coursera.org/learn/advanced-learning-algorithms', kind: 'course' },
     { title: 'But what is a neural network?', source: '3Blue1Brown', url: 'https://www.youtube.com/watch?v=aircAruvnKk', kind: 'video' },
     { title: 'The Sequential model', source: 'Keras', url: 'https://keras.io/guides/sequential_model/', kind: 'docs' },
+    seleneNotebook('Artificial Neural Networks - Basic Architecture', 'https://chrisvdweth.github.io/selene/notebooks/html/artificial_neural_networks_basics.html'),
   ],
   105: [
     { title: 'Training & evaluation with the built-in methods', source: 'Keras', url: 'https://keras.io/guides/training_with_built_in_methods/', kind: 'docs' },
     { title: 'Adam: A Method for Stochastic Optimization', source: 'Kingma & Ba', url: 'https://arxiv.org/abs/1412.6980', kind: 'article' },
     { title: 'Softmax and cross-entropy', source: 'ML Cheatsheet', url: 'https://ml-cheatsheet.readthedocs.io/en/latest/activation_functions.html', kind: 'docs' },
+    seleneNotebook('Backpropagation - Basic Examples', 'https://chrisvdweth.github.io/selene/notebooks/html/backpropagation_basic_examples.html'),
+    seleneNotebook('Implementing an ANN from Scratch - NumPy Only', 'https://chrisvdweth.github.io/selene/notebooks/html/ann_from_scratch_numpy_only.html'),
   ],
   106: [
     { title: 'Bias and Variance', source: 'StatQuest', url: 'https://www.youtube.com/watch?v=EuBBz3bI-aA', kind: 'video' },
     { title: 'Machine Learning Yearning', source: 'Andrew Ng', url: 'https://info.deeplearning.ai/machine-learning-yearning-book', kind: 'book' },
     { title: 'Validation curves & learning curves', source: 'scikit-learn', url: 'https://scikit-learn.org/stable/modules/learning_curve.html', kind: 'docs' },
+    seleneNotebook('Bias & Variance - Machine Learning', 'https://chrisvdweth.github.io/selene/notebooks/html/bias_variance_ml_basics.html'),
   ],
   107: [
     { title: 'Decision and Classification Trees', source: 'StatQuest', url: 'https://www.youtube.com/watch?v=_L39rN6gz7Y', kind: 'video' },
     { title: 'XGBoost — Introduction to Boosted Trees', source: 'xgboost.readthedocs.io', url: 'https://xgboost.readthedocs.io/en/stable/tutorials/model.html', kind: 'docs' },
     { title: 'Ensemble methods', source: 'scikit-learn', url: 'https://scikit-learn.org/stable/modules/ensemble.html', kind: 'docs' },
+    seleneNotebook('Decision Trees - Implementation from Scratch', 'https://chrisvdweth.github.io/selene/notebooks/html/decision_trees_from_scratch.html'),
   ],
   108: [
     { title: 'Course 3 — Unsupervised Learning, Recommenders, RL', source: 'Coursera · DeepLearning.AI', url: 'https://www.coursera.org/learn/unsupervised-learning-recommenders-reinforcement-learning', kind: 'course' },
     { title: 'K-means clustering', source: 'StatQuest', url: 'https://www.youtube.com/watch?v=4b5d3muPQmA', kind: 'video' },
     { title: 'Novelty and outlier detection', source: 'scikit-learn', url: 'https://scikit-learn.org/stable/modules/outlier_detection.html', kind: 'docs' },
+    seleneNotebook('DBSCAN - Optional Clustering Extension', 'https://chrisvdweth.github.io/selene/notebooks/html/clustering_dbscan_basics.html'),
   ],
   109: [
     { title: 'Recommender systems handbook chapter (matrix factorization)', source: 'Koren et al.', url: 'https://datajobs.com/data-science-repo/Recommender-Systems-[Netflix].pdf', kind: 'article' },
     { title: 'Principal Component Analysis (PCA)', source: 'StatQuest', url: 'https://www.youtube.com/watch?v=FgakZw6K1QQ', kind: 'video' },
     { title: 'tf.GradientTape — custom training loops', source: 'TensorFlow', url: 'https://www.tensorflow.org/guide/autodiff', kind: 'docs' },
+    seleneNotebook('Curse of Dimensionality - PCA Companion', 'https://chrisvdweth.github.io/selene/notebooks/html/curse_of_dimensionality.html'),
   ],
   110: [
     { title: 'Reinforcement Learning: An Introduction', source: 'Sutton & Barto', url: 'http://incompleteideas.net/book/the-book-2nd.html', kind: 'book' },
