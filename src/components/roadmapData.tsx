@@ -288,7 +288,7 @@ export const highlightCode = (code: string, lang: 'csharp' | 'python') => {
   return escaped;
 };
 
-export interface Project { id: number; monthId: number; weeks: string; title: string; techStack: string[]; input: string; output: string; note: string; type: string; }
+export interface Project { id: number; monthId: number; weeks: string; title: string; techStack: string[]; input: string; output: string; note: string; type: string; datasetUrl?: string; datasetLabel?: string; }
 
 export const PROJECTS: Project[] = [
   {
@@ -573,3 +573,4 @@ export const WEEK_RESOURCES: Record<number, WeekResource[]> = {
     { title: 'LLMs In 100 Images — Architecture, Training & Decoding', source: 'Ashish Bamania', url: 'https://bamaniaashish.gumroad.com/l/llmbook', kind: 'book' },
   ],
 };
+

@@ -743,7 +743,7 @@ export const RoadmapTracker: React.FC<{ config: RoadmapConfig }> = ({ config }) 
                             ))}
                           </div>
                           <div className="rt-project-io">
-                            <div><em>IN</em>{project.input}</div>
+                            <div><em>IN</em>{project.input}{project.datasetUrl && (<a className='rt-project-dataset font-mono' href={project.datasetUrl} target='_blank' rel='noopener noreferrer'> · {project.datasetLabel ?? 'dataset'} ↗</a>)}</div>
                             <div><em>OUT</em>{project.output}</div>
                             <div className="rt-project-note"><em>↗</em>{project.note}</div>
                           </div>
@@ -1655,6 +1655,8 @@ export const RoadmapTracker: React.FC<{ config: RoadmapConfig }> = ({ config }) 
           margin-right: 7px;
           letter-spacing: 0.05em;
         }
+        .rt-project-dataset { color: var(--accent, #6ea8fe); text-decoration: none; font-size: 0.82em; }
+        .rt-project-dataset:hover { text-decoration: underline; }
         .rt-project-note { color: var(--accent); font-family: var(--font-mono); font-size: 10.5px; }
 
         /* ── Day cards ── */
@@ -2106,5 +2108,7 @@ export const RoadmapTracker: React.FC<{ config: RoadmapConfig }> = ({ config }) 
     </div>
   );
 };
+
+
 
 
