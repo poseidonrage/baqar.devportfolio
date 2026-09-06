@@ -2,6 +2,7 @@
 // differs between the GenAI roadmap and the ML specialization lives here.
 import curriculumData from '../data/curriculum.json';
 import curriculumMlData from '../data/curriculum-ml.json';
+import curriculumPostMlData from '../data/curriculum-postml.json';
 import type { Month, WeekResource } from './roadmapData';
 import type { Project, GlossaryItem } from './roadmapData';
 import { glossaryItems, PROJECTS, WEEK_RESOURCES } from './roadmapData';
@@ -390,4 +391,143 @@ export const mlConfig: RoadmapConfig = {
   glossaryLeftLang: 'python',
   glossaryRightLang: 'python',
   mindsetLabel: 'Intuition',
+};
+
+// ── Post-ML (2026 AI Engineer track) ─────────────────────────────────────────
+
+const POSTML_RESOURCES: Record<number, WeekResource[]> = {
+  201: [
+    { title: 'MLflow — Quickstart & Tracking API', source: 'mlflow.org', url: 'https://mlflow.org/docs/latest/getting-started/index.html', kind: 'docs' },
+    { title: 'Getting Started with Weights & Biases', source: 'wandb.ai', url: 'https://docs.wandb.ai/quickstart', kind: 'docs' },
+    { title: 'A/B Testing for Machine Learning', source: 'Evidently AI', url: 'https://www.evidentlyai.com/blog/ml-ab-testing', kind: 'article' },
+  ],
+  202: [
+    { title: 'SQLBolt — Interactive SQL Lessons', source: 'sqlbolt.com', url: 'https://sqlbolt.com/', kind: 'tool' },
+    { title: 'DuckDB — Why DuckDB?', source: 'duckdb.org', url: 'https://duckdb.org/why_duckdb', kind: 'article' },
+    { title: 'PostgreSQL Tutorial — Window Functions', source: 'postgresqltutorial.com', url: 'https://www.postgresqltutorial.com/postgresql-window-function/', kind: 'docs' },
+  ],
+  203: [
+    { title: 'FastAPI — Deployment', source: 'fastapi.tiangolo.com', url: 'https://fastapi.tiangolo.com/deployment/', kind: 'docs' },
+    { title: 'Docker — Get Started', source: 'docker.com', url: 'https://docs.docker.com/get-started/', kind: 'docs' },
+    { title: 'MLflow — Model Registry & Serving', source: 'mlflow.org', url: 'https://mlflow.org/docs/latest/models.html', kind: 'docs' },
+  ],
+  204: [
+    { title: 'The ML Test Score', source: 'Google / NeurIPS paper', url: 'https://research.google/pubs/pub46555/', kind: 'article' },
+    { title: 'Evidently — ML Monitoring', source: 'evidentlyai.com', url: 'https://www.evidentlyai.com/', kind: 'tool' },
+    { title: 'Blue/Green vs Rolling Deployments', source: 'devops', url: 'https://martinfowler.com/bliki/BlueGreenDeployment.html', kind: 'article' },
+  ],
+  205: [
+    { title: 'The Illustrated Transformer', source: 'Jay Alammar', url: 'https://jalammar.github.io/illustrated-transformer/', kind: 'article' },
+    { title: 'But what is a GPT? (3Blue1Brown)', source: 'YouTube', url: 'https://www.youtube.com/watch?v=wjZofJX0v4M', kind: 'video' },
+    { title: 'Karpathy — Let\'s build GPT from scratch', source: 'YouTube', url: 'https://www.youtube.com/watch?v=kCc8FmEb1nY', kind: 'video' },
+  ],
+  206: [
+    { title: 'LoRA: Low-Rank Adaptation of Large Language Models', source: 'arXiv', url: 'https://arxiv.org/abs/2106.09685', kind: 'article' },
+    { title: 'HuggingFace PEFT docs', source: 'huggingface.co', url: 'https://huggingface.co/docs/peft/index', kind: 'docs' },
+    { title: 'QLoRA paper', source: 'arXiv', url: 'https://arxiv.org/abs/2305.14314', kind: 'article' },
+  ],
+  207: [
+    { title: 'Hybrid Search Explained', source: 'Qdrant blog', url: 'https://qdrant.tech/articles/hybrid-search/', kind: 'article' },
+    { title: 'Sentence Transformers — Cross-Encoders', source: 'sbert.net', url: 'https://www.sbert.net/examples/applications/cross-encoder/README.html', kind: 'docs' },
+    { title: 'Chunking Strategies for RAG', source: 'Pinecone', url: 'https://www.pinecone.io/learn/chunking-strategy-rag/', kind: 'article' },
+  ],
+  208: [
+    { title: 'Building Effective Agents', source: 'Anthropic', url: 'https://www.anthropic.com/research/building-effective-agents', kind: 'article' },
+    { title: 'LangGraph — Human-in-the-loop', source: 'langchain-ai.github.io', url: 'https://langchain-ai.github.io/langgraph/concepts/human_in_the_loop/', kind: 'docs' },
+    { title: 'OWASP Top 10 for LLM Applications', source: 'OWASP', url: 'https://genai.owasp.org/llm-top-10/', kind: 'article' },
+  ],
+  209: [
+    { title: 'Multi-Agent Systems — LangGraph', source: 'langchain-ai.github.io', url: 'https://langchain-ai.github.io/langgraph/tutorials/multi_agent/multi-agent-collaboration/', kind: 'docs' },
+    { title: 'Model Context Protocol — Introduction', source: 'modelcontextprotocol.io', url: 'https://modelcontextprotocol.io/introduction', kind: 'docs' },
+    { title: 'CrewAI — Documentation', source: 'crewai.com', url: 'https://docs.crewai.com/introduction', kind: 'docs' },
+  ],
+  210: [
+    { title: 'LangSmith — Evaluation', source: 'langchain-ai.github.io', url: 'https://docs.smith.langchain.com/evaluation', kind: 'docs' },
+    { title: 'RAGAS — Evaluation Framework for RAG', source: 'ragas.io', url: 'https://docs.ragas.io/', kind: 'docs' },
+    { title: 'LLM-as-judge biases', source: 'arXiv', url: 'https://arxiv.org/abs/2306.05685', kind: 'article' },
+  ],
+  211: [
+    { title: 'Full Stack Deep Learning — Course', source: 'fullstackdeeplearning.com', url: 'https://fullstackdeeplearning.com/course/', kind: 'course' },
+    { title: 'Made With ML — MLOps Course', source: 'madewithml.com', url: 'https://madewithml.com/', kind: 'course' },
+  ],
+  212: [
+    { title: '12-Factor Apps', source: '12factor.net', url: 'https://12factor.net/', kind: 'article' },
+    { title: 'Google SRE Book — Postmortems', source: 'sre.google', url: 'https://sre.google/sre-book/postmortem-culture/', kind: 'book' },
+  ],
+};
+
+const POSTML_GLOSSARY: GlossaryItem[] = [
+  { csharp: 'MLflow run', python: 'W&B run', category: 'evaluation', desc: 'One execution of a training or eval script with logged params, metrics, and artifacts. Same concept, different tools.', csharpCode: `import mlflow\nmlflow.start_run()\nmlflow.log_param("lr", 0.01)\nmlflow.log_metric("f1", 0.87)\nmlflow.end_run()`, pythonCode: `import wandb\nwandb.init(project="my-model")\nwandb.config.lr = 0.01\nwandb.log({"f1": 0.87})\nwandb.finish()` },
+  { csharp: 'Data leakage', python: 'Train-serving skew', category: 'evaluation', desc: 'Leakage: test info contaminates training. Skew: production inputs drift from training inputs. Both silently inflate or degrade quality.', csharpCode: `# WRONG: fit scaler on ALL data\nscaler.fit(X)  # includes test rows!\nX_train = scaler.transform(X_train)`, pythonCode: `# RIGHT: fit on train only\nscaler.fit(X_train)\nX_train = scaler.transform(X_train)\nX_test = scaler.transform(X_test)` },
+  { csharp: 'Window function', python: 'Pandas rolling', category: 'data', desc: 'SQL computes over a sliding/related row set without collapsing rows; Pandas rolling/shift covers the same ground in memory.', csharpCode: `-- SQL: rank rows within group\nSELECT name, score,\n  RANK() OVER (\n    PARTITION BY dept\n    ORDER BY score DESC) AS r\nFROM employees;`, pythonCode: `# Pandas: rank within group\ndf["r"] = (df.groupby("dept")["score"]\n             .rank(ascending=False))` },
+  { csharp: 'ETL', python: 'ELT', category: 'data', desc: 'Extract-Transform-Load (transform in flight) vs Extract-Load-Transform (raw into warehouse, transform on query). DuckDB makes ELT cheap.', csharpCode: `# ETL: transform, then load\ndf = extract(api)\ndf = validate(df)  # in the pipeline\nload(df, warehouse)`, pythonCode: `# ELT: load raw, transform on read\nraw = extract(api)\nload(raw, warehouse)\ndf = duckdb.sql("SELECT ... FROM raw")` },
+  { csharp: 'Blue/green deploy', python: 'Canary deploy', category: 'mlops', desc: 'Blue/green: two full environments, instant switch-back. Canary: route a small % of traffic to the new version first.', csharpCode: `# blue/green: flip the router\nrouter.backend = "green"  # was blue\nrollback = lambda: setattr(router, "backend", "blue")`, pythonCode: `# canary: gradual shift\ntargets = {blue: 0.95, green: 0.05}\nfor week in rollout_plan:\n    shift(targets, more="green")` },
+  { csharp: 'Softmax(QK^T/√d)V', python: 'nn.MultiheadAttention', category: 'transformers', desc: 'The attention equation vs the PyTorch module that implements it (plus projection layers you don\'t see in the formula).', csharpCode: `# NumPy attention, shapes shown\ndef attention(Q, K, V):        # Q:(n,d) K:(m,d) V:(m,d)\n    d = Q.shape[-1]\n    scores = Q @ K.T / np.sqrt(d)   # (n,m)\n    weights = softmax(scores, axis=-1)\n    return weights @ V              # (n,d)`, pythonCode: `import torch.nn as nn\nattn = nn.MultiheadAttention(\n    embed_dim=64, num_heads=4, batch_first=True)\nout, w = attn(query=Q, key=K, value=V)\n# w: (n, m) attention weights` },
+  { csharp: 'Fine-tuning (full)', python: 'LoRA (PEFT)', category: 'adaptation', desc: 'Full fine-tuning updates every weight (expensive). LoRA freezes the base and trains small low-rank adapters (cheap, swappable).', csharpCode: `# full fine-tune: every weight moves\nfor p in model.parameters():\n    p.requires_grad = True\noptimizer = torch.optim.AdamW(\n    model.parameters(), lr=1e-5)`, pythonCode: `from peft import LoraConfig, get_peft_model\nmodel = get_peft_model(model,\n    LoraConfig(r=8, lora_alpha=16,\n               target_modules=["q_proj", "v_proj"]))\n# <1% of params trainable` },
+  { csharp: 'SFT', python: 'RLHF / DPO', category: 'adaptation', desc: 'SFT teaches format+task from examples. RLHF/DPO then optimize preferences (helpful, harmless) with a reward or comparison signal.', csharpCode: `# SFT: supervised next-token loss\nloss = -sum(log P(target_token_i\n                  | context, student_model))`, pythonCode: `# DPO: preference loss, no reward model\nloss = -logsigmoid(beta * (\n    logratio(chosen) - logratio(rejected)))` },
+  { csharp: 'BM25 (lexical)', python: 'Dense retrieval', category: 'rag', desc: 'BM25 matches exact terms with term-frequency scoring; dense retrieval matches meaning via embeddings. Hybrid + fusion gets both.', csharpCode: `from rank_bm25 import BM25Okapi\ncorpus = [doc.split() for doc in docs]\nbm25 = BM25Okapi(corpus)\nscores = bm25.get_scores(query.split())`, pythonCode: `emb = model.encode([query] + docs)\nq, D = emb[0], emb[1:]\nscores = q @ D.T  # cosine-ish similarity` },
+  { csharp: 'Bi-encoder', python: 'Cross-encoder', category: 'rag', desc: 'Bi-encoder embeds query and doc separately (fast, precomputable). Cross-encoder reads query+doc together (slow, accurate — used to re-rank).', csharpCode: `# bi-encoder: independent embeddings\nq = embed(query)          # once\ndocs = embed(all_docs)    # precompute\nscores = q @ docs.T       # cheap for top-k`, pythonCode: `# cross-encoder: joint scoring\nfor doc in candidates:    # 50-200 only\n    score = rerank(query, doc)  # expensive\norder = argsort(scores)` },
+  { csharp: 'ReAct loop', python: 'Supervisor pattern', category: 'agents', desc: 'ReAct interleaves think/act per step in one loop. Supervisor delegates whole subtasks to specialized worker agents.', csharpCode: `# ReAct: one agent, interleaved\nwhile not done and steps < MAX:\n    thought = llm(state, tools)\n    action = thought.tool_call\n    state = execute(action)`, pythonCode: `# supervisor: route to workers\nwhile task_open:\n    plan = supervisor(state)\n    worker = plan.next_worker\n    state = workers[worker](state)` },
+  { csharp: 'Function calling', python: 'MCP tool', category: 'agents', desc: 'Function calling is per-model plumbing. MCP is a standard protocol: one server exposes tools to any MCP-capable client.', csharpCode: `# raw function calling\ntools = [{"type": "function",\n          "function": {\"name\": \"search\",\n                       "parameters": schema}}]\nresult = client.chat(msgs, tools=tools)`, pythonCode: `# MCP: standard tool server\nfrom mcp import Server\nclass SearchServer(Server):\n    @tool("search")\n    async def search(self, q: str):\n        return await index.query(q)` },
+  { csharp: 'Precision@k', python: 'Faithfulness', category: 'evaluation', desc: 'Precision@k scores retrieved chunks (did the top-k contain the right ones?). Faithfulness scores generated answers (is every claim grounded in the context?).', csharpCode: `hits = sum(1 for d in top_k\n           if d in relevant)\nprecision_at_k = hits / k`, pythonCode: `# RAGAS-style: judge checks grounding\nfaithfulness = judge(\n  claims=extract(answer),\n  context=retrieved)\n.score()` },
+  { csharp: 'Offline eval', python: 'A/B test', category: 'evaluation', desc: 'Offline eval scores against a fixed dataset. A/B tests compare live variants on real users — the only proof of business impact.', csharpCode: `scores = [score(model, ex)\n          for ex in eval_set]\nship if mean(scores) > baseline`, pythonCode: `assign = hash(user_id) % 2\nvariant = "B" if assign else "A"\nuplift = conv_rate(B) - conv_rate(A)\nsignificant if |z| > 1.96` },
+];
+
+export const postMLConfig: RoadmapConfig = {
+  prefix: 'pm_',
+  path: '/post-ml-roadmap',
+  brandName: 'Post-ML Roadmap',
+  brandSub: '12-week tracker',
+  journalTotal: 12,
+  curriculum: curriculumPostMlData as Month[],
+  projects: [
+    {
+      id: 1, monthId: 1, weeks: 'Weeks 1–4',
+      title: 'Eval + Serve Pipeline',
+      techStack: ['Python', 'MLflow', 'FastAPI', 'Docker'],
+      input: 'Dataset + two competing models',
+      output: 'Tracked experiments, comparison report, containerized /predict API',
+      note: 'Evaluation pipeline and served model with health checks — the Phase 1 spine',
+      type: 'api',
+    },
+    {
+      id: 2, monthId: 2, weeks: 'Weeks 5–6',
+      title: 'LoRA Fine-Tune with Verdict',
+      techStack: ['Python', 'PyTorch', 'PEFT', 'HuggingFace'],
+      input: '100+ instruction/response pairs for a narrow task',
+      output: 'Fine-tuned adapter + before/after eval + ship-or-drop writeup',
+      note: 'Fine-tune only if the eval proves it; otherwise document why prompting/RAG wins',
+      type: 'agent',
+    },
+    {
+      id: 3, monthId: 3, weeks: 'Weeks 7–10',
+      title: 'Hardened RAG + Agent System',
+      techStack: ['Python', 'Qdrant', 'LangGraph', 'LangSmith'],
+      input: 'Document corpus + real multi-tool workflow',
+      output: 'Hybrid-retrieval RAG + gated agent, eval suite gating CI',
+      note: 'Precision@k and faithfulness dashboards; regression blocks the PR',
+      type: 'rag',
+    },
+    {
+      id: 4, monthId: 4, weeks: 'Weeks 11–12',
+      title: 'Production Capstone',
+      techStack: ['FastAPI', 'Docker', 'Cloud', 'Monitoring'],
+      input: 'Real data source + real users (even ten)',
+      output: 'Live URL, eval report page, monitored, defended in a 10-min walkthrough',
+      note: 'One deployed system with visible quality metrics beats ten tutorial apps',
+      type: 'saas',
+    },
+  ],
+  resources: POSTML_RESOURCES,
+  glossary: POSTML_GLOSSARY,
+  glossaryCategories: ['all', 'evaluation', 'data', 'mlops', 'transformers', 'adaptation', 'rag', 'agents'],
+  glossaryTitle: 'Concept pairs',
+  glossaryBlurb: 'Adjacent concepts that are easy to conflate — what differs, and which one you reach for.',
+  glossaryModalTitle: 'Concept pairs guide',
+  glossaryUnit: 'pairs',
+  glossaryLeftLabel: 'Concept A',
+  glossaryRightLabel: 'Concept B',
+  glossaryLeftLang: 'python',
+  glossaryRightLang: 'python',
+  mindsetLabel: 'Mindset',
 };

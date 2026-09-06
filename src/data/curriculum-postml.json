@@ -1,0 +1,939 @@
+[
+  {
+    "id": 1,
+    "title": "Phase 1 — Evaluation, Experimentation & Data",
+    "weeks_range": "Weeks 1–4",
+    "hours": "~40 hours · measure before you build",
+    "badge_text": "PHASE 1 // MEASURE & DATA",
+    "weeks": [
+      {
+        "id": 201,
+        "month_id": 1,
+        "week_number": 1,
+        "title": "ML Evaluation & Experiment Tracking",
+        "focus_hours": "10 hours · MLflow, W&B, error analysis",
+        "mindset": "<p><strong>Coming from the ML specialization:</strong> you know how to train a model — now learn how to <em>prove</em> one works. Modern AI engineering is measurement-first: every model claim needs a number, a baseline, and a dataset behind it.</p>",
+        "weekly_goal": "By Sunday you can set up an MLflow experiment, log train/CV/test metrics for two competing models, and write a one-paragraph verdict on which to ship and why.",
+        "days": [
+          {
+            "id": 2010,
+            "week_id": 201,
+            "day_name": "Monday",
+            "hours": "2 hours · learning",
+            "type": "Learn",
+            "tasks": [
+              { "id": "pm_w1_d0_t1", "day_id": 2010, "task_num": 1, "content": "Study train/validation/test methodology properly — read about <strong>data leakage</strong> and write down 3 ways it can sneak into a pipeline." },
+              { "id": "pm_w1_d0_t2", "day_id": 2010, "task_num": 2, "content": "Learn what an <strong>experiment tracker</strong> does: runs, params, metrics, artifacts. Skim the MLflow quickstart." }
+            ]
+          },
+          {
+            "id": 2011,
+            "week_id": 201,
+            "day_name": "Tuesday",
+            "hours": "2 hours · learning",
+            "type": "Learn",
+            "tasks": [
+              { "id": "pm_w1_d1_t1", "day_id": 2011, "task_num": 1, "content": "Learn <strong>error analysis</strong>: slice your validation set, find the worst-performing segments, and read about evaluation datasets (fixed benchmark sets vs random splits)." },
+              { "id": "pm_w1_d1_t2", "day_id": 2011, "task_num": 2, "content": "Read an introduction to <strong>A/B testing concepts</strong> — hypothesis, control, significance, and why offline metrics don't always predict online wins." }
+            ]
+          },
+          {
+            "id": 2012,
+            "week_id": 201,
+            "day_name": "Wednesday",
+            "hours": "2.5 hours · code",
+            "type": "Code",
+            "tasks": [
+              { "id": "pm_w1_d2_t1", "day_id": 2012, "task_num": 1, "content": "Install <strong>MLflow</strong> locally. Re-run your ML Week 3 logistic regression and ML Week 5 digit recognizer as tracked experiments with logged params and metrics." },
+              { "id": "pm_w1_d2_t2", "day_id": 2012, "task_num": 2, "content": "Log a confusion matrix and per-class metrics as artifacts. Compare the two runs in the MLflow UI." }
+            ]
+          },
+          {
+            "id": 2013,
+            "week_id": 201,
+            "day_name": "Thursday",
+            "hours": "2 hours · learning",
+            "type": "Learn",
+            "tasks": [
+              { "id": "pm_w1_d3_t1", "day_id": 2013, "task_num": 1, "content": "Learn <strong>LLM evaluation</strong> concepts: retrieval evaluation, hallucination measurement, response-quality scoring. Skim LangSmith's evaluation docs." },
+              { "id": "pm_w1_d3_t2", "day_id": 2013, "task_num": 2, "content": "<strong>Cross-link:</strong> revisit GenAI Roadmap <strong>Week 13 — RAG Evaluation &amp; Safety Guardrails</strong> for the RAGAS-style evaluation mindset you'll build on here." }
+            ]
+          },
+          {
+            "id": 2014,
+            "week_id": 201,
+            "day_name": "Friday",
+            "hours": "2.5 hours · build",
+            "type": "Build",
+            "tasks": [
+              { "id": "pm_w1_d4_t1", "day_id": 2014, "task_num": 1, "content": "<strong>Mini-project:</strong> build an evaluation pipeline that loads a dataset, scores two models (one baseline, one contender), logs everything to MLflow, and prints a comparison report." }
+            ]
+          },
+          {
+            "id": 2015,
+            "week_id": 201,
+            "day_name": "Weekend",
+            "hours": "1 hour · review",
+            "type": "Review",
+            "tasks": [
+              { "id": "pm_w1_d5_t1", "day_id": 2015, "task_num": 1, "content": "Explain out loud, without notes: overfitting to the validation set, why leakage is fatal, and what an A/B test adds that an offline eval can't." }
+            ]
+          }
+        ]
+      },
+      {
+        "id": 202,
+        "month_id": 1,
+        "week_number": 2,
+        "title": "SQL & Data Engineering Fundamentals",
+        "focus_hours": "10 hours · SQL, DuckDB, pipelines",
+        "mindset": "<p><strong>Coming from notebooks:</strong> data doesn't arrive as a clean CSV. Real systems pull from databases and APIs, and the engineer who can write the SQL and build the pipeline controls the quality of everything downstream.</p>",
+        "weekly_goal": "By Sunday you can write joins and window-function queries in PostgreSQL, load data with DuckDB, and run a reproducible ETL script that validates its own output.",
+        "days": [
+          {
+            "id": 2020,
+            "week_id": 202,
+            "day_name": "Monday",
+            "hours": "2 hours · learning",
+            "type": "Learn",
+            "tasks": [
+              { "id": "pm_w2_d0_t1", "day_id": 2020, "task_num": 1, "content": "Learn/review <strong>SQL fundamentals</strong>: SELECT, WHERE, GROUP BY, JOINs. If you know these cold, go straight to window functions." },
+              { "id": "pm_w2_d0_t2", "day_id": 2020, "task_num": 2, "content": "Learn <strong>window functions</strong> (ROW_NUMBER, RANK, LAG/LEAD) — the single biggest SQL power-up for analytics work." }
+            ]
+          },
+          {
+            "id": 2021,
+            "week_id": 202,
+            "day_name": "Tuesday",
+            "hours": "2 hours · learning",
+            "type": "Learn",
+            "tasks": [
+              { "id": "pm_w2_d1_t1", "day_id": 2021, "task_num": 1, "content": "Learn the shape of an <strong>ETL pipeline</strong>: extract → validate → transform → load. Learn what data validation means (schema, nulls, ranges, uniqueness)." },
+              { "id": "pm_w2_d1_t2", "day_id": 2021, "task_num": 2, "content": "Understand <strong>batch vs streaming</strong> at a concept level, and when an API is the right data source." }
+            ]
+          },
+          {
+            "id": 2022,
+            "week_id": 202,
+            "day_name": "Wednesday",
+            "hours": "2.5 hours · code",
+            "type": "Code",
+            "tasks": [
+              { "id": "pm_w2_d2_t1", "day_id": 2022, "task_num": 1, "content": "Set up <strong>PostgreSQL</strong> locally (Docker is fine). Load a dataset and write 10 queries: joins, aggregates, and 3 window-function queries." },
+              { "id": "pm_w2_d2_t2", "day_id": 2022, "task_num": 2, "content": "Try <strong>DuckDB</strong> on the same dataset — query a Parquet file directly and note when you'd reach for it instead of Postgres." }
+            ]
+          },
+          {
+            "id": 2023,
+            "week_id": 202,
+            "day_name": "Thursday",
+            "hours": "2 hours · learning",
+            "type": "Learn",
+            "tasks": [
+              { "id": "pm_w2_d3_t1", "day_id": 2023, "task_num": 1, "content": "Learn <strong>Pandas vs Polars</strong>: when DataFrame ergonomics matter and what lazy evaluation buys you on larger data." },
+              { "id": "pm_w2_d3_t2", "day_id": 2023, "task_num": 2, "content": "Skim <strong>Airflow basics</strong> — DAGs, tasks, schedules. You don't need to master it; know what problem it solves." }
+            ]
+          },
+          {
+            "id": 2024,
+            "week_id": 202,
+            "day_name": "Friday",
+            "hours": "2.5 hours · build",
+            "type": "Build",
+            "tasks": [
+              { "id": "pm_w2_d4_t1", "day_id": 2024, "task_num": 1, "content": "<strong>Mini-project:</strong> build an ETL script that pulls from a public API, validates the rows (schema + sanity checks), transforms them, and loads into Postgres. It should fail loudly on bad data." }
+            ]
+          },
+          {
+            "id": 2025,
+            "week_id": 202,
+            "day_name": "Weekend",
+            "hours": "1 hour · review",
+            "type": "Review",
+            "tasks": [
+              { "id": "pm_w2_d5_t1", "day_id": 2025, "task_num": 1, "content": "Explain without notes: why validate at ingestion (not at model-training time), and what batch vs streaming means for your pipeline design." }
+            ]
+          }
+        ]
+      },
+      {
+        "id": 203,
+        "month_id": 1,
+        "week_number": 3,
+        "title": "MLOps I — Serving with FastAPI + Docker",
+        "focus_hours": "10 hours · from notebook to API",
+        "mindset": "<p><strong>The wall every learner hits:</strong> a model in a notebook is a science project; a model behind an API is a product. This week you cross that wall permanently.</p>",
+        "weekly_goal": "By Sunday your digit-recognizer (or another ML model) is served by a FastAPI app inside a Docker container, with health checks and a /predict endpoint that returns typed responses.",
+        "days": [
+          {
+            "id": 2030,
+            "week_id": 203,
+            "day_name": "Monday",
+            "hours": "2 hours · learning",
+            "type": "Learn",
+            "tasks": [
+              { "id": "pm_w3_d0_t1", "day_id": 2030, "task_num": 1, "content": "Learn <strong>model serving patterns</strong>: batch scoring vs online inference, request/response schemas, latency budgets." },
+              { "id": "pm_w3_d0_t2", "day_id": 2030, "task_num": 2, "content": "Learn the anatomy of a <strong>Docker image</strong> for an ML service: base image, dependencies, model artifacts, CMD." }
+            ]
+          },
+          {
+            "id": 2031,
+            "week_id": 203,
+            "day_name": "Tuesday",
+            "hours": "2 hours · learning",
+            "type": "Learn",
+            "tasks": [
+              { "id": "pm_w3_d1_t1", "day_id": 2031, "task_num": 1, "content": "Study <strong>model versioning</strong>: why you pin model versions alongside code, and how artifacts flow from training to serving." },
+              { "id": "pm_w3_d1_t2", "day_id": 2031, "task_num": 2, "content": "<strong>Cross-link:</strong> you already know FastAPI from GenAI Roadmap <strong>Week 2 — Async + FastAPI</strong>. Skim your notes; this week you point it at an ML model instead of an LLM." }
+            ]
+          },
+          {
+            "id": 2032,
+            "week_id": 203,
+            "day_name": "Wednesday",
+            "hours": "2.5 hours · code",
+            "type": "Code",
+            "tasks": [
+              { "id": "pm_w3_d2_t1", "day_id": 2032, "task_num": 1, "content": "Wrap your trained model in a <strong>FastAPI</strong> app: /predict endpoint, Pydantic request/response models, input validation." },
+              { "id": "pm_w3_d2_t2", "day_id": 2032, "task_num": 2, "content": "Add a /health endpoint and write a smoke test that posts a sample and asserts the response shape." }
+            ]
+          },
+          {
+            "id": 2033,
+            "week_id": 203,
+            "day_name": "Thursday",
+            "hours": "2 hours · code",
+            "type": "Code",
+            "tasks": [
+              { "id": "pm_w3_d3_t1", "day_id": 2033, "task_num": 1, "content": "Write the <strong>Dockerfile</strong>, build the image, and run the container locally. Keep the image lean (multi-stage build if you can)." },
+              { "id": "pm_w3_d3_t2", "day_id": 2033, "task_num": 2, "content": "<strong>Cross-link:</strong> GenAI Roadmap <strong>Week 22 — Docker Containers &amp; AWS ECS Cloud Deploy</strong> covers Docker + cloud deploy in depth; you'll go further there." }
+            ]
+          },
+          {
+            "id": 2034,
+            "week_id": 203,
+            "day_name": "Friday",
+            "hours": "2.5 hours · build",
+            "type": "Build",
+            "tasks": [
+              { "id": "pm_w3_d4_t1", "day_id": 2034, "task_num": 1, "content": "<strong>Mini-project:</strong> dockerize the full service (app + model), push to a registry, and document the run command in the README. Someone else should be able to run it with one command." }
+            ]
+          },
+          {
+            "id": 2035,
+            "week_id": 203,
+            "day_name": "Weekend",
+            "hours": "1 hour · review",
+            "type": "Review",
+            "tasks": [
+              { "id": "pm_w3_d5_t1", "day_id": 2035, "task_num": 1, "content": "Explain without notes: what breaks when a model is served (drift, latency, cold starts) and how versioning + health checks catch it early." }
+            ]
+          }
+        ]
+      },
+      {
+        "id": 204,
+        "month_id": 1,
+        "week_number": 4,
+        "title": "MLOps II — Monitoring, Logging & Rollbacks",
+        "focus_hours": "10 hours · production hygiene",
+        "mindset": "<p><strong>Deployment is day one, not the finish line.</strong> Real systems degrade quietly. This week you learn the instrumentation that tells you a model is sick before your users do.</p>",
+        "weekly_goal": "By Sunday your served model emits structured logs and metrics, you can simulate a bad deployment, and you can roll back to the previous model version cleanly.",
+        "days": [
+          {
+            "id": 2040,
+            "week_id": 204,
+            "day_name": "Monday",
+            "hours": "2 hours · learning",
+            "type": "Learn",
+            "tasks": [
+              { "id": "pm_w4_d0_t1", "day_id": 2040, "task_num": 1, "content": "Learn what to <strong>monitor</strong> in production ML: latency, throughput, error rate, prediction distribution drift, and input-data sanity." },
+              { "id": "pm_w4_d0_t2", "day_id": 2040, "task_num": 2, "content": "Learn <strong>structured logging</strong> basics — JSON logs, correlation ids, and why grep-ability saves you at 3am." }
+            ]
+          },
+          {
+            "id": 2041,
+            "week_id": 204,
+            "day_name": "Tuesday",
+            "hours": "2 hours · learning",
+            "type": "Learn",
+            "tasks": [
+              { "id": "pm_w4_d1_t1", "day_id": 2041, "task_num": 1, "content": "Learn <strong>rollback strategies</strong>: blue/green, shadow deploys, keeping N-1 model artifacts warm." },
+              { "id": "pm_w4_d1_t2", "day_id": 2041, "task_num": 2, "content": "Learn <strong>cost &amp; latency optimization</strong> concepts: batching, caching, smaller artifacts, right-sizing containers." }
+            ]
+          },
+          {
+            "id": 2042,
+            "week_id": 204,
+            "day_name": "Wednesday",
+            "hours": "2.5 hours · code",
+            "type": "Code",
+            "tasks": [
+              { "id": "pm_w4_d2_t1", "day_id": 2042, "task_num": 1, "content": "Add <strong>structured JSON logging</strong> and request-duration metrics to your FastAPI model service from Week 3." },
+              { "id": "pm_w4_d2_t2", "day_id": 2042, "task_num": 2, "content": "Ship those logs to stdout and view them with docker logs; write a tiny script that tails the log and computes p50/p95 latency." }
+            ]
+          },
+          {
+            "id": 2043,
+            "week_id": 204,
+            "day_name": "Thursday",
+            "hours": "2 hours · code",
+            "type": "Code",
+            "tasks": [
+              { "id": "pm_w4_d3_t1", "day_id": 2043, "task_num": 1, "content": "Implement <strong>model versioning at serve time</strong>: the service loads model version from an env var, and two versions can coexist as two containers on different ports." },
+              { "id": "pm_w4_d3_t2", "day_id": 2043, "task_num": 2, "content": "<strong>Cross-link:</strong> GenAI Roadmap <strong>Week 24 — LLMOps &amp; Portfolio Polish</strong> is the LLM-flavoured version of this week; do that week's monitoring tasks for parity." }
+            ]
+          },
+          {
+            "id": 2044,
+            "week_id": 204,
+            "day_name": "Friday",
+            "hours": "2.5 hours · build",
+            "type": "Build",
+            "tasks": [
+              { "id": "pm_w4_d4_t1", "day_id": 2044, "task_num": 1, "content": "<strong>Mini-project:</strong> simulate a bad deploy (swap in a corrupted model), detect it via your health check + metrics, roll back to N-1, and write a short postmortem (what fired, what lagged)." }
+            ]
+          },
+          {
+            "id": 2045,
+            "week_id": 204,
+            "day_name": "Weekend",
+            "hours": "1 hour · review",
+            "type": "Review",
+            "tasks": [
+              { "id": "pm_w4_d5_t1", "day_id": 2045, "task_num": 1, "content": "Explain without notes: the four signals of model degradation and which one users notice first." }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": 2,
+    "title": "Phase 2 — Transformer & LLM Internals",
+    "weeks_range": "Weeks 5–6",
+    "hours": "~20 hours · know what's inside the box",
+    "badge_text": "PHASE 2 // TRANSFORMERS",
+    "weeks": [
+      {
+        "id": 205,
+        "month_id": 2,
+        "week_number": 5,
+        "title": "Transformers — Attention & Architecture",
+        "focus_hours": "10 hours · attention, blocks, tokenization",
+        "mindset": "<p><strong>You've used LLMs as APIs.</strong> Now open the box: tokenization, embeddings, attention, transformer blocks. The goal is understanding and adapting — not training GPT from scratch.</p>",
+        "weekly_goal": "By Sunday you can walk through a transformer forward pass on a whiteboard: token → embedding → attention → block → logits, and explain why attention needs Q/K/V.",
+        "days": [
+          {
+            "id": 2050,
+            "week_id": 205,
+            "day_name": "Monday",
+            "hours": "2 hours · learning",
+            "type": "Learn",
+            "tasks": [
+              { "id": "pm_w5_d0_t1", "day_id": 2050, "task_num": 1, "content": "Learn <strong>tokenization</strong>: BPE, WordPiece, why vocab size matters, and why \"strawberry has 3 r's\" broke models." },
+              { "id": "pm_w5_d0_t2", "day_id": 2050, "task_num": 2, "content": "Learn <strong>embeddings</strong> as lookup tables — and connect them to the embedding models you used in GenAI Roadmap Week 9." }
+            ]
+          },
+          {
+            "id": 2051,
+            "week_id": 205,
+            "day_name": "Tuesday",
+            "hours": "2 hours · learning",
+            "type": "Learn",
+            "tasks": [
+              { "id": "pm_w5_d1_t1", "day_id": 2051, "task_num": 1, "content": "Learn <strong>attention</strong> from the ground up: queries, keys, values, scaled dot-product, softmax over similarities. Watch 3Blue1Brown's attention video twice if needed." },
+              { "id": "pm_w5_d1_t2", "day_id": 2051, "task_num": 2, "content": "Learn <strong>self-attention vs cross-attention</strong>, and multi-head attention (why multiple heads, what each head can specialize to)." }
+            ]
+          },
+          {
+            "id": 2052,
+            "week_id": 205,
+            "day_name": "Wednesday",
+            "hours": "2.5 hours · code",
+            "type": "Code",
+            "tasks": [
+              { "id": "pm_w5_d2_t1", "day_id": 2052, "task_num": 1, "content": "Implement <strong>scaled dot-product attention</strong> in raw NumPy (you did forward prop this way in ML Week 5 — same spirit). Verify shapes and softmax rows sum to 1." },
+              { "id": "pm_w5_d2_t2", "day_id": 2052, "task_num": 2, "content": "Implement <strong>positional encoding</strong> (sinusoidal) and add it to your toy embeddings. Note what breaks without it." }
+            ]
+          },
+          {
+            "id": 2053,
+            "week_id": 205,
+            "day_name": "Thursday",
+            "hours": "2 hours · learning",
+            "type": "Learn",
+            "tasks": [
+              { "id": "pm_w5_d3_t1", "day_id": 2053, "task_num": 1, "content": "Learn the full <strong>transformer block</strong>: residual connections, layer norm, feed-forward, stacking. Sketch the data shapes through one block." },
+              { "id": "pm_w5_d3_t2", "day_id": 2053, "task_num": 2, "content": "Learn <strong>pretraining vs instruction tuning</strong> at a concept level: next-token prediction, SFT, RLHF/DPO in one sentence each." }
+            ]
+          },
+          {
+            "id": 2054,
+            "week_id": 205,
+            "day_name": "Friday",
+            "hours": "2.5 hours · build",
+            "type": "Build",
+            "tasks": [
+              { "id": "pm_w5_d4_t1", "day_id": 2054, "task_num": 1, "content": "<strong>Mini-project:</strong> assemble a one-block toy transformer in PyTorch (attention + FFN + residuals) and run a forward pass on a 4-token sentence. Print every intermediate shape." },
+              { "id": "pm_w5_d4_t2", "day_id": 2054, "task_num": 2, "content": "<strong>Cross-link:</strong> GenAI Roadmap <strong>Week 25 — Transformer Internals &amp; LLM Fine-Tuning</strong> is the deep-dive version of this week; use it as your reference track." }
+            ]
+          },
+          {
+            "id": 2055,
+            "week_id": 205,
+            "day_name": "Weekend",
+            "hours": "1 hour · review",
+            "type": "Review",
+            "tasks": [
+              { "id": "pm_w5_d5_t1", "day_id": 2055, "task_num": 1, "content": "Whiteboard the full forward pass without notes: \"the cat sat\" → tokens → logits. Explain why attention is O(n²) and why context windows are expensive." }
+            ]
+          }
+        ]
+      },
+      {
+        "id": 206,
+        "month_id": 2,
+        "week_number": 6,
+        "title": "Fine-Tuning, LoRA & Adaptation",
+        "focus_hours": "10 hours · adapting models, not training them",
+        "mindset": "<p><strong>Engineer's rule:</strong> prompt → RAG → fine-tune, in that order of cost. This week you learn what fine-tuning actually changes and when it earns its cost.</p>",
+        "weekly_goal": "By Sunday you can explain what LoRA freezes and what it trains, run a small fine-tune on a toy task, and justify in writing when NOT to fine-tune.",
+        "days": [
+          {
+            "id": 2060,
+            "week_id": 206,
+            "day_name": "Monday",
+            "hours": "2 hours · learning",
+            "type": "Learn",
+            "tasks": [
+              { "id": "pm_w6_d0_t1", "day_id": 2060, "task_num": 1, "content": "Learn the <strong>adaptation ladder</strong>: prompting → few-shot → RAG → fine-tuning → pretraining. Write the cost/benefit of each rung in one line." },
+              { "id": "pm_w6_d0_t2", "day_id": 2060, "task_num": 2, "content": "Learn what <strong>SFT (supervised fine-tuning)</strong> does to a base model — format, tone, task specialization — vs what RAG does (knowledge injection)." }
+            ]
+          },
+          {
+            "id": 2061,
+            "week_id": 206,
+            "day_name": "Tuesday",
+            "hours": "2 hours · learning",
+            "type": "Learn",
+            "tasks": [
+              { "id": "pm_w6_d1_t1", "day_id": 2061, "task_num": 1, "content": "Learn <strong>LoRA / PEFT</strong>: low-rank adapter matrices, frozen base weights, why memory drops dramatically. Understand rank (r) and alpha intuitively." },
+              { "id": "pm_w6_d1_t2", "day_id": 2061, "task_num": 2, "content": "Learn <strong>quantization basics</strong> (what QLoRA builds on): INT8/4-bit, what precision loss means for quality." }
+            ]
+          },
+          {
+            "id": 2062,
+            "week_id": 206,
+            "day_name": "Wednesday",
+            "hours": "2.5 hours · code",
+            "type": "Code",
+            "tasks": [
+              { "id": "pm_w6_d2_t1", "day_id": 2062, "task_num": 1, "content": "Prepare a <strong>fine-tuning dataset</strong>: 100+ instruction/response pairs for a small, well-defined task (e.g. extract structured fields from messy text)." },
+              { "id": "pm_w6_d2_t2", "day_id": 2062, "task_num": 2, "content": "Set up <strong>PyTorch</strong> properly (GPU or Colab). Sanity-check you can load a small open model and run inference." }
+            ]
+          },
+          {
+            "id": 2063,
+            "week_id": 206,
+            "day_name": "Thursday",
+            "hours": "2 hours · code",
+            "type": "Code",
+            "tasks": [
+              { "id": "pm_w6_d3_t1", "day_id": 2063, "task_num": 1, "content": "Run a <strong>LoRA fine-tune</strong> of a small model on your dataset (HuggingFace PEFT is fine). Watch the loss curve; note training time and memory." },
+              { "id": "pm_w6_d3_t2", "day_id": 2063, "task_num": 2, "content": "Evaluate before/after on a held-out set of your task. If quality didn't move, diagnose: dataset size? task ambiguity? wrong rung of the ladder?" }
+            ]
+          },
+          {
+            "id": 2064,
+            "week_id": 206,
+            "day_name": "Friday",
+            "hours": "2.5 hours · build",
+            "type": "Build",
+            "tasks": [
+              { "id": "pm_w6_d4_t1", "day_id": 2064, "task_num": 1, "content": "<strong>Mini-project:</strong> wrap your fine-tuned adapter in an eval: 20 held-out examples, before/after scores, and a written verdict — ship, or drop back to prompting/RAG." }
+            ]
+          },
+          {
+            "id": 2065,
+            "week_id": 206,
+            "day_name": "Weekend",
+            "hours": "1 hour · review",
+            "type": "Review",
+            "tasks": [
+              { "id": "pm_w6_d5_t1", "day_id": 2065, "task_num": 1, "content": "Explain without notes: what LoRA freezes, what it trains, and the three questions you ask before choosing fine-tuning over RAG." }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": 3,
+    "title": "Phase 3 — LLM Systems at Production Grade",
+    "weeks_range": "Weeks 7–10",
+    "hours": "~40 hours · RAG + agents, hardened",
+    "badge_text": "PHASE 3 // LLM SYSTEMS",
+    "weeks": [
+      {
+        "id": 207,
+        "month_id": 3,
+        "week_number": 7,
+        "title": "Production RAG — Retrieval Engineering",
+        "focus_hours": "10 hours · chunking, hybrid, re-ranking",
+        "mindset": "<p><strong>You built RAG in the GenAI roadmap.</strong> This week is the hardening pass: chunking strategy, hybrid search, re-ranking, and retrieval evaluation as a first-class metric.</p>",
+        "weekly_goal": "By Sunday you can take a naive RAG pipeline and improve its retrieval metrics measurably — and prove the improvement with a scored eval set.",
+        "days": [
+          {
+            "id": 2070,
+            "week_id": 207,
+            "day_name": "Monday",
+            "hours": "2 hours · learning",
+            "type": "Learn",
+            "tasks": [
+              { "id": "pm_w7_d0_t1", "day_id": 2070, "task_num": 1, "content": "Study <strong>chunking strategies</strong>: fixed, recursive, semantic, parent-child. Write when each wins." },
+              { "id": "pm_w7_d0_t2", "day_id": 2070, "task_num": 2, "content": "<strong>Cross-link:</strong> revisit GenAI Roadmap <strong>Week 12 — Context Enrichment &amp; Parent-Child Retrieval</strong> — you implemented the pattern; now study why it works." }
+            ]
+          },
+          {
+            "id": 2071,
+            "week_id": 207,
+            "day_name": "Tuesday",
+            "hours": "2 hours · learning",
+            "type": "Learn",
+            "tasks": [
+              { "id": "pm_w7_d1_t1", "day_id": 2071, "task_num": 1, "content": "Learn <strong>hybrid search</strong>: BM25 + dense vectors, reciprocal rank fusion. Know when lexical beats semantic and vice versa." },
+              { "id": "pm_w7_d1_t2", "day_id": 2071, "task_num": 2, "content": "Learn <strong>re-ranking</strong>: cross-encoders vs bi-encoders, and the recall-then-rerank pattern." }
+            ]
+          },
+          {
+            "id": 2072,
+            "week_id": 207,
+            "day_name": "Wednesday",
+            "hours": "2.5 hours · code",
+            "type": "Code",
+            "tasks": [
+              { "id": "pm_w7_d2_t1", "day_id": 2072, "task_num": 1, "content": "Build a <strong>hybrid retrieval</strong> pipeline (BM25 + embeddings + fusion) over a document set. Compare top-k quality vs pure vector search by eye." },
+              { "id": "pm_w7_d2_t2", "day_id": 2072, "task_num": 2, "content": "Add a <strong>cross-encoder re-ranker</strong> stage and measure latency impact alongside quality." }
+            ]
+          },
+          {
+            "id": 2073,
+            "week_id": 207,
+            "day_name": "Thursday",
+            "hours": "2 hours · code",
+            "type": "Code",
+            "tasks": [
+              { "id": "pm_w7_d3_t1", "day_id": 2073, "task_num": 1, "content": "Build a <strong>retrieval eval set</strong>: 30 queries with known-relevant chunks. Score precision@k and recall@k for your pipeline variants." },
+              { "id": "pm_w7_d3_t2", "day_id": 2073, "task_num": 2, "content": "<strong>Cross-link:</strong> GenAI Roadmap <strong>Week 11 — Production Retrieval (Hybrid Search &amp; Re-ranking)</strong> is the sibling week; cross-check your implementation against it." }
+            ]
+          },
+          {
+            "id": 2074,
+            "week_id": 207,
+            "day_name": "Friday",
+            "hours": "2.5 hours · build",
+            "type": "Build",
+            "tasks": [
+              { "id": "pm_w7_d4_t1", "day_id": 2074, "task_num": 1, "content": "<strong>Mini-project:</strong> baseline vs improved RAG — one command, one table of metrics (retrieval + end-to-end answer quality), one written recommendation." }
+            ]
+          },
+          {
+            "id": 2075,
+            "week_id": 207,
+            "day_name": "Weekend",
+            "hours": "1 hour · review",
+            "type": "Review",
+            "tasks": [
+              { "id": "pm_w7_d5_t1", "day_id": 2075, "task_num": 1, "content": "Explain without notes: why hybrid beats pure vector on keyword-heavy queries, and where a re-ranker pays for its latency." }
+            ]
+          }
+        ]
+      },
+      {
+        "id": 208,
+        "month_id": 3,
+        "week_number": 8,
+        "title": "Agents & Tool Use — Hardened Patterns",
+        "focus_hours": "10 hours · planning, memory, HITL",
+        "mindset": "<p><strong>Agents fail in production for boring reasons:</strong> unclear stopping conditions, unbounded tool loops, no human gate on risky actions. This week is about the guardrails that make agents shippable.</p>",
+        "weekly_goal": "By Sunday you can take an agent workflow and add: a tool budget, a human-approval gate, structured state, and a trace you can debug after the fact.",
+        "days": [
+          {
+            "id": 2080,
+            "week_id": 208,
+            "day_name": "Monday",
+            "hours": "2 hours · learning",
+            "type": "Learn",
+            "tasks": [
+              { "id": "pm_w8_d0_t1", "day_id": 2080, "task_num": 1, "content": "Study <strong>agent architecture</strong>: the loop (observe → think → act), stopping conditions, and failure modes when the loop never terminates." },
+              { "id": "pm_w8_d0_t2", "day_id": 2080, "task_num": 2, "content": "Learn <strong>planning</strong> patterns: plan-then-execute vs ReAct-style interleaving, and when each degrades." }
+            ]
+          },
+          {
+            "id": 2081,
+            "week_id": 208,
+            "day_name": "Tuesday",
+            "hours": "2 hours · learning",
+            "type": "Learn",
+            "tasks": [
+              { "id": "pm_w8_d1_t1", "day_id": 2081, "task_num": 1, "content": "Learn <strong>memory systems</strong>: short-term (context window), episodic (past runs), semantic (knowledge store). Know what belongs in each." },
+              { "id": "pm_w8_d1_t2", "day_id": 2081, "task_num": 2, "content": "Learn <strong>agent security</strong>: prompt injection through tool output, least-privilege tools, allow-lists. One real attack writeup read end-to-end." }
+            ]
+          },
+          {
+            "id": 2082,
+            "week_id": 208,
+            "day_name": "Wednesday",
+            "hours": "2.5 hours · code",
+            "type": "Code",
+            "tasks": [
+              { "id": "pm_w8_d2_t1", "day_id": 2082, "task_num": 1, "content": "Take an existing agent (yours from GenAI Week 14, or a fresh LangGraph one) and add a <strong>tool-call budget</strong> + step ceiling that hard-stops runaway loops." },
+              { "id": "pm_w8_d2_t2", "day_id": 2082, "task_num": 2, "content": "Add <strong>structured tracing</strong>: every step logged (thought, tool, args, result) to a store you can query after a run." }
+            ]
+          },
+          {
+            "id": 2083,
+            "week_id": 208,
+            "day_name": "Thursday",
+            "hours": "2 hours · code",
+            "type": "Code",
+            "tasks": [
+              { "id": "pm_w8_d3_t1", "day_id": 2083, "task_num": 1, "content": "Add a <strong>human-in-the-loop gate</strong>: risky tool calls (delete, spend, send) pause for approval. You built this pattern in GenAI Week 8 — port it." },
+              { "id": "pm_w8_d3_t2", "day_id": 2083, "task_num": 2, "content": "<strong>Cross-link:</strong> GenAI Roadmap <strong>Weeks 14–17</strong> (agent architectures → production agent workflows) are your reference tracks; skim Week 17 for production checklists." }
+            ]
+          },
+          {
+            "id": 2084,
+            "week_id": 208,
+            "day_name": "Friday",
+            "hours": "2.5 hours · build",
+            "type": "Build",
+            "tasks": [
+              { "id": "pm_w8_d4_t1", "day_id": 2084, "task_num": 1, "content": "<strong>Mini-project:</strong> an agent that completes a real multi-tool workflow (research → draft → approve → execute) with budget, HITL gate, and a full trace for the audit." }
+            ]
+          },
+          {
+            "id": 2085,
+            "week_id": 208,
+            "day_name": "Weekend",
+            "hours": "1 hour · review",
+            "type": "Review",
+            "tasks": [
+              { "id": "pm_w8_d5_t1", "day_id": 2085, "task_num": 1, "content": "Explain without notes: the three guardrails every production agent needs, and the failure each one prevents." }
+            ]
+          }
+        ]
+      },
+      {
+        "id": 209,
+        "month_id": 3,
+        "week_number": 9,
+        "title": "Multi-Agent Systems & MCP",
+        "focus_hours": "10 hours · orchestration + protocol",
+        "mindset": "<p><strong>Multi-agent is not more agents — it's better boundaries.</strong> Supervisor patterns, specialized roles, and MCP as the standard socket between agents and tools.</p>",
+        "weekly_goal": "By Sunday you can explain when a multi-agent split pays off, run a supervisor + workers pattern, and expose a tool over MCP that any client can consume.",
+        "days": [
+          {
+            "id": 2090,
+            "week_id": 209,
+            "day_name": "Monday",
+            "hours": "2 hours · learning",
+            "type": "Learn",
+            "tasks": [
+              { "id": "pm_w9_d0_t1", "day_id": 2090, "task_num": 1, "content": "Study <strong>multi-agent patterns</strong>: supervisor, hierarchical, sequential pipelines. Write down when one good agent beats a committee." },
+              { "id": "pm_w9_d0_t2", "day_id": 2090, "task_num": 2, "content": "Learn <strong>role specialization</strong>: researcher/writer/critic splits and how context is passed between agents without bloat." }
+            ]
+          },
+          {
+            "id": 2091,
+            "week_id": 209,
+            "day_name": "Tuesday",
+            "hours": "2 hours · learning",
+            "type": "Learn",
+            "tasks": [
+              { "id": "pm_w9_d1_t1", "day_id": 2091, "task_num": 1, "content": "Learn <strong>MCP (Model Context Protocol)</strong> anatomy: servers, tools, resources, transports. You built MCP servers in GenAI Week 18 — refresh the architecture." },
+              { "id": "pm_w9_d1_t2", "day_id": 2091, "task_num": 2, "content": "<strong>Cross-link:</strong> GenAI Roadmap <strong>Week 18 — MCP Architecture</strong> and <strong>Week 19 — Database-backed MCP Servers</strong>; this week you treat MCP as shared infrastructure for multi-agent setups." }
+            ]
+          },
+          {
+            "id": 2092,
+            "week_id": 209,
+            "day_name": "Wednesday",
+            "hours": "2.5 hours · code",
+            "type": "Code",
+            "tasks": [
+              { "id": "pm_w9_d2_t1", "day_id": 2092, "task_num": 1, "content": "Build a <strong>supervisor + 2 workers</strong> system (LangGraph or CrewAI): supervisor routes, workers execute, state flows through a typed graph." },
+              { "id": "pm_w9_d2_t2", "day_id": 2092, "task_num": 2, "content": "Expose one worker's tool as an <strong>MCP server</strong> and have the other worker call it through the protocol." }
+            ]
+          },
+          {
+            "id": 2093,
+            "week_id": 209,
+            "day_name": "Thursday",
+            "hours": "2 hours · code",
+            "type": "Code",
+            "tasks": [
+              { "id": "pm_w9_d3_t1", "day_id": 2093, "task_num": 1, "content": "Add an <strong>evaluation harness</strong> for the multi-agent run: task success, cost per run, tokens per agent. Compare against a single-agent baseline." },
+              { "id": "pm_w9_d3_t2", "day_id": 2093, "task_num": 2, "content": "Stress it: give an ambiguous task and watch routing. Log where it dithers." }
+            ]
+          },
+          {
+            "id": 2094,
+            "week_id": 209,
+            "day_name": "Friday",
+            "hours": "2.5 hours · build",
+            "type": "Build",
+            "tasks": [
+              { "id": "pm_w9_d4_t1", "day_id": 2094, "task_num": 1, "content": "<strong>Mini-project:</strong> a documented multi-agent workflow with MCP tooling, a cost dashboard, and a written verdict: multi-agent vs single-agent for this task class." }
+            ]
+          },
+          {
+            "id": 2095,
+            "week_id": 209,
+            "day_name": "Weekend",
+            "hours": "1 hour · review",
+            "type": "Review",
+            "tasks": [
+              { "id": "pm_w9_d5_t1", "day_id": 2095, "task_num": 1, "content": "Explain without notes: the supervisor pattern's failure mode, and what MCP standardizes that raw function-calling doesn't." }
+            ]
+          }
+        ]
+      },
+      {
+        "id": 210,
+        "month_id": 3,
+        "week_number": 10,
+        "title": "LLM Evaluation & Observability",
+        "focus_hours": "10 hours · LangSmith, evals, drift",
+        "mindset": "<p><strong>LLM systems fail probabilistically</strong> — the same input can be right today and wrong tomorrow. Evaluation isn't a phase; it's the instrument panel you keep running forever.</p>",
+        "weekly_goal": "By Sunday you have an eval suite for an LLM app (retrieval + answer quality + hallucination rate) that runs in CI and blocks regressions.",
+        "days": [
+          {
+            "id": 2100,
+            "week_id": 210,
+            "day_name": "Monday",
+            "hours": "2 hours · learning",
+            "type": "Learn",
+            "tasks": [
+              { "id": "pm_w10_d0_t1", "day_id": 2100, "task_num": 1, "content": "Study <strong>LLM-as-judge</strong> patterns: rubric scoring, pairwise comparison, known biases (position, verbosity, self-preference)." },
+              { "id": "pm_w10_d0_t2", "day_id": 2100, "task_num": 2, "content": "Learn <strong>hallucination measurement</strong>: faithfulness-to-context metrics, groundedness checks, citation verification." }
+            ]
+          },
+          {
+            "id": 2101,
+            "week_id": 210,
+            "day_name": "Tuesday",
+            "hours": "2 hours · learning",
+            "type": "Learn",
+            "tasks": [
+              { "id": "pm_w10_d1_t1", "day_id": 2101, "task_num": 1, "content": "Learn <strong>observability for LLM apps</strong>: traces (LangSmith/OpenTelemetry), cost tracking, latency breakdown by stage." },
+              { "id": "pm_w10_d1_t2", "day_id": 2101, "task_num": 2, "content": "<strong>Cross-link:</strong> GenAI Roadmap <strong>Week 13 — RAG Evaluation &amp; Safety Guardrails</strong> covered RAGAS; now add end-to-end answer evals on top." }
+            ]
+          },
+          {
+            "id": 2102,
+            "week_id": 210,
+            "day_name": "Wednesday",
+            "hours": "2.5 hours · code",
+            "type": "Code",
+            "tasks": [
+              { "id": "pm_w10_d2_t1", "day_id": 2102, "task_num": 1, "content": "Build an <strong>eval dataset</strong> for your RAG app from Week 7: 50 questions, reference answers, expected sources." },
+              { "id": "pm_w10_d2_t2", "day_id": 2102, "task_num": 2, "content": "Implement <strong>three scorers</strong>: retrieval recall, answer faithfulness (LLM-judge), answer correctness (LLM-judge with rubric). Log per-question results." }
+            ]
+          },
+          {
+            "id": 2103,
+            "week_id": 210,
+            "day_name": "Thursday",
+            "hours": "2 hours · code",
+            "type": "Code",
+            "tasks": [
+              { "id": "pm_w10_d3_t1", "day_id": 2103, "task_num": 1, "content": "Wire the eval suite into <strong>CI</strong> (GitHub Actions): run on PR, fail the build if scores drop beyond a threshold." },
+              { "id": "pm_w10_d3_t2", "day_id": 2103, "task_num": 2, "content": "Add <strong>trace sampling</strong>: a slice of production-style traffic traced end-to-end, reviewed weekly." }
+            ]
+          },
+          {
+            "id": 2104,
+            "week_id": 210,
+            "day_name": "Friday",
+            "hours": "2.5 hours · build",
+            "type": "Build",
+            "tasks": [
+              { "id": "pm_w10_d4_t1", "day_id": 2104, "task_num": 1, "content": "<strong>Mini-project:</strong> a regression dashboard — eval scores over time, per-category breakdown, and an alert when any metric crosses its threshold." }
+            ]
+          },
+          {
+            "id": 2105,
+            "week_id": 210,
+            "day_name": "Weekend",
+            "hours": "1 hour · review",
+            "type": "Review",
+            "tasks": [
+              { "id": "pm_w10_d5_t1", "day_id": 2105, "task_num": 1, "content": "Explain without notes: the three biases of LLM-judges and the one mitigation for each." }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": 4,
+    "title": "Phase 4 — Production Capstone",
+    "weeks_range": "Weeks 11–12",
+    "hours": "~20 hours · ship and defend it",
+    "badge_text": "PHASE 4 // SHIP IT",
+    "weeks": [
+      {
+        "id": 211,
+        "month_id": 4,
+        "week_number": 11,
+        "title": "Capstone I — Build the System",
+        "focus_hours": "10 hours · scope, build, evaluate",
+        "mindset": "<p><strong>Portfolio rule:</strong> one system that demonstrates evaluation + deployment + judgment beats ten tutorial apps. Pick something real, measure it, ship it.</p>",
+        "weekly_goal": "By Sunday your capstone skeleton runs end-to-end locally: data pipeline → model/LLM core → API → eval harness, all in version control with CI.",
+        "days": [
+          {
+            "id": 2110,
+            "week_id": 211,
+            "day_name": "Monday",
+            "hours": "2 hours · planning",
+            "type": "Learn",
+            "tasks": [
+              { "id": "pm_w11_d0_t1", "day_id": 2110, "task_num": 1, "content": "Pick the <strong>capstone</strong>: a production-grade RAG assistant, an evaluated multi-agent workflow, or a fine-tuned-model product. One page: users, inputs, outputs, success metrics." },
+              { "id": "pm_w11_d0_t2", "day_id": 2110, "task_num": 2, "content": "Write the <strong>eval plan before the code</strong>: datasets, metrics, thresholds. If you can't define success, the project isn't scoped yet." }
+            ]
+          },
+          {
+            "id": 2111,
+            "week_id": 211,
+            "day_name": "Tuesday",
+            "hours": "2.5 hours · build",
+            "type": "Build",
+            "tasks": [
+              { "id": "pm_w11_d1_t1", "day_id": 2111, "task_num": 1, "content": "Build the <strong>data layer</strong>: ingestion pipeline (from Week 2 patterns) feeding the app. Validate at ingestion." },
+              { "id": "pm_w11_d1_t2", "day_id": 2111, "task_num": 2, "content": "Build the <strong>core</strong>: model or LLM pipeline behind a clean interface, with the adapter/versioning pattern from Week 3." }
+            ]
+          },
+          {
+            "id": 2112,
+            "week_id": 211,
+            "day_name": "Wednesday",
+            "hours": "2.5 hours · build",
+            "type": "Build",
+            "tasks": [
+              { "id": "pm_w11_d2_t1", "day_id": 2112, "task_num": 1, "content": "Build the <strong>API surface</strong> (FastAPI), structured logging, health checks — the Week 3–4 serving stack, reused." },
+              { "id": "pm_w11_d2_t2", "day_id": 2112, "task_num": 2, "content": "Containerize it. One command runs the whole system (docker compose is fine)." }
+            ]
+          },
+          {
+            "id": 2113,
+            "week_id": 211,
+            "day_name": "Thursday",
+            "hours": "2 hours · build",
+            "type": "Build",
+            "tasks": [
+              { "id": "pm_w11_d3_t1", "day_id": 2113, "task_num": 1, "content": "Wire in the <strong>eval harness</strong> (Week 10): eval dataset, scorers, CI gate on PRs." },
+              { "id": "pm_w11_d3_t2", "day_id": 2113, "task_num": 2, "content": "Log everything to your tracker from Week 1 — this project is an MLflow/LangSmith experiment too." }
+            ]
+          },
+          {
+            "id": 2114,
+            "week_id": 211,
+            "day_name": "Friday",
+            "hours": "2.5 hours · build",
+            "type": "Build",
+            "tasks": [
+              { "id": "pm_w11_d4_t1", "day_id": 2114, "task_num": 1, "content": "End-to-end smoke run: fresh clone → one command → working system → passing evals. Fix the friction a stranger would hit." }
+            ]
+          },
+          {
+            "id": 2115,
+            "week_id": 211,
+            "day_name": "Weekend",
+            "hours": "1 hour · review",
+            "type": "Review",
+            "tasks": [
+              { "id": "pm_w11_d5_t1", "day_id": 2115, "task_num": 1, "content": "Write the README: architecture diagram, eval results table, run instructions. This is the artifact recruiters and reviewers see first." }
+            ]
+          }
+        ]
+      },
+      {
+        "id": 212,
+        "month_id": 4,
+        "week_number": 12,
+        "title": "Capstone II — Deploy, Monitor, Defend",
+        "focus_hours": "10 hours · production + the story",
+        "mindset": "<p><strong>Shipped beats perfect.</strong> Deploy it on real infrastructure, watch it under real traffic (even 10 requests), and write the honest engineering story of what you measured and what you'd change.</p>",
+        "weekly_goal": "By Sunday the capstone is live on a public URL, monitored, with an eval-report page — and you can defend every design decision in a 10-minute walkthrough.",
+        "days": [
+          {
+            "id": 2120,
+            "week_id": 212,
+            "day_name": "Monday",
+            "hours": "2.5 hours · build",
+            "type": "Build",
+            "tasks": [
+              { "id": "pm_w12_d0_t1", "day_id": 2120, "task_num": 1, "content": "Deploy to real infrastructure — cloud (AWS/GCP/Fly/Render). Not localhost. You did ECS in GenAI Week 22; reuse that playbook." },
+              { "id": "pm_w12_d0_t2", "day_id": 2120, "task_num": 2, "content": "Wire in <strong>monitoring</strong>: uptime check, latency metrics, error alerts, cost tracking." }
+            ]
+          },
+          {
+            "id": 2121,
+            "week_id": 212,
+            "day_name": "Tuesday",
+            "hours": "2.5 hours · build",
+            "type": "Build",
+            "tasks": [
+              { "id": "pm_w12_d1_t1", "day_id": 2121, "task_num": 1, "content": "Publish an <strong>eval report page</strong>: current scores, trend, per-category breakdown. Make quality visible, not claimed." },
+              { "id": "pm_w12_d1_t2", "day_id": 2121, "task_num": 2, "content": "Run a <strong>load sanity test</strong>: 100 requests, p95 latency, cost per 1000 requests. Note the ceiling." }
+            ]
+          },
+          {
+            "id": 2122,
+            "week_id": 212,
+            "day_name": "Wednesday",
+            "hours": "2 hours · build",
+            "type": "Build",
+            "tasks": [
+              { "id": "pm_w12_d2_t1", "day_id": 2122, "task_num": 1, "content": "Perform one <strong>incident drill</strong>: break something on purpose, verify the alert fires, roll back, write the two-paragraph postmortem." },
+              { "id": "pm_w12_d2_t2", "day_id": 2122, "task_num": 2, "content": "Harden: rate limiting, input validation, secrets handling. Second pass on the security checklist from Week 8." }
+            ]
+          },
+          {
+            "id": 2123,
+            "week_id": 212,
+            "day_name": "Thursday",
+            "hours": "2 hours · polish",
+            "type": "Build",
+            "tasks": [
+              { "id": "pm_w12_d3_t1", "day_id": 2123, "task_num": 1, "content": "Polish the README + add the project to your portfolio site with a link to the live system and the eval report." },
+              { "id": "pm_w12_d3_t2", "day_id": 2123, "task_num": 2, "content": "Record/draft the <strong>10-minute walkthrough</strong>: problem → architecture → evals → results → trade-offs. This is your interview story." }
+            ]
+          },
+          {
+            "id": 2124,
+            "week_id": 212,
+            "day_name": "Friday",
+            "hours": "2.5 hours · review",
+            "type": "Review",
+            "tasks": [
+              { "id": "pm_w12_d4_t1", "day_id": 2124, "task_num": 1, "content": "Full review of the Post-ML track: reread all 12 weekly goals, verify each mini-project is in version control with its eval evidence, and mark the gaps honestly." }
+            ]
+          },
+          {
+            "id": 2125,
+            "week_id": 212,
+            "day_name": "Weekend",
+            "hours": "1 hour · review",
+            "type": "Review",
+            "tasks": [
+              { "id": "pm_w12_d5_t1", "day_id": 2125, "task_num": 1, "content": "Write the final reflection in the journal: what you can now build that you couldn't before the ML specialization, and the next 90 days of deliberate practice." }
+            ]
+          }
+        ]
+      }
+    ]
+  }
+]

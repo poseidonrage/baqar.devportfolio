@@ -12,7 +12,7 @@ import { CustomCursor } from './components/CustomCursor';
 import { SectionSeparator } from './components/SectionSeparator';
 import { AdminConsole } from './components/AdminConsole';
 import { RoadmapTracker } from './components/RoadmapTracker';
-import { genaiConfig, mlConfig } from './components/roadmapConfigs';
+import { genaiConfig, mlConfig, postMLConfig } from './components/roadmapConfigs';
 
 function HomePage() {
   return (
@@ -32,7 +32,7 @@ function HomePage() {
 
 function App() {
   const location = useLocation();
-  const isRoadmap = location.pathname === '/roadmap' || location.pathname === '/ml-roadmap';
+  const isRoadmap = ['/roadmap', '/ml-roadmap', '/post-ml-roadmap'].includes(location.pathname);
   const [scrollPct, setScrollPct] = useState(0);
   const [showTopBtn, setShowTopBtn] = useState(false);
 
@@ -50,9 +50,12 @@ function App() {
   // Per-route document titles
   useEffect(() => {
     if (isRoadmap) {
-      document.title = location.pathname === '/ml-roadmap'
-        ? 'ML Roadmap Tracker | Baqar Hussain Naqvi'
-        : 'GenAI Roadmap Tracker | Baqar Hussain Naqvi';
+      const trackerTitles: Record<string, string> = {
+        '/roadmap': 'GenAI Roadmap Tracker | Baqar Hussain Naqvi',
+        '/ml-roadmap': 'ML Roadmap Tracker | Baqar Hussain Naqvi',
+        '/post-ml-roadmap': 'Post-ML Roadmap Tracker | Baqar Hussain Naqvi',
+      };
+      document.title = trackerTitles[location.pathname] ?? 'GenAI Roadmap Tracker | Baqar Hussain Naqvi';
     } else if (location.pathname.startsWith('/blog')) {
       document.title = 'Blog | Baqar Hussain Naqvi';
     } else if (location.pathname.startsWith('/admin')) {
@@ -160,6 +163,7 @@ function App() {
               re-initializes from its own config and localStorage */}
           <Route path="/roadmap" element={<RoadmapTracker key="genai" config={genaiConfig} />} />
           <Route path="/ml-roadmap" element={<RoadmapTracker key="ml" config={mlConfig} />} />
+          <Route path="/post-ml-roadmap" element={<RoadmapTracker key="postml" config={postMLConfig} />} />
           <Route path="*" element={<HomePage />} />
         </Routes>
       </main>
@@ -319,3 +323,4 @@ function App() {
 }
 
 export default App;
+

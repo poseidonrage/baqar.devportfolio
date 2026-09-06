@@ -58,6 +58,7 @@ const easeOut = [0.22, 1, 0.36, 1] as const;
 const TRACKS = [
   { label: 'GenAI', path: '/roadmap' },
   { label: 'ML', path: '/ml-roadmap' },
+  { label: 'Post-ML', path: '/post-ml-roadmap' },
 ];
 
 // Resume where the learner left off: read the saved week from localStorage and
@@ -2105,4 +2106,5 @@ export const RoadmapTracker: React.FC<{ config: RoadmapConfig }> = ({ config }) 
     </div>
   );
 };
+
 
