@@ -9,6 +9,14 @@
       "destination": "/index.html"
     },
     {
+      "source": "/ml-roadmap",
+      "destination": "/index.html"
+    },
+    {
+      "source": "/post-ml-roadmap",
+      "destination": "/index.html"
+    },
+    {
       "source": "/admin",
       "destination": "/index.html"
     },

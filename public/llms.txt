@@ -1,0 +1,14 @@
+# Baqar Hussain Naqvi — Portfolio
+
+> Baqar Hussain Naqvi is a Program Analyst & Systems Integration Specialist
+> with 8+ years of experience in C#, .NET 10, Oracle PL/SQL, hospital ERPs,
+> and Agentic AI/RAG architectures. This portfolio covers expertise, projects,
+> experience, blog articles, and public learning-roadmap trackers.
+
+## Pages
+
+- [Home](/): Expertise, projects, experience timeline, and contact.
+- [Blog](/blog): Articles on systems integration, C#/.NET, hospital ERPs, and applied machine learning.
+- [GenAI Roadmap Tracker](/roadmap): A 24-week GenAI engineering roadmap tracker — LLMs, RAG, agents, and production AI systems — with weekly tasks, projects, and curated resources.
+- [ML Roadmap Tracker](/ml-roadmap): A 10-week machine learning roadmap tracker following Andrew Ng's Coursera ML Specialization — regression, classification, neural networks, decision trees, clustering, recommender systems, and reinforcement learning.
+- [Post-ML Roadmap Tracker](/post-ml-roadmap): A 12-week AI-engineering roadmap tracker — ML evaluation, data engineering, MLOps/LLMOps, transformer internals, RAG, AI agents, and production deployment.
