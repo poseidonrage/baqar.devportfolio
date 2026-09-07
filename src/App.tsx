@@ -12,7 +12,7 @@ import { CustomCursor } from './components/CustomCursor';
 import { SectionSeparator } from './components/SectionSeparator';
 import { AdminConsole } from './components/AdminConsole';
 import { RoadmapTracker } from './components/RoadmapTracker';
-import { genaiConfig, mlConfig, postMLConfig } from './components/roadmapConfigs';
+import { genaiConfig, mlConfig, postMLConfig, healthConfig } from './components/roadmapConfigs';
 
 function HomePage() {
   return (
@@ -32,7 +32,7 @@ function HomePage() {
 
 function App() {
   const location = useLocation();
-  const isRoadmap = ['/roadmap', '/ml-roadmap', '/post-ml-roadmap'].includes(location.pathname);
+  const isRoadmap = ['/roadmap', '/ml-roadmap', '/post-ml-roadmap', '/healthcare-ai-roadmap'].includes(location.pathname);
   const [scrollPct, setScrollPct] = useState(0);
   const [showTopBtn, setShowTopBtn] = useState(false);
 
@@ -82,6 +82,10 @@ function App() {
       '/post-ml-roadmap': {
         title: 'Post-ML Roadmap Tracker | Baqar Hussain Naqvi',
         description: 'A 12-week post-ML roadmap tracker toward AI engineering: evaluation pipelines, MLOps, transformers, RAG, agents, and production deployment with monitoring.',
+      },
+      '/healthcare-ai-roadmap': {
+        title: 'Healthcare AI Roadmap Tracker | Baqar Hussain Naqvi',
+        description: 'A 12-week healthcare AI engineer roadmap tracker: clinical NLP, FHIR data standards, HIPAA privacy, fairness audits, RAG over hospital policies, workflow agents with human approval, and patient-flow forecasting.',
       },
     };
     let meta: RouteMeta;
@@ -213,6 +217,7 @@ function App() {
           <Route path="/roadmap" element={<RoadmapTracker key="genai" config={genaiConfig} />} />
           <Route path="/ml-roadmap" element={<RoadmapTracker key="ml" config={mlConfig} />} />
           <Route path="/post-ml-roadmap" element={<RoadmapTracker key="postml" config={postMLConfig} />} />
+          <Route path="/healthcare-ai-roadmap" element={<RoadmapTracker key="health" config={healthConfig} />} />
           <Route path="*" element={<HomePage />} />
         </Routes>
       </main>

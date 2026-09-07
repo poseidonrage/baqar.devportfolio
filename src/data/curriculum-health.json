@@ -1,0 +1,952 @@
+[
+  {
+    "id": 1,
+    "title": "Phase 1 — ML Foundations (fast pass)",
+    "weeks_range": "Weeks 1–2",
+    "hours": "~20 hours · fill the gaps, don't redo what you know",
+    "badge_text": "FOUNDATIONS · CHECK",
+    "weeks": [
+      {
+        "id": 301,
+        "month_id": 1,
+        "week_number": 1,
+        "title": "Gap Analysis & ML Refresh",
+        "focus_hours": "10 hours · audit yourself against the ML + Post-ML roadmaps",
+        "mindset": "<p><strong>You already walked the ML and Post-ML roadmaps — this week is an audit, not a re-watch.</strong> Skim the Andrew Ng specialization week titles and the Post-ML evaluation/MLOps weeks. Anything you cannot explain cold goes on a personal gap list; everything else is done. The gap list becomes your Phase 1 content.</p><p class=\"rt-alert\"><svg width=\"15\" height=\"15\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3Z\"/><path d=\"M12 9v4\"/><path d=\"M12 17h.01\"/></svg><span><strong>Prerequisite:</strong> complete (or test out of) the <code>/ml-roadmap</code> and <code>/post-ml-roadmap</code> trackers first. This track builds directly on RAG, agents, evaluation, and MLOps — it does not re-teach them.</span></p>",
+        "weekly_goal": "By Sunday you have a written gap list against the ML and Post-ML trackers and have closed the two most important gaps.",
+        "days": [
+          {
+            "id": 3010,
+            "week_id": 301,
+            "day_name": "Monday",
+            "hours": "2 hours · learning",
+            "type": "Learn",
+            "tasks": [
+              { "id": "hc_w1_d0_t1", "day_id": 3010, "task_num": 1, "content": "Skim every week title in the <strong>ML specialization</strong> and write a one-line summary of each from memory. Where you draw a blank, mark it." },
+              { "id": "hc_w1_d0_t2", "day_id": 3010, "task_num": 2, "content": "Repeat for the <strong>Post-ML</strong> phases: evaluation, data engineering, MLOps, transformers, RAG, agents." },
+              { "id": "hc_w1_d0_t3", "day_id": 3010, "task_num": 3, "content": "Write the gap list: topics you cannot explain cold, ranked by how often they appear in healthcare AI work." }
+            ]
+          },
+          {
+            "id": 3011,
+            "week_id": 301,
+            "day_name": "Tuesday",
+            "hours": "2 hours · learning",
+            "type": "Learn",
+            "tasks": [
+              { "id": "hc_w1_d1_t1", "day_id": 3011, "task_num": 1, "content": "Close gap #1: study it properly — don't just re-watch. Solve one exercise or rebuild one notebook output from scratch." },
+              { "id": "hc_w1_d1_t2", "day_id": 3011, "task_num": 2, "content": "Write a 5-line explanation of gap #1 for a hospital IT colleague with no ML background. If you can't, you haven't closed it." }
+            ]
+          },
+          {
+            "id": 3012,
+            "week_id": 301,
+            "day_name": "Wednesday",
+            "hours": "2 hours · learning",
+            "type": "Learn",
+            "tasks": [
+              { "id": "hc_w1_d2_t1", "day_id": 3012, "task_num": 1, "content": "Close gap #2 the same way: study, rebuild one artifact, explain in plain words." },
+              { "id": "hc_w1_d2_t2", "day_id": 3012, "task_num": 2, "content": "Skim <strong>scikit-learn pipelines + ColumnTransformer</strong> — healthcare data is messy tables, and pipelines are the hygienic way to preprocess them." }
+            ]
+          },
+          {
+            "id": 3013,
+            "week_id": 301,
+            "day_name": "Thursday",
+            "hours": "2 hours · coding",
+            "type": "Code",
+            "tasks": [
+              { "id": "hc_w1_d3_t1", "day_id": 3013, "task_num": 1, "content": "Load a public hospital dataset (e.g. <strong>MIMIC-IV demo</strong> or a Kaggle readmission set). Build a preprocessing <strong>sklearn Pipeline</strong>: missing-value imputation, scaling, one-hot encoding." },
+              { "id": "hc_w1_d3_t2", "day_id": 3013, "task_num": 3, "content": "Fit a baseline logistic regression on 30-day readmission. Record AUROC — this baseline number follows you into Phase 3." }
+            ]
+          },
+          {
+            "id": 3014,
+            "week_id": 301,
+            "day_name": "Friday",
+            "hours": "2 hours · building",
+            "type": "Build",
+            "tasks": [
+              { "id": "hc_w1_d4_t1", "day_id": 3014, "task_num": 1, "content": "Ship the readmission baseline as a small <strong>FastAPI /predict</strong> endpoint in Docker. You built this on Post-ML — here it runs on healthcare-shaped data." },
+              { "id": "hc_w1_d4_t2", "day_id": 3014, "task_num": 2, "content": "Add one evaluation report (confusion matrix + AUROC + calibration curve) as an HTML artifact." }
+            ]
+          },
+          {
+            "id": 3015,
+            "week_id": 301,
+            "day_name": "Weekend",
+            "hours": "1 hour · review",
+            "type": "Review",
+            "tasks": [
+              { "id": "hc_w1_d5_t1", "day_id": 3015, "task_num": 1, "content": "Review the gap list: what's closed, what stays open, and whether any open gap blocks Phase 2." },
+              { "id": "hc_w1_d5_t2", "day_id": 3015, "task_num": 2, "content": "Write the weekly journal: your readmission baseline AUROC and the two gaps you closed." }
+            ]
+          }
+        ]
+      },
+      {
+        "id": 302,
+        "month_id": 1,
+        "week_number": 2,
+        "title": "Deep Learning & Transformers Refresh",
+        "focus_hours": "10 hours · only the parts healthcare AI leans on",
+        "mindset": "<p><strong>Healthcare NLP is embeddings all the way down.</strong> Clinical notes, ICD codes, lab panels, patient journeys — every one of them becomes a vector before any model sees it. This week you re-derive the embedding mental model and check your PyTorch and transformer fluency.</p>",
+        "weekly_goal": "By Sunday you can explain embeddings, attention, and fine-tuning trade-offs without notes, and have fine-tuned one small model on clinical text.",
+        "days": [
+          {
+            "id": 3020,
+            "week_id": 302,
+            "day_name": "Monday",
+            "hours": "2 hours · learning",
+            "type": "Learn",
+            "tasks": [
+              { "id": "hc_w2_d0_t1", "day_id": 3020, "task_num": 1, "content": "Re-derive <strong>attention</strong> from memory: Q, K, V, why the scaling by √d, why softmax. Then explain embeddings to a clinician in 3 sentences." },
+              { "id": "hc_w2_d0_t2", "day_id": 3020, "task_num": 2, "content": "Read one survey of <strong>clinical language models</strong> (ClinicalBERT lineage and successors) — you need to know they exist and what they're pre-trained on." }
+            ]
+          },
+          {
+            "id": 3021,
+            "week_id": 302,
+            "day_name": "Tuesday",
+            "hours": "2 hours · learning",
+            "type": "Learn",
+            "tasks": [
+              { "id": "hc_w2_d1_t1", "day_id": 3021, "task_num": 1, "content": "Study <strong>tokenization on clinical text</strong>: why BERT wordpieces butcher drug names and abbreviations, and why domain-specific vocabularies exist." },
+              { "id": "hc_w2_d1_t2", "day_id": 3021, "task_num": 2, "content": "Skim HuggingFace <strong>tokenizers</strong> docs: train a small WordPiece tokenizer on synthetic clinical notes just to see the vocabulary it learns." }
+            ]
+          },
+          {
+            "id": 3022,
+            "week_id": 302,
+            "day_name": "Wednesday",
+            "hours": "2 hours · coding",
+            "type": "Code",
+            "tasks": [
+              { "id": "hc_w2_d2_t1", "day_id": 3022, "task_num": 1, "content": "Fine-tune a small pre-trained model (e.g. <strong>DistilBERT</strong>) on a clinical classification task — public n2c2/i2b2-style de-identified notes or the PubMedQA dataset." },
+              { "id": "hc_w2_d2_t2", "day_id": 3022, "task_num": 2, "content": "Log runs in <strong>MLflow</strong> (you already run this stack from Post-ML): baseline vs fine-tuned F1 on the held-out split." }
+            ]
+          },
+          {
+            "id": 3023,
+            "week_id": 302,
+            "day_name": "Thursday",
+            "hours": "2 hours · learning",
+            "type": "Learn",
+            "tasks": [
+              { "id": "hc_w2_d3_t1", "day_id": 3023, "task_num": 1, "content": "Study when to fine-tune vs prompt vs RAG: cost, latency, data requirement, and the audit story each one gives a hospital review board." },
+              { "id": "hc_w2_d3_t2", "day_id": 3023, "task_num": 2, "content": "Read one <strong>LLM-for-clinical-text</strong> evaluation paper: note the metrics (F1, AUROC, hallucination rate) and how the eval set was built." }
+            ]
+          },
+          {
+            "id": 3024,
+            "week_id": 302,
+            "day_name": "Friday",
+            "hours": "2 hours · building",
+            "type": "Build",
+            "tasks": [
+              { "id": "hc_w2_d4_t1", "day_id": 3024, "task_num": 1, "content": "Wrap the fine-tuned classifier as a FastAPI service with a <code>/explain</code> endpoint returning token-level attention or SHAP-style evidence." },
+              { "id": "hc_w2_d4_t2", "day_id": 3024, "task_num": 2, "content": "Write a model card: intended use, training data, metrics, failure modes. This artifact reappears in Phase 6." }
+            ]
+          },
+          {
+            "id": 3025,
+            "week_id": 302,
+            "day_name": "Weekend",
+            "hours": "1 hour · review",
+            "type": "Review",
+            "tasks": [
+              { "id": "hc_w2_d5_t1", "day_id": 3025, "task_num": 1, "content": "Journal: the fine-tune delta you measured, and the one clinical-NLP gotcha that surprised you most." }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": 2,
+    "title": "Phase 2 — Stanford AI in Healthcare",
+    "weeks_range": "Weeks 3–5",
+    "hours": "~30 hours · domain knowledge that makes the tech useful",
+    "badge_text": "DOMAIN · STANFORD",
+    "weeks": [
+      {
+        "id": 303,
+        "month_id": 2,
+        "week_number": 3,
+        "title": "AI in Healthcare — Foundations",
+        "focus_hours": "10 hours · Course 1 of the Stanford specialization",
+        "mindset": "<p><strong>The hard part of healthcare AI is rarely the model.</strong> It's the workflow, the data, and the trust. Stanford's specialization exists to teach technologists the context: who acts on the prediction, what breaks in a clinical workflow, and why a correct prediction nobody uses saves zero lives.</p>",
+        "weekly_goal": "By Sunday you can describe the modern healthcare data stack (EHR, claims, labs, imaging) and where AI legitimately creates value in it.",
+        "days": [
+          {
+            "id": 3030,
+            "week_id": 303,
+            "day_name": "Monday",
+            "hours": "2 hours · learning",
+            "type": "Learn",
+            "tasks": [
+              { "id": "hc_w3_d0_t1", "day_id": 3030, "task_num": 1, "content": "Start <strong>AI in Healthcare</strong> (Stanford, Coursera). Watch the framing lectures: what problems healthcare actually has, and where ML already works (and where it famously doesn't)." },
+              { "id": "hc_w3_d0_t2", "day_id": 3030, "task_num": 2, "content": "Write a one-page map of your own hospital's <strong>data reality</strong>: which systems exist (EMR/ERP), what data they hold, who owns access." }
+            ]
+          },
+          {
+            "id": 3031,
+            "week_id": 303,
+            "day_name": "Tuesday",
+            "hours": "2 hours · learning",
+            "type": "Learn",
+            "tasks": [
+              { "id": "hc_w3_d1_t1", "day_id": 3031, "task_num": 1, "content": "Continue the course: <strong>healthcare data</strong> — EHR structure, claims data, the messy reality of codes and free text." },
+              { "id": "hc_w3_d1_t2", "day_id": 3031, "task_num": 2, "content": "Learn the vocabulary you'll be judged on: <strong>ICD-10</strong>, <strong>CPT</strong>, <strong>SNOMED CT</strong>, <strong>LOINC</strong>, <strong>HL7/FHIR</strong>. One flashcard each: what it codes, who uses it." }
+            ]
+          },
+          {
+            "id": 3032,
+            "week_id": 303,
+            "day_name": "Wednesday",
+            "hours": "2 hours · learning",
+            "type": "Learn",
+            "tasks": [
+              { "id": "hc_w3_d2_t1", "day_id": 3032, "task_num": 1, "content": "Study <strong>FHIR resources</strong> in practice: Patient, Observation, Encounter, Condition. Pull from a public HAPI FHIR test server with Python." },
+              { "id": "hc_w3_d2_t2", "day_id": 3032, "task_num": 2, "content": "Map 5 fields from a FHIR Observation to a flat ML feature row. This is the daily reality of healthcare ML engineering." }
+            ]
+          },
+          {
+            "id": 3033,
+            "week_id": 303,
+            "day_name": "Thursday",
+            "hours": "2 hours · learning",
+            "type": "Learn",
+            "tasks": [
+              { "id": "hc_w3_d3_t1", "day_id": 3033, "task_num": 1, "content": "Continue the course: <strong>clinical workflow integration</strong> — where predictions surface, who acts on them, alert fatigue, and the graveyard of unused clinical decision support." },
+              { "id": "hc_w3_d3_t2", "day_id": 3033, "task_num": 2, "content": "Pick one workflow in your own workplace and write the integration point: who would see an AI output, in which screen, deciding what." }
+            ]
+          },
+          {
+            "id": 3034,
+            "week_id": 303,
+            "day_name": "Friday",
+            "hours": "2 hours · learning",
+            "type": "Learn",
+            "tasks": [
+              { "id": "hc_w3_d4_t1", "day_id": 3034, "task_num": 1, "content": "Finish course weeks on <strong>ethics, bias, and fairness in healthcare AI</strong>. Note one published example of a biased clinical algorithm and its root cause." },
+              { "id": "hc_w3_d4_t2", "day_id": 3034, "task_num": 2, "content": "Write your own one-page position: what would make you refuse to deploy a healthcare AI system." }
+            ]
+          },
+          {
+            "id": 3035,
+            "week_id": 303,
+            "day_name": "Weekend",
+            "hours": "1 hour · review",
+            "type": "Review",
+            "tasks": [
+              { "id": "hc_w3_d5_t1", "day_id": 3035, "task_num": 1, "content": "Journal: the three healthcare-data facts that most changed how you'd architect an AI system." }
+            ]
+          }
+        ]
+      },
+      {
+        "id": 304,
+        "month_id": 2,
+        "week_number": 4,
+        "title": "Clinical NLP & Predictive Analytics",
+        "focus_hours": "10 hours · where your GenAI skills meet the domain",
+        "mindset": "<p><strong>Clinical NLP is the highest-leverage intersection of your existing skills and healthcare.</strong> 80% of clinical data is unstructured text — notes, referrals, discharge summaries. The models you already know how to build, evaluate, and deploy become dramatically more valuable pointed at that text.</p>",
+        "weekly_goal": "By Sunday you have built and evaluated one clinical NLP pipeline end to end on public data.",
+        "days": [
+          {
+            "id": 3040,
+            "week_id": 304,
+            "day_name": "Monday",
+            "hours": "2 hours · learning",
+            "type": "Learn",
+            "tasks": [
+              { "id": "hc_w4_d0_t1", "day_id": 3040, "task_num": 1, "content": "Stanford course: <strong>NLP in healthcare</strong> weeks — clinical information extraction, named entity recognition on notes, negation detection (“no evidence of pneumonia” is the classic trap)." },
+              { "id": "hc_w4_d0_t2", "day_id": 3040, "task_num": 2, "content": "List the top failure modes of vanilla NLP on clinical text: abbreviations, negation, temporality, copy-forward text." }
+            ]
+          },
+          {
+            "id": 3041,
+            "week_id": 304,
+            "day_name": "Tuesday",
+            "hours": "2 hours · coding",
+            "type": "Code",
+            "tasks": [
+              { "id": "hc_w4_d1_t1", "day_id": 3041, "task_num": 1, "content": "Build a <strong>clinical NER</strong> pipeline on the n2c2/i2b2-style public corpora (or synthetic notes): extract medication + dosage + frequency." },
+              { "id": "hc_w4_d1_t2", "day_id": 3041, "task_num": 2, "content": "Add <strong>negation handling</strong> — a rule-based NegEx-style pass. Measure how much it changes your extraction precision." }
+            ]
+          },
+          {
+            "id": 3042,
+            "week_id": 304,
+            "day_name": "Wednesday",
+            "hours": "2 hours · learning",
+            "type": "Learn",
+            "tasks": [
+              { "id": "hc_w4_d2_t1", "day_id": 3042, "task_num": 1, "content": "Stanford course: <strong>predictive analytics</strong> — sepsis early warning, deterioration scores, readmission. Why AUROC alone lied in the famous sepsis-model failures." },
+              { "id": "hc_w4_d2_t2", "day_id": 3042, "task_num": 2, "content": "Learn the <strong>alert economics</strong> of clinical prediction: PPV at your prevalence, alerts per clinician per shift, and alert fatigue as the real deployment constraint." }
+            ]
+          },
+          {
+            "id": 3043,
+            "week_id": 304,
+            "day_name": "Thursday",
+            "hours": "2 hours · coding",
+            "type": "Code",
+            "tasks": [
+              { "id": "hc_w4_d3_t1", "day_id": 3043, "task_num": 1, "content": "Take your Week 1 readmission model and add <strong>clinical-text features</strong> (note-derived embeddings or extracted entities). Measure the delta vs the tabular baseline." },
+              { "id": "hc_w4_d3_t2", "day_id": 3043, "task_num": 2, "content": "Compute the operating point a charge nurse would actually accept: at what threshold do you generate < N alerts/day at PPV > 0.3?" }
+            ]
+          },
+          {
+            "id": 3044,
+            "week_id": 304,
+            "day_name": "Friday",
+            "hours": "2 hours · building",
+            "type": "Build",
+            "tasks": [
+              { "id": "hc_w4_d4_t1", "day_id": 3044, "task_num": 1, "content": "Ship the combined model behind the FastAPI service from Week 1. Version the model artifact in MLflow; the API loads by model version." },
+              { "id": "hc_w4_d4_t2", "day_id": 3044, "task_num": 2, "content": "Write the eval report: AUROC, PPV at operating point, calibration, and a per-subgroup fairness slice." }
+            ]
+          },
+          {
+            "id": 3045,
+            "week_id": 304,
+            "day_name": "Weekend",
+            "hours": "1 hour · review",
+            "type": "Review",
+            "tasks": [
+              { "id": "hc_w4_d5_t1", "day_id": 3045, "task_num": 1, "content": "Journal: text-feature delta, your operating point, and what the fairness slice showed." }
+            ]
+          }
+        ]
+      },
+      {
+        "id": 305,
+        "month_id": 2,
+        "week_number": 5,
+        "title": "Safety, Bias & Responsible Deployment",
+        "focus_hours": "10 hours · the material that makes you hirable",
+        "mindset": "<p><strong>In healthcare, the safety review is the product.</strong> A model that can't pass governance doesn't ship, no matter its AUROC. This week you learn the regulatory and ethical landscape — and build the artifacts (model cards, audit trails) that review boards ask for.</p><p class=\"rt-alert\"><svg width=\"15\" height=\"15\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3Z\"/><path d=\"M12 9v4\"/><path d=\"M12 17h.01\"/></svg><span><strong>SaMD awareness:</strong> Software as a Medical Device rules (FDA/CE-MDR, and equivalents) determine whether a system needs regulatory clearance. Stay non-diagnostic, informational, or internal-QI unless you explicitly enter that path — and know which side of the line you're on.</span></p>",
+        "weekly_goal": "By Sunday you can classify a project as SaMD or non-SaMD, run a subgroup fairness audit, and produce a deployment-risk document.",
+        "days": [
+          {
+            "id": 3050,
+            "week_id": 305,
+            "day_name": "Monday",
+            "hours": "2 hours · learning",
+            "type": "Learn",
+            "tasks": [
+              { "id": "hc_w5_d0_t1", "day_id": 3050, "task_num": 1, "content": "Stanford course: <strong>fairness and bias</strong> weeks in depth. Study one documented biased-algorithm failure (e.g. the 2019 Obermeyer-style case using cost as a proxy for need)." },
+              { "id": "hc_w5_d0_t2", "day_id": 3050, "task_num": 2, "content": "Learn the three standard fairness lenses: group parity, calibration, and error-rate balance — and why you can't have all three at once." }
+            ]
+          },
+          {
+            "id": 3051,
+            "week_id": 305,
+            "day_name": "Tuesday",
+            "hours": "2 hours · coding",
+            "type": "Code",
+            "tasks": [
+              { "id": "hc_w5_d1_t1", "day_id": 3051, "task_num": 1, "content": "Run a <strong>subgroup fairness audit</strong> on your readmission model: AUROC and PPV sliced by age band, sex, and insurance type (or their public-dataset proxies)." },
+              { "id": "hc_w5_d1_t2", "day_id": 3051, "task_num": 2, "content": "Use <strong>Fairlearn</strong> or a small pandas slice-and-score script. Document the worst gap and one mitigation you'd propose." }
+            ]
+          },
+          {
+            "id": 3052,
+            "week_id": 305,
+            "day_name": "Wednesday",
+            "hours": "2 hours · learning",
+            "type": "Learn",
+            "tasks": [
+              { "id": "hc_w5_d2_t1", "day_id": 3052, "task_num": 1, "content": "Study <strong>SaMD</strong> classification basics: what makes software a medical device, risk classes, and what “non-diagnostic decision support” means." },
+              { "id": "hc_w5_d2_t2", "day_id": 3052, "task_num": 2, "content": "Classify your three portfolio projects-to-be: SaMD or not? Write one paragraph of justification each." }
+            ]
+          },
+          {
+            "id": 3053,
+            "week_id": 305,
+            "day_name": "Thursday",
+            "hours": "2 hours · learning",
+            "type": "Learn",
+            "tasks": [
+              { "id": "hc_w5_d3_t1", "day_id": 3053, "task_num": 1, "content": "Study <strong>HIPAA</strong> technical safeguards: PHI identifiers, the Safe Harbor de-identification list, minimum necessary, and BAAs when any third-party model API touches PHI." },
+              { "id": "hc_w5_d3_t2", "day_id": 3053, "task_num": 2, "content": "Write the PHI map for your portfolio stack: every field that is PHI, every place it flows, every control on it." }
+            ]
+          },
+          {
+            "id": 3054,
+            "week_id": 305,
+            "day_name": "Friday",
+            "hours": "2 hours · building",
+            "type": "Build",
+            "tasks": [
+              { "id": "hc_w5_d4_t1", "day_id": 3054, "task_num": 1, "content": "Produce the <strong>deployment-risk pack</strong> for the readmission service: model card, fairness audit, PHI map, rollback plan, monitoring plan." },
+              { "id": "hc_w5_d4_t2", "day_id": 3054, "task_num": 2, "content": "Claim the Stanford <strong>AI in Healthcare</strong> certificate (finish remaining quizzes). Add it next to the ML Specialization certificate." }
+            ]
+          },
+          {
+            "id": 3055,
+            "week_id": 305,
+            "day_name": "Weekend",
+            "hours": "1 hour · review",
+            "type": "Review",
+            "tasks": [
+              { "id": "hc_w5_d5_t1", "day_id": 3055, "task_num": 1, "content": "Journal: the worst fairness gap you found, and whether your projects are SaMD. These answers shape Phase 4 scoping." }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": 3,
+    "title": "Phase 3 — Healthcare AI Portfolio Projects",
+    "weeks_range": "Weeks 6–9",
+    "hours": "~40 hours · the portfolio that gets you the job",
+    "badge_text": "BUILD · PORTFOLIO",
+    "weeks": [
+      {
+        "id": 306,
+        "month_id": 3,
+        "week_number": 6,
+        "title": "Project 1 — Hospital Knowledge Assistant (RAG)",
+        "focus_hours": "10 hours · policies + procedures + citations",
+        "mindset": "<p><strong>In a hospital, an uncited answer is worse than no answer.</strong> Your GenAI RAG skills transfer directly — but the bar moves: every sentence must trace to a source document, access control follows the user, and PHI never leaves the boundary. You already know RAG; this week is RAG under hospital constraints.</p>",
+        "weekly_goal": "By Sunday a deployed RAG assistant answers policy questions with inline citations and a feedback button, on synthetic policies.",
+        "days": [
+          {
+            "id": 3060,
+            "week_id": 306,
+            "day_name": "Monday",
+            "hours": "2 hours · building",
+            "type": "Build",
+            "tasks": [
+              { "id": "hc_w6_d0_t1", "day_id": 3060, "task_num": 1, "content": "Assemble a corpus of <strong>synthetic hospital policies</strong> (~50 docs: infection control, HR, IT, pharmacy). Never use real documents." },
+              { "id": "hc_w6_d0_t2", "day_id": 3060, "task_num": 2, "content": "Design the pipeline you already know: ingestion → chunking → embeddings → hybrid retrieval → rerank → grounded generation with citations." }
+            ]
+          },
+          {
+            "id": 3061,
+            "week_id": 306,
+            "day_name": "Tuesday",
+            "hours": "2 hours · building",
+            "type": "Build",
+            "tasks": [
+              { "id": "hc_w6_d1_t1", "day_id": 3061, "task_num": 1, "content": "Build ingestion + <strong>chunking with metadata</strong>: doc id, section, version, effective date — versioned policy is a real hospital problem." },
+              { "id": "hc_w6_d1_t2", "day_id": 3061, "task_num": 2, "content": "Embed and load into <strong>Qdrant</strong> (your Post-ML stack). BM25 + dense hybrid retrieval with reciprocal-rank fusion." }
+            ]
+          },
+          {
+            "id": 3062,
+            "week_id": 306,
+            "day_name": "Wednesday",
+            "hours": "2 hours · building",
+            "type": "Build",
+            "tasks": [
+              { "id": "hc_w6_d2_t1", "day_id": 3062, "task_num": 1, "content": "Generation with <strong>inline citations</strong>: every claim links to doc + section. Refusal behavior when retrieval confidence is low." },
+              { "id": "hc_w6_d2_t2", "day_id": 3062, "task_num": 2, "content": "Add the <strong>access-control layer</strong>: role-filtered retrieval (an HR doc is invisible to a generic query). Test with two roles." }
+            ]
+          },
+          {
+            "id": 3063,
+            "week_id": 306,
+            "day_name": "Thursday",
+            "hours": "2 hours · building",
+            "type": "Build",
+            "tasks": [
+              { "id": "hc_w6_d3_t1", "day_id": 3063, "task_num": 1, "content": "Evaluation, your Post-ML way: 30-question gold set, <strong>precision@k + faithfulness (RAGAS)</strong>, before/after reranking." },
+              { "id": "hc_w6_d3_t2", "day_id": 3063, "task_num": 2, "content": "Add <strong>feedback capture</strong>: thumbs up/down + comment, stored per answer for future fine-tuning data." }
+            ]
+          },
+          {
+            "id": 3064,
+            "week_id": 306,
+            "day_name": "Friday",
+            "hours": "3 hours · building",
+            "type": "Build",
+            "tasks": [
+              { "id": "hc_w6_d4_t1", "day_id": 3064, "task_num": 1, "content": "Deploy: FastAPI + Docker, PHI boundary documented (synthetic data now, real contract later). Simple chat UI or CLI." },
+              { "id": "hc_w6_d4_t2", "day_id": 3064, "task_num": 2, "content": "Write the project README like a case study: problem, constraints, architecture, eval numbers, what you'd do with real data." }
+            ]
+          },
+          {
+            "id": 3065,
+            "week_id": 306,
+            "day_name": "Weekend",
+            "hours": "1 hour · review",
+            "type": "Review",
+            "tasks": [
+              { "id": "hc_w6_d5_t1", "day_id": 3065, "task_num": 1, "content": "Journal: eval numbers, the retrieval failure that surprised you, and the one feature you'd pitch to a hospital committee." }
+            ]
+          }
+        ]
+      },
+      {
+        "id": 307,
+        "month_id": 3,
+        "week_number": 7,
+        "title": "Project 2 — Operations Analytics Assistant",
+        "focus_hours": "10 hours · SQL + LLM over hospital ops data",
+        "mindset": "<p><strong>This project is your 8 years of hospital ERP experience, weaponized.</strong> Text-to-SQL over an operational star schema, with an LLM summarizing and explaining trends — the exact intersection where you outshine generic AI engineers with no domain background.</p>",
+        "weekly_goal": "By Sunday a deployed assistant answers natural-language ops questions over a synthetic hospital warehouse with verified SQL and trend narratives.",
+        "days": [
+          {
+            "id": 3070,
+            "week_id": 307,
+            "day_name": "Monday",
+            "hours": "2 hours · building",
+            "type": "Build",
+            "tasks": [
+              { "id": "hc_w7_d0_t1", "day_id": 3070, "task_num": 1, "content": "Design a <strong>synthetic hospital ops warehouse</strong> (DuckDB or Postgres): encounters, departments, appointments, no-shows, length-of-stay. Seeded, versioned, documented." },
+              { "id": "hc_w7_d0_t2", "day_id": 3070, "task_num": 2, "content": "Load a month of synthetic data with realistic skew (weekday/weekend, seasonal, department variation)." }
+            ]
+          },
+          {
+            "id": 3071,
+            "week_id": 307,
+            "day_name": "Tuesday",
+            "hours": "2 hours · building",
+            "type": "Build",
+            "tasks": [
+              { "id": "hc_w7_d1_t1", "day_id": 3071, "task_num": 1, "content": "Build <strong>text-to-SQL with guardrails</strong>: schema-aware prompting, read-only credentials, generated-SQL validation, row/time limits." },
+              { "id": "hc_w7_d1_t2", "day_id": 3071, "task_num": 2, "content": "Curate a 25-question eval set with gold SQL. Measure execution accuracy — the honest text-to-SQL metric." }
+            ]
+          },
+          {
+            "id": 3072,
+            "week_id": 307,
+            "day_name": "Wednesday",
+            "hours": "2 hours · building",
+            "type": "Build",
+            "tasks": [
+              { "id": "hc_w7_d2_t1", "day_id": 3072, "task_num": 1, "content": "Add <strong>narrative summaries</strong>: LLM turns query results into a 3-bullet ops briefing with the numbers cited from the result set." },
+              { "id": "hc_w7_d2_t2", "day_id": 3072, "task_num": 2, "content": "Add <strong>bottleneck detection</strong>: assistant flags anomalies (no-show spike, LOS drift) and explains candidate causes with the data." }
+            ]
+          },
+          {
+            "id": 3073,
+            "week_id": 307,
+            "day_name": "Thursday",
+            "hours": "2 hours · building",
+            "type": "Build",
+            "tasks": [
+              { "id": "hc_w7_d3_t1", "day_id": 3073, "task_num": 1, "content": "Wire the eval into CI from Post-ML: 25-question suite gates the PR; execution accuracy below threshold blocks merge." },
+              { "id": "hc_w7_d3_t2", "day_id": 3073, "task_num": 2, "content": "Add query cost logging: tokens, latency, and warehouse scan size per question." }
+            ]
+          },
+          {
+            "id": 3074,
+            "week_id": 307,
+            "day_name": "Friday",
+            "hours": "3 hours · building",
+            "type": "Build",
+            "tasks": [
+              { "id": "hc_w7_d4_t1", "day_id": 3074, "task_num": 1, "content": "Deploy behind FastAPI with a minimal analytics UI. Write the case-study README — lead with your hospital-ERP domain angle." },
+              { "id": "hc_w7_d4_t2", "day_id": 3074, "task_num": 2, "content": "Record a 3-minute demo: ask three ops questions, show verified SQL, trend narrative, and anomaly flag." }
+            ]
+          },
+          {
+            "id": 3075,
+            "week_id": 307,
+            "day_name": "Weekend",
+            "hours": "1 hour · review",
+            "type": "Review",
+            "tasks": [
+              { "id": "hc_w7_d5_t1", "day_id": 3075, "task_num": 1, "content": "Journal: execution-accuracy number, worst failure category, and what domain knowledge contributed that a generic prompter would miss." }
+            ]
+          }
+        ]
+      },
+      {
+        "id": 308,
+        "month_id": 3,
+        "week_number": 8,
+        "title": "Project 3 — Workflow Agent with Human Approval",
+        "focus_hours": "10 hours · LangGraph + HITL + audit trail",
+        "mindset": "<p><strong>Autonomy is a dial, and in healthcare it starts near zero.</strong> Your Post-ML agent skills apply, but every consequential action routes through a human. The interesting engineering is the gate: state, review UI, approval semantics, and the audit log that governance will ask for.</p>",
+        "weekly_goal": "By Sunday a deployed agent drafts a real workflow artifact, routes it for human approval, and logs every decision.",
+        "days": [
+          {
+            "id": 3080,
+            "week_id": 308,
+            "day_name": "Monday",
+            "hours": "2 hours · building",
+            "type": "Build",
+            "tasks": [
+              { "id": "hc_w8_d0_t1", "day_id": 3080, "task_num": 1, "content": "Pick the workflow: <strong>incident-report drafting</strong> from ops events (great fit for your ERP background) or discharge-summary structuring." },
+              { "id": "hc_w8_d0_t2", "day_id": 3080, "task_num": 2, "content": "Design the agent graph: read events → retrieve context → draft → <strong>human gate</strong> → commit + notify. Draw it before you code it." }
+            ]
+          },
+          {
+            "id": 3081,
+            "week_id": 308,
+            "day_name": "Tuesday",
+            "hours": "2 hours · building",
+            "type": "Build",
+            "tasks": [
+              { "id": "hc_w8_d1_t1", "day_id": 3081, "task_num": 1, "content": "Build the <strong>LangGraph</strong> flow with a checkpointed human-in-the-loop node (interrupt before commit)." },
+              { "id": "hc_w8_d1_t2", "day_id": 3081, "task_num": 2, "content": "Tools: warehouse query (read-only), document retrieval (Project 1's index), draft submission (gated). MCP or plain tools — your call." }
+            ]
+          },
+          {
+            "id": 3082,
+            "week_id": 308,
+            "day_name": "Wednesday",
+            "hours": "2 hours · building",
+            "type": "Build",
+            "tasks": [
+              { "id": "hc_w8_d2_t1", "day_id": 3082, "task_num": 1, "content": "Build the <strong>review UI</strong>: pending drafts queue, diff view, approve/reject-with-reason. Reject reason feeds the next iteration." },
+              { "id": "hc_w8_d2_t2", "day_id": 3082, "task_num": 2, "content": "Implement the <strong>audit trail</strong>: every state transition, tool call, approval, and rejection persisted — immutable, queryable." }
+            ]
+          },
+          {
+            "id": 3083,
+            "week_id": 308,
+            "day_name": "Thursday",
+            "hours": "2 hours · building",
+            "type": "Build",
+            "tasks": [
+              { "id": "hc_w8_d3_t1", "day_id": 3083, "task_num": 1, "content": "Add <strong>agent evaluation</strong>: 10 scenario tasks scored on draft quality, correct gating, and zero unapproved commits." },
+              { "id": "hc_w8_d3_t2", "day_id": 3083, "task_num": 2, "content": "Test the failure paths deliberately: tool error mid-flow, reviewer timeout, malformed draft. Each must land in a safe state." }
+            ]
+          },
+          {
+            "id": 3084,
+            "week_id": 308,
+            "day_name": "Friday",
+            "hours": "3 hours · building",
+            "type": "Build",
+            "tasks": [
+              { "id": "hc_w8_d4_t1", "day_id": 3084, "task_num": 1, "content": "Deploy the full stack. Write the README emphasizing the governance story — this is the artifact that differentiates you." },
+              { "id": "hc_w8_d4_t2", "day_id": 3084, "task_num": 2, "content": "Record a 3-minute demo: event stream in, draft produced, human approves, audit trail queried." }
+            ]
+          },
+          {
+            "id": 3085,
+            "week_id": 308,
+            "day_name": "Weekend",
+            "hours": "1 hour · review",
+            "type": "Review",
+            "tasks": [
+              { "id": "hc_w8_d5_t1", "day_id": 3085, "task_num": 1, "content": "Journal: where the agent saved time, where the human gate earned its cost, and what you'd automate next." }
+            ]
+          }
+        ]
+      },
+      {
+        "id": 309,
+        "month_id": 3,
+        "week_number": 9,
+        "title": "Project 4 — Patient Flow Prediction",
+        "focus_hours": "10 hours · classical ML on real operational problems",
+        "mindset": "<p><strong>Not everything in 2026 is an LLM.</strong> ED demand, no-shows, and length-of-stay are tabular forecasting problems where gradient boosting still beats deep learning — and where your Andrew Ng diagnostics training decides whether the model helps or hallucinates trend.</p>",
+        "weekly_goal": "By Sunday a deployed forecasting service predicts ED demand and no-show risk with drift monitoring live.",
+        "days": [
+          {
+            "id": 3090,
+            "week_id": 309,
+            "day_name": "Monday",
+            "hours": "2 hours · building",
+            "type": "Build",
+            "tasks": [
+              { "id": "hc_w9_d0_t1", "day_id": 3090, "task_num": 1, "content": "Extend the Week 7 warehouse with a year of synthetic <strong>ED arrivals + appointments</strong> with realistic seasonality, holidays, and epidemic bumps." },
+              { "id": "hc_w9_d0_t2", "day_id": 3090, "task_num": 2, "content": "Define the prediction tasks precisely: next-24h ED arrivals by hour; no-show probability per appointment; LOS category per admission." }
+            ]
+          },
+          {
+            "id": 3091,
+            "week_id": 309,
+            "day_name": "Tuesday",
+            "hours": "2 hours · building",
+            "type": "Build",
+            "tasks": [
+              { "id": "hc_w9_d1_t1", "day_id": 3091, "task_num": 1, "content": "Feature engineering: lag features, rolling windows, calendar features, department history. Build them in an sklearn Pipeline so they're reproducible." },
+              { "id": "hc_w9_d1_t2", "day_id": 3091, "task_num": 2, "content": "Train <strong>XGBoost</strong> baselines for all three tasks. Evaluate with time-based splits — never shuffle time series." }
+            ]
+          },
+          {
+            "id": 3092,
+            "week_id": 309,
+            "day_name": "Wednesday",
+            "hours": "2 hours · building",
+            "type": "Build",
+            "tasks": [
+              { "id": "hc_w9_d2_t1", "day_id": 3092, "task_num": 1, "content": "Compare against a naive seasonal baseline. If XGBoost doesn't beat it convincingly, say so — that honesty is the portfolio piece." },
+              { "id": "hc_w9_d2_t2", "day_id": 3092, "task_num": 2, "content": "Serve as a FastAPI forecasting service: input date/hour horizon, output predictions with prediction intervals." }
+            ]
+          },
+          {
+            "id": 3093,
+            "week_id": 309,
+            "day_name": "Thursday",
+            "hours": "2 hours · building",
+            "type": "Build",
+            "tasks": [
+              { "id": "hc_w9_d3_t1", "day_id": 3093, "task_num": 1, "content": "Add <strong>drift monitoring</strong> (Evidently, from your Post-ML stack): feature drift + prediction drift, alerts on threshold breach." },
+              { "id": "hc_w9_d3_t2", "day_id": 3093, "task_num": 2, "content": "Simulate a drift event (shift the synthetic distribution) and show the alert firing plus your documented retrain response." }
+            ]
+          },
+          {
+            "id": 3094,
+            "week_id": 309,
+            "day_name": "Friday",
+            "hours": "2 hours · building",
+            "type": "Build",
+            "tasks": [
+              { "id": "hc_w9_d4_t1", "day_id": 3094, "task_num": 1, "content": "Write the README as an ops case study: baseline vs model, decision value of the improvement, drift playbook." },
+              { "id": "hc_w9_d4_t2", "day_id": 3094, "task_num": 2, "content": "Record the demo: forecast vs actual on held-out weeks, drift alert firing, retrain flow." }
+            ]
+          },
+          {
+            "id": 3095,
+            "week_id": 309,
+            "day_name": "Weekend",
+            "hours": "1 hour · review",
+            "type": "Review",
+            "tasks": [
+              { "id": "hc_w9_d5_t1", "day_id": 3095, "task_num": 1, "content": "Journal: where the model beat naive and where it didn't, and the operational decision each forecast would actually inform." }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": 4,
+    "title": "Phase 4 — Production & Governance",
+    "weeks_range": "Weeks 10–12",
+    "hours": "~30 hours · ship it safely, monitor it, prove it",
+    "badge_text": "PROD · GOVERN",
+    "weeks": [
+      {
+        "id": 310,
+        "month_id": 4,
+        "week_number": 10,
+        "title": "Evaluation Platform & Portfolio Integration",
+        "focus_hours": "10 hours · the project that judges the others",
+        "mindset": "<p><strong>An evaluation platform is the project that proves you understand all the others.</strong> It's Project 5 from the source path, promoted to capstone-adjacent status: shared eval datasets, hallucination tests, model comparison, human review — pointed at your own Projects 1–4.</p>",
+        "weekly_goal": "By Sunday one deployed platform runs scheduled evals over your other projects and publishes a quality dashboard.",
+        "days": [
+          {
+            "id": 3100,
+            "week_id": 310,
+            "day_name": "Monday",
+            "hours": "2 hours · building",
+            "type": "Build",
+            "tasks": [
+              { "id": "hc_w10_d0_t1", "day_id": 3100, "task_num": 1, "content": "Design the platform: projects registry, eval datasets (gold sets from Projects 1–3), scheduled runs, results store, dashboard." },
+              { "id": "hc_w10_d0_t2", "day_id": 3100, "task_num": 2, "content": "Define the metric menu per project type: RAG (precision@k, faithfulness), SQL (execution accuracy), agent (task success, gating compliance), forecasting (MAE vs naive)." }
+            ]
+          },
+          {
+            "id": 3101,
+            "week_id": 310,
+            "day_name": "Tuesday",
+            "hours": "2 hours · building",
+            "type": "Build",
+            "tasks": [
+              { "id": "hc_w10_d1_t1", "day_id": 3101, "task_num": 1, "content": "Build the runner: pulls latest deploy of each project, executes its eval set, stores versioned results." },
+              { "id": "hc_w10_d1_t2", "day_id": 3101, "task_num": 2, "content": "Add <strong>hallucination testing</strong> for the RAG project: unanswerable questions must yield refusals, not inventions. Score it." }
+            ]
+          },
+          {
+            "id": 3102,
+            "week_id": 310,
+            "day_name": "Wednesday",
+            "hours": "2 hours · building",
+            "type": "Build",
+            "tasks": [
+              { "id": "hc_w10_d2_t1", "day_id": 3102, "task_num": 1, "content": "Add <strong>model comparison</strong>: swap the RAG generator or the SQL model and get a side-by-side delta report per metric." },
+              { "id": "hc_w10_d2_t2", "day_id": 3102, "task_num": 2, "content": "Add the <strong>human review queue</strong>: sampled outputs flagged for eyeballing, with reviewer verdicts stored." }
+            ]
+          },
+          {
+            "id": 3103,
+            "week_id": 310,
+            "day_name": "Thursday",
+            "hours": "2 hours · building",
+            "type": "Build",
+            "tasks": [
+              { "id": "hc_w10_d3_t1", "day_id": 3103, "task_num": 1, "content": "Publish the dashboard: per-project quality over time, regression markers, links to the underlying runs." },
+              { "id": "hc_w10_d3_t2", "day_id": 3103, "task_num": 2, "content": "Schedule nightly runs (cron/GitHub Action). A regression in any project opens an issue automatically." }
+            ]
+          },
+          {
+            "id": 3104,
+            "week_id": 310,
+            "day_name": "Friday",
+            "hours": "2 hours · building",
+            "type": "Build",
+            "tasks": [
+              { "id": "hc_w10_d4_t1", "day_id": 3104, "task_num": 1, "content": "Write the platform README: philosophy (evals as first-class), architecture, how to add a project." },
+              { "id": "hc_w10_d4_t2", "day_id": 3104, "task_num": 2, "content": "Wire the platform link into your portfolio site next to each project." }
+            ]
+          },
+          {
+            "id": 3105,
+            "week_id": 310,
+            "day_name": "Weekend",
+            "hours": "1 hour · review",
+            "type": "Review",
+            "tasks": [
+              { "id": "hc_w10_d5_t1", "day_id": 3105, "task_num": 1, "content": "Journal: which project evals caught a real regression this week — that story is your interview answer." }
+            ]
+          }
+        ]
+      },
+      {
+        "id": 311,
+        "month_id": 4,
+        "week_number": 11,
+        "title": "Production Hardening — Security & Monitoring",
+        "focus_hours": "10 hours · PHI boundaries, audit logs, alerting",
+        "mindset": "<p><strong>Production healthcare AI is a security product with a model inside.</strong> Access control, PHI minimization, immutable audit logs, and honest monitoring are what distinguish a deployable system from a demo — and they're the first things a hospital security review will probe.</p>",
+        "weekly_goal": "By Sunday all four portfolio services run hardened: auth, PHI-safe logging, audit trails, and live monitoring dashboards.",
+        "days": [
+          {
+            "id": 3110,
+            "week_id": 311,
+            "day_name": "Monday",
+            "hours": "2 hours · building",
+            "type": "Build",
+            "tasks": [
+              { "id": "hc_w11_d0_t1", "day_id": 3110, "task_num": 1, "content": "Add <strong>authentication + RBAC</strong> to every service: named roles (clinician, ops, admin) with least-privilege scopes." },
+              { "id": "hc_w11_d0_t2", "day_id": 3110, "task_num": 2, "content": "Enforce <strong>PHI-safe logging</strong>: scrubbers for identifiers, structured logs with request ids, zero patient data in logs. Prove it with a grep test." }
+            ]
+          },
+          {
+            "id": 3111,
+            "week_id": 311,
+            "day_name": "Tuesday",
+            "hours": "2 hours · building",
+            "type": "Build",
+            "tasks": [
+              { "id": "hc_w11_d1_t1", "day_id": 3111, "task_num": 1, "content": "Centralize the <strong>audit trail</strong>: every prediction, retrieval, generation, approval, and admin action in one queryable store." },
+              { "id": "hc_w11_d1_t2", "day_id": 3111, "task_num": 2, "content": "Write the audit query you'd hand a compliance officer: who saw what, when, under which role, for which patient encounter." }
+            ]
+          },
+          {
+            "id": 3112,
+            "week_id": 311,
+            "day_name": "Wednesday",
+            "hours": "2 hours · building",
+            "type": "Build",
+            "tasks": [
+              { "id": "hc_w11_d2_t1", "day_id": 3112, "task_num": 1, "content": "Stand up <strong>monitoring</strong>: service health, latency, error rates, model metrics (drift, eval scores) — Grafana or a simple metrics page." },
+              { "id": "hc_w11_d2_t2", "day_id": 3112, "task_num": 2, "content": "Define <strong>alert rules</strong> with owners: drift breach, eval regression, error-rate spike, audit-write failure (the alert about alerts)." }
+            ]
+          },
+          {
+            "id": 3113,
+            "week_id": 311,
+            "day_name": "Thursday",
+            "hours": "2 hours · building",
+            "type": "Build",
+            "tasks": [
+              { "id": "hc_w11_d3_t1", "day_id": 3113, "task_num": 1, "content": "Run a <strong>threat-model pass</strong> on each service using OWASP LLM Top 10 (your Post-ML resource): prompt injection, data exfiltration via retrieval, privilege escalation." },
+              { "id": "hc_w11_d3_t2", "day_id": 3113, "task_num": 2, "content": "Fix the top finding per service. Document the rest in a risk register with accepted/rejected decisions." }
+            ]
+          },
+          {
+            "id": 3114,
+            "week_id": 311,
+            "day_name": "Friday",
+            "hours": "2 hours · building",
+            "type": "Build",
+            "tasks": [
+              { "id": "hc_w11_d4_t1", "day_id": 3114, "task_num": 1, "content": "Write the <strong>production handbook</strong> for the whole portfolio: runbooks per service, rollback, incident response, model-update procedure." },
+              { "id": "hc_w11_d4_t2", "day_id": 3114, "task_num": 2, "content": "Do a fire drill: kill a service, verify alerting, execute the rollback runbook, write the mock postmortem." }
+            ]
+          },
+          {
+            "id": 3115,
+            "week_id": 311,
+            "day_name": "Weekend",
+            "hours": "1 hour · review",
+            "type": "Review",
+            "tasks": [
+              { "id": "hc_w11_d5_t1", "day_id": 3115, "task_num": 1, "content": "Journal: the threat-model finding that most changed your architecture, and the rollback drill time." }
+            ]
+          }
+        ]
+      },
+      {
+        "id": 312,
+        "month_id": 4,
+        "week_number": 12,
+        "title": "Capstone — Defense & Positioning",
+        "focus_hours": "10 hours · prove it, then tell the story",
+        "mindset": "<p><strong>The finish line is not the code — it's the defense.</strong> Twelve weeks of systems, one recorded walkthrough, one honest retrospective, one positioning document. This is where the healthcare-operations veteran meets the AI engineer, on camera.</p>",
+        "weekly_goal": "By Sunday a recorded 15-minute defense of the whole portfolio exists, plus the positioning one-pager, and the next 90 days are planned.",
+        "days": [
+          {
+            "id": 3120,
+            "week_id": 312,
+            "day_name": "Monday",
+            "hours": "2 hours · building",
+            "type": "Build",
+            "tasks": [
+              { "id": "hc_w12_d0_t1", "day_id": 3120, "task_num": 1, "content": "Run the full portfolio through the evaluation platform one final time. Screenshot everything — these numbers go in the defense." },
+              { "id": "hc_w12_d0_t2", "day_id": 3120, "task_num": 2, "content": "Write the defense outline: system-by-system — problem, constraint, architecture, eval result, failure mode, what you'd change." }
+            ]
+          },
+          {
+            "id": 3121,
+            "week_id": 312,
+            "day_name": "Tuesday",
+            "hours": "3 hours · building",
+            "type": "Build",
+            "tasks": [
+              { "id": "hc_w12_d1_t1", "day_id": 3121, "task_num": 1, "content": "Record the <strong>15-minute portfolio defense</strong>: live demos, honest numbers, the drift drill, the audit query. One take, minor edits only." },
+              { "id": "hc_w12_d1_t2", "day_id": 3121, "task_num": 2, "content": "Publish it alongside the project repos and the eval dashboard links." }
+            ]
+          },
+          {
+            "id": 3122,
+            "week_id": 312,
+            "day_name": "Wednesday",
+            "hours": "2 hours · learning",
+            "type": "Learn",
+            "tasks": [
+              { "id": "hc_w12_d2_t1", "day_id": 3122, "task_num": 1, "content": "Write the <strong>positioning one-pager</strong>: healthcare operations + ERP integration + ML/GenAI engineering + governance. Target roles: healthcare AI engineer, clinical informatics engineer, AI adoption lead." },
+              { "id": "hc_w12_d2_t2", "day_id": 3122, "task_num": 2, "content": "Update the portfolio site: certificates (ML Spec, Stanford AI in Healthcare), the five systems, the defense video." }
+            ]
+          },
+          {
+            "id": 3123,
+            "week_id": 312,
+            "day_name": "Thursday",
+            "hours": "2 hours · learning",
+            "type": "Learn",
+            "tasks": [
+              { "id": "hc_w12_d3_t1", "day_id": 3123, "task_num": 1, "content": "Write the retrospective: strongest system, weakest system, the eval that saved you, the constraint that taught you most." },
+              { "id": "hc_w12_d3_t2", "day_id": 3123, "task_num": 2, "content": "Publish it as a blog post — 'from hospital ERP engineer to healthcare AI engineer' is a story worth telling." }
+            ]
+          },
+          {
+            "id": 3124,
+            "week_id": 312,
+            "day_name": "Friday",
+            "hours": "2 hours · learning",
+            "type": "Learn",
+            "tasks": [
+              { "id": "hc_w12_d4_t1", "day_id": 3124, "task_num": 1, "content": "Plan the next 90 days: pick one real problem at work, scope it with the deployment-risk pack template, and propose it." },
+              { "id": "hc_w12_d4_t2", "day_id": 3124, "task_num": 2, "content": "Decide the growth frontier: HL7 FHIR integration depth, clinical NLP papers, or health-system-scale MLOps." }
+            ]
+          },
+          {
+            "id": 3125,
+            "week_id": 312,
+            "day_name": "Weekend",
+            "hours": "1 hour · review",
+            "type": "Review",
+            "tasks": [
+              { "id": "hc_w12_d5_t1", "day_id": 3125, "task_num": 1, "content": "Final journal entry: mark the track complete. Healthcare professional who understands AI engineering — and can prove it." }
+            ]
+          }
+        ]
+      }
+    ]
+  }
+]

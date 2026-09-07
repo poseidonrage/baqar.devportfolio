@@ -12,3 +12,4 @@
 - [GenAI Roadmap Tracker](/roadmap): A 24-week GenAI engineering roadmap tracker — LLMs, RAG, agents, and production AI systems — with weekly tasks, projects, and curated resources.
 - [ML Roadmap Tracker](/ml-roadmap): A 10-week machine learning roadmap tracker following Andrew Ng's Coursera ML Specialization — regression, classification, neural networks, decision trees, clustering, recommender systems, and reinforcement learning.
 - [Post-ML Roadmap Tracker](/post-ml-roadmap): A 12-week AI-engineering roadmap tracker — ML evaluation, data engineering, MLOps/LLMOps, transformer internals, RAG, AI agents, and production deployment.
+- [Healthcare AI Roadmap Tracker](/healthcare-ai-roadmap): A 12-week healthcare AI engineer roadmap tracker — clinical NLP, FHIR and healthcare data standards, HIPAA privacy, fairness audits, RAG over hospital policies, workflow agents with human approval, and patient-flow forecasting.

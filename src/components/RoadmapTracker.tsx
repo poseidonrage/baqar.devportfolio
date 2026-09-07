@@ -54,11 +54,13 @@ const useCountUp = (target: number, duration = 700) => {
 
 const easeOut = [0.22, 1, 0.36, 1] as const;
 
-// The roadmap tracks this tracker family hosts, for the header switcher
+// The roadmap tracks this tracker family hosts, for the header switcher.
+// Numbered by the learning path: ML foundations → DL/transformers → GenAI → Healthcare AI.
 const TRACKS = [
-  { label: 'GenAI', path: '/roadmap' },
-  { label: 'ML', path: '/ml-roadmap' },
-  { label: 'Post-ML', path: '/post-ml-roadmap' },
+  { num: 1, label: 'ML', path: '/ml-roadmap' },
+  { num: 2, label: 'Post-ML', path: '/post-ml-roadmap' },
+  { num: 3, label: 'GenAI', path: '/roadmap' },
+  { num: 4, label: 'Health', path: '/healthcare-ai-roadmap' },
 ];
 
 // Resume where the learner left off: read the saved week from localStorage and
@@ -465,7 +467,7 @@ export const RoadmapTracker: React.FC<{ config: RoadmapConfig }> = ({ config }) 
             to={t.path}
             className={t.path === config.path ? 'active' : ''}
           >
-            {t.label}
+            <span className="rt-track-num">{t.num}</span>{t.label}
           </Link>
         ))}
       </div>
@@ -1140,7 +1142,8 @@ export const RoadmapTracker: React.FC<{ config: RoadmapConfig }> = ({ config }) 
           gap: 0.7rem;
         }
         .rt-track-switch {
-          display: flex;
+          display: grid;
+          grid-template-columns: 1fr 1fr;
           gap: 4px;
           margin-top: 12px;
           padding: 3px;
@@ -1149,8 +1152,7 @@ export const RoadmapTracker: React.FC<{ config: RoadmapConfig }> = ({ config }) 
           border-radius: 9px;
         }
         .rt-track-switch a {
-          flex: 1;
-          padding: 6px 10px;
+          padding: 6px 8px;
           border-radius: 6px;
           font-size: 10.5px;
           font-weight: 700;
@@ -1158,6 +1160,7 @@ export const RoadmapTracker: React.FC<{ config: RoadmapConfig }> = ({ config }) 
           text-transform: uppercase;
           text-decoration: none;
           text-align: center;
+          white-space: nowrap;
           color: var(--text-3);
           transition: var(--ease);
         }
@@ -1165,6 +1168,13 @@ export const RoadmapTracker: React.FC<{ config: RoadmapConfig }> = ({ config }) 
         .rt-track-switch a.active {
           background: var(--btn-bg);
           color: var(--btn-text);
+        }
+        .rt-track-num {
+          display: inline-block;
+          min-width: 14px;
+          margin-right: 4px;
+          opacity: 0.55;
+          text-align: right;
         }
         .rt-brand-mark {
           width: 38px;

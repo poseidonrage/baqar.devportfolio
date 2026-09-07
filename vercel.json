@@ -17,6 +17,10 @@
       "destination": "/index.html"
     },
     {
+      "source": "/healthcare-ai-roadmap",
+      "destination": "/index.html"
+    },
+    {
       "source": "/admin",
       "destination": "/index.html"
     },

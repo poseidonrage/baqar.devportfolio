@@ -3,6 +3,7 @@
 import curriculumData from '../data/curriculum.json';
 import curriculumMlData from '../data/curriculum-ml.json';
 import curriculumPostMlData from '../data/curriculum-postml.json';
+import curriculumHealthData from '../data/curriculum-health.json';
 import type { Month, WeekResource } from './roadmapData';
 import type { Project, GlossaryItem } from './roadmapData';
 import { glossaryItems, PROJECTS, WEEK_RESOURCES } from './roadmapData';
@@ -588,6 +589,169 @@ export const postMLConfig: RoadmapConfig = {
   glossaryBlurb: 'Adjacent concepts that are easy to conflate — what differs, and which one you reach for.',
   glossaryModalTitle: 'Concept pairs guide',
   glossaryUnit: 'pairs',
+  glossaryLeftLabel: 'Concept A',
+  glossaryRightLabel: 'Concept B',
+  glossaryLeftLang: 'python',
+  glossaryRightLang: 'python',
+  mindsetLabel: 'Mindset',
+};
+
+// ── Healthcare AI Engineer track ─────────────────────────────────────────────
+
+const HEALTH_RESOURCES: Record<number, WeekResource[]> = {
+  301: [
+    { title: 'scikit-learn — Pipelines & ColumnTransformer', source: 'scikit-learn.org', url: 'https://scikit-learn.org/stable/modules/compose.html', kind: 'docs' },
+    { title: 'MIMIC-IV demo dataset (physionet)', source: 'PhysioNet', url: 'https://physionet.org/content/mimic-iv-demo/2.2/', kind: 'tool' },
+    { title: 'Hospital Readmissions (Kaggle)', source: 'Kaggle', url: 'https://www.kaggle.com/datasets/dubradave/hospital-readmissions', kind: 'tool' },
+  ],
+  302: [
+    { title: 'ClinicalBERT / Bio+Clinical BERT', source: 'HuggingFace', url: 'https://huggingface.co/emilyalsentzer/Bio_ClinicalBERT', kind: 'repo' },
+    { title: 'PubMedQA dataset', source: 'HuggingFace', url: 'https://huggingface.co/datasets/qiaojin/PubMedQA', kind: 'tool' },
+    { title: 'HuggingFace Tokenizers — training', source: 'huggingface.co', url: 'https://huggingface.co/docs/tokenizers/training_from_memory', kind: 'docs' },
+  ],
+  303: [
+    { title: 'AI in Healthcare Specialization', source: 'Stanford · Coursera', url: 'https://www.coursera.org/specializations/ai-in-healthcare', kind: 'course' },
+    { title: 'HL7 FHIR — Developer resources', source: 'hl7.org/fhir', url: 'https://hl7.org/fhir/', kind: 'docs' },
+    { title: 'HAPI FHIR test server (public)', source: 'hapifhir.io', url: 'https://hapifhir.io/hapi-fhir/docs/server_plain.html', kind: 'tool' },
+  ],
+  304: [
+    { title: 'n2c2/i2b2 shared tasks (clinical NLP)', source: 'dbmi.hms.harvard.edu', url: 'https://www.dbmi.hms.harvard.edu/research/project/n2c2-nlp/', kind: 'article' },
+    { title: 'NegEx / negation detection', source: 'PubMed', url: 'https://pubmed.ncbi.nlm.nih.gov/23461160/', kind: 'article' },
+    { title: 'Epic Sepsis Model external validation', source: 'JAMA Internal Medicine', url: 'https://jamanetwork.com/journals/jamainternalmedicine/fullarticle/2781307', kind: 'article' },
+  ],
+  305: [
+    { title: 'Fairlearn — fairness assessment', source: 'fairlearn.org', url: 'https://fairlearn.org/main/quickstart.html', kind: 'docs' },
+    { title: 'Dissecting racial bias in a health algorithm', source: 'Science (Obermeyer et al.)', url: 'https://www.science.org/doi/10.1126/science.aax2342', kind: 'article' },
+    { title: 'FDA — Digital Health / SaMD overview', source: 'fda.gov', url: 'https://www.fda.gov/medical-devices/digital-health-center-excellence', kind: 'docs' },
+    { title: 'HIPAA Security Rule guidance', source: 'HHS', url: 'https://www.hhs.gov/hipaa/for-professionals/security/index.html', kind: 'docs' },
+  ],
+  306: [
+    { title: 'Model Cards for Model Reporting', source: 'Mitchell et al. / arXiv', url: 'https://arxiv.org/abs/1810.03993', kind: 'article' },
+    { title: 'Reciprocal Rank Fusion', source: 'Elastic blog', url: 'https://www.elastic.co/blog/reciprocal-rank-fusion', kind: 'article' },
+  ],
+  307: [
+    { title: 'DuckDB — analytical SQL', source: 'duckdb.org', url: 'https://duckdb.org/', kind: 'tool' },
+    { title: 'Text-to-SQL execution accuracy (Spider benchmark)', source: 'yale-lily.github.io', url: 'https://yale-lily.github.io/spider', kind: 'article' },
+  ],
+  308: [
+    { title: 'LangGraph — Human-in-the-loop', source: 'langchain-ai.github.io', url: 'https://langchain-ai.github.io/langgraph/concepts/human_in_the_loop/', kind: 'docs' },
+    { title: 'Building Effective Agents', source: 'Anthropic', url: 'https://www.anthropic.com/research/building-effective-agents', kind: 'article' },
+  ],
+  309: [
+    { title: 'XGBoost docs', source: 'xgboost.readthedocs.io', url: 'https://xgboost.readthedocs.io/en/stable/', kind: 'docs' },
+    { title: 'Evidently — data drift monitoring', source: 'evidentlyai.com', url: 'https://docs.evidentlyai.com/', kind: 'docs' },
+    { title: 'sklearn — TimeSeriesSplit', source: 'scikit-learn.org', url: 'https://scikit-learn.org/stable/modules/cross_validation.html#time-series-split', kind: 'docs' },
+  ],
+  310: [
+    { title: 'RAGAS — RAG evaluation', source: 'ragas.io', url: 'https://docs.ragas.io/', kind: 'docs' },
+    { title: 'LangSmith — Evaluation', source: 'docs.smith.langchain.com', url: 'https://docs.smith.langchain.com/evaluation', kind: 'docs' },
+  ],
+  311: [
+    { title: 'OWASP Top 10 for LLM Applications', source: 'OWASP', url: 'https://genai.owasp.org/llm-top-10/', kind: 'article' },
+    { title: 'HIPAA de-identification guidance', source: 'HHS', url: 'https://www.hhs.gov/hipaa/for-professionals/special-topics/de-identification/index.html', kind: 'docs' },
+  ],
+  312: [
+    { title: 'Google SRE Book — Postmortem culture', source: 'sre.google', url: 'https://sre.google/sre-book/postmortem-culture/', kind: 'book' },
+    { title: 'Model Cards for Model Reporting', source: 'Mitchell et al. / arXiv', url: 'https://arxiv.org/abs/1810.03993', kind: 'article' },
+  ],
+};
+
+const HEALTH_GLOSSARY: GlossaryItem[] = [
+  { csharp: 'ICD-10', python: 'CPT', category: 'standards', desc: 'ICD-10 codes WHY a patient was seen (diagnoses, billing on claims). CPT codes WHAT was done (procedures). Both end up as ML features.', csharpCode: `# ICD-10: diagnosis vocabulary\nE11.9  # Type 2 diabetes, no complications\nS72.0  # fracture of neck of femur`, pythonCode: `# CPT: procedure vocabulary\n99213  # office visit, established patient\n70450  # CT head, without contrast` },
+  { csharp: 'SNOMED CT', python: 'LOINC', category: 'standards', desc: 'SNOMED CT: comprehensive clinical terminology (findings, procedures). LOINC: lab/observation identifiers. Both live inside FHIR resources.', csharpCode: `# SNOMED: clinical terms\n195967001  # asthma (finding)\n233604007  # pneumonia`, pythonCode: `# LOINC: lab panels\n2160-0  # creatinine [mass/volume]\n33914-3 # CBC panel` },
+  { csharp: 'HL7 v2', python: 'FHIR', category: 'standards', desc: 'HL7 v2: pipe-delimited messages from the 80s, still everywhere in interfaces. FHIR: modern REST+JSON resources. You will meet both.', csharpCode: `MSH|^~\\&|LAB|HOSP|EHR|HOSP|20260107||ORU^R01|MSG1|P|2.3\nPID|1||12345||DOE^JANE||19700101|F`, pythonCode: `# FHIR: a resource\nGET /fhir/Patient/12345\n# -> JSON: resourceType, identifier, ...` },
+  { csharp: 'PHI', python: 'PII', category: 'privacy', desc: 'PII identifies a person. PHI is health-related PII — protected by HIPAA with 18 identifier categories and much heavier penalties.', csharpCode: `# PII: name, email, gov id\nuser = {\"name\": \"Jane\", \"email\": \"j@x.com\"}`, pythonCode: `# PHI: PII tied to health data\nencounter = {\"name\": \"Jane\",\n  \"mrn\": 12345, \"dx\": \"E11.9\"}  # HIPAA scope` },
+  { csharp: 'Safe Harbor', python: 'Expert Determination', category: 'privacy', desc: 'The two HIPAA de-identification methods: Safe Harbor strips all 18 identifier types; Expert Determination certifies very small re-identification risk.', csharpCode: `# Safe Harbor: strip 18 identifier types\ndeid = drop(date, zip3, mrn, name, age>89, ...)`, pythonCode: `# Expert Determination: statistical\nrisk = reident_risk(deid)\ncertify(risk < threshold)` },
+  { csharp: 'BAA', python: 'DPA', category: 'privacy', desc: 'Both let a vendor process data lawfully. A BAA (HIPAA) is required before any vendor — including an LLM API — touches PHI. A DPA is the GDPR equivalent.', csharpCode: `# before: PHI never crosses\nllm.call(text)  # if has_phi(text): ABORT`, pythonCode: `# after BAA signed: PHI ok\nllm.call(phi_text)  # covered by agreement` },
+  { csharp: 'SaMD', python: 'CDS', category: 'regulatory', desc: 'SaMD (Software as a Medical Device) makes a diagnostic/treatment claim and needs FDA clearance. Clinical Decision Support that is informational and reviewable can be exempt.', csharpCode: `# NOT a device (informational)\n\"This patient's readmission risk score is 0.31.\n See full chart for context.\"`, pythonCode: `# Likely SaMD (diagnostic claim)\n\"This patient WILL be readmitted.\"\n# -> regulatory pathway` },
+  { csharp: 'AUROC', python: 'PPV at operating point', category: 'evaluation', desc: 'AUROC measures ranking quality across thresholds. Deployment cares about PPV and alert volume at ONE chosen threshold — where AUROC lied in sepsis models.', csharpCode: `auroc = roc_auc_score(y, p)\n# 0.85! ...but at what threshold,\n# how many false alarms per shift?`, pythonCode: `thresh = 0.62  # chosen for ops\nppv = precision_at(y, p, thresh)\nalerts = (p > thresh).mean()  # per day` },
+  { csharp: 'Group parity', python: 'Calibration', category: 'fairness', desc: 'Two of the three standard fairness lenses. Impossibility results say you cannot satisfy all three simultaneously — pick explicitly and defend it.', csharpCode: `# parity: equal rates across groups\nfpr_A == fpr_B  # and fnr_A == fnr_B`, pythonCode: `# calibration: same score = same risk\nP(y=1 | s=0.3, A) ==\nP(y=1 | s=0.3, B)` },
+  { csharp: 'Alert fatigue', python: 'Alert economics', category: 'clinical', desc: 'The deployment constraint: clinicians ignore alerts above ~10/shift regardless of accuracy. Your model ships at the PPV/alert-volume point, not the AUROC point.', csharpCode: `# the real objective\nmax ppv\ns.t. alerts_per_nurse_shift <= 10`, pythonCode: `# tune threshold on ops curve\nfor t in thresholds:\n  a = alert_rate(t)\n  if a > budget: break\n  pick(t)` },
+  { csharp: 'Negation ("no evidence of")', python: 'Assertion detection', category: 'nlp', desc: 'The classic clinical NLP trap: "no evidence of pneumonia" must NOT extract pneumonia. NegEx-style rules or LLM-based assertion status.', csharpCode: `naive = "pneumonia" in note\n# True — WRONG. Patient does NOT have it.`, pythonCode: `assertion = nlp(note)\nassertion("pneumonia")\n# -> "Negated"  # correct` },
+  { csharp: 'Copy-forward text', python: 'Temporal ambiguity', category: 'nlp', desc: 'Notes copy yesterday\'s note forward (stale history) and reference events years apart. Every extraction needs a temporal anchor.', csharpCode: `# same note contains:\n# "2019: appendectomy"\n# "yesterday: chest pain"\nextract(note)  # which is NOW?`, pythonCode: `events = nlp(note, anchor="admission")\nfor e in events: e.relative_time` },
+];
+
+export const healthConfig: RoadmapConfig = {
+  prefix: 'hc_',
+  path: '/healthcare-ai-roadmap',
+  brandName: 'Healthcare AI',
+  brandSub: '12-week tracker',
+  journalTotal: 12,
+  curriculum: curriculumHealthData as Month[],
+  projects: [
+    {
+      id: 6, monthId: 1, weeks: 'Week 1',
+      title: 'Readmission Baseline Service',
+      techStack: ['Python', 'sklearn', 'FastAPI', 'Docker'],
+      input: 'Public hospital dataset (MIMIC-IV demo or Kaggle readmissions)',
+      datasetUrl: 'https://www.kaggle.com/datasets/dubradave/hospital-readmissions', datasetLabel: 'Hospital Readmissions (Kaggle)',
+      output: '30-day readmission AUROC + confusion matrix + calibration curve, served on /predict',
+      note: 'The tabular baseline every later system is measured against',
+      type: 'api',
+    },
+    {
+      id: 7, monthId: 2, weeks: 'Week 2',
+      title: 'Clinical Text Classifier',
+      techStack: ['Python', 'PyTorch', 'HuggingFace', 'MLflow'],
+      input: 'Clinical notes (PubMedQA / n2c2-style public corpora)',
+      datasetUrl: 'https://huggingface.co/datasets/qiaojin/PubMedQA', datasetLabel: 'PubMedQA (HuggingFace)',
+      output: 'Fine-tuned DistilBERT + baseline-vs-tuned F1 in MLflow + model card',
+      note: 'Fine-tune small on clinical text, prove the delta, ship a model card',
+      type: 'agent',
+    },
+    {
+      id: 1, monthId: 3, weeks: 'Week 6',
+      title: 'Hospital Knowledge Assistant',
+      techStack: ['Python', 'Qdrant', 'FastAPI', 'RAGAS'],
+      input: 'Synthetic hospital policies & procedures (~50 docs)',
+      output: 'RAG answers with inline citations + role-filtered retrieval + faithfulness eval',
+      note: 'Uncited answers are worse than no answers — every claim traces to a source',
+      type: 'rag',
+    },
+    {
+      id: 2, monthId: 3, weeks: 'Week 7',
+      title: 'Ops Analytics Assistant',
+      techStack: ['DuckDB', 'Python', 'FastAPI', 'LLM'],
+      input: 'Natural-language ops questions over a synthetic hospital warehouse',
+      output: 'Verified SQL + 3-bullet briefing + anomaly flags; 25-question eval gating CI',
+      note: 'Your 8 years of hospital ERP domain knowledge, pointed at text-to-SQL',
+      type: 'api',
+    },
+    {
+      id: 3, monthId: 3, weeks: 'Week 8',
+      title: 'Workflow Agent (HITL)',
+      techStack: ['LangGraph', 'Python', 'FastAPI'],
+      input: 'Operational event stream + document index',
+      output: 'Draft incident reports routed for human approval + immutable audit trail',
+      note: 'Autonomy starts near zero — the gate and audit log are the product',
+      type: 'agent',
+    },
+    {
+      id: 4, monthId: 3, weeks: 'Week 9',
+      title: 'Patient Flow Prediction',
+      techStack: ['XGBoost', 'sklearn', 'Evidently', 'Docker'],
+      input: 'Synthetic year of ED arrivals, appointments, admissions',
+      output: 'ED demand + no-show + LOS forecasts with drift monitoring and retrain playbook',
+      note: 'Tabular ops forecasting — where gradient boosting still beats LLMs',
+      type: 'saas',
+    },
+    {
+      id: 5, monthId: 4, weeks: 'Week 10',
+      title: 'AI Evaluation Platform',
+      techStack: ['Python', 'RAGAS', 'LangSmith', 'Grafana'],
+      input: 'The other four projects, deployed',
+      output: 'Nightly scheduled evals, hallucination tests, model comparison, quality dashboard',
+      note: 'The project that judges the others — evals as first-class citizens',
+      type: 'api',
+    },
+  ],
+  resources: HEALTH_RESOURCES,
+  glossary: HEALTH_GLOSSARY,
+  glossaryCategories: ['all', 'standards', 'privacy', 'regulatory', 'evaluation', 'fairness', 'clinical', 'nlp'],
+  glossaryTitle: 'Healthcare AI lexicon',
+  glossaryBlurb: 'Standards, privacy, regulatory, and clinical concepts an AI engineer must speak fluently in a hospital.',
+  glossaryModalTitle: 'Healthcare AI lexicon',
+  glossaryUnit: 'terms',
   glossaryLeftLabel: 'Concept A',
   glossaryRightLabel: 'Concept B',
   glossaryLeftLang: 'python',
