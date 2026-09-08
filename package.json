@@ -6,7 +6,7 @@
   "scripts": {
     "dev": "concurrently \"node api/index.js\" \"vite\" -n \"API,FE\" -c \"green,yellow\" ",
     "build:client": "prisma generate && tsc -b && vite build",
-    "prerender": "playwright install --with-deps chromium && node scripts/prerender.mjs",
+    "prerender": "playwright install chromium && node scripts/prerender.mjs",
     "build": "npm run build:client && npm run prerender",
     "start": "node api/index.js",
     "lint": "eslint .",

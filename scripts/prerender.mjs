@@ -228,8 +228,12 @@ try {
   await saveRoute(page, '/blog');
 
   // Blog cards use click handlers, not anchor tags — discover slugs from
-  // the same public API the page renders from (still dynamic, not hardcoded)
-  const apiOrigin = process.env.PRERENDER_API_ORIGIN || SITE_URL;
+  // the same public API the page renders from (still dynamic, not hardcoded).
+  // On Vercel, prefer the deployment's own URL — the production domain may
+  // sit behind a bot checkpoint that would return HTML instead of posts.
+  const apiOrigin =
+    process.env.PRERENDER_API_ORIGIN ||
+    (process.env.VERCEL_URL ? `https://${process.env.VERCEL_URL}` : SITE_URL);
   const blogRoutes = [];
   try {
     const res = await fetch(`${apiOrigin}/api/blogs`);
