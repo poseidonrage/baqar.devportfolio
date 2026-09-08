@@ -13,6 +13,8 @@ import { SectionSeparator } from './components/SectionSeparator';
 import { AdminConsole } from './components/AdminConsole';
 import { RoadmapTracker } from './components/RoadmapTracker';
 import { genaiConfig, mlConfig, postMLConfig, healthConfig } from './components/roadmapConfigs';
+import { SeoJsonLd } from './components/SeoJsonLd';
+import { NotFound } from './components/NotFound';
 
 function HomePage() {
   return (
@@ -46,77 +48,6 @@ function App() {
     localStorage.setItem('siteTheme', siteTheme);
   }, [siteTheme]);
   const toggleSiteTheme = () => setSiteTheme(t => (t === 'dark' ? 'light' : 'dark'));
-
-  // Per-route document titles + meta tags (SEO)
-  useEffect(() => {
-    const siteUrl = window.location.origin;
-    const setMeta = (name: string, content: string, attr: 'name' | 'property' = 'name') => {
-      let el = document.head.querySelector<HTMLMetaElement>(`meta[${attr}="${name}"]`);
-      if (!el) {
-        el = document.createElement('meta');
-        el.setAttribute(attr, name);
-        document.head.appendChild(el);
-      }
-      el.setAttribute('content', content);
-    };
-    const setCanonical = (href: string) => {
-      let el = document.head.querySelector<HTMLLinkElement>('link[rel="canonical"]');
-      if (!el) {
-        el = document.createElement('link');
-        el.setAttribute('rel', 'canonical');
-        document.head.appendChild(el);
-      }
-      el.setAttribute('href', href);
-    };
-
-    type RouteMeta = { title: string; description: string };
-    const routeMeta: Record<string, RouteMeta> = {
-      '/roadmap': {
-        title: 'GenAI Roadmap Tracker | Baqar Hussain Naqvi',
-        description: 'A 24-week GenAI engineering roadmap tracker: LLMs, RAG, agents, and production AI systems — with weekly tasks, projects, and learning resources.',
-      },
-      '/ml-roadmap': {
-        title: 'ML Roadmap Tracker | Baqar Hussain Naqvi',
-        description: 'A 10-week machine learning roadmap tracker following Andrew Ng\'s Coursera ML Specialization: regression, neural networks, decision trees, clustering, recommender systems, and reinforcement learning.',
-      },
-      '/post-ml-roadmap': {
-        title: 'Post-ML Roadmap Tracker | Baqar Hussain Naqvi',
-        description: 'A 12-week post-ML roadmap tracker toward AI engineering: evaluation pipelines, MLOps, transformers, RAG, agents, and production deployment with monitoring.',
-      },
-      '/healthcare-ai-roadmap': {
-        title: 'Healthcare AI Roadmap Tracker | Baqar Hussain Naqvi',
-        description: 'A 12-week healthcare AI engineer roadmap tracker: clinical NLP, FHIR data standards, HIPAA privacy, fairness audits, RAG over hospital policies, workflow agents with human approval, and patient-flow forecasting.',
-      },
-    };
-    let meta: RouteMeta;
-    if (isRoadmap) {
-      meta = routeMeta[location.pathname] ?? routeMeta['/roadmap'];
-    } else if (location.pathname.startsWith('/blog')) {
-      meta = {
-        title: 'Blog | Baqar Hussain Naqvi',
-        description: 'Articles on systems integration, C#/.NET, hospital ERPs, and applied machine learning by Baqar Hussain Naqvi.',
-      };
-    } else if (location.pathname.startsWith('/admin')) {
-      meta = {
-        title: 'Admin Console | Baqar Hussain Naqvi',
-        description: 'Administrative console.',
-      };
-    } else {
-      meta = {
-        title: 'Baqar Hussain Naqvi | Program Analyst & Systems Integration Specialist',
-        description: 'Baqar Hussain Naqvi is a Program Analyst & Systems Integration Specialist with 8+ years of experience in C#, .NET 10, Oracle PL/SQL, hospital ERPs, and Agentic AI/RAG architectures.',
-      };
-    }
-
-    document.title = meta.title;
-    setMeta('description', meta.description);
-    setMeta('og:title', meta.title, 'property');
-    setMeta('og:description', meta.description, 'property');
-    setMeta('og:url', `${siteUrl}${location.pathname}`, 'property');
-    setMeta('twitter:title', meta.title);
-    setMeta('twitter:description', meta.description);
-    setCanonical(`${siteUrl}${location.pathname}`);
-  }, [location.pathname, isRoadmap]);
 
   // Reading progress bar across the top of the page + back-to-top visibility
   useEffect(() => {
@@ -198,6 +129,7 @@ function App() {
 
   return (
     <div className="app-wrapper">
+      <SeoJsonLd />
       {!isRoadmap && (
         <div className="scroll-progress" aria-hidden="true">
           <span style={{ width: scrollPct + '%' }} />
@@ -218,7 +150,7 @@ function App() {
           <Route path="/ml-roadmap" element={<RoadmapTracker key="ml" config={mlConfig} />} />
           <Route path="/post-ml-roadmap" element={<RoadmapTracker key="postml" config={postMLConfig} />} />
           <Route path="/healthcare-ai-roadmap" element={<RoadmapTracker key="health" config={healthConfig} />} />
-          <Route path="*" element={<HomePage />} />
+          <Route path="*" element={<NotFound />} />
         </Routes>
       </main>
 

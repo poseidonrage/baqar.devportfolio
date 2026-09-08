@@ -12,5 +12,16 @@ export default defineConfig({
         secure: false,
       }
     }
+  },
+  preview: {
+    port: 4173,
+    strictPort: true,
+    proxy: {
+      '/api': {
+        target: process.env.PRERENDER_API_ORIGIN || 'https://baqar.dev',
+        changeOrigin: true,
+        secure: true,
+      }
+    }
   }
 })

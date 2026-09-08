@@ -15,6 +15,7 @@ export const Navbar: React.FC<NavbarProps> = ({ theme = 'dark', onToggleTheme })
   const [activeSection, setActiveSection] = useState('home');
   const [isScrolled, setIsScrolled] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
+  const [roadmapOpen, setRoadmapOpen] = useState(false);
 
   // Lock page scroll while the mobile menu is open
   useEffect(() => {
@@ -98,6 +99,13 @@ export const Navbar: React.FC<NavbarProps> = ({ theme = 'dark', onToggleTheme })
     }
   };
 
+  const roadmapTracks = [
+    { label: 'GenAI', href: '/roadmap' },
+    { label: 'ML Foundations', href: '/ml-roadmap' },
+    { label: 'Post-ML', href: '/post-ml-roadmap' },
+    { label: 'Healthcare AI', href: '/healthcare-ai-roadmap' },
+  ];
+
   const navItems = [
     { id: 'home', label: 'home', number: '01' },
     { id: 'expertise', label: 'expertise', number: '02' },
@@ -145,17 +153,51 @@ export const Navbar: React.FC<NavbarProps> = ({ theme = 'dark', onToggleTheme })
         <div className="nav-right">
           <div className="nav-links font-mono">
             {navItems.map((item) => (
-              <a
-                key={item.id}
-                href={item.id === 'roadmap' ? '/roadmap' : `#${item.id}`}
-                target={item.id === 'roadmap' ? '_blank' : undefined}
-                rel={item.id === 'roadmap' ? 'noopener noreferrer' : undefined}
-                className={`nav-item ${isItemActive(item.id) ? 'active-link' : ''}`}
-                onClick={(e) => handleItemClick(item.id, e)}
-              >
-                <span className="nav-number">{item.number}</span>
-                <span className="nav-label">// {item.label}</span>
-              </a>
+              item.id === 'roadmap' ? (
+                <div
+                  key={item.id}
+                  className={`nav-item nav-roadmap${roadmapOpen ? ' open' : ''}`}
+                  onMouseEnter={() => setRoadmapOpen(true)}
+                  onMouseLeave={() => setRoadmapOpen(false)}
+                >
+                  <a
+                    href="/roadmap"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className={`nav-item ${isItemActive(item.id) ? 'active-link' : ''}`}
+                    onClick={(e) => handleItemClick(item.id, e)}
+                  >
+                    <span className="nav-number">{item.number}</span>
+                    <span className="nav-label">// {item.label} ▾</span>
+                  </a>
+                  <div className="roadmap-dropdown" role="menu">
+                    {roadmapTracks.map((track, i) => (
+                      <a
+                        key={track.href}
+                        href={track.href}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        role="menuitem"
+                        onClick={() => setMenuOpen(false)}
+                      >
+                        <span className="rd-num">{String(i + 1).padStart(2, '0')}</span>
+                        <span className="rd-label">{track.label}</span>
+                        <ArrowUpRight size={13} className="rd-arrow" />
+                      </a>
+                    ))}
+                  </div>
+                </div>
+              ) : (
+                <a
+                  key={item.id}
+                  href={`#${item.id}`}
+                  className={`nav-item ${isItemActive(item.id) ? 'active-link' : ''}`}
+                  onClick={(e) => handleItemClick(item.id, e)}
+                >
+                  <span className="nav-number">{item.number}</span>
+                  <span className="nav-label">// {item.label}</span>
+                </a>
+              )
             ))}
           </div>
 
@@ -210,21 +252,41 @@ export const Navbar: React.FC<NavbarProps> = ({ theme = 'dark', onToggleTheme })
             </motion.span>
             <nav className="mm-list">
               {navItems.map((item) => (
-                <motion.a
-                  key={item.id}
-                  variants={itemVariants}
-                  href={item.id === 'roadmap' ? '/roadmap' : `#${item.id}`}
-                  target={item.id === 'roadmap' ? '_blank' : undefined}
-                  rel={item.id === 'roadmap' ? 'noopener noreferrer' : undefined}
-                  className={`mm-item${isItemActive(item.id) ? ' active' : ''}`}
-                  onClick={(e) => handleItemClick(item.id, e)}
-                >
-                  <span className="mm-num font-mono">{item.number}</span>
-                  <span className="mm-label">{item.label}</span>
-                  {item.id === 'roadmap'
-                    ? <ArrowUpRight size={20} className="mm-arrow external" />
-                    : <span className="mm-arrow">→</span>}
-                </motion.a>
+                <React.Fragment key={item.id}>
+                  <motion.a
+                    variants={itemVariants}
+                    href={item.id === 'roadmap' ? '/roadmap' : `#${item.id}`}
+                    target={item.id === 'roadmap' ? '_blank' : undefined}
+                    rel={item.id === 'roadmap' ? 'noopener noreferrer' : undefined}
+                    className={`mm-item${isItemActive(item.id) ? ' active' : ''}`}
+                    onClick={(e) => handleItemClick(item.id, e)}
+                  >
+                    <span className="mm-num font-mono">{item.number}</span>
+                    <span className="mm-label">{item.label}</span>
+                    {item.id === 'roadmap'
+                      ? <ArrowUpRight size={20} className="mm-arrow external" />
+                      : <span className="mm-arrow">→</span>}
+                  </motion.a>
+                  {item.id === 'roadmap' && (
+                    <motion.nav className="mm-sublist" variants={itemVariants}>
+                      {roadmapTracks.map((track, i) => (
+                        <motion.a
+                          key={track.href}
+                          variants={itemVariants}
+                          href={track.href}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="mm-subitem"
+                          onClick={() => setMenuOpen(false)}
+                        >
+                          <span className="mm-num font-mono">{item.number}.{i + 1}</span>
+                          <span className="mm-label">{track.label}</span>
+                          <ArrowUpRight size={16} className="mm-arrow external" />
+                        </motion.a>
+                      ))}
+                    </motion.nav>
+                  )}
+                </React.Fragment>
               ))}
             </nav>
 
@@ -543,6 +605,80 @@ export const Navbar: React.FC<NavbarProps> = ({ theme = 'dark', onToggleTheme })
           border-radius: 50%;
           background: var(--accent-color);
           box-shadow: 0 0 6px var(--accent-color);
+        }
+
+        .nav-item.nav-roadmap {
+          position: relative;
+        }
+        .roadmap-dropdown {
+          position: absolute;
+          top: 100%;
+          right: 0;
+          min-width: 200px;
+          padding: 0.45rem;
+          background: rgba(7, 10, 16, 0.97);
+          border: 1px solid rgba(102, 217, 237, 0.15);
+          border-radius: 10px;
+          box-shadow: 0 14px 34px rgba(0, 0, 0, 0.55);
+          backdrop-filter: blur(12px);
+          opacity: 0;
+          transform: translateY(6px);
+          pointer-events: none;
+          transition: opacity 0.2s ease, transform 0.2s ease;
+        }
+        .nav-roadmap.open .roadmap-dropdown,
+        .nav-roadmap:focus-within .roadmap-dropdown {
+          opacity: 1;
+          transform: translateY(0);
+          pointer-events: auto;
+        }
+        .roadmap-dropdown a {
+          display: flex;
+          align-items: center;
+          gap: 9px;
+          padding: 0.55rem 0.7rem;
+          border-radius: 7px;
+          font-size: 0.72rem;
+          color: var(--text-muted);
+          transition: background 0.15s ease, color 0.15s ease;
+        }
+        .roadmap-dropdown a:hover {
+          background: rgba(102, 217, 237, 0.08);
+          color: var(--accent-color);
+        }
+        .roadmap-dropdown .rd-num {
+          font-size: 0.62rem;
+          opacity: 0.5;
+        }
+        .roadmap-dropdown .rd-arrow {
+          margin-left: auto;
+          opacity: 0;
+          transition: opacity 0.15s ease;
+        }
+        .roadmap-dropdown a:hover .rd-arrow {
+          opacity: 0.8;
+        }
+        .mm-sublist {
+          display: flex;
+          flex-direction: column;
+          gap: 2px;
+          padding-left: 1.1rem;
+        }
+        .mm-subitem {
+          display: flex;
+          align-items: center;
+          gap: 12px;
+          padding: 0.55rem 0.9rem;
+          font-size: 0.8rem;
+          color: var(--text-muted);
+          border-left: 1px solid rgba(102, 217, 237, 0.18);
+        }
+        .mm-subitem .mm-num {
+          font-size: 0.6rem;
+          opacity: 0.55;
+        }
+        .mm-subitem:hover {
+          color: var(--accent-color);
         }
 
         @media (max-width: 768px) {

@@ -117,6 +117,22 @@ html[data-site-theme="light"] .scroll-top-btn {
   background: rgba(255, 255, 255, 0.92);
   box-shadow: 0 4px 16px rgba(13, 21, 38, 0.18);
 }
+/* Roadmap dropdown + mobile sublist */
+html[data-site-theme="light"] .roadmap-dropdown {
+  background: rgba(255, 255, 255, 0.97);
+  border-color: rgba(13, 21, 38, 0.12);
+  box-shadow: 0 14px 34px rgba(13, 21, 38, 0.16);
+}
+html[data-site-theme="light"] .roadmap-dropdown a {
+  color: var(--text-secondary);
+}
+html[data-site-theme="light"] .roadmap-dropdown a:hover {
+  background: rgba(13, 21, 38, 0.05);
+  color: var(--accent-color);
+}
+html[data-site-theme="light"] .mm-subitem {
+  border-left-color: rgba(13, 21, 38, 0.15);
+}
 
 /* Global Reset & Base */
 * {

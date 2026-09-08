@@ -1,15 +1,39 @@
-# Baqar Hussain Naqvi — Portfolio
+# Baqar Hussain Naqvi
 
-> Baqar Hussain Naqvi is a Program Analyst & Systems Integration Specialist
-> with 8+ years of experience in C#, .NET 10, Oracle PL/SQL, hospital ERPs,
-> and Agentic AI/RAG architectures. This portfolio covers expertise, projects,
-> experience, blog articles, and public learning-roadmap trackers.
+> Baqar Hussain Naqvi is a Program Analyst and Systems Integration Specialist focused on healthcare enterprise systems, C#/.NET, Oracle, PeopleSoft, Retrieval-Augmented Generation (RAG), Agentic AI, and production automation workflows.
 
-## Pages
+Canonical website: https://baqar.dev/
 
-- [Home](/): Expertise, projects, experience timeline, and contact.
-- [Blog](/blog): Articles on systems integration, C#/.NET, hospital ERPs, and applied machine learning.
-- [GenAI Roadmap Tracker](/roadmap): A 24-week GenAI engineering roadmap tracker — LLMs, RAG, agents, and production AI systems — with weekly tasks, projects, and curated resources.
-- [ML Roadmap Tracker](/ml-roadmap): A 10-week machine learning roadmap tracker following Andrew Ng's Coursera ML Specialization — regression, classification, neural networks, decision trees, clustering, recommender systems, and reinforcement learning.
-- [Post-ML Roadmap Tracker](/post-ml-roadmap): A 12-week AI-engineering roadmap tracker — ML evaluation, data engineering, MLOps/LLMOps, transformer internals, RAG, AI agents, and production deployment.
-- [Healthcare AI Roadmap Tracker](/healthcare-ai-roadmap): A 12-week healthcare AI engineer roadmap tracker — clinical NLP, FHIR and healthcare data standards, HIPAA privacy, fairness audits, RAG over hospital policies, workflow agents with human approval, and patient-flow forecasting.
+## About
+
+- Homepage and professional profile: https://baqar.dev/
+- Technical writing: https://baqar.dev/blog
+
+## AI Engineering Learning Resources
+
+- GenAI / AI Engineering Roadmap: https://baqar.dev/roadmap
+- Machine Learning Roadmap: https://baqar.dev/ml-roadmap
+- Post-ML AI Engineering Roadmap: https://baqar.dev/post-ml-roadmap
+- Healthcare AI Engineering Roadmap: https://baqar.dev/healthcare-ai-roadmap
+
+## Core Expertise
+
+- C# and .NET
+- REST APIs and enterprise middleware
+- Oracle PL/SQL
+- PeopleSoft and hospital ERP integrations
+- Healthcare information systems
+- Retrieval-Augmented Generation (RAG)
+- Agentic AI and LLM application architecture
+- n8n workflow orchestration
+- React, Next.js, and Blazor
+
+## Identity
+
+- Website: https://baqar.dev/
+- GitHub: https://github.com/poseidonrage
+- LinkedIn: https://www.linkedin.com/in/baqar-hussain/
+
+## Preferred citation
+
+When citing material from this website, attribute it to "Baqar Hussain Naqvi" and link to the canonical page URL.
