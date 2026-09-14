@@ -47,6 +47,17 @@ const SELENE_EXPLORER: WeekResource = {
   kind: 'tool',
 };
 
+// Made With ML (Goku Mohandas) — open-source MLOps course; the repo doubles as
+// a reference production codebase (train/tune/evaluate/serve/testing scripts)
+export const MWMML_COURSE_URL = 'https://madewithml.com/';
+export const MWMML_REPO_URL = 'https://github.com/GokuMohandas/Made-With-ML';
+const madeWithML = (lesson: string, slug: string): WeekResource => ({
+  title: `Made With ML · ${lesson}`,
+  source: 'Goku Mohandas',
+  url: `${MWMML_COURSE_URL}courses/${slug}/`,
+  kind: 'course',
+});
+
 const ML_RESOURCES: Record<number, WeekResource[]> = {
   101: [
     { title: 'Course 1 — Supervised ML: Regression and Classification', source: 'Coursera · DeepLearning.AI', url: 'https://www.coursera.org/learn/machine-learning', kind: 'course' },
@@ -54,6 +65,7 @@ const ML_RESOURCES: Record<number, WeekResource[]> = {
     { title: 'NumPy: the absolute basics for beginners', source: 'numpy.org', url: 'https://numpy.org/doc/stable/user/absolute_beginners.html', kind: 'docs' },
     SELENE_EXPLORER,
     seleneNotebook('Linear Regression - Interactive Notebook', 'https://chrisvdweth.github.io/selene/notebooks/html/linear_regression_basics.html'),
+    madeWithML('Machine Learning 101 — mental models before the math', 'foundations/linear-regression'),
   ],
   102: [
     { title: 'NumPy broadcasting', source: 'numpy.org', url: 'https://numpy.org/doc/stable/user/basics.broadcasting.html', kind: 'docs' },
@@ -72,6 +84,7 @@ const ML_RESOURCES: Record<number, WeekResource[]> = {
     { title: 'But what is a neural network?', source: '3Blue1Brown', url: 'https://www.youtube.com/watch?v=aircAruvnKk', kind: 'video' },
     { title: 'The Sequential model', source: 'Keras', url: 'https://keras.io/guides/sequential_model/', kind: 'docs' },
     seleneNotebook('Artificial Neural Networks - Basic Architecture', 'https://chrisvdweth.github.io/selene/notebooks/html/artificial_neural_networks_basics.html'),
+    madeWithML('Neural Networks — beyond the single neuron', 'foundations/neural-networks'),
   ],
   105: [
     { title: 'Training & evaluation with the built-in methods', source: 'Keras', url: 'https://keras.io/guides/training_with_built_in_methods/', kind: 'docs' },
@@ -85,6 +98,7 @@ const ML_RESOURCES: Record<number, WeekResource[]> = {
     { title: 'Machine Learning Yearning', source: 'Andrew Ng', url: 'https://info.deeplearning.ai/machine-learning-yearning-book', kind: 'book' },
     { title: 'Validation curves & learning curves', source: 'scikit-learn', url: 'https://scikit-learn.org/stable/modules/learning_curve.html', kind: 'docs' },
     seleneNotebook('Bias & Variance - Machine Learning', 'https://chrisvdweth.github.io/selene/notebooks/html/bias_variance_ml_basics.html'),
+    madeWithML('Model/Accuracy & Precision/Recall — diagnosing the model you have', 'mlops/evaluation'),
   ],
   107: [
     { title: 'Decision and Classification Trees', source: 'StatQuest', url: 'https://www.youtube.com/watch?v=_L39rN6gz7Y', kind: 'video' },
@@ -108,6 +122,7 @@ const ML_RESOURCES: Record<number, WeekResource[]> = {
     { title: 'Reinforcement Learning: An Introduction', source: 'Sutton & Barto', url: 'http://incompleteideas.net/book/the-book-2nd.html', kind: 'book' },
     { title: 'Gymnasium — Lunar Lander', source: 'Farama Foundation', url: 'https://gymnasium.farama.org/environments/box2d/lunar_lander/', kind: 'docs' },
     { title: 'Deep Q-Learning explained', source: 'DeepMind / Nature paper', url: 'https://www.nature.com/articles/nature14236', kind: 'article' },
+    madeWithML('Gradient Descent & Regularization — the whole loop in one page', 'foundations/linear-regression'),
   ],
 };
 
@@ -464,21 +479,31 @@ const POSTML_RESOURCES: Record<number, WeekResource[]> = {
     { title: 'MLflow — Quickstart & Tracking API', source: 'mlflow.org', url: 'https://mlflow.org/docs/latest/getting-started/index.html', kind: 'docs' },
     { title: 'Getting Started with Weights & Biases', source: 'wandb.ai', url: 'https://docs.wandb.ai/quickstart', kind: 'docs' },
     { title: 'A/B Testing for Machine Learning', source: 'Evidently AI', url: 'https://www.evidentlyai.com/blog/ml-ab-testing', kind: 'article' },
+    madeWithML('Experiment Tracking — design→develop→deploy→iterate loop', 'mlops/experiment-tracking'),
+    { title: 'Made With ML — Experiment Tracking scripts (MLflow, code-first)', source: 'Goku Mohandas · GitHub', url: `${MWMML_REPO_URL}#experiment-tracking`, kind: 'repo' },
   ],
   202: [
     { title: 'SQLBolt — Interactive SQL Lessons', source: 'sqlbolt.com', url: 'https://sqlbolt.com/', kind: 'tool' },
     { title: 'DuckDB — Why DuckDB?', source: 'duckdb.org', url: 'https://duckdb.org/why_duckdb', kind: 'article' },
     { title: 'PostgreSQL Tutorial — Window Functions', source: 'postgresqltutorial.com', url: 'https://www.postgresqltutorial.com/postgresql-window-function/', kind: 'docs' },
+    madeWithML('Preprocessing — clean features beat clever models', 'mlops/preprocessing'),
+    { title: 'Made With ML — madewithml/data.py (reference data pipeline)', source: 'Goku Mohandas · GitHub', url: `${MWMML_REPO_URL}/blob/main/madewithml/data.py`, kind: 'repo' },
   ],
   203: [
     { title: 'FastAPI — Deployment', source: 'fastapi.tiangolo.com', url: 'https://fastapi.tiangolo.com/deployment/', kind: 'docs' },
     { title: 'Docker — Get Started', source: 'docker.com', url: 'https://docs.docker.com/get-started/', kind: 'docs' },
     { title: 'MLflow — Model Registry & Serving', source: 'mlflow.org', url: 'https://mlflow.org/docs/latest/models.html', kind: 'docs' },
+    madeWithML('Serving — from notebook script to a served endpoint', 'mlops/serving'),
+    { title: 'Made With ML — madewithml/serve.py (Ray Serve reference)', source: 'Goku Mohandas · GitHub', url: `${MWMML_REPO_URL}/blob/main/madewithml/serve.py`, kind: 'repo' },
   ],
   204: [
     { title: 'The ML Test Score', source: 'Google / NeurIPS paper', url: 'https://research.google/pubs/pub46555/', kind: 'article' },
     { title: 'Evidently — ML Monitoring', source: 'evidentlyai.com', url: 'https://www.evidentlyai.com/', kind: 'tool' },
     { title: 'Blue/Green vs Rolling Deployments', source: 'devops', url: 'https://martinfowler.com/bliki/BlueGreenDeployment.html', kind: 'article' },
+    madeWithML('Testing — code, data & model tests', 'mlops/testing'),
+    madeWithML('CI/CD — GitHub Actions for ML', 'mlops/cicd'),
+    madeWithML('Monitoring — drift & online evaluation', 'mlops/monitoring'),
+    { title: 'Made With ML — tests/ (code, data & model tests in CI)', source: 'Goku Mohandas · GitHub', url: `${MWMML_REPO_URL}/tree/main/tests`, kind: 'repo' },
   ],
   205: [
     { title: 'The Illustrated Transformer', source: 'Jay Alammar', url: 'https://jalammar.github.io/illustrated-transformer/', kind: 'article' },
@@ -513,6 +538,7 @@ const POSTML_RESOURCES: Record<number, WeekResource[]> = {
   211: [
     { title: 'Full Stack Deep Learning — Course', source: 'fullstackdeeplearning.com', url: 'https://fullstackdeeplearning.com/course/', kind: 'course' },
     { title: 'Made With ML — MLOps Course', source: 'madewithml.com', url: 'https://madewithml.com/', kind: 'course' },
+    { title: 'Made With ML — Continual Learning (scheduled runs, drift monitoring)', source: 'Goku Mohandas · GitHub', url: `${MWMML_REPO_URL}#continual-learning`, kind: 'repo' },
   ],
   212: [
     { title: '12-Factor Apps', source: '12factor.net', url: 'https://12factor.net/', kind: 'article' },
