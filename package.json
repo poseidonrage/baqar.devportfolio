@@ -3,18 +3,15 @@
   "private": true,
   "version": "0.0.0",
   "type": "module",
-    "engines": {
-    "node": "22.x"
-  },
   "scripts": {
-  "dev": "concurrently \"node api/index.js\" \"vite\" -n \"API,FE\" -c \"green,yellow\"",
-  "build:client": "prisma generate && tsc -b && vite build",
-  "prerender": "node scripts/prerender.mjs",
-  "build": "npm run build:client",
-  "start": "node api/index.js",
-  "lint": "eslint .",
-  "preview": "vite preview"
-},
+    "dev": "concurrently \"node api/index.js\" \"vite\" -n \"API,FE\" -c \"green,yellow\"",
+    "build:client": "prisma generate && tsc -b && vite build",
+    "prerender": "node scripts/prerender.mjs",
+    "build": "npm run build:client && npm run prerender",
+    "start": "node api/index.js",
+    "lint": "eslint .",
+    "preview": "vite preview"
+  },
   "dependencies": {
     "@prisma/client": "^5.22.0",
     "@vercel/analytics": "^2.0.1",
