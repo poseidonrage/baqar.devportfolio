@@ -58,6 +58,17 @@ const madeWithML = (lesson: string, slug: string): WeekResource => ({
   kind: 'course',
 });
 
+// "The Math Behind Artificial Intelligence: A Guide to AI Foundations"
+// — Tiago Capelo Monteiro, freeCodeCamp (free full book); one URL, chapters
+// are anchored on the page
+export const MATH_BOOK_URL = 'https://www.freecodecamp.org/news/the-math-behind-artificial-intelligence-book/';
+const mathBook = (chapter: string, anchor: string): WeekResource => ({
+  title: `Math Behind AI · ${chapter}`,
+  source: 'Tiago Capelo Monteiro · freeCodeCamp',
+  url: `${MATH_BOOK_URL}#${anchor}`,
+  kind: 'book',
+});
+
 const ML_RESOURCES: Record<number, WeekResource[]> = {
   101: [
     { title: 'Course 1 — Supervised ML: Regression and Classification', source: 'Coursera · DeepLearning.AI', url: 'https://www.coursera.org/learn/machine-learning', kind: 'course' },
@@ -66,18 +77,21 @@ const ML_RESOURCES: Record<number, WeekResource[]> = {
     SELENE_EXPLORER,
     seleneNotebook('Linear Regression - Interactive Notebook', 'https://chrisvdweth.github.io/selene/notebooks/html/linear_regression_basics.html'),
     madeWithML('Machine Learning 101 — mental models before the math', 'foundations/linear-regression'),
+    mathBook('Ch 2–3 — The Architecture of Mathematics & The Field of AI', 'heading-chapter-2-the-architecture-of-mathematics'),
   ],
   102: [
     { title: 'NumPy broadcasting', source: 'numpy.org', url: 'https://numpy.org/doc/stable/user/basics.broadcasting.html', kind: 'docs' },
     { title: 'Preprocessing data — scaling', source: 'scikit-learn', url: 'https://scikit-learn.org/stable/modules/preprocessing.html', kind: 'docs' },
     { title: 'Essence of linear algebra', source: '3Blue1Brown', url: 'https://www.youtube.com/playlist?list=PLZHQObOWTQDPD3MizzM2xVFitgF8hE_ab', kind: 'video' },
     seleneNotebook('Linear Regression - Assumptions & Caveats', 'https://chrisvdweth.github.io/selene/notebooks/html/linear_regression_assumptions_caveats.html'),
+    mathBook('Ch 4 — Linear Algebra: The Geometry of Data', 'heading-chapter-4-linear-algebra-the-geometry-of-data'),
   ],
   103: [
     { title: 'Logistic Regression', source: 'StatQuest', url: 'https://www.youtube.com/watch?v=yIYKR4sgzI8', kind: 'video' },
     { title: 'Regularization (Ridge / Lasso)', source: 'scikit-learn', url: 'https://scikit-learn.org/stable/modules/linear_model.html', kind: 'docs' },
     { title: 'Cross-entropy loss explained', source: 'ML Cheatsheet', url: 'https://ml-cheatsheet.readthedocs.io/en/latest/loss_functions.html', kind: 'article' },
     seleneNotebook('Logistic Regression - The Math', 'https://chrisvdweth.github.io/selene/notebooks/html/logistic_regression_math.html'),
+    mathBook('Ch 6 — Probability & Statistics: Learning from Uncertainty', 'heading-chapter-6-probability-amp-statistics-learning-from-uncertainty'),
   ],
   104: [
     { title: 'Course 2 — Advanced Learning Algorithms', source: 'Coursera · DeepLearning.AI', url: 'https://www.coursera.org/learn/advanced-learning-algorithms', kind: 'course' },
@@ -85,6 +99,7 @@ const ML_RESOURCES: Record<number, WeekResource[]> = {
     { title: 'The Sequential model', source: 'Keras', url: 'https://keras.io/guides/sequential_model/', kind: 'docs' },
     seleneNotebook('Artificial Neural Networks - Basic Architecture', 'https://chrisvdweth.github.io/selene/notebooks/html/artificial_neural_networks_basics.html'),
     madeWithML('Neural Networks — beyond the single neuron', 'foundations/neural-networks'),
+    mathBook('Ch 5 — Multivariable Calculus: Change in Many Directions', 'heading-chapter-5-multivariable-calculus-change-in-many-directions'),
   ],
   105: [
     { title: 'Training & evaluation with the built-in methods', source: 'Keras', url: 'https://keras.io/guides/training_with_built_in_methods/', kind: 'docs' },
@@ -92,6 +107,7 @@ const ML_RESOURCES: Record<number, WeekResource[]> = {
     { title: 'Softmax and cross-entropy', source: 'ML Cheatsheet', url: 'https://ml-cheatsheet.readthedocs.io/en/latest/activation_functions.html', kind: 'docs' },
     seleneNotebook('Backpropagation - Basic Examples', 'https://chrisvdweth.github.io/selene/notebooks/html/backpropagation_basic_examples.html'),
     seleneNotebook('Implementing an ANN from Scratch - NumPy Only', 'https://chrisvdweth.github.io/selene/notebooks/html/ann_from_scratch_numpy_only.html'),
+    mathBook('What is Adam? — the optimizer in plain terms', 'heading-what-is-adam-the-most-popular-way-ai-models-finds-the-best-learning-path'),
   ],
   106: [
     { title: 'Bias and Variance', source: 'StatQuest', url: 'https://www.youtube.com/watch?v=EuBBz3bI-aA', kind: 'video' },
@@ -99,6 +115,7 @@ const ML_RESOURCES: Record<number, WeekResource[]> = {
     { title: 'Validation curves & learning curves', source: 'scikit-learn', url: 'https://scikit-learn.org/stable/modules/learning_curve.html', kind: 'docs' },
     seleneNotebook('Bias & Variance - Machine Learning', 'https://chrisvdweth.github.io/selene/notebooks/html/bias_variance_ml_basics.html'),
     madeWithML('Model/Accuracy & Precision/Recall — diagnosing the model you have', 'mlops/evaluation'),
+    mathBook('Ch 7 — Optimization Theory: Teaching Machines to Improve', 'heading-chapter-7-optimization-theory-teaching-machines-to-improve'),
   ],
   107: [
     { title: 'Decision and Classification Trees', source: 'StatQuest', url: 'https://www.youtube.com/watch?v=_L39rN6gz7Y', kind: 'video' },
@@ -123,6 +140,7 @@ const ML_RESOURCES: Record<number, WeekResource[]> = {
     { title: 'Gymnasium — Lunar Lander', source: 'Farama Foundation', url: 'https://gymnasium.farama.org/environments/box2d/lunar_lander/', kind: 'docs' },
     { title: 'Deep Q-Learning explained', source: 'DeepMind / Nature paper', url: 'https://www.nature.com/articles/nature14236', kind: 'article' },
     madeWithML('Gradient Descent & Regularization — the whole loop in one page', 'foundations/linear-regression'),
+    mathBook('Simple Optimization Techniques — how machines learn step by step', 'heading-simple-optimization-techniques-how-machines-learn-step-by-step'),
   ],
 };
 
