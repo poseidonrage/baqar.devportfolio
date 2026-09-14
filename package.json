@@ -3,10 +3,13 @@
   "private": true,
   "version": "0.0.0",
   "type": "module",
-  "scripts": {
-    "dev": "concurrently \"node api/index.js\" \"vite\" -n \"API,FE\" -c \"green,yellow\" ",
+    "engines": {
+    "node": "22.x"
+  },
+   "scripts": {
+    "dev": "concurrently \"node api/index.js\" \"vite\" -n \"API,FE\" -c \"green,yellow\"",
     "build:client": "prisma generate && tsc -b && vite build",
-    "prerender": "playwright install chromium && node scripts/prerender.mjs",
+    "prerender": "playwright install chromium --with-deps && node scripts/prerender.mjs",
     "build": "npm run build:client && npm run prerender",
     "start": "node api/index.js",
     "lint": "eslint .",
