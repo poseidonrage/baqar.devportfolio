@@ -913,6 +913,19 @@ app.post("/api/roadmap/journal", authenticateRoadmap, async (req, res) => {
 
 const distPath = path.join(process.cwd(), "dist");
 
+// Cache headers: hashed Vite assets (immutable), long cache for images,
+// no-store for the SPA shell so deploys are picked up immediately.
+app.use((req, res, next) => {
+  if (req.path.startsWith("/assets/")) {
+    res.setHeader("Cache-Control", "public, max-age=31536000, immutable");
+  } else if (/\.(jpe?g|png|svg|webp|gif|ico|woff2?)$/i.test(req.path)) {
+    res.setHeader("Cache-Control", "public, max-age=2592000");
+  } else if (req.path === "/" || req.path === "/index.html") {
+    res.setHeader("Cache-Control", "public, max-age=0, must-revalidate");
+  }
+  next();
+});
+
 // Serve static assets from Vite build output folder (dist/)
 app.use(express.static(distPath));
 
