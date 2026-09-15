@@ -24,6 +24,74 @@ function removeJsonLd(id: string) {
     ?.remove();
 }
 
+function upsertMeta(attr: 'name' | 'property', key: string, content: string) {
+  let tag = document.head.querySelector<HTMLMetaElement>(`meta[${attr}="${key}"]`);
+  if (!tag) {
+    tag = document.createElement('meta');
+    tag.setAttribute(attr, key);
+    document.head.appendChild(tag);
+  }
+  tag.content = content;
+}
+
+function upsertCanonical(href: string) {
+  let link = document.head.querySelector<HTMLLinkElement>('link[rel="canonical"]');
+  if (!link) {
+    link = document.createElement('link');
+    link.rel = 'canonical';
+    document.head.appendChild(link);
+  }
+  link.href = href;
+}
+
+// Per-route title/description/canonical/OG tags, so crawlers executing JS
+// (Google) and link previews see route-specific content.
+const ROUTE_META: Record<string, { title: string; description: string }> = {
+  '/roadmap': {
+    title: 'AI Engineering Roadmap — 25-Week Interactive Tracker | Baqar Hussain Naqvi',
+    description:
+      'A 25-week interactive AI engineering roadmap: Python, LLM APIs, prompt engineering, RAG, LangGraph agents, vector search, evaluation, deployment, and portfolio projects.'
+  },
+  '/ml-roadmap': {
+    title: 'Machine Learning Roadmap — 10-Week ML Specialization Tracker | Baqar Hussain Naqvi',
+    description:
+      'A 10-week machine learning roadmap: linear/logistic regression, neural networks, bias-variance diagnostics, decision trees, clustering, recommenders, and reinforcement learning.'
+  },
+  '/post-ml-roadmap': {
+    title: 'Post-ML AI Engineering Roadmap — MLOps, Transformers & Agents | Baqar Hussain Naqvi',
+    description:
+      'A 12-week post-ML roadmap: experiment tracking, SQL, MLOps with FastAPI and Docker, transformers, LoRA fine-tuning, production RAG, multi-agent systems, and observability.'
+  },
+  '/healthcare-ai-roadmap': {
+    title: 'Healthcare AI Engineering Roadmap — Clinical NLP, FHIR & Fairness | Baqar Hussain Naqvi',
+    description:
+      'A healthcare AI roadmap: clinical NLP, FHIR, HL7, privacy, regulatory concepts, fairness evaluation, RAG over hospital policies, and patient-flow forecasting.'
+  },
+  '/blog': {
+    title: 'Technical Blog — .NET, Healthcare Systems & Agentic AI | Baqar Hussain Naqvi',
+    description:
+      'Technical articles on systems integration, C#/.NET, healthcare enterprise systems, machine learning, RAG, and agentic AI workflows.'
+  }
+};
+
+function applyRouteMeta(pathname: string) {
+  const meta = ROUTE_META[pathname];
+  const canonical = `${SITE_URL}${pathname === '/' ? '/' : pathname}`;
+  const title = meta?.title ?? 'Baqar Hussain Naqvi | Program Analyst & Systems Integration Specialist';
+  const description =
+    meta?.description ??
+    'Baqar Hussain Naqvi is a Program Analyst & Systems Integration Specialist with 8+ years of experience in C#, .NET, Oracle PL/SQL, hospital ERPs, and Agentic AI/RAG architectures.';
+
+  document.title = title;
+  upsertCanonical(canonical);
+  upsertMeta('name', 'description', description);
+  upsertMeta('name', 'twitter:title', title);
+  upsertMeta('name', 'twitter:description', description);
+  upsertMeta('property', 'og:title', title);
+  upsertMeta('property', 'og:description', description);
+  upsertMeta('property', 'og:url', canonical);
+}
+
 function firstUsefulText(selectors: string[]): string {
   for (const selector of selectors) {
     const value = document.querySelector<HTMLElement>(selector)?.textContent?.trim();
@@ -36,6 +104,7 @@ export function SeoJsonLd() {
   const location = useLocation();
 
   useEffect(() => {
+    applyRouteMeta(location.pathname);
     const canonical = `${SITE_URL}${location.pathname === '/' ? '/' : location.pathname}`;
 
     const person = {

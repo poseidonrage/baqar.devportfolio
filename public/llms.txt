@@ -6,33 +6,28 @@ Canonical website: https://baqar.dev/
 
 ## About
 
-- Homepage and professional profile: https://baqar.dev/
-- Technical writing: https://baqar.dev/blog
+- [Homepage and professional profile](https://baqar.dev/): portfolio, experience, and contact details
+- [Technical writing](https://baqar.dev/blog): articles on .NET APIs, ERP migration, and agentic AI
+
+## Blog
+
+- [I Built an Interactive Tracker for My 25-Week GenAI Engineering Roadmap](https://baqar.dev/blog/i-built-an-interactive-tracker-for-my-25-week-genai-engineering-roadmap): how this site's roadmap tracker was built
+- [NICVD ERP Migration](https://baqar.dev/blog/nicvd-erp-migration): lessons from a hospital ERP migration
+- [Agentic AI with n8n](https://baqar.dev/blog/agentic-ai-n8n): building agentic automation workflows
+- [10 Patterns for .NET APIs](https://baqar.dev/blog/net10-apis): practical API design patterns in C#
 
 ## AI Engineering Learning Resources
 
-- GenAI / AI Engineering Roadmap: https://baqar.dev/roadmap
-- Machine Learning Roadmap: https://baqar.dev/ml-roadmap
-- Post-ML AI Engineering Roadmap: https://baqar.dev/post-ml-roadmap
-- Healthcare AI Engineering Roadmap: https://baqar.dev/healthcare-ai-roadmap
-
-## Core Expertise
-
-- C# and .NET
-- REST APIs and enterprise middleware
-- Oracle PL/SQL
-- PeopleSoft and hospital ERP integrations
-- Healthcare information systems
-- Retrieval-Augmented Generation (RAG)
-- Agentic AI and LLM application architecture
-- n8n workflow orchestration
-- React, Next.js, and Blazor
+- [GenAI / AI Engineering Roadmap](https://baqar.dev/roadmap): 25-week interactive AI engineering curriculum with curated resources
+- [Machine Learning Roadmap](https://baqar.dev/ml-roadmap): 10-week ML specialization tracker (Andrew Ng curriculum) with math glossary
+- [Post-ML AI Engineering Roadmap](https://baqar.dev/post-ml-roadmap): 12-week MLOps, transformers, RAG, and agent systems curriculum
+- [Healthcare AI Engineering Roadmap](https://baqar.dev/healthcare-ai-roadmap): clinical AI track covering standards, privacy, and regulatory concepts
 
 ## Identity
 
-- Website: https://baqar.dev/
-- GitHub: https://github.com/poseidonrage
-- LinkedIn: https://www.linkedin.com/in/baqar-hussain/
+- [Website](https://baqar.dev/)
+- [GitHub](https://github.com/poseidonrage)
+- [LinkedIn](https://www.linkedin.com/in/baqar-hussain/)
 
 ## Preferred citation
 

@@ -916,6 +916,39 @@ const distPath = path.join(process.cwd(), "dist");
 // Serve static assets from Vite build output folder (dist/)
 app.use(express.static(distPath));
 
+// Dynamic sitemap: static routes + published blog slugs
+app.get("/sitemap.xml", async (req, res) => {
+  try {
+    const posts = await prisma.blog.findMany({
+      where: { published: true },
+      select: { slug: true, createdAt: true },
+    });
+    const staticRoutes = [
+      "/",
+      "/blog",
+      "/roadmap",
+      "/ml-roadmap",
+      "/post-ml-roadmap",
+      "/healthcare-ai-roadmap",
+    ];
+    const today = new Date().toISOString().slice(0, 10);
+    const urls = [
+      ...staticRoutes.map((r) => ({ loc: `https://baqar.dev${r}`, lastmod: today })),
+      ...posts.map((p) => ({
+        loc: `https://baqar.dev/blog/${p.slug}`,
+        lastmod: (p.createdAt instanceof Date ? p.createdAt.toISOString() : today).slice(0, 10),
+      })),
+    ];
+    const xml = `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n${urls
+      .map((u) => `  <url>\n    <loc>${u.loc}</loc>\n    <lastmod>${u.lastmod}</lastmod>\n  </url>`)
+      .join("\n")}\n</urlset>\n`;
+    res.type("application/xml").send(xml);
+  } catch (error) {
+    console.error("Error generating sitemap:", error);
+    res.status(500).send("Error generating sitemap");
+  }
+});
+
 // SPA fallback: serve index.html for any unhandled routes
 app.get(/.*/, (req, res) => {
   res.sendFile(path.join(distPath, "index.html"));
