@@ -768,7 +768,7 @@ export const RoadmapTracker: React.FC<{ config: RoadmapConfig }> = ({ config }) 
                           transition={{ duration: 0.25, ease: easeOut }}
                         >
                           {/* PRIMARY */}
-                          <div className="rt-sup-block">
+                          <div className="rt-sup-block rt-sup-primary-blk">
                             <span className="rt-sup-label font-mono">Primary</span>
                             <a
                               className="rt-sup-primary"
@@ -789,7 +789,7 @@ export const RoadmapTracker: React.FC<{ config: RoadmapConfig }> = ({ config }) 
 
                           {/* SUPPORT */}
                           {activeSupport.support.length > 0 && (
-                            <div className="rt-sup-block">
+                            <div className="rt-sup-block rt-sup-support-blk">
                               <span className="rt-sup-label font-mono">Support</span>
                               <div className="rt-sup-links">
                                 {activeSupport.support.map(res => {
@@ -813,7 +813,7 @@ export const RoadmapTracker: React.FC<{ config: RoadmapConfig }> = ({ config }) 
                           )}
 
                           {/* BUILD */}
-                          <div className="rt-sup-block">
+                          <div className="rt-sup-block rt-sup-build-blk">
                             <span className="rt-sup-label font-mono">Build</span>
                             <div className="rt-sup-build">
                               <h3 className="rt-sup-build-title">
@@ -829,7 +829,7 @@ export const RoadmapTracker: React.FC<{ config: RoadmapConfig }> = ({ config }) 
 
                           {/* BOOKS */}
                           {activeSupport.books.length > 0 && (
-                            <div className="rt-sup-block">
+                            <div className="rt-sup-block rt-sup-books-blk">
                               <span className="rt-sup-label font-mono">Books</span>
                               <div className="rt-sup-books">
                                 {activeSupport.books.map(pick => {
@@ -876,7 +876,7 @@ export const RoadmapTracker: React.FC<{ config: RoadmapConfig }> = ({ config }) 
                           )}
 
                           {/* CHECKPOINT */}
-                          <div className="rt-sup-block">
+                          <div className="rt-sup-block rt-sup-check-blk">
                             <span className="rt-sup-label font-mono">
                               Checkpoint
                               <span className="rt-sup-label-count">{checkpointsDone}/{activeSupport.checkpoints.length}</span>
@@ -1872,10 +1872,21 @@ export const RoadmapTracker: React.FC<{ config: RoadmapConfig }> = ({ config }) 
         /* ── Support material ── */
         .rt-support {
           display: grid;
+          grid-template-columns: 1fr 1fr;
           gap: 1.1rem;
           overflow: hidden;
         }
+        .rt-sup-primary-blk, .rt-sup-check-blk { grid-column: 1 / -1; }
+        .rt-sup-support-blk { grid-column: 2; grid-row: 2 / span 2; }
+        @media (max-width: 760px) {
+          .rt-support { grid-template-columns: 1fr; }
+          .rt-sup-support-blk { grid-column: 1; grid-row: auto; }
+        }
         .rt-sup-block { display: flex; flex-direction: column; gap: 0.55rem; }
+        .rt-sup-check-blk {
+          padding-top: 0.9rem;
+          border-top: 1px dashed var(--line);
+        }
         .rt-sup-label {
           display: flex; align-items: center; gap: 0.5rem;
           font-size: 10px;
