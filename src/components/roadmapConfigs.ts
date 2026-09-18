@@ -7,6 +7,8 @@ import curriculumHealthData from '../data/curriculum-health.json';
 import type { Month, WeekResource } from './roadmapData';
 import type { Project, GlossaryItem } from './roadmapData';
 import { glossaryItems, PROJECTS, WEEK_RESOURCES } from './roadmapData';
+import type { WeekSupport } from './roadmapSupport';
+import { GENAI_SUPPORT, ML_SUPPORT, POSTML_SUPPORT, HEALTH_SUPPORT } from './roadmapSupport';
 
 export interface RoadmapConfig {
   /** Namespaces task ids, journal ids and localStorage keys. Empty for the original GenAI tracker. */
@@ -18,6 +20,8 @@ export interface RoadmapConfig {
   curriculum: Month[];
   projects: Project[];
   resources: Record<number, WeekResource[]>;
+  /** Primary / support / build / books / checkpoint, per week id. */
+  support: Record<number, WeekSupport>;
   glossary: GlossaryItem[];
   glossaryCategories: string[];
   /** Copy for the glossary panel / modal, which renders two code columns side by side. */
@@ -364,6 +368,7 @@ export const genaiConfig: RoadmapConfig = {
   curriculum: curriculumData as Month[],
   projects: PROJECTS,
   resources: WEEK_RESOURCES,
+  support: GENAI_SUPPORT,
   glossary: glossaryItems,
   glossaryCategories: ['all', 'basics', 'collections', 'oop', 'advanced'],
   glossaryTitle: 'Parallel syntax',
@@ -477,6 +482,7 @@ export const mlConfig: RoadmapConfig = {
     },
   ],
   resources: ML_RESOURCES,
+  support: ML_SUPPORT,
   glossary: ML_GLOSSARY,
   glossaryCategories: ['all', 'math', 'training', 'diagnostics'],
   glossaryTitle: 'Math to code',
@@ -627,6 +633,7 @@ export const postMLConfig: RoadmapConfig = {
     },
   ],
   resources: POSTML_RESOURCES,
+  support: POSTML_SUPPORT,
   glossary: POSTML_GLOSSARY,
   glossaryCategories: ['all', 'evaluation', 'data', 'mlops', 'transformers', 'adaptation', 'rag', 'agents'],
   glossaryTitle: 'Concept pairs',
@@ -790,6 +797,7 @@ export const healthConfig: RoadmapConfig = {
     },
   ],
   resources: HEALTH_RESOURCES,
+  support: HEALTH_SUPPORT,
   glossary: HEALTH_GLOSSARY,
   glossaryCategories: ['all', 'standards', 'privacy', 'regulatory', 'evaluation', 'fairness', 'clinical', 'nlp'],
   glossaryTitle: 'Healthcare AI lexicon',

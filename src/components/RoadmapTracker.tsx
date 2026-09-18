@@ -24,10 +24,18 @@ import {
   Menu,
   ChevronDown,
   Flame,
-  NotebookPen
+  NotebookPen,
+  Star,
+  BookMarked,
+  Microscope,
+  Hammer,
+  Layers,
+  ClipboardCheck
 } from 'lucide-react';
 import type { Month, Week, JournalEntry } from './roadmapData';
 import { highlightCode, RESOURCE_KIND_META } from './roadmapData';
+import type { BookTier } from './roadmapSupport';
+import { BOOK_TIER_META } from './roadmapSupport';
 import type { RoadmapConfig } from './roadmapConfigs';
 
 // Animates a number toward `target` with an ease-out curve
@@ -63,6 +71,13 @@ const TRACKS = [
   { num: 4, label: 'Health', path: '/healthcare-ai-roadmap' },
 ];
 
+// Books are tiered so a glance says whether a title is mandatory or merely useful.
+const BOOK_TIER_ICON: Record<BookTier, React.ComponentType<{ size?: number | string; strokeWidth?: number | string }>> = {
+  recommended: Star,
+  reference: BookMarked,
+  deepdive: Microscope,
+};
+
 // Resume where the learner left off: read the saved week from localStorage and
 // resolve it (plus its parent month) against the curriculum, falling back to the
 // first valid week if nothing is saved or the saved id no longer exists.
@@ -89,6 +104,47 @@ export const RoadmapTracker: React.FC<{ config: RoadmapConfig }> = ({ config }) 
   const [activeMonthId, setActiveMonthId] = useState<number>(() => readSavedPosition(config).monthId);
   const [activeWeekId, setActiveWeekId] = useState<number>(() => readSavedPosition(config).weekId);
   const [sidebarOpen, setSidebarOpen] = useState<boolean>(false);
+
+  // The support panel carries the week's primary/support/build/books/checkpoint.
+  // It opens by default; the long curated link list below it stays folded until asked for.
+  const [supportOpen, setSupportOpen] = useState<boolean>(
+    () => localStorage.getItem(`${config.prefix}supportOpen`) !== 'false'
+  );
+  const [resourcesOpen, setResourcesOpen] = useState<boolean>(
+    () => localStorage.getItem(`${config.prefix}resourcesOpen`) === 'true'
+  );
+  // Checkpoints are a private self-assessment, so they live in localStorage and
+  // work logged out — unlike task progress, which is server-backed per account.
+  const [supportChecks, setSupportChecks] = useState<Record<string, boolean>>(() => {
+    try {
+      const raw = localStorage.getItem(`${config.prefix}supportChecks`);
+      return raw ? JSON.parse(raw) as Record<string, boolean> : {};
+    } catch {
+      return {};
+    }
+  });
+
+  const toggleCheckpoint = (weekId: number, index: number) => {
+    const key = `${weekId}:${index}`;
+    setSupportChecks(prev => {
+      const next = { ...prev, [key]: !prev[key] };
+      if (!next[key]) delete next[key];
+      try {
+        localStorage.setItem(`${config.prefix}supportChecks`, JSON.stringify(next));
+      } catch {
+        // storage full or blocked — the panel still works for this session
+      }
+      return next;
+    });
+  };
+
+  useEffect(() => {
+    localStorage.setItem(`${config.prefix}supportOpen`, String(supportOpen));
+  }, [supportOpen, config.prefix]);
+
+  useEffect(() => {
+    localStorage.setItem(`${config.prefix}resourcesOpen`, String(resourcesOpen));
+  }, [resourcesOpen, config.prefix]);
 
   // Persist the current month/week so a return visit resumes here
   useEffect(() => {
@@ -403,6 +459,10 @@ export const RoadmapTracker: React.FC<{ config: RoadmapConfig }> = ({ config }) 
   const activeMonth = curriculum.find(m => m.id === activeMonthId);
   const activeWeek = activeMonth?.weeks.find(w => w.id === activeWeekId);
   const activeWeekResources = activeWeek ? (config.resources[activeWeek.id] || []) : [];
+  const activeSupport = activeWeek ? config.support[activeWeek.id] : undefined;
+  const checkpointsDone = activeSupport && activeWeek
+    ? activeSupport.checkpoints.filter((_, i) => supportChecks[`${activeWeek.id}:${i}`]).length
+    : 0;
   const monthProjects = config.projects.filter(p => p.monthId === activeMonthId);
 
   const weekPercent = (w: Week) => {
@@ -677,16 +737,195 @@ export const RoadmapTracker: React.FC<{ config: RoadmapConfig }> = ({ config }) 
                   </div>
                 </header>
 
-                {/* ── Resources (prominent) ── */}
+                {/* ── Support material: primary / support / build / books / checkpoint ── */}
+                {activeSupport && (
+                  <section className="rt-section">
+                    <button
+                      type="button"
+                      className="rt-disclosure"
+                      onClick={() => setSupportOpen(o => !o)}
+                      aria-expanded={supportOpen}
+                    >
+                      <h2 className="rt-section-title">
+                        <Layers size={15} className="rt-spark" />
+                        Learning resources &amp; books
+                      </h2>
+                      <span className="rt-section-count font-mono">
+                        {activeSupport.books.length} book{activeSupport.books.length === 1 ? '' : 's'}
+                        {' · '}{checkpointsDone}/{activeSupport.checkpoints.length} checkpoint
+                      </span>
+                      <ChevronDown size={16} className={`rt-disclosure-chev${supportOpen ? ' open' : ''}`} />
+                    </button>
+
+                    <AnimatePresence initial={false}>
+                      {supportOpen && (
+                        <motion.div
+                          className="rt-support"
+                          key="support-body"
+                          initial={{ opacity: 0, y: -6 }}
+                          animate={{ opacity: 1, y: 0 }}
+                          exit={{ opacity: 0, y: -6 }}
+                          transition={{ duration: 0.25, ease: easeOut }}
+                        >
+                          {/* PRIMARY */}
+                          <div className="rt-sup-block">
+                            <span className="rt-sup-label font-mono">Primary</span>
+                            <a
+                              className="rt-sup-primary"
+                              href={activeSupport.primary.url}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                            >
+                              <span className="rt-sup-primary-icon"><Star size={17} strokeWidth={2.2} /></span>
+                              <span className="rt-resource-body">
+                                <span className="rt-resource-title">{activeSupport.primary.title}</span>
+                                <span className="rt-resource-meta font-mono">
+                                  {activeSupport.primary.source} · {RESOURCE_KIND_META[activeSupport.primary.kind].label}
+                                </span>
+                              </span>
+                              <ArrowUpRight size={14} className="rt-resource-arrow" />
+                            </a>
+                          </div>
+
+                          {/* SUPPORT */}
+                          {activeSupport.support.length > 0 && (
+                            <div className="rt-sup-block">
+                              <span className="rt-sup-label font-mono">Support</span>
+                              <div className="rt-sup-links">
+                                {activeSupport.support.map(res => {
+                                  const { label, Icon } = RESOURCE_KIND_META[res.kind];
+                                  return (
+                                    <a
+                                      key={res.url + res.title}
+                                      className={`rt-sup-link rt-rk-${res.kind}`}
+                                      href={res.url}
+                                      target="_blank"
+                                      rel="noopener noreferrer"
+                                    >
+                                      <span className="rt-sup-link-icon"><Icon size={13} strokeWidth={2.2} /></span>
+                                      <span className="rt-sup-link-title">{res.title}</span>
+                                      <span className="rt-sup-link-meta font-mono">{res.source} · {label}</span>
+                                    </a>
+                                  );
+                                })}
+                              </div>
+                            </div>
+                          )}
+
+                          {/* BUILD */}
+                          <div className="rt-sup-block">
+                            <span className="rt-sup-label font-mono">Build</span>
+                            <div className="rt-sup-build">
+                              <h3 className="rt-sup-build-title">
+                                <Hammer size={14} strokeWidth={2.2} />
+                                {activeSupport.build.title}
+                              </h3>
+                              <div className="rt-project-io">
+                                <div><em>IN</em>{activeSupport.build.input}</div>
+                                <div><em>OUT</em>{activeSupport.build.output}</div>
+                              </div>
+                            </div>
+                          </div>
+
+                          {/* BOOKS */}
+                          {activeSupport.books.length > 0 && (
+                            <div className="rt-sup-block">
+                              <span className="rt-sup-label font-mono">Books</span>
+                              <div className="rt-sup-books">
+                                {activeSupport.books.map(pick => {
+                                  const TierIcon = BOOK_TIER_ICON[pick.tier];
+                                  const body = (
+                                    <>
+                                      <span className={`rt-sup-tier rt-tier-${pick.tier} font-mono`}>
+                                        <TierIcon size={11} strokeWidth={2.4} />
+                                        {BOOK_TIER_META[pick.tier].label}
+                                      </span>
+                                      <span className="rt-sup-book-body">
+                                        <span className="rt-sup-book-title">
+                                          {pick.book.title}
+                                          {pick.book.format === 'spec' && (
+                                            <span className="rt-sup-spec font-mono">spec</span>
+                                          )}
+                                        </span>
+                                        <span className="rt-sup-book-meta font-mono">
+                                          {pick.book.author}{pick.book.imprint ? ` · ${pick.book.imprint}` : ''}
+                                        </span>
+                                        {pick.scope && <span className="rt-sup-book-scope">{pick.scope}</span>}
+                                      </span>
+                                    </>
+                                  );
+                                  return pick.book.url ? (
+                                    <a
+                                      key={pick.book.title + pick.tier}
+                                      className="rt-sup-book"
+                                      href={pick.book.url}
+                                      target="_blank"
+                                      rel="noopener noreferrer"
+                                    >
+                                      {body}
+                                      <ArrowUpRight size={14} className="rt-resource-arrow" />
+                                    </a>
+                                  ) : (
+                                    <div key={pick.book.title + pick.tier} className="rt-sup-book rt-sup-book-plain">
+                                      {body}
+                                    </div>
+                                  );
+                                })}
+                              </div>
+                            </div>
+                          )}
+
+                          {/* CHECKPOINT */}
+                          <div className="rt-sup-block">
+                            <span className="rt-sup-label font-mono">
+                              Checkpoint
+                              <span className="rt-sup-label-count">{checkpointsDone}/{activeSupport.checkpoints.length}</span>
+                            </span>
+                            <ul className="rt-sup-checks">
+                              {activeSupport.checkpoints.map((item, idx) => {
+                                const done = !!supportChecks[`${activeWeek.id}:${idx}`];
+                                return (
+                                  <li
+                                    key={item}
+                                    className={`rt-task${done ? ' done' : ''}`}
+                                    onClick={() => toggleCheckpoint(activeWeek.id, idx)}
+                                  >
+                                    <span className={`rt-check${done ? ' checked' : ''}`}>
+                                      {done && <Check size={10} strokeWidth={4} />}
+                                    </span>
+                                    <span className="rt-task-text">{item}</span>
+                                  </li>
+                                );
+                              })}
+                            </ul>
+                            <p className="rt-sup-note">
+                              <ClipboardCheck size={12} strokeWidth={2.2} />
+                              Continue when every box is ticked — these are saved in this browser.
+                            </p>
+                          </div>
+                        </motion.div>
+                      )}
+                    </AnimatePresence>
+                  </section>
+                )}
+
+                {/* ── Curated links (folded — the panel above carries the essentials) ── */}
                 {activeWeekResources.length > 0 && (
                   <section className="rt-section">
-                    <div className="rt-section-head">
+                    <button
+                      type="button"
+                      className="rt-disclosure"
+                      onClick={() => setResourcesOpen(o => !o)}
+                      aria-expanded={resourcesOpen}
+                    >
                       <h2 className="rt-section-title">
                         <Sparkles size={15} className="rt-spark" />
-                        Resources for this week
+                        All curated links for this week
                       </h2>
                       <span className="rt-section-count font-mono">{activeWeekResources.length} picks</span>
-                    </div>
+                      <ChevronDown size={16} className={`rt-disclosure-chev${resourcesOpen ? ' open' : ''}`} />
+                    </button>
+                    {resourcesOpen && (
                     <div className="rt-resource-grid">
                       {activeWeekResources.map((res, idx) => {
                         const { label, Icon } = RESOURCE_KIND_META[res.kind];
@@ -712,6 +951,7 @@ export const RoadmapTracker: React.FC<{ config: RoadmapConfig }> = ({ config }) 
                         );
                       })}
                     </div>
+                    )}
                   </section>
                 )}
 
@@ -1604,6 +1844,171 @@ export const RoadmapTracker: React.FC<{ config: RoadmapConfig }> = ({ config }) 
           transition: var(--t);
         }
         .rt-resource:hover .rt-resource-arrow { opacity: 1; transform: none; color: var(--accent); }
+
+        /* ── Disclosure headers (support panel, curated links) ── */
+        .rt-disclosure {
+          width: 100%;
+          display: flex; align-items: center; gap: 0.7rem;
+          margin-bottom: 0.9rem;
+          padding: 0;
+          background: none;
+          border: none;
+          border-bottom: 1px solid var(--line);
+          padding-bottom: 0.6rem;
+          color: inherit;
+          font: inherit;
+          text-align: left;
+          cursor: pointer;
+        }
+        .rt-disclosure .rt-section-title { flex: 1; }
+        .rt-disclosure:hover .rt-section-title { color: var(--accent); }
+        .rt-disclosure-chev {
+          flex-shrink: 0;
+          color: var(--text-3);
+          transition: var(--t);
+        }
+        .rt-disclosure-chev.open { transform: rotate(180deg); color: var(--accent); }
+
+        /* ── Support material ── */
+        .rt-support {
+          display: grid;
+          gap: 1.1rem;
+          overflow: hidden;
+        }
+        .rt-sup-block { display: flex; flex-direction: column; gap: 0.55rem; }
+        .rt-sup-label {
+          display: flex; align-items: center; gap: 0.5rem;
+          font-size: 10px;
+          letter-spacing: 0.14em;
+          text-transform: uppercase;
+          color: var(--text-3);
+        }
+        .rt-sup-label-count {
+          color: var(--accent);
+          background: var(--accent-soft);
+          border-radius: 20px;
+          padding: 1px 8px;
+          letter-spacing: 0.04em;
+        }
+        .rt-sup-primary {
+          display: flex; align-items: center; gap: 0.75rem;
+          padding: 0.9rem 1rem;
+          background: var(--bg-card);
+          border: 1px solid var(--accent-line);
+          border-radius: var(--r-md);
+          text-decoration: none;
+          box-shadow: var(--shadow-1);
+          transition: var(--t);
+        }
+        .rt-sup-primary:hover { box-shadow: var(--shadow-2); transform: translateY(-2px); }
+        .rt-sup-primary-icon {
+          width: 38px; height: 38px;
+          display: flex; align-items: center; justify-content: center;
+          border-radius: 11px;
+          flex-shrink: 0;
+          background: rgba(251, 191, 36, 0.14);
+          color: var(--amber);
+          transition: var(--t);
+        }
+        .rt-sup-primary:hover .rt-sup-primary-icon { transform: scale(1.08) rotate(-6deg); }
+        .rt-sup-primary .rt-resource-title { font-size: 13.5px; -webkit-line-clamp: 3; }
+
+        .rt-sup-links { display: grid; gap: 0.4rem; }
+        .rt-sup-link {
+          display: flex; align-items: baseline; gap: 0.55rem;
+          padding: 0.5rem 0.7rem;
+          background: var(--bg-card-2);
+          border: 1px solid transparent;
+          border-radius: var(--r-sm);
+          text-decoration: none;
+          transition: var(--t);
+        }
+        .rt-sup-link:hover { border-color: var(--accent-line); transform: translateX(3px); }
+        .rt-sup-link-icon { align-self: center; flex-shrink: 0; color: var(--text-3); display: flex; }
+        .rt-rk-video .rt-sup-link-icon   { color: #ef4444; }
+        .rt-rk-docs .rt-sup-link-icon    { color: var(--accent); }
+        .rt-rk-article .rt-sup-link-icon { color: var(--amber); }
+        .rt-rk-course .rt-sup-link-icon  { color: var(--violet); }
+        .rt-rk-repo .rt-sup-link-icon    { color: var(--green); }
+        .rt-rk-tool .rt-sup-link-icon    { color: #22d3ee; }
+        .rt-rk-book .rt-sup-link-icon    { color: var(--pink); }
+        .rt-sup-link-title { font-size: 12.5px; color: var(--text-1); line-height: 1.4; }
+        .rt-sup-link-meta { font-size: 10px; color: var(--text-3); margin-left: auto; white-space: nowrap; padding-left: 0.6rem; }
+
+        .rt-sup-build {
+          padding: 0.9rem 1rem;
+          background: var(--bg-card);
+          border: 1px solid var(--line);
+          border-left: 3px solid var(--green);
+          border-radius: var(--r-md);
+          box-shadow: var(--shadow-1);
+        }
+        .rt-sup-build-title {
+          display: flex; align-items: center; gap: 0.45rem;
+          font-family: var(--font-display);
+          font-size: 13.5px;
+          font-weight: 700;
+          color: var(--text-1);
+          margin-bottom: 0.6rem;
+        }
+        .rt-sup-build-title svg { color: var(--green); flex-shrink: 0; }
+
+        .rt-sup-books { display: grid; gap: 0.45rem; }
+        .rt-sup-book {
+          display: flex; align-items: flex-start; gap: 0.7rem;
+          padding: 0.7rem 0.85rem;
+          background: var(--bg-card);
+          border: 1px solid var(--line);
+          border-radius: var(--r-sm);
+          text-decoration: none;
+          transition: var(--t);
+        }
+        a.rt-sup-book:hover { border-color: var(--accent-line); transform: translateX(3px); }
+        .rt-sup-book-plain { opacity: 0.92; }
+        .rt-sup-tier {
+          display: inline-flex; align-items: center; gap: 4px;
+          flex-shrink: 0;
+          font-size: 9.5px;
+          letter-spacing: 0.06em;
+          text-transform: uppercase;
+          border-radius: 20px;
+          padding: 3px 8px;
+          margin-top: 1px;
+          white-space: nowrap;
+        }
+        .rt-tier-recommended { background: rgba(251, 191, 36, 0.13); color: var(--amber); }
+        .rt-tier-reference   { background: rgba(167, 139, 250, 0.14); color: var(--violet); }
+        .rt-tier-deepdive    { background: rgba(34, 211, 238, 0.13); color: #22d3ee; }
+        .rt-sup-book-body { display: flex; flex-direction: column; min-width: 0; gap: 2px; }
+        .rt-sup-book-title {
+          display: flex; align-items: center; gap: 0.4rem; flex-wrap: wrap;
+          font-size: 12.5px; font-weight: 600; color: var(--text-1); line-height: 1.35;
+        }
+        .rt-sup-spec {
+          font-size: 9px;
+          letter-spacing: 0.08em;
+          text-transform: uppercase;
+          color: var(--text-3);
+          border: 1px solid var(--line);
+          border-radius: 4px;
+          padding: 0 5px;
+        }
+        .rt-sup-book-meta { font-size: 10px; color: var(--text-3); }
+        .rt-sup-book-scope { font-size: 11.5px; color: var(--text-2); line-height: 1.4; margin-top: 2px; }
+
+        .rt-sup-checks { display: flex; flex-direction: column; gap: 0.15rem; }
+        .rt-sup-note {
+          display: flex; align-items: center; gap: 0.4rem;
+          font-size: 10.5px;
+          color: var(--text-3);
+          margin-top: 0.35rem;
+        }
+        .rt-sup-note svg { flex-shrink: 0; }
+
+        @media (max-width: 640px) {
+          .rt-sup-link { flex-wrap: wrap; }
+          .rt-sup-link-meta { margin-left: 0; padding-left: 0; }
+        }
 
         /* ── Projects ── */
         .rt-project-row {
